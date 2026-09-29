@@ -2054,63 +2054,79 @@ function updateOrderStatus(orderId, newStatus) {
 }
 
 /**
- * Tự động gắn nút Đăng nhập / Tài khoản ở góc ngoài cùng bên trái Header
- * và nút Giỏ hàng ở bên phải, kèm thẻ Combo trên nav-menu
+ * Khởi tạo và đồng bộ thanh điều hướng Header theo thứ tự chuẩn:
+ * 1. Tên Thương hiệu - 2. Trang chủ - 3. Sản phẩm - 4. Combo - 5. Về chúng tôi - 6. Giỏ hàng - 7. Tài khoản
  */
 function initHeaderAuth() {
   const headerContainer = document.querySelector(".header-container, .nav-container");
   if (headerContainer) {
-    // 1. Gắn nút Tài khoản / Đăng nhập ở góc ngoài cùng BÊN TRÁI
-    let leftSlot = headerContainer.querySelector(".header-auth-left");
-    if (!leftSlot) {
-      leftSlot = document.createElement("div");
-      leftSlot.className = "header-auth-left";
-      leftSlot.id = "header-auth-left-slot";
-      headerContainer.insertBefore(leftSlot, headerContainer.firstChild);
+    // 1. Xóa bỏ thẻ auth ở góc trái cũ (nếu có) để Tên Thương hiệu luôn đứng đầu tiên
+    const oldLeftSlot = headerContainer.querySelector(".header-auth-left, #header-auth-left-slot");
+    if (oldLeftSlot) {
+      oldLeftSlot.remove();
     }
 
-    // 2. Gắn nút Giỏ hàng bên phải (nếu chưa có)
+    // 2. Đảm bảo khu vực nav-actions ở bên phải header
     let navActions = headerContainer.querySelector(".nav-actions");
     if (!navActions) {
       navActions = document.createElement("div");
       navActions.className = "nav-actions";
-      navActions.innerHTML = `
-        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          <span class="cart-badge" id="header-cart-badge">0</span>
-        </button>
-      `;
       const toggleBtn = headerContainer.querySelector(".menu-toggle");
       if (toggleBtn) {
         headerContainer.insertBefore(navActions, toggleBtn);
       } else {
         headerContainer.appendChild(navActions);
       }
-      navActions.querySelector("#open-cart-btn").addEventListener("click", openCartDrawer);
+    }
+
+    // 3. Đảm bảo nút 6: Giỏ hàng đứng trước trong nav-actions
+    let cartBtn = navActions.querySelector("#open-cart-btn, .nav-cart-btn");
+    if (!cartBtn) {
+      cartBtn = document.createElement("button");
+      cartBtn.type = "button";
+      cartBtn.className = "nav-cart-btn";
+      cartBtn.id = "open-cart-btn";
+      cartBtn.setAttribute("aria-label", "Xem giỏ hàng");
+      cartBtn.setAttribute("title", "Giỏ hàng");
+      cartBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="nav-cart-label">Giỏ hàng</span>
+        <span class="cart-badge" id="header-cart-badge">0</span>
+      `;
+      navActions.insertBefore(cartBtn, navActions.firstChild);
+    }
+    cartBtn.onclick = openCartDrawer;
+
+    // 4. Đảm bảo nút 7: Tài khoản đứng sau nút Giỏ hàng
+    let authSlot = navActions.querySelector("#header-auth-slot, .header-auth-slot");
+    if (!authSlot) {
+      authSlot = document.createElement("div");
+      authSlot.className = "header-auth-slot";
+      authSlot.id = "header-auth-slot";
+      navActions.appendChild(authSlot);
     } else {
-      // Xóa bỏ nav-user-slot bên phải nếu có để chỉ giữ lại giỏ hàng
-      const oldSlot = navActions.querySelector("#nav-user-slot, .nav-user-wrapper");
-      if (oldSlot) oldSlot.remove();
+      navActions.appendChild(authSlot); // Di chuyển ra sau cùng của nav-actions
     }
   }
 
-  // 3. Cập nhật nav-menu: Thay thẻ Tài khoản bằng thẻ Combo
+  // 5. Đồng bộ danh sách menu: Trang chủ -> Sản phẩm -> Combo -> Về chúng tôi
   const navMenu = document.querySelector(".nav-menu");
   if (navMenu) {
-    // Xóa mục Tài khoản khỏi menu nếu có
+    // Xóa thẻ tài khoản cũ trong menu nếu có
     const authItem = navMenu.querySelector(".nav-auth-item");
     if (authItem) authItem.remove();
 
-    // Thêm thẻ Combo vào menu nếu chưa có
-    const hasCombo = Array.from(navMenu.querySelectorAll("a")).some(a => a.textContent.trim().toLowerCase() === "combo");
+    // Đảm bảo thẻ Combo có mặt sau Sản phẩm và trước Về chúng tôi
+    const links = Array.from(navMenu.querySelectorAll("a"));
+    const hasCombo = links.some(a => a.textContent.trim().toLowerCase() === "combo");
     if (!hasCombo) {
       const comboLi = document.createElement("li");
       comboLi.innerHTML = `<a href="san-pham.html#combo" class="nav-link">Combo</a>`;
-      const spLink = Array.from(navMenu.querySelectorAll("a")).find(a => a.getAttribute("href")?.includes("san-pham"));
+      const spLink = links.find(a => a.getAttribute("href")?.includes("san-pham"));
       if (spLink && spLink.parentElement) {
         navMenu.insertBefore(comboLi, spLink.parentElement.nextSibling);
       } else {
@@ -2123,31 +2139,31 @@ function initHeaderAuth() {
 }
 
 function updateHeaderAuthSlot() {
-  const leftSlot = document.getElementById("header-auth-left-slot") || document.querySelector(".header-auth-left");
-  if (!leftSlot) return;
+  const authSlot = document.getElementById("header-auth-slot") || document.querySelector(".header-auth-slot");
+  if (!authSlot) return;
 
   const user = getCurrentUser();
   if (user) {
     if (user.role === "admin") {
-      leftSlot.innerHTML = `
-        <a href="dang-nhap.html" class="header-auth-left-btn is-admin" title="Vào Bảng Quản Trị Hệ Thống">
+      authSlot.innerHTML = `
+        <a href="dang-nhap.html" class="header-auth-btn is-admin" id="header-auth-btn" title="Vào Bảng Quản Trị Hệ Thống">
           <span class="auth-btn-icon">👑</span>
           <span class="auth-btn-text">Tài khoản</span>
         </a>
       `;
     } else {
-      leftSlot.innerHTML = `
-        <a href="dang-nhap.html" class="header-auth-left-btn is-logged-in" title="Vào Trang Quản Lý Tài Khoản">
+      authSlot.innerHTML = `
+        <a href="dang-nhap.html" class="header-auth-btn is-logged-in" id="header-auth-btn" title="Vào Trang Quản Lý Tài Khoản">
           <span class="auth-btn-icon">👤</span>
           <span class="auth-btn-text">Tài khoản</span>
         </a>
       `;
     }
   } else {
-    leftSlot.innerHTML = `
-      <a href="dang-nhap.html" class="header-auth-left-btn is-logged-out" title="Đăng nhập tài khoản ScentPod">
+    authSlot.innerHTML = `
+      <a href="dang-nhap.html" class="header-auth-btn is-logged-out" id="header-auth-btn" title="Đăng nhập / Quản lý tài khoản">
         <span class="auth-btn-icon">👤</span>
-        <span class="auth-btn-text">Đăng nhập</span>
+        <span class="auth-btn-text">Tài khoản</span>
       </a>
     `;
   }

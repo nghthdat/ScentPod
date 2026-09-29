@@ -1063,22 +1063,42 @@ p { color: var(--text-muted); font-size: 1rem; }
     align-items: center;
   }
 
-  /* Tinh chỉnh nút Đăng nhập / Tài khoản bên trái trên mobile */
-  .header-auth-left {
-    margin-right: 6px;
-  }
-  .header-auth-left-btn {
-    padding: 5px 9px;
-    font-size: 0.75rem;
-    gap: 3px;
+  .nav-container {
+    width: 95%;
+    gap: 8px;
   }
   .brand-logo {
-    font-size: 1.32rem;
+    font-size: 1.25rem;
     gap: 4px;
   }
   .nav-actions {
-    margin-right: 6px;
-    gap: 8px;
+    margin-right: 4px;
+    gap: 6px;
+  }
+  .nav-cart-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+  .nav-cart-label {
+    display: none !important;
+  }
+  .header-auth-btn,
+  .header-auth-left-btn {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    gap: 4px;
+  }
+  @media (max-width: 480px) {
+    .brand-logo {
+      font-size: 1.18rem;
+    }
+    .header-auth-btn .auth-btn-text {
+      display: none;
+    }
+    .header-auth-btn {
+      padding: 6px 10px;
+    }
   }
 
   /* Menu chuyển sang dạng trượt từ trên */
@@ -1857,7 +1877,7 @@ p { color: var(--text-muted); font-size: 1rem; }
 }
 
 /* ==========================================================================
-   HEADER ACTIONS (GIỎ HÀNG & TÀI KHOẢN)
+   HEADER ACTIONS (THỨ TỰ: GIỎ HÀNG -> TÀI KHOẢN)
    ========================================================================== */
 .header-container,
 .nav-container {
@@ -1867,6 +1887,7 @@ p { color: var(--text-muted); font-size: 1rem; }
   width: 90%;
   max-width: var(--container-max-width);
   margin: 0 auto;
+  gap: 16px;
 }
 
 .nav-actions {
@@ -1874,24 +1895,54 @@ p { color: var(--text-muted); font-size: 1rem; }
   align-items: center;
   gap: 12px;
   margin-left: auto;
-  margin-right: 14px;
+  flex-shrink: 0;
 }
 
-/* Thẻ Tài khoản / Đăng nhập ở góc ngoài cùng bên trái */
-.header-auth-left {
+/* 6. Thẻ Giỏ hàng */
+.nav-cart-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 15px;
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-cart-btn:hover {
+  background: rgba(229, 169, 59, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.nav-cart-label {
+  display: inline-block;
+  font-size: 0.86rem;
+}
+
+/* 7. Thẻ Tài khoản / Đăng nhập */
+.header-auth-slot {
   display: flex;
   align-items: center;
-  flex-shrink: 0;
-  margin-right: 14px;
 }
 
+.header-auth-btn,
 .header-auth-left-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.84rem;
+  padding: 7px 15px;
+  border-radius: 22px;
+  font-size: 0.86rem;
   font-weight: 600;
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.05);
@@ -1901,6 +1952,7 @@ p { color: var(--text-muted); font-size: 1rem; }
   white-space: nowrap;
 }
 
+.header-auth-btn:hover,
 .header-auth-left-btn:hover {
   background: rgba(229, 169, 59, 0.15);
   border-color: var(--accent-gold);
@@ -1908,42 +1960,23 @@ p { color: var(--text-muted); font-size: 1rem; }
   transform: translateY(-1px);
 }
 
+.header-auth-btn.is-logged-in,
 .header-auth-left-btn.is-logged-in {
   background: rgba(229, 169, 59, 0.12);
   border-color: rgba(229, 169, 59, 0.4);
   color: var(--accent-gold);
 }
 
+.header-auth-btn.is-admin,
 .header-auth-left-btn.is-admin {
   background: rgba(245, 158, 11, 0.18);
   border-color: #f59e0b;
   color: #fbbf24;
 }
 
+.header-auth-btn .auth-btn-icon,
 .header-auth-left-btn .auth-btn-icon {
   font-size: 0.95rem;
-}
-
-.nav-cart-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-primary);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.nav-cart-btn:hover {
-  background: rgba(229, 169, 59, 0.15);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-  transform: translateY(-2px);
 }
 
 .cart-badge {

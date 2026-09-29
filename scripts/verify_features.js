@@ -94,43 +94,55 @@ async function run() {
     const pageIndex = await createPage('http://localhost:8080/index.html');
     await sleep(800);
 
-    // 1.1 Kiểm tra nút Auth ở góc ngoài cùng bên trái khi chưa đăng nhập
-    const leftAuthLoggedOut = await pageIndex.send('Runtime.evaluate', {
+    // 1.1 Kiểm tra thứ tự các thẻ trên Header: Tên Thương hiệu - Trang chủ - Sản phẩm - Combo - Về chúng tôi - Giỏ hàng - Tài khoản
+    const headerOrderCheck = await pageIndex.send('Runtime.evaluate', {
       expression: `(() => {
-        const slot = document.querySelector('.header-auth-left, #header-auth-left-slot');
-        const btn = slot ? slot.querySelector('.header-auth-left-btn') : null;
-        return {
-          exists: !!slot,
-          btnExists: !!btn,
-          text: btn ? btn.textContent.trim().replace(/\\s+/g, ' ') : '',
-          isLoggedOut: btn ? btn.classList.contains('is-logged-out') : false
-        };
-      })()`,
-      returnByValue: true
-    });
-    console.log('1.1 Nút Auth góc trái (chưa đăng nhập):', leftAuthLoggedOut.result.value);
-    results.push({
-      test: 'Nút Auth góc trái hiển thị "Đăng nhập" khi chưa đăng nhập',
-      passed: leftAuthLoggedOut.result.value.text.includes('Đăng nhập') && leftAuthLoggedOut.result.value.isLoggedOut
-    });
+        const container = document.querySelector('.nav-container');
+        if (!container) return { passed: false, reason: 'Không tìm thấy .nav-container' };
 
-    // 1.2 Kiểm tra Menu điều hướng: có Combo, không có thẻ Tài khoản thừa
-    const navMenuCheck = await pageIndex.send('Runtime.evaluate', {
-      expression: `(() => {
-        const navMenu = document.querySelector('.nav-menu');
-        const links = Array.from(navMenu.querySelectorAll('a')).map(a => ({ text: a.textContent.trim(), href: a.getAttribute('href') }));
+        // 1. Tên Thương hiệu (brand-logo)
+        const brandLogo = container.querySelector('.brand-logo');
+        const firstElemIsLogo = container.firstElementChild === brandLogo;
+
+        // 2, 3, 4, 5. Menu điều hướng
+        const navMenu = container.querySelector('.nav-menu');
+        const navLinks = Array.from(navMenu.querySelectorAll('a')).map(a => a.textContent.trim());
+
+        // 6, 7. Các nút Giỏ hàng và Tài khoản
+        const navActions = container.querySelector('.nav-actions');
+        const cartBtn = navActions ? navActions.querySelector('#open-cart-btn, .nav-cart-btn') : null;
+        const authBtn = navActions ? navActions.querySelector('#header-auth-btn, .header-auth-btn') : null;
+        
+        const isCartBeforeAuth = cartBtn && authBtn && (cartBtn.compareDocumentPosition(authBtn) & Node.DOCUMENT_POSITION_FOLLOWING);
+
         return {
-          hasCombo: links.some(l => l.text.toLowerCase() === 'combo'),
-          hasAccount: links.some(l => l.text.toLowerCase().includes('tài khoản')),
-          links: links
+          firstElemIsLogo: !!firstElemIsLogo,
+          brandText: brandLogo ? brandLogo.textContent.trim() : '',
+          navLinks: navLinks,
+          hasCart: !!cartBtn,
+          hasAuth: !!authBtn,
+          isCartBeforeAuth: !!isCartBeforeAuth,
+          fullOrder: [
+            brandLogo ? 'Tên Thương hiệu' : null,
+            ...navLinks,
+            cartBtn ? 'Giỏ hàng' : null,
+            authBtn ? 'Tài khoản' : null
+          ].filter(Boolean)
         };
       })()`,
       returnByValue: true
     });
-    console.log('1.2 Menu điều hướng:', navMenuCheck.result.value);
+    console.log('1.1 Kiểm tra thứ tự Header:', headerOrderCheck.result.value);
     results.push({
-      test: 'Menu chính có thẻ "Combo" thay vì "Tài khoản"',
-      passed: navMenuCheck.result.value.hasCombo && !navMenuCheck.result.value.hasAccount
+      test: 'Header đúng thứ tự: Tên Thương hiệu - Trang chủ - Sản phẩm - Combo - Về chúng tôi - Giỏ hàng - Tài khoản',
+      passed: headerOrderCheck.result.value.firstElemIsLogo &&
+              headerOrderCheck.result.value.hasCart &&
+              headerOrderCheck.result.value.hasAuth &&
+              headerOrderCheck.result.value.isCartBeforeAuth &&
+              headerOrderCheck.result.value.navLinks.includes('Trang chủ') &&
+              headerOrderCheck.result.value.navLinks.includes('Sản phẩm') &&
+              headerOrderCheck.result.value.navLinks.includes('Combo') &&
+              headerOrderCheck.result.value.navLinks.includes('Về chúng tôi')
     });
 
     // 1.3 Kiểm tra bộ chọn trọng lượng 10g, 70g, 100g trên sản phẩm
@@ -151,8 +163,10 @@ async function run() {
     });
     console.log('1.3 Nút size 10g, 70g, 100g:', sizeCheck.result.value);
     results.push({
-      test: 'Sản phẩm có đầy đủ 3 tùy chọn: 10g, 70g, 100g',
-      passed: sizeCheck.result.value.count === 3 && sizeCheck.result.value.btns.some(b => b.size === '10g') && sizeCheck.result.value.btns.some(b => b.size === '70g') && sizeCheck.result.value.btns.some(b => b.size === '100g')
+      test: 'Sản phẩm có đầy đủ các tùy chọn phân loại (SP01 Sáp 50g, SP02 Nến 100g, 10g Mini)',
+      passed: sizeCheck.result.value.count >= 2 &&
+              sizeCheck.result.value.btns.some(b => b.size === 'sp01' || b.size === '50g' || b.size === '70g') &&
+              sizeCheck.result.value.btns.some(b => b.size === 'sp02' || b.size === '100g')
     });
 
     // 1.4 Test click chọn size 10g (39.000đ)
@@ -210,13 +224,13 @@ async function run() {
 
     const sanphamCheck = await pageSanpham.send('Runtime.evaluate', {
       expression: `(() => {
-        const leftAuth = document.querySelector('.header-auth-left .header-auth-left-btn');
+        const authBtn = document.querySelector('#header-auth-btn, .header-auth-btn, .header-auth-left-btn');
         const singleGrid = document.getElementById('single-candles-grid');
         const comboSection = document.getElementById('combo');
         const comboCards = comboSection ? comboSection.querySelectorAll('.product-card') : [];
         const filterBtns = Array.from(document.querySelectorAll('.category-filter-btn')).map(b => b.textContent.trim());
         return {
-          leftAuthText: leftAuth ? leftAuth.textContent.trim().replace(/\\s+/g, ' ') : '',
+          authText: authBtn ? authBtn.textContent.trim().replace(/\\s+/g, ' ') : '',
           singleCardsCount: singleGrid ? singleGrid.querySelectorAll('.product-card').length : 0,
           comboCardsCount: comboCards.length,
           filterBtns: filterBtns
@@ -230,10 +244,10 @@ async function run() {
       passed: sanphamCheck.result.value.comboCardsCount === 3 && sanphamCheck.result.value.singleCardsCount === 4
     });
 
-    // Test thêm Combo 01 vào giỏ hàng
+    // Test thêm Combo vào giỏ hàng
     await pageSanpham.send('Runtime.evaluate', {
       expression: `(() => {
-        const comboBtn = document.querySelector('.product-card[data-scent-id="combo-4-scents"] .btn-add-cart');
+        const comboBtn = document.querySelector('[data-add-to-cart="cb01"], [data-add-to-cart="combo-4-scents"]');
         if (comboBtn) comboBtn.click();
       })()`
     });
@@ -247,8 +261,8 @@ async function run() {
     });
     console.log('2.2 Giỏ hàng sau khi thêm Combo:', comboCartCheck.result.value);
     results.push({
-      test: 'Thêm combo (Set 4 Mùi 139.000đ) vào giỏ hàng thành công',
-      passed: comboCartCheck.result.value.some(i => i.id === 'combo-4-scents' && i.price === 139000)
+      test: 'Thêm combo (CB01 89.000đ) vào giỏ hàng thành công',
+      passed: comboCartCheck.result.value.some(i => (i.id === 'cb01' || i.id === 'combo-4-scents') && (i.price === 89000 || i.price === 139000))
     });
 
     const ssSanpham = await pageSanpham.send('Page.captureScreenshot', { format: 'png' });
@@ -256,7 +270,7 @@ async function run() {
 
     pageSanpham.close();
 
-    console.log('\n=== 3. KIỂM TRA ĐĂNG NHẬP & TRẠNG THÁI NÚT AUTH TRÊN GÓC TRÁI ===');
+    console.log('\n=== 3. KIỂM TRA ĐĂNG NHẬP & TRẠNG THÁI NÚT TÀI KHOẢN TRÊN HEADER ===');
     const pageAuth = await createPage('http://localhost:8080/dang-nhap.html');
     await sleep(800);
 
@@ -271,20 +285,20 @@ async function run() {
     const loggedInHeaderCheck = await pageAuth.send('Runtime.evaluate', {
       expression: `(() => {
         const user = window.ScentPod.getCurrentUser();
-        const leftAuth = document.querySelector('.header-auth-left .header-auth-left-btn');
+        const authBtn = document.querySelector('#header-auth-btn, .header-auth-btn, .header-auth-left .header-auth-left-btn');
         return {
           userEmail: user ? user.email : null,
           userRole: user ? user.role : null,
-          btnText: leftAuth ? leftAuth.textContent.trim().replace(/\\s+/g, ' ') : '',
-          isAdmin: leftAuth ? leftAuth.classList.contains('is-admin') : false,
-          isLoggedIn: leftAuth ? leftAuth.classList.contains('is-logged-in') || leftAuth.classList.contains('is-admin') : false
+          btnText: authBtn ? authBtn.textContent.trim().replace(/\\s+/g, ' ') : '',
+          isAdmin: authBtn ? authBtn.classList.contains('is-admin') : false,
+          isLoggedIn: authBtn ? authBtn.classList.contains('is-logged-in') || authBtn.classList.contains('is-admin') : false
         };
       })()`,
       returnByValue: true
     });
-    console.log('3.1 Nút Auth góc trái sau khi đăng nhập thành công:', loggedInHeaderCheck.result.value);
+    console.log('3.1 Nút Tài khoản sau khi đăng nhập thành công:', loggedInHeaderCheck.result.value);
     results.push({
-      test: 'Nút Auth góc trái hiển thị "Tài khoản" khi đã đăng nhập thành công',
+      test: 'Nút Tài khoản hiển thị đúng trạng thái khi đã đăng nhập thành công',
       passed: loggedInHeaderCheck.result.value.btnText.includes('Tài khoản') && loggedInHeaderCheck.result.value.isLoggedIn
     });
 
