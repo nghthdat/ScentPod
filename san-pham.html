@@ -26,6 +26,9 @@
        ======================================================================== -->
   <header class="site-header">
     <div class="nav-container">
+      <!-- Thẻ Tài khoản / Đăng nhập ở góc ngoài cùng bên trái -->
+      <div class="header-auth-left" id="header-auth-left-slot"></div>
+
       <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
         <span class="candle-icon">🕯️</span>
         <span>Scent<span class="accent">Pod</span></span>
@@ -36,6 +39,7 @@
         <ul class="nav-menu">
           <li><a href="index.html" class="nav-link">Trang chủ</a></li>
           <li><a href="san-pham.html" class="nav-link active">Sản phẩm</a></li>
+          <li><a href="#combo" class="nav-link">Combo</a></li>
           <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
         </ul>
       </nav>
@@ -63,13 +67,20 @@
         </p>
       </div>
 
+      <!-- Bộ lọc phân loại: Tất cả / Nến Đơn / Combo -->
+      <div class="category-filter-nav reveal-on-scroll">
+        <button type="button" class="category-filter-btn is-active" data-filter="all">Tất cả sản phẩm</button>
+        <button type="button" class="category-filter-btn" data-filter="single">Nến đơn (10g, 70g, 100g)</button>
+        <button type="button" class="category-filter-btn" data-filter="combo">🎁 Combo ưu đãi</button>
+      </div>
+
       <!-- ====================================================================
-           LƯỚI 5 SẢN PHẨM (3 CỘT DESKTOP, 2 CỘT TABLET, 1 CỘT MOBILE)
+           LƯỚI NẾN THƠM ĐƠN (CÓ CHỌN SIZE 10G, 70G, 100G)
            ==================================================================== -->
-      <div class="product-grid">
+      <div class="product-grid" id="single-candles-grid">
 
         <!-- MÙI 01: FIRST CLASS -->
-        <article class="product-card reveal-on-scroll" data-scent-id="first-class">
+        <article class="product-card reveal-on-scroll" data-scent-id="first-class" data-selected-size="70g">
           <div class="product-img-wrapper" data-product-id="first-class">
             <span class="product-badge">Mùi 01</span>
             <img src="images/sap-thom-bo-ba.jpg" alt="Mùi 01: First Class - White Tea &amp; Morning Dew" loading="lazy" onerror="this.onerror=null; this.src='images/sap-thom-bo-ba.svg';">
@@ -81,6 +92,17 @@
             <span class="product-category-tag">Trà xanh &amp; Thảo mộc tươi</span>
             <h2 class="product-title">First Class</h2>
             <p class="product-subtitle">White Tea &amp; Morning Dew</p>
+
+            <!-- Bộ chọn size 10g, 70g, 100g -->
+            <div class="product-size-wrapper">
+              <span class="product-size-label">Trọng lượng:</span>
+              <div class="product-size-btns">
+                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" title="Mini dùng thử 10g">10g</button>
+                <button type="button" class="size-pill-btn is-active" data-size="70g" data-price="89000" data-price-text="89.000đ" title="Hũ tiêu chuẩn 70g">70g</button>
+                <button type="button" class="size-pill-btn" data-size="100g" data-price="129000" data-price-text="129.000đ" title="Hũ lớn thư giãn 100g">100g</button>
+              </div>
+            </div>
+
             <div class="product-footer">
               <div class="product-price">89.000đ</div>
               <div class="product-actions-group">
@@ -97,7 +119,7 @@
         </article>
 
         <!-- MÙI 02: BLIND DATE -->
-        <article class="product-card reveal-on-scroll" data-scent-id="blind-date">
+        <article class="product-card reveal-on-scroll" data-scent-id="blind-date" data-selected-size="70g">
           <div class="product-img-wrapper" data-product-id="blind-date">
             <span class="product-badge">Mùi 02</span>
             <img src="images/nen-thom-mini.jpg" alt="Mùi 02: Blind Date - Sweet Peach &amp; Vanilla Cloud" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thom-mini.svg';">
@@ -109,6 +131,17 @@
             <span class="product-category-tag">Trái cây ngọt dịu &amp; Phấn hoa</span>
             <h2 class="product-title">Blind Date</h2>
             <p class="product-subtitle">Sweet Peach &amp; Vanilla Cloud</p>
+
+            <!-- Bộ chọn size 10g, 70g, 100g -->
+            <div class="product-size-wrapper">
+              <span class="product-size-label">Trọng lượng:</span>
+              <div class="product-size-btns">
+                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" title="Mini dùng thử 10g">10g</button>
+                <button type="button" class="size-pill-btn is-active" data-size="70g" data-price="89000" data-price-text="89.000đ" title="Hũ tiêu chuẩn 70g">70g</button>
+                <button type="button" class="size-pill-btn" data-size="100g" data-price="129000" data-price-text="129.000đ" title="Hũ lớn thư giãn 100g">100g</button>
+              </div>
+            </div>
+
             <div class="product-footer">
               <div class="product-price">89.000đ</div>
               <div class="product-actions-group">
@@ -125,7 +158,7 @@
         </article>
 
         <!-- MÙI 03: CAMPUS BREEZE -->
-        <article class="product-card reveal-on-scroll" data-scent-id="campus-breeze">
+        <article class="product-card reveal-on-scroll" data-scent-id="campus-breeze" data-selected-size="70g">
           <div class="product-img-wrapper" data-product-id="campus-breeze">
             <span class="product-badge">Mùi 03</span>
             <img src="images/combo-nen-sap.jpg" alt="Mùi 03: Campus Breeze - Sea Salt &amp; Sage" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
@@ -137,6 +170,17 @@
             <span class="product-category-tag">Khoáng biển &amp; Thảo mộc</span>
             <h2 class="product-title">Campus Breeze</h2>
             <p class="product-subtitle">Sea Salt &amp; Sage</p>
+
+            <!-- Bộ chọn size 10g, 70g, 100g -->
+            <div class="product-size-wrapper">
+              <span class="product-size-label">Trọng lượng:</span>
+              <div class="product-size-btns">
+                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" title="Mini dùng thử 10g">10g</button>
+                <button type="button" class="size-pill-btn is-active" data-size="70g" data-price="89000" data-price-text="89.000đ" title="Hũ tiêu chuẩn 70g">70g</button>
+                <button type="button" class="size-pill-btn" data-size="100g" data-price="129000" data-price-text="129.000đ" title="Hũ lớn thư giãn 100g">100g</button>
+              </div>
+            </div>
+
             <div class="product-footer">
               <div class="product-price">89.000đ</div>
               <div class="product-actions-group">
@@ -153,7 +197,7 @@
         </article>
 
         <!-- MÙI 04: LATE NIGHT -->
-        <article class="product-card reveal-on-scroll" data-scent-id="late-night">
+        <article class="product-card reveal-on-scroll" data-scent-id="late-night" data-selected-size="70g">
           <div class="product-img-wrapper" data-product-id="late-night">
             <span class="product-badge">Mùi 04</span>
             <img src="images/nen-thu-gian.jpg" alt="Mùi 04: Late Night - Cedarwood &amp; Warm Amber" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thu-gian.svg';">
@@ -165,6 +209,17 @@
             <span class="product-category-tag">Hương gỗ ấm &amp; Thư giãn</span>
             <h2 class="product-title">Late Night</h2>
             <p class="product-subtitle">Cedarwood &amp; Warm Amber</p>
+
+            <!-- Bộ chọn size 10g, 70g, 100g -->
+            <div class="product-size-wrapper">
+              <span class="product-size-label">Trọng lượng:</span>
+              <div class="product-size-btns">
+                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" title="Mini dùng thử 10g">10g</button>
+                <button type="button" class="size-pill-btn is-active" data-size="70g" data-price="89000" data-price-text="89.000đ" title="Hũ tiêu chuẩn 70g">70g</button>
+                <button type="button" class="size-pill-btn" data-size="100g" data-price="129000" data-price-text="129.000đ" title="Hũ lớn thư giãn 100g">100g</button>
+              </div>
+            </div>
+
             <div class="product-footer">
               <div class="product-price">89.000đ</div>
               <div class="product-actions-group">
@@ -176,10 +231,119 @@
                   <span>+ Giỏ</span>
                 </button>
               </div>
+            </div>
           </div>
         </article>
 
       </div>
+
+      <!-- ====================================================================
+           KHU VỰC COMBO TIẾT KIỆM & HỘP QUÀ TẶNG (COMBO PACKS)
+           ==================================================================== -->
+      <section id="combo" style="margin-top: 5rem; padding-top: 2.5rem; border-top: 1px dashed rgba(229,169,59,0.25);">
+        <div style="text-align: center; margin-bottom: 2.5rem;">
+          <span class="combo-badge">🎁 Ưu Đãi Đặc Biệt</span>
+          <h2 class="section-title reveal-on-scroll" style="font-size: 2rem;">Combo ScentPod Tiết Kiệm</h2>
+          <p class="section-subtitle reveal-on-scroll">
+            Sự kết hợp hoàn hảo giữa các nốt hương yêu thích, tặng kèm hộp quà vintage và thiệp tay ý nghĩa.
+          </p>
+        </div>
+
+        <div class="product-grid" id="combo-grid" style="margin-bottom: 2rem;">
+          <!-- COMBO 01: SET 4 MÙI TRẢI NGHIỆM -->
+          <article class="product-card reveal-on-scroll" data-scent-id="combo-4-scents" style="border-color: rgba(229,169,59,0.35); background: linear-gradient(180deg, rgba(229,169,59,0.04) 0%, rgba(23,19,16,0.95) 100%);">
+            <div class="product-img-wrapper" data-product-id="combo-4-scents">
+              <span class="product-badge" style="background: linear-gradient(135deg, #ec4899, #f43f5e); color: #fff;">Combo 01</span>
+              <img src="images/combo-nen-sap.jpg" alt="Set 4 Mùi Trải Nghiệm ScentPod" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
+              <div class="product-card-overlay-hint">
+                <span>🎁 Trọn bộ 4 mùi 10g</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category-tag" style="color: #f43f5e;">Combo Khám Phá Trọn Bộ</span>
+              <h3 class="product-title">Set 4 Mùi Trải Nghiệm</h3>
+              <p class="product-subtitle">4 hũ 10g: First Class &bull; Blind Date &bull; Campus Breeze &bull; Late Night</p>
+              
+              <div class="product-size-wrapper" style="border-color: rgba(244,63,94,0.25);">
+                <span class="product-size-label" style="color: #f43f5e;">Quy cách:</span>
+                <span style="font-size: 0.76rem; color: #fff; font-weight: 600;">Hộp Quà 4 Hũ x 10g</span>
+              </div>
+
+              <div class="product-footer">
+                <div class="product-price" style="color: #fbbf24;">139.000đ <small style="font-size: 0.72rem; color: var(--text-muted); text-decoration: line-through; margin-left: 4px;">156.000đ</small></div>
+                <div class="product-actions-group">
+                  <button type="button" class="btn-add-cart" data-add-to-cart="combo-4-scents" title="Thêm combo vào giỏ hàng">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>+ Giỏ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- COMBO 02: HỘP QUÀ THƯ GIÃN SINH VIÊN -->
+          <article class="product-card reveal-on-scroll" data-scent-id="combo-gift-box" style="border-color: rgba(229,169,59,0.35); background: linear-gradient(180deg, rgba(229,169,59,0.04) 0%, rgba(23,19,16,0.95) 100%);">
+            <div class="product-img-wrapper" data-product-id="combo-gift-box">
+              <span class="product-badge" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff;">Combo 02</span>
+              <img src="images/combo-nen-sap.jpg" alt="Hộp Quà Thư Giãn Sinh Viên ScentPod" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
+              <div class="product-card-overlay-hint">
+                <span>🎁 1 nến 70g + 1 sáp 10g + diêm + thiệp</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category-tag" style="color: #a78bfa;">Set Quà Tặng Ấm Áp</span>
+              <h3 class="product-title">Hộp Quà Sinh Viên</h3>
+              <p class="product-subtitle">1 Nến thơm 70g + 1 Sáp thơm 10g + Diêm dài + Thiệp tay</p>
+              
+              <div class="product-size-wrapper" style="border-color: rgba(139,92,246,0.25);">
+                <span class="product-size-label" style="color: #a78bfa;">Quy cách:</span>
+                <span style="font-size: 0.76rem; color: #fff; font-weight: 600;">Hộp Quà Vintage &amp; Thiệp</span>
+              </div>
+
+              <div class="product-footer">
+                <div class="product-price" style="color: #fbbf24;">119.000đ <small style="font-size: 0.72rem; color: var(--text-muted); text-decoration: line-through; margin-left: 4px;">135.000đ</small></div>
+                <div class="product-actions-group">
+                  <button type="button" class="btn-add-cart" data-add-to-cart="combo-gift-box" title="Thêm combo vào giỏ hàng">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>+ Giỏ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <!-- COMBO 03: COMBO ĐÔI BẠN CÙNG TIẾN -->
+          <article class="product-card reveal-on-scroll" data-scent-id="combo-duo" style="border-color: rgba(229,169,59,0.35); background: linear-gradient(180deg, rgba(229,169,59,0.04) 0%, rgba(23,19,16,0.95) 100%);">
+            <div class="product-img-wrapper" data-product-id="combo-duo">
+              <span class="product-badge" style="background: linear-gradient(135deg, #10b981, #06b6d4); color: #fff;">Combo 03</span>
+              <img src="images/combo-nen-sap.jpg" alt="Combo Đôi Bạn Cùng Tiến ScentPod" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
+              <div class="product-card-overlay-hint">
+                <span>🎁 2 hũ nến 70g tùy chọn</span>
+              </div>
+            </div>
+            <div class="product-info">
+              <span class="product-category-tag" style="color: #34d399;">Combo Tiết Kiệm</span>
+              <h3 class="product-title">Combo Đôi Bạn Cùng Tiến</h3>
+              <p class="product-subtitle">2 Hũ nến thơm 70g tùy chọn mùi theo sở thích của đôi bạn</p>
+              
+              <div class="product-size-wrapper" style="border-color: rgba(16,185,129,0.25);">
+                <span class="product-size-label" style="color: #34d399;">Quy cách:</span>
+                <span style="font-size: 0.76rem; color: #fff; font-weight: 600;">2 Hũ Tiêu Chuẩn 70g</span>
+              </div>
+
+              <div class="product-footer">
+                <div class="product-price" style="color: #fbbf24;">165.000đ <small style="font-size: 0.72rem; color: var(--text-muted); text-decoration: line-through; margin-left: 4px;">178.000đ</small></div>
+                <div class="product-actions-group">
+                  <button type="button" class="btn-add-cart" data-add-to-cart="combo-duo" title="Thêm combo vào giỏ hàng">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    <span>+ Giỏ</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
 
       <!-- ====================================================================
            DÒNG LƯU Ý AN TOÀN DƯỚI LƯỚI

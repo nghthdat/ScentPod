@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScentDetailModal();
   initCartSystem();
   initHeaderAuth();
+  initCategoryFilter();
 });
 
 /**
@@ -136,6 +137,56 @@ function initScrollAnimations() {
   } else {
     // Fallback nếu trình duyệt cũ không hỗ trợ IntersectionObserver
     elements.forEach((el) => el.classList.add("is-visible"));
+  }
+}
+
+/**
+ * Bộ lọc danh mục sản phẩm (Tất cả, Nến đơn, Combo) & xử lý cuộn hash #combo
+ */
+function initCategoryFilter() {
+  const filterBtns = document.querySelectorAll(".category-filter-btn");
+  const singleGrid = document.getElementById("single-candles-grid");
+  const comboSection = document.getElementById("combo");
+
+  const activateFilter = (filter) => {
+    filterBtns.forEach((b) => {
+      b.classList.toggle("is-active", b.getAttribute("data-filter") === filter);
+    });
+
+    if (filter === "all") {
+      if (singleGrid) singleGrid.style.display = "grid";
+      if (comboSection) comboSection.style.display = "block";
+    } else if (filter === "single") {
+      if (singleGrid) {
+        singleGrid.style.display = "grid";
+        singleGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      if (comboSection) comboSection.style.display = "none";
+    } else if (filter === "combo") {
+      if (singleGrid) singleGrid.style.display = "none";
+      if (comboSection) {
+        comboSection.style.display = "block";
+        comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const filter = btn.getAttribute("data-filter");
+      if (!filter) return;
+      e.preventDefault();
+      activateFilter(filter);
+    });
+  });
+
+  // Tự động cuộn và kích hoạt khi mở link có hash #combo
+  if (window.location.hash === "#combo" && comboSection) {
+    if (singleGrid) singleGrid.style.display = "grid";
+    comboSection.style.display = "block";
+    setTimeout(() => {
+      comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 250);
   }
 }
 
