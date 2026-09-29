@@ -46,7 +46,7 @@ const server = http.createServer((req, res) => {
 
     req.on('end', () => {
       try {
-        const { productId, imageData } = JSON.parse(body);
+        const { productId, imageData, filename } = JSON.parse(body);
         if (!productId || !imageData) {
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Thiếu productId hoặc imageData' }));
@@ -63,18 +63,20 @@ const server = http.createServer((req, res) => {
           fs.mkdirSync(IMAGES_DIR, { recursive: true });
         }
 
-        // Lưu trực tiếp file .jpg vào thư mục images/
-        const targetFilename = `${productId}.jpg`;
-        const targetFilePath = path.join(IMAGES_DIR, targetFilename);
+        // Lưu file vào thư mục images/ (dùng filename chuẩn nếu có)
+        const safeFilename = (filename && /^[a-zA-Z0-9_\-\.]+\.(jpg|jpeg|png|webp)$/i.test(filename))
+          ? filename
+          : `${productId}.jpg`;
+        const targetFilePath = path.join(IMAGES_DIR, safeFilename);
 
         fs.writeFileSync(targetFilePath, buffer);
-        console.log(`✅ [ĐÃ LƯU ẢNH MỚI] images/${targetFilename} (${Math.round(buffer.length / 1024)} KB)`);
+        console.log(`✅ [ĐÃ LƯU ẢNH MỚI] images/${safeFilename} (${Math.round(buffer.length / 1024)} KB)`);
 
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
           success: true,
-          message: `Đã lưu ảnh thành công vào thư mục images/${targetFilename}!`,
-          file: `images/${targetFilename}`,
+          message: `Đã lưu ảnh thành công vào thư mục images/${safeFilename}!`,
+          file: `images/${safeFilename}`,
           sizeKb: Math.round(buffer.length / 1024)
         }));
       } catch (err) {

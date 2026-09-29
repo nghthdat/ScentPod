@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeaderScroll();
   initScrollAnimations();
   initProductImageManager();
+  initScentDetailModal();
 });
 
 /**
@@ -143,45 +144,65 @@ function initScrollAnimations() {
  */
 
 const PRODUCTS_CONFIG = {
-  "sap-thom-bo-ba": {
-    id: "sap-thom-bo-ba",
-    name: "Bộ ba sáp thơm & Nến trải nghiệm",
+  "first-class": {
+    id: "first-class",
+    code: "Mùi 01",
+    name: "First Class",
+    scentName: "White Tea & Morning Dew",
+    category: "Trà xanh và thảo mộc tươi",
     filename: "sap-thom-bo-ba.jpg",
     defaultSrc: "images/sap-thom-bo-ba.jpg",
     fallbackSrc: "images/sap-thom-bo-ba.svg",
-    price: "89.000đ"
+    price: "89.000đ",
+    topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
+    heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
+    baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
+    vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập."
   },
-  "nen-thom-mini": {
-    id: "nen-thom-mini",
-    name: "Nến thơm Santal & Fig (113g)",
+  "blind-date": {
+    id: "blind-date",
+    code: "Mùi 02",
+    name: "Blind Date",
+    scentName: "Sweet Peach & Vanilla Cloud",
+    category: "Trái cây ngọt dịu kết hợp phấn hoa",
     filename: "nen-thom-mini.jpg",
     defaultSrc: "images/nen-thom-mini.jpg",
     fallbackSrc: "images/nen-thom-mini.svg",
-    price: "69.000đ"
+    price: "89.000đ",
+    topNotes: "Quả đào chín mọng, Quả lê tươi.",
+    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ.",
+    baseNotes: "Vani sữa ấm, Hổ phách dịu.",
+    vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên."
   },
-  "combo-nen-sap": {
-    id: "combo-nen-sap",
-    name: "Combo Góc Học Bài & Thư Giãn",
+  "campus-breeze": {
+    id: "campus-breeze",
+    code: "Mùi 03",
+    name: "Campus Breeze",
+    scentName: "Sea Salt & Sage",
+    category: "Hương khoáng biển và thảo mộc",
     filename: "combo-nen-sap.jpg",
     defaultSrc: "images/combo-nen-sap.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
-    price: "139.000đ"
+    price: "89.000đ",
+    topNotes: "Muối biển, Hạt bưởi hồng.",
+    heartNotes: "Cây xô thơm (Sage), Tảo biển.",
+    baseNotes: "Gỗ lũa mục, Xạ hương trắng.",
+    vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường."
   },
-  "nen-thu-gian": {
-    id: "nen-thu-gian",
-    name: "Nến thơm thư giãn Classic (Hũ nắp kim loại)",
+  "late-night": {
+    id: "late-night",
+    code: "Mùi 04",
+    name: "Late Night",
+    scentName: "Cedarwood & Warm Amber",
+    category: "Hương gỗ ấm và thư giãn",
     filename: "nen-thu-gian.jpg",
     defaultSrc: "images/nen-thu-gian.jpg",
     fallbackSrc: "images/nen-thu-gian.svg",
-    price: "85.000đ"
-  },
-  "sap-treo-tu": {
-    id: "sap-treo-tu",
-    name: "Sáp thơm bỏ túi & Treo tủ thảo mộc",
-    filename: "sap-treo-tu.jpg",
-    defaultSrc: "images/sap-treo-tu.jpg",
-    fallbackSrc: "images/sap-treo-tu.svg",
-    price: "49.000đ"
+    price: "89.000đ",
+    topNotes: "Cam Bergamot thoang thoảng.",
+    heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
+    baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
+    vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya."
   }
 };
 
@@ -375,7 +396,7 @@ async function processImageUpload(productId, file) {
       const res = await fetch("/api/upload", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId, imageData: optimizedBase64 })
+        body: JSON.stringify({ productId, imageData: optimizedBase64, filename: info.filename })
       });
       if (res.ok) {
         showToast(`✅ Đã lưu ảnh vào thư mục images/${info.filename} và hiển thị trên web! 🎉`);
@@ -601,4 +622,173 @@ function downloadProductImage(productId) {
   document.body.removeChild(a);
   showToast(`Đã tải xuống file "${p.filename}" vào máy của bạn!`);
 }
+
+/**
+ * ==========================================================================
+ * MODAL CHI TIẾT 3 TẦNG HƯƠNG (SCENT DETAIL MODAL)
+ * ==========================================================================
+ * Khi người dùng bấm vào từng sản phẩm hoặc nút "Tầng hương",
+ * mở modal sang trọng hiển thị đầy đủ thông tin:
+ * - Tên thương mại & tên mùi
+ * - Nhóm hương
+ * - Cấu trúc 3 tầng hương chi tiết (Top - Heart - Base)
+ * - Vibe cảm xúc & lưu ý
+ */
+function initScentDetailModal() {
+  // Tạo khung Modal nếu chưa có trong DOM
+  let backdrop = document.querySelector(".scent-modal-backdrop");
+  if (!backdrop) {
+    backdrop = document.createElement("div");
+    backdrop.className = "scent-modal-backdrop";
+    backdrop.id = "scent-detail-modal";
+    backdrop.innerHTML = `
+      <div class="scent-modal-container" role="dialog" aria-modal="true" aria-labelledby="scent-modal-title">
+        <button type="button" class="scent-modal-close" aria-label="Đóng cửa sổ">&times;</button>
+        <div class="scent-modal-layout">
+          <div class="scent-modal-img-col">
+            <span class="scent-modal-badge" id="scent-modal-badge">Mùi 01</span>
+            <img id="scent-modal-img" src="" alt="ScentPod Fragrance">
+          </div>
+          <div class="scent-modal-info-col">
+            <span class="scent-modal-group" id="scent-modal-group">Nhóm hương</span>
+            <h2 class="scent-modal-title" id="scent-modal-title">First Class</h2>
+            <div class="scent-modal-subtitle" id="scent-modal-subtitle">White Tea &amp; Morning Dew</div>
+            <div class="scent-modal-price" id="scent-modal-price">89.000đ</div>
+            <p class="scent-modal-vibe" id="scent-modal-vibe"></p>
+
+            <div class="scent-pyramid-card">
+              <div class="scent-pyramid-header">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 22 22 22 12 2"/>
+                </svg>
+                Cấu trúc 3 tầng hương chi tiết
+              </div>
+
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương đầu (Top Notes)</span>
+                <div class="tier-notes" id="scent-tier-top"></div>
+              </div>
+
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương giữa (Heart Notes)</span>
+                <div class="tier-notes" id="scent-tier-heart"></div>
+              </div>
+
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương cuối (Base Notes)</span>
+                <div class="tier-notes" id="scent-tier-base"></div>
+              </div>
+            </div>
+
+            <div class="scent-specs">
+              <span>🌿 Sáp thực vật tự nhiên</span>
+              <span>🔥 Bấc cotton sạch không khói</span>
+              <span>📦 Size mini bỏ túi</span>
+            </div>
+
+            <a href="${FB_LINK}" target="_blank" rel="noopener noreferrer" class="btn btn-primary scent-order-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+              </svg>
+              Nhắn tin đặt mùi này ngay
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(backdrop);
+  }
+
+  const closeBtn = backdrop.querySelector(".scent-modal-close");
+  const modalImg = backdrop.querySelector("#scent-modal-img");
+  const modalBadge = backdrop.querySelector("#scent-modal-badge");
+  const modalGroup = backdrop.querySelector("#scent-modal-group");
+  const modalTitle = backdrop.querySelector("#scent-modal-title");
+  const modalSubtitle = backdrop.querySelector("#scent-modal-subtitle");
+  const modalPrice = backdrop.querySelector("#scent-modal-price");
+  const modalVibe = backdrop.querySelector("#scent-modal-vibe");
+  const tierTop = backdrop.querySelector("#scent-tier-top");
+  const tierHeart = backdrop.querySelector("#scent-tier-heart");
+  const tierBase = backdrop.querySelector("#scent-tier-base");
+
+  function openScentModal(scentId) {
+    const p = PRODUCTS_CONFIG[scentId];
+    if (!p) return;
+
+    modalBadge.textContent = p.code;
+    modalGroup.textContent = "Nhóm hương: " + p.category;
+    modalTitle.textContent = p.name;
+    modalSubtitle.textContent = p.scentName;
+    modalPrice.textContent = p.price;
+    modalVibe.textContent = p.vibe;
+
+    tierTop.textContent = p.topNotes;
+    tierHeart.textContent = p.heartNotes;
+    tierBase.textContent = p.baseNotes;
+
+    const customImg = getCustomImage(scentId);
+    modalImg.src = customImg || p.defaultSrc;
+    modalImg.alt = `${p.name} - ${p.scentName}`;
+    modalImg.onerror = function() {
+      this.onerror = null;
+      this.src = p.fallbackSrc;
+    };
+
+    backdrop.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeScentModal() {
+    backdrop.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+
+  closeBtn.addEventListener("click", closeScentModal);
+  backdrop.addEventListener("click", (e) => {
+    if (e.target === backdrop) closeScentModal();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && backdrop.classList.contains("is-open")) {
+      closeScentModal();
+    }
+  });
+
+  // Bắt sự kiện click trên card hoặc nút "Tầng hương"
+  document.addEventListener("click", (e) => {
+    // Bỏ qua nếu click trong thanh upload ảnh hoặc modal quản lý ảnh
+    if (
+      e.target.closest(".product-card-upload-bar") ||
+      e.target.closest(".img-manager-fab") ||
+      e.target.closest(".scentpod-modal-backdrop") ||
+      e.target.closest(".scent-modal-container")
+    ) {
+      return;
+    }
+
+    // 1. Click vào nút "Tầng hương"
+    const btn = e.target.closest("[data-open-scent]");
+    if (btn) {
+      e.preventDefault();
+      const scentId = btn.getAttribute("data-open-scent");
+      openScentModal(scentId);
+      return;
+    }
+
+    // 2. Click vào thẻ sản phẩm
+    const card = e.target.closest(".product-card[data-scent-id]");
+    if (card) {
+      // Nếu click vào thẻ <a> hoặc nút đặc biệt khác, bỏ qua
+      if (e.target.closest("a") || e.target.closest("button:not(.btn-scent-detail)")) {
+        return;
+      }
+      const scentId = card.getAttribute("data-scent-id");
+      openScentModal(scentId);
+    }
+  });
+}
+
 
