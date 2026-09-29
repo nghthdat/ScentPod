@@ -256,6 +256,7 @@ const PRODUCTS_CONFIG = {
     heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
     baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
     vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya."
+  }
 };
 
 /**
