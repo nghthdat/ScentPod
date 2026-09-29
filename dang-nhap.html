@@ -110,12 +110,23 @@
 
   <!-- Script Quản lý Trang Đăng Nhập & Dashboard -->
   <script>
+    let currentRoleTab = "customer"; // "customer" | "admin"
+    let isRegisterMode = false;
+    let currentAdminSubTab = "orders"; // "orders" | "products" | "inventory"
+    let orderStatusFilter = "all";
+    let orderSearchQuery = "";
+
     document.addEventListener("DOMContentLoaded", () => {
       renderAuthView();
     });
 
-    let currentRoleTab = "customer"; // "customer" | "admin"
-    let isRegisterMode = false;
+    // Helper đăng nhập nhanh 1-Click cho 4 Admin
+    window.quickLoginAdmin = function(email) {
+      const res = window.ScentPod.loginUser(email, "admin123", "admin");
+      if (res && res.success) {
+        renderAuthView();
+      }
+    };
 
     function renderAuthView() {
       const container = document.getElementById("auth-main-container");
@@ -143,7 +154,7 @@
               </button>
               <button type="button" class="auth-role-tab ${currentRoleTab === 'admin' ? 'is-active' : ''}" id="tab-btn-admin">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                <span>Quản Trị Viên</span>
+                <span>Quản Trị Viên (4 Gmail)</span>
               </button>
             </div>
 
@@ -158,13 +169,24 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
                 <span>Đăng Nhập Thử Nghiệm Nhanh (1-Click)</span>
               </div>
-              <div class="quick-demo-btns">
-                <button type="button" class="btn-demo-quick" id="btn-quick-customer">
-                  👤 Khách Hàng Demo
+              <div class="quick-demo-btns" style="display: flex; flex-direction: column; gap: 8px;">
+                <button type="button" class="btn-demo-quick" id="btn-quick-customer" style="width: 100%;">
+                  👤 Khách Hàng Demo (Nguyễn Minh Thư)
                 </button>
-                <button type="button" class="btn-demo-quick" id="btn-quick-admin">
-                  👑 Quản Trị Viên Demo
-                </button>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
+                  <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('datnhatquang@gmail.com')">
+                    👑 Đạt (datnhatquang)
+                  </button>
+                  <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('khonghieu924@gmail.com')">
+                    🌿 Hiếu (khonghieu924)
+                  </button>
+                  <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('tranlam6a@gmail.com')">
+                    📦 Lâm (tranlam6a)
+                  </button>
+                  <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('hoaip3061@gmail.com')">
+                    ✨ Q.Anh (hoaip3061)
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -184,14 +206,9 @@
         renderAuthView();
       });
 
-      // Quick login 1-click
+      // Quick login 1-click khách hàng
       document.getElementById("btn-quick-customer").addEventListener("click", () => {
         window.ScentPod.loginUser("khachhang@scentpod.vn", "user123", "customer");
-        renderAuthView();
-      });
-
-      document.getElementById("btn-quick-admin").addEventListener("click", () => {
-        window.ScentPod.loginUser("admin@scentpod.vn", "admin123", "admin");
         renderAuthView();
       });
 
@@ -218,6 +235,9 @@
             <div class="form-group">
               <label for="reg-email">Địa chỉ Email</label>
               <input type="email" id="reg-email" class="form-control" placeholder="email@gmail.com" required>
+              <small style="color: var(--text-muted); font-size: 0.76rem; display: block; margin-top: 4px;">
+                💡 Nếu đăng ký bằng 4 Gmail Quản Trị, tài khoản sẽ tự động chuyển thành Quản Trị Viên.
+              </small>
             </div>
             <div class="form-group">
               <label for="reg-password">Mật khẩu</label>
@@ -262,21 +282,55 @@
         <div class="auth-header">
           <div style="font-size: 2.2rem; margin-bottom: 8px;">🛡️</div>
           <h1>Cổng Quản Trị Hệ Thống</h1>
-          <p>Dành riêng cho Ban Quản Trị &amp; Quản Lý Cửa Hàng ScentPod</p>
+          <p>Dành riêng cho 4 Gmail Ban Quản Trị ScentPod được ủy quyền</p>
         </div>
+
+        <div style="background: rgba(229, 169, 59, 0.08); border: 1px solid rgba(229, 169, 59, 0.3); border-radius: 10px; padding: 12px 14px; margin-bottom: 18px; font-size: 0.82rem; line-height: 1.5; color: var(--text-secondary);">
+          <div style="color: var(--accent-gold); font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+            <span>👑</span> 4 Gmail được ủy quyền Quản Trị Viên:
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 4px; margin-top: 6px;">
+            <div>• <strong style="color: #fff;">datnhatquang@gmail.com</strong> (Nghiêm Thành Đạt)</div>
+            <div>• <strong style="color: #fff;">khonghieu924@gmail.com</strong> (Khổng Đức Hiếu)</div>
+            <div>• <strong style="color: #fff;">tranlam6a@gmail.com</strong> (Trần Thanh Lâm)</div>
+            <div>• <strong style="color: #fff;">hoaip3061@gmail.com</strong> (Trương Quỳnh Anh)</div>
+          </div>
+        </div>
+
         <form id="form-login-admin">
           <div class="form-group">
             <label for="admin-email">Email Quản Trị</label>
-            <input type="email" id="admin-email" class="form-control" value="admin@scentpod.vn" required>
+            <input type="email" id="admin-email" class="form-control" placeholder="Nhập 1 trong 4 Gmail trên" value="datnhatquang@gmail.com" required>
           </div>
           <div class="form-group">
-            <label for="admin-password">Mật khẩu Quản Trị</label>
+            <label for="admin-password">Mật khẩu</label>
             <input type="password" id="admin-password" class="form-control" value="admin123" required>
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px; font-weight: 700; margin-top: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b;">
+          <div id="admin-auth-error" style="display: none; color: #f87171; font-size: 0.82rem; margin-bottom: 10px; padding: 8px 12px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 6px;"></div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px; font-weight: 700; margin-top: 4px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b;">
             👑 Đăng Nhập Cổng Quản Trị
           </button>
         </form>
+
+        <div style="margin-top: 20px;">
+          <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">
+            ⚡ Bấm chọn tài khoản Admin đăng nhập nhanh:
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+            <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('datnhatquang@gmail.com')">
+              👑 Nghiêm Thành Đạt
+            </button>
+            <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('khonghieu924@gmail.com')">
+              🌿 Khổng Đức Hiếu
+            </button>
+            <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('tranlam6a@gmail.com')">
+              📦 Trần Thanh Lâm
+            </button>
+            <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('hoaip3061@gmail.com')">
+              ✨ Trương Quỳnh Anh
+            </button>
+          </div>
+        </div>
       `;
     }
 
@@ -305,8 +359,10 @@
           e.preventDefault();
           const email = document.getElementById("cust-email").value;
           const pass = document.getElementById("cust-password").value;
-          window.ScentPod.loginUser(email, pass, "customer");
-          renderAuthView();
+          const res = window.ScentPod.loginUser(email, pass, "customer");
+          if (res && res.success) {
+            renderAuthView();
+          }
         });
       }
 
@@ -318,8 +374,10 @@
           const phone = document.getElementById("reg-phone").value;
           const email = document.getElementById("reg-email").value;
           const pass = document.getElementById("reg-password").value;
-          window.ScentPod.registerUser(name, email, phone, pass);
-          renderAuthView();
+          const res = window.ScentPod.registerUser(name, email, phone, pass);
+          if (res && res.success) {
+            renderAuthView();
+          }
         });
       }
 
@@ -327,10 +385,25 @@
       if (loginAdminForm) {
         loginAdminForm.addEventListener("submit", (e) => {
           e.preventDefault();
-          const email = document.getElementById("admin-email").value;
+          const email = document.getElementById("admin-email").value.trim().toLowerCase();
           const pass = document.getElementById("admin-password").value;
-          window.ScentPod.loginUser(email, pass, "admin");
-          renderAuthView();
+          const errDiv = document.getElementById("admin-auth-error");
+
+          if (!window.ScentPod.isAdminEmail(email)) {
+            if (errDiv) {
+              errDiv.style.display = "block";
+              errDiv.innerHTML = "⚠️ <strong>Từ chối truy cập:</strong> Email này không nằm trong danh sách 4 Quản Trị Viên được ủy quyền.";
+            }
+            return;
+          }
+
+          const res = window.ScentPod.loginUser(email, pass, "admin");
+          if (res && res.success) {
+            renderAuthView();
+          } else if (errDiv) {
+            errDiv.style.display = "block";
+            errDiv.textContent = "⚠️ Không thể đăng nhập. Vui lòng kiểm tra lại.";
+          }
         });
       }
     }
@@ -424,25 +497,41 @@
      */
     function renderAdminDashboard(container, user) {
       const orders = window.ScentPod.getOrders();
+      const inv = window.ScentPod.getInventory();
+      const stats = window.ScentPod.getProductOrderStats();
       const formatVND = window.ScentPod.formatVND;
 
-      // Tính tổng doanh thu
+      // Tính toán các chỉ số KPI
       const totalRevenue = orders.reduce((sum, o) => sum + (o.status !== 'Đã hủy' ? o.total : 0), 0);
+      const totalUnitsSold = stats.reduce((sum, s) => sum + s.totalQtySold, 0);
+      const totalStock = Object.values(inv).reduce((sum, item) => sum + (item.stock || 0), 0);
 
       container.innerHTML = `
         <div class="dashboard-container">
+          <!-- Topbar Admin -->
           <div class="dashboard-topbar">
             <div class="dashboard-user-greeting">
-              <h1 style="color: #fbbf24;">👑 Bảng Quản Trị Hệ Thống ScentPod</h1>
-              <p>Quản lý đơn hàng, kho mùi hương và doanh thu bán lẻ thời gian thực</p>
+              <h1 style="color: #fbbf24; display: flex; align-items: center; gap: 8px;">
+                <span>👑</span> Bảng Quản Trị Hệ Thống ScentPod
+              </h1>
+              <p>
+                Quản trị viên: <strong style="color: #fff;">${user.name}</strong> 
+                (<span style="color: var(--accent-gold); font-family: monospace;">${user.email}</span>) 
+                &bull; <span style="color: #4ade80;">${user.title || 'Quản Trị Viên'}</span>
+              </p>
             </div>
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <a href="san-pham.html" class="btn btn-outline" style="padding: 9px 18px; font-size: 0.88rem;">🛍️ Xem trang cửa hàng</a>
-              <button type="button" class="btn btn-outline" id="btn-admin-logout" style="padding: 9px 18px; font-size: 0.88rem; color: #f87171;">Đăng xuất Admin</button>
+            <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+              <button type="button" class="btn btn-outline" onclick="document.querySelector('.img-manager-fab').click();" style="padding: 8px 14px; font-size: 0.85rem;">
+                📷 Quản lý ảnh
+              </button>
+              <a href="san-pham.html" class="btn btn-outline" style="padding: 8px 14px; font-size: 0.85rem;">🛍️ Xem Cửa Hàng</a>
+              <button type="button" class="btn btn-outline" id="btn-admin-logout" style="padding: 8px 14px; font-size: 0.85rem; color: #f87171; border-color: rgba(239, 68, 68, 0.4);">
+                Đăng xuất Admin
+              </button>
             </div>
           </div>
 
-          <!-- 4 Thẻ KPI Doanh Thu & Chỉ Số -->
+          <!-- 4 Thẻ KPI Chỉ Số Toàn Diện -->
           <div class="kpi-grid">
             <div class="kpi-card">
               <div class="kpi-icon">💰</div>
@@ -456,121 +545,436 @@
             </div>
             <div class="kpi-card">
               <div class="kpi-icon">🕯️</div>
-              <div class="kpi-value">4</div>
-              <div class="kpi-label">Mùi Hương Đang Mở Bán</div>
+              <div class="kpi-value" style="color: #60a5fa;">${totalUnitsSold}</div>
+              <div class="kpi-label">Tổng Hũ Đã Bán Ra</div>
             </div>
             <div class="kpi-card">
-              <div class="kpi-icon">⭐</div>
-              <div class="kpi-value" style="color: #60a5fa;">100%</div>
-              <div class="kpi-label">Tỉ Lệ Đơn Xử Lý Tốt</div>
+              <div class="kpi-icon">🏢</div>
+              <div class="kpi-value" style="color: ${totalStock < 50 ? '#f59e0b' : '#34d399'};">${totalStock}</div>
+              <div class="kpi-label">Tổng Hũ Còn Tồn Kho</div>
             </div>
           </div>
 
-          <!-- Bảng Quản Lý Đơn Hàng -->
-          <div class="dashboard-card">
-            <div class="dashboard-card-title">
-              <span>📋 Danh Sách Đơn Hàng Của Khách (${orders.length} đơn)</span>
-              <span style="font-size: 0.82rem; color: #4ade80;">⚡ Admin có thể đổi trạng thái đơn trực tiếp</span>
-            </div>
-
-            <div class="dashboard-table-wrap">
-              <table class="dashboard-table">
-                <thead>
-                  <tr>
-                    <th>Mã Đơn</th>
-                    <th>Thời Gian</th>
-                    <th>Khách Hàng &amp; Địa Chỉ</th>
-                    <th>Sản Phẩm Đặt</th>
-                    <th>Tổng Tiền</th>
-                    <th>Thanh Toán</th>
-                    <th style="min-width: 170px;">Cập Nhật Trạng Thái</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${orders.map(order => `
-                    <tr>
-                      <td style="font-weight: 700; color: var(--accent-gold);">${order.id}</td>
-                      <td style="font-size: 0.8rem; white-space: nowrap;">${order.date}</td>
-                      <td>
-                        <strong>${order.customer.name}</strong><br>
-                        <span style="font-size: 0.8rem; color: var(--text-muted);">${order.customer.phone}</span><br>
-                        <span style="font-size: 0.78rem; color: var(--text-secondary);">${order.customer.address}</span>
-                        ${order.customer.giftCard ? `<div style="font-size: 0.74rem; color: var(--accent-gold); margin-top: 4px;">💌 Thiệp: "${order.customer.giftCard}"</div>` : ''}
-                      </td>
-                      <td>
-                        ${order.items.map(item => `<div>&bull; ${item.name} &times; <strong>${item.quantity}</strong></div>`).join('')}
-                      </td>
-                      <td style="font-weight: 700; color: #fff;">${formatVND(order.total)}</td>
-                      <td style="font-size: 0.82rem;">${order.paymentMethod}</td>
-                      <td>
-                        <select class="form-control admin-status-select" data-order-id="${order.id}" style="padding: 6px 10px; font-size: 0.82rem; border-color: var(--accent-gold);">
-                          <option value="Chờ xác nhận" ${order.status === 'Chờ xác nhận' ? 'selected' : ''}>⏳ Chờ xác nhận</option>
-                          <option value="Đang đóng gói" ${order.status === 'Đang đóng gói' ? 'selected' : ''}>📦 Đang đóng gói</option>
-                          <option value="Đang giao hàng" ${order.status === 'Đang giao hàng' ? 'selected' : ''}>🚚 Đang giao hàng</option>
-                          <option value="Hoàn thành" ${order.status === 'Hoàn thành' ? 'selected' : ''}>✅ Hoàn thành</option>
-                          <option value="Đã hủy" ${order.status === 'Đã hủy' ? 'selected' : ''}>❌ Đã hủy</option>
-                        </select>
-                      </td>
-                    </tr>
-                  `).join('')}
-                </tbody>
-              </table>
-            </div>
+          <!-- Subnav 3 Phân Hệ Quản Trị Cốt Lõi -->
+          <div class="admin-subnav">
+            <button type="button" class="admin-subnav-btn ${currentAdminSubTab === 'orders' ? 'is-active' : ''}" id="btn-subnav-orders">
+              <span>📋</span> Theo Dõi Đơn Hàng (${orders.length})
+            </button>
+            <button type="button" class="admin-subnav-btn ${currentAdminSubTab === 'products' ? 'is-active' : ''}" id="btn-subnav-products">
+              <span>📊</span> Số Lượng Đơn Từng Sản Phẩm
+            </button>
+            <button type="button" class="admin-subnav-btn ${currentAdminSubTab === 'inventory' ? 'is-active' : ''}" id="btn-subnav-inventory">
+              <span>📦</span> Kho Còn Tồn &amp; Quản Lý Số Lượng (${totalStock} hũ)
+            </button>
           </div>
 
-          <!-- Quản Lý 4 Mùi Hương ScentPod -->
-          <div class="dashboard-card">
-            <div class="dashboard-card-title">
-              <span>🕯️ Danh Mục 4 Mùi Hương Đang Mở Bán</span>
-              <button type="button" class="btn btn-outline" onclick="document.querySelector('.img-manager-fab').click();" style="padding: 6px 14px; font-size: 0.82rem;">
-                📷 Quản lý ảnh sản phẩm
-              </button>
-            </div>
-
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
-              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
-                <span class="badge-status status-completed">Mùi 01 &bull; Đang bán</span>
-                <h4 style="margin: 8px 0 2px 0;">First Class</h4>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">White Tea &amp; Morning Dew</div>
-                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
-              </div>
-
-              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
-                <span class="badge-status status-completed">Mùi 02 &bull; Đang bán</span>
-                <h4 style="margin: 8px 0 2px 0;">Blind Date</h4>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Sweet Peach &amp; Vanilla Cloud</div>
-                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
-              </div>
-
-              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
-                <span class="badge-status status-completed">Mùi 03 &bull; Đang bán</span>
-                <h4 style="margin: 8px 0 2px 0;">Campus Breeze</h4>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Sea Salt &amp; Sage</div>
-                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
-              </div>
-
-              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
-                <span class="badge-status status-completed">Mùi 04 &bull; Đang bán</span>
-                <h4 style="margin: 8px 0 2px 0;">Late Night</h4>
-                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Cedarwood &amp; Warm Amber</div>
-                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
-              </div>
-            </div>
+          <!-- Nội dung Sub-Tab được chọn -->
+          <div id="admin-subtab-content">
+            ${renderAdminSubTabContent(orders, inv, stats, formatVND)}
           </div>
         </div>
       `;
 
-      // Bắt sự kiện đổi trạng thái đơn hàng
+      // Bắt sự kiện đổi subnav tab
+      document.getElementById("btn-subnav-orders").addEventListener("click", () => {
+        currentAdminSubTab = "orders";
+        renderAdminDashboard(container, user);
+      });
+      document.getElementById("btn-subnav-products").addEventListener("click", () => {
+        currentAdminSubTab = "products";
+        renderAdminDashboard(container, user);
+      });
+      document.getElementById("btn-subnav-inventory").addEventListener("click", () => {
+        currentAdminSubTab = "inventory";
+        renderAdminDashboard(container, user);
+      });
+
+      // Bắt các sự kiện tương tác theo từng subtab
+      attachAdminTabListeners(container, user);
+
+      // Đăng xuất
+      document.getElementById("btn-admin-logout").addEventListener("click", () => {
+        window.ScentPod.logoutUser();
+      });
+    }
+
+    /**
+     * Render nội dung theo subtab
+     */
+    function renderAdminSubTabContent(orders, inv, stats, formatVND) {
+      if (currentAdminSubTab === "products") {
+        return renderProductsStatsTab(stats, formatVND);
+      }
+      if (currentAdminSubTab === "inventory") {
+        return renderInventoryTab(inv);
+      }
+      return renderOrdersTab(orders, formatVND);
+    }
+
+    /**
+     * PHÂN HỆ 1: THEO DÕI & QUẢN LÝ ĐƠN HÀNG
+     */
+    function renderOrdersTab(orders, formatVND) {
+      // Lọc đơn hàng theo trạng thái & từ khóa tìm kiếm
+      const filteredOrders = orders.filter(o => {
+        const matchStatus = orderStatusFilter === "all" || o.status === orderStatusFilter;
+        if (!matchStatus) return false;
+        if (!orderSearchQuery) return true;
+        const q = orderSearchQuery.toLowerCase();
+        return (
+          o.id.toLowerCase().includes(q) ||
+          (o.customer && o.customer.name && o.customer.name.toLowerCase().includes(q)) ||
+          (o.customer && o.customer.phone && o.customer.phone.includes(q))
+        );
+      });
+
+      return `
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">
+            <span>📋 Danh Sách &amp; Theo Dõi Đơn Hàng (${filteredOrders.length}/${orders.length} đơn)</span>
+            <span style="font-size: 0.82rem; color: #4ade80;">⚡ Admin đổi trạng thái đơn hàng trực tiếp ngay tại bảng</span>
+          </div>
+
+          <!-- Toolbar lọc & tìm kiếm -->
+          <div class="order-toolbar">
+            <div class="order-filter-group">
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'all' ? 'is-active' : ''}" data-filter="all">Tất cả (${orders.length})</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Chờ xác nhận' ? 'is-active' : ''}" data-filter="Chờ xác nhận">⏳ Chờ xác nhận</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang đóng gói' ? 'is-active' : ''}" data-filter="Đang đóng gói">📦 Đang đóng gói</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang giao hàng' ? 'is-active' : ''}" data-filter="Đang giao hàng">🚚 Đang giao</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Hoàn thành' ? 'is-active' : ''}" data-filter="Hoàn thành">✅ Hoàn thành</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đã hủy' ? 'is-active' : ''}" data-filter="Đã hủy">❌ Đã hủy</button>
+            </div>
+            <div>
+              <input type="text" id="order-search-input" class="form-control" placeholder="🔍 Tìm theo mã đơn, tên, SĐT..." value="${orderSearchQuery}" style="width: 250px; padding: 7px 12px; font-size: 0.85rem;">
+            </div>
+          </div>
+
+          <!-- Bảng đơn hàng -->
+          <div class="dashboard-table-wrap">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Mã Đơn</th>
+                  <th>Thời Gian</th>
+                  <th>Khách Hàng &amp; Địa Chỉ</th>
+                  <th>Sản Phẩm Đặt</th>
+                  <th>Tổng Tiền</th>
+                  <th>Thanh Toán</th>
+                  <th style="min-width: 175px;">Cập Nhật Trạng Thái</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${filteredOrders.length === 0 ? `
+                  <tr>
+                    <td colspan="7" style="text-align: center; padding: 30px; color: var(--text-muted);">
+                      Không tìm thấy đơn hàng nào phù hợp với bộ lọc hiện tại.
+                    </td>
+                  </tr>
+                ` : filteredOrders.map(order => `
+                  <tr>
+                    <td style="font-weight: 700; color: var(--accent-gold); white-space: nowrap;">${order.id}</td>
+                    <td style="font-size: 0.8rem; white-space: nowrap;">${order.date}</td>
+                    <td>
+                      <strong>${order.customer.name}</strong><br>
+                      <span style="font-size: 0.8rem; color: var(--text-muted);">${order.customer.phone}</span><br>
+                      <span style="font-size: 0.78rem; color: var(--text-secondary);">${order.customer.address}</span>
+                      ${order.customer.giftCard ? `<div style="font-size: 0.74rem; color: var(--accent-gold); margin-top: 4px; background: rgba(229,169,59,0.08); padding: 2px 6px; border-radius: 4px;">💌 Thiệp: "${order.customer.giftCard}"</div>` : ''}
+                    </td>
+                    <td>
+                      ${order.items.map(item => `<div>&bull; ${item.name} &times; <strong style="color: #fff;">${item.quantity}</strong></div>`).join('')}
+                    </td>
+                    <td style="font-weight: 700; color: #fff; white-space: nowrap;">${formatVND(order.total)}</td>
+                    <td style="font-size: 0.82rem; white-space: nowrap;">${order.paymentMethod}</td>
+                    <td>
+                      <select class="form-control admin-status-select" data-order-id="${order.id}" style="padding: 6px 10px; font-size: 0.82rem; border-color: var(--accent-gold); background: #1c1815;">
+                        <option value="Chờ xác nhận" ${order.status === 'Chờ xác nhận' ? 'selected' : ''}>⏳ Chờ xác nhận</option>
+                        <option value="Đang đóng gói" ${order.status === 'Đang đóng gói' ? 'selected' : ''}>📦 Đang đóng gói</option>
+                        <option value="Đang giao hàng" ${order.status === 'Đang giao hàng' ? 'selected' : ''}>🚚 Đang giao hàng</option>
+                        <option value="Hoàn thành" ${order.status === 'Hoàn thành' ? 'selected' : ''}>✅ Hoàn thành</option>
+                        <option value="Đã hủy" ${order.status === 'Đã hủy' ? 'selected' : ''}>❌ Đã hủy</option>
+                      </select>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * PHÂN HỆ 2: BÁO CÁO & THEO DÕI SỐ LƯỢNG ĐƠN TỪNG SẢN PHẨM
+     */
+    function renderProductsStatsTab(stats, formatVND) {
+      const topSold = Math.max(...stats.map(s => s.totalQtySold), 1);
+
+      return `
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">
+            <span>📊 Báo Cáo &amp; Theo Dõi Số Lượng Đơn Của Từng Mùi Hương</span>
+            <span style="font-size: 0.82rem; color: var(--accent-gold);">Cập nhật từ toàn bộ các đơn hàng đã đặt</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin: -6px 0 20px 0;">
+            Theo dõi chi tiết số đơn hàng, tổng số hũ bán ra, doanh thu thu về và lượng tồn kho còn lại của từng dòng sản phẩm ScentPod.
+          </p>
+
+          <!-- 4 Thẻ Card Thống Kê Sản Phẩm -->
+          <div class="product-stats-grid">
+            ${stats.map((s, idx) => {
+              const isTop = idx === 0 && s.totalQtySold > 0;
+              const percent = Math.round((s.totalQtySold / topSold) * 100);
+              const isLowStock = s.stock <= 10;
+              return `
+                <div class="product-stat-card ${isTop ? 'is-top' : ''}">
+                  ${isTop ? `<div class="top-seller-badge">⭐ #1 Bán Chạy Nhất</div>` : `<div style="position: absolute; top: 14px; right: 14px; font-size: 0.76rem; color: var(--text-muted); font-weight: 600;">Hạng #${idx + 1}</div>`}
+                  <span class="badge-status status-completed" style="font-size: 0.72rem; margin-bottom: 8px;">${s.code}</span>
+                  <h3 style="font-size: 1.2rem; color: #fff; margin: 4px 0 2px 0;">${s.name}</h3>
+                  <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 14px;">${s.scentName}</div>
+
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; background: rgba(0,0,0,0.25); padding: 12px; border-radius: 8px;">
+                    <div>
+                      <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase;">Số Đơn Đặt</div>
+                      <div style="font-size: 1.25rem; font-weight: 700; color: #60a5fa;">${s.orderCount} <span style="font-size: 0.75rem; font-weight: normal;">đơn</span></div>
+                    </div>
+                    <div>
+                      <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase;">Hũ Đã Bán</div>
+                      <div style="font-size: 1.25rem; font-weight: 700; color: #4ade80;">${s.totalQtySold} <span style="font-size: 0.75rem; font-weight: normal;">hũ</span></div>
+                    </div>
+                    <div>
+                      <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase;">Doanh Thu</div>
+                      <div style="font-size: 0.95rem; font-weight: 700; color: var(--accent-gold);">${formatVND(s.revenue)}</div>
+                    </div>
+                    <div>
+                      <div style="font-size: 0.74rem; color: var(--text-muted); text-transform: uppercase;">Kho Còn Tồn</div>
+                      <div style="font-size: 1.1rem; font-weight: 700; color: ${isLowStock ? '#f87171' : '#fff'};">
+                        ${s.stock} hũ
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Thanh tiến độ bán -->
+                  <div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); margin-bottom: 4px;">
+                      <span>Sức bán tương đối:</span>
+                      <strong style="color: var(--accent-gold);">${percent}%</strong>
+                    </div>
+                    <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
+                      <div style="width: ${percent}%; height: 100%; background: linear-gradient(90deg, #d97706, #fbbf24); border-radius: 3px;"></div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          <!-- Bảng Tổng Hợp Chi Tiết -->
+          <div class="dashboard-table-wrap" style="margin-top: 10px;">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Xếp Hạng</th>
+                  <th>Mã Mùi &amp; Tên Sản Phẩm</th>
+                  <th>Số Đơn Có Sản Phẩm</th>
+                  <th>Tổng Hũ Đã Bán</th>
+                  <th>Doanh Thu Thu Về</th>
+                  <th>Kho Còn Tồn</th>
+                  <th>Tình Trạng Kho</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${stats.map((s, idx) => `
+                  <tr>
+                    <td style="font-weight: 700; color: ${idx === 0 ? 'var(--accent-gold)' : 'var(--text-muted)'};">
+                      ${idx === 0 ? '🥇 #1' : (idx === 1 ? '🥈 #2' : (idx === 2 ? '🥉 #3' : `#${idx + 1}`))}
+                    </td>
+                    <td>
+                      <strong style="color: #fff;">${s.name}</strong> (${s.code})<br>
+                      <span style="font-size: 0.8rem; color: var(--text-muted);">${s.scentName}</span>
+                    </td>
+                    <td style="font-weight: 700; color: #60a5fa;">${s.orderCount} đơn</td>
+                    <td style="font-weight: 700; color: #4ade80;">${s.totalQtySold} hũ</td>
+                    <td style="font-weight: 700; color: var(--accent-gold);">${formatVND(s.revenue)}</td>
+                    <td style="font-weight: 700; color: #fff;">${s.stock} hũ</td>
+                    <td>
+                      ${s.stock > 15 ? `
+                        <span class="badge-status badge-stock-ok">🟢 Đủ Hàng</span>
+                      ` : (s.stock > 0 ? `
+                        <span class="badge-status badge-stock-warning">🟡 Sắp Hết</span>
+                      ` : `
+                        <span class="badge-status badge-stock-danger">🔴 Hết Hàng</span>
+                      `)}
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * PHÂN HỆ 3: QUẢN LÝ KHO & KIỂM KÊ TỒN KHO
+     */
+    function renderInventoryTab(inv) {
+      const items = Object.values(inv);
+      const totalStock = items.reduce((sum, i) => sum + (i.stock || 0), 0);
+      const lowStockCount = items.filter(i => i.stock <= 10).length;
+
+      return `
+        <div class="dashboard-card">
+          <div class="dashboard-card-title">
+            <span>📦 Kiểm Kê Kho &amp; Quản Lý Số Lượng Tồn Kho</span>
+            <span style="font-size: 0.82rem; color: #4ade80;">⚡ Hệ thống tự động trừ kho khi có khách đặt hàng</span>
+          </div>
+
+          <!-- Thông báo tổng quan kho -->
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; margin-bottom: 22px;">
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px;">
+              <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Tổng Hũ Trong Kho</div>
+              <div style="font-size: 1.6rem; font-weight: 700; color: #4ade80;">${totalStock} <span style="font-size: 0.85rem; font-weight: normal;">hũ</span></div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px;">
+              <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Cảnh Báo Sắp Hết (&le; 10 hũ)</div>
+              <div style="font-size: 1.6rem; font-weight: 700; color: ${lowStockCount > 0 ? '#f59e0b' : '#4ade80'};">
+                ${lowStockCount} <span style="font-size: 0.85rem; font-weight: normal;">mặt hàng</span>
+              </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px;">
+              <div style="font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase;">Cơ Chế Trừ Kho</div>
+              <div style="font-size: 0.95rem; font-weight: 600; color: var(--accent-gold); margin-top: 4px;">
+                Tự động trừ khi Checkout
+              </div>
+            </div>
+          </div>
+
+          <!-- Bảng quản lý kho -->
+          <div class="dashboard-table-wrap">
+            <table class="dashboard-table">
+              <thead>
+                <tr>
+                  <th>Mã Mùi</th>
+                  <th>Tên Sản Phẩm</th>
+                  <th>Vị Trí Kệ Kho</th>
+                  <th>Số Lượng Tồn</th>
+                  <th>Trạng Thái Kho</th>
+                  <th style="min-width: 250px;">Thao Tác Nhập / Điều Chỉnh Kho</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${items.map(item => `
+                  <tr>
+                    <td style="font-weight: 700; color: var(--accent-gold);">${item.code}</td>
+                    <td>
+                      <strong style="color: #fff; font-size: 0.95rem;">${item.name}</strong><br>
+                      <span style="font-size: 0.8rem; color: var(--text-muted);">${item.scentName}</span>
+                    </td>
+                    <td style="font-size: 0.82rem; color: var(--text-secondary);">${item.location || 'Kệ kho ScentPod'}</td>
+                    <td>
+                      <span style="font-size: 1.3rem; font-weight: 700; color: ${item.stock <= 10 ? '#f87171' : '#4ade80'};">
+                        ${item.stock}
+                      </span> <span style="font-size: 0.8rem; color: var(--text-muted);">hũ</span>
+                    </td>
+                    <td>
+                      ${item.stock > 15 ? `
+                        <span class="badge-status badge-stock-ok">🟢 Còn hàng (${item.stock})</span>
+                      ` : (item.stock > 0 ? `
+                        <span class="badge-status badge-stock-warning">🟡 Sắp hết (${item.stock})</span>
+                      ` : `
+                        <span class="badge-status badge-stock-danger">🔴 Hết hàng (0)</span>
+                      `)}
+                    </td>
+                    <td>
+                      <div style="display: flex; flex-direction: column; gap: 8px;">
+                        <!-- Nút chỉnh nhanh +/- -->
+                        <div style="display: flex; gap: 6px; align-items: center;">
+                          <span style="font-size: 0.75rem; color: var(--text-muted);">Nhanh:</span>
+                          <button type="button" class="stock-btn-quick" data-adjust-id="${item.id}" data-delta="-1">-1</button>
+                          <button type="button" class="stock-btn-quick" data-adjust-id="${item.id}" data-delta="5">+5</button>
+                          <button type="button" class="stock-btn-quick" data-adjust-id="${item.id}" data-delta="20">+20</button>
+                          <button type="button" class="stock-btn-quick" data-adjust-id="${item.id}" data-delta="50">+50</button>
+                        </div>
+                        <!-- Ô nhập số lượng chính xác -->
+                        <form class="form-set-stock" data-product-id="${item.id}" style="display: flex; gap: 6px;">
+                          <input type="number" min="0" class="form-control input-stock-val" value="${item.stock}" style="width: 80px; padding: 4px 8px; font-size: 0.85rem; text-align: center;">
+                          <button type="submit" class="btn btn-outline" style="padding: 4px 10px; font-size: 0.78rem;">Lưu Kho</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    }
+
+    /**
+     * Gắn sự kiện tương tác của Dashboard
+     */
+    function attachAdminTabListeners(container, user) {
+      // 1. Phân hệ Đơn Hàng: Đổi trạng thái đơn trực tiếp
       container.querySelectorAll(".admin-status-select").forEach(sel => {
         sel.addEventListener("change", (e) => {
           const oid = e.target.getAttribute("data-order-id");
           const nst = e.target.value;
           window.ScentPod.updateOrderStatus(oid, nst);
+          renderAdminDashboard(container, user);
         });
       });
 
-      document.getElementById("btn-admin-logout").addEventListener("click", () => {
-        window.ScentPod.logoutUser();
+      // Lọc trạng thái đơn hàng
+      container.querySelectorAll(".order-filter-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          orderStatusFilter = e.target.getAttribute("data-filter");
+          renderAdminDashboard(container, user);
+        });
+      });
+
+      // Tìm kiếm đơn hàng
+      const searchInput = document.getElementById("order-search-input");
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          orderSearchQuery = e.target.value;
+          // Render lại chỉ bảng đơn
+          const orders = window.ScentPod.getOrders();
+          const formatVND = window.ScentPod.formatVND;
+          const subContent = document.getElementById("admin-subtab-content");
+          if (subContent && currentAdminSubTab === "orders") {
+            subContent.innerHTML = renderOrdersTab(orders, formatVND);
+            attachAdminTabListeners(container, user);
+            // Giữ lại con trỏ và focus ô search
+            const newSearchInput = document.getElementById("order-search-input");
+            if (newSearchInput) {
+              newSearchInput.focus();
+              newSearchInput.setSelectionRange(orderSearchQuery.length, orderSearchQuery.length);
+            }
+          }
+        });
+      }
+
+      // 2. Phân hệ Kho: Nút chỉnh nhanh +/-
+      container.querySelectorAll(".stock-btn-quick").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const pid = e.target.getAttribute("data-adjust-id");
+          const delta = parseInt(e.target.getAttribute("data-delta"), 10);
+          window.ScentPod.adjustProductStock(pid, delta);
+          renderAdminDashboard(container, user);
+        });
+      });
+
+      // Phân hệ Kho: Form lưu số lượng tồn kho
+      container.querySelectorAll(".form-set-stock").forEach(form => {
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const pid = form.getAttribute("data-product-id");
+          const val = form.querySelector(".input-stock-val").value;
+          window.ScentPod.updateProductStock(pid, val);
+          renderAdminDashboard(container, user);
+        });
       });
     }
 

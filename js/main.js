@@ -1243,6 +1243,52 @@ function updateCartUI() {
  */
 const USER_STORAGE_KEY = "scentpod_user";
 const ORDERS_STORAGE_KEY = "scentpod_orders";
+const INVENTORY_STORAGE_KEY = "scentpod_inventory";
+
+/**
+ * DANH SÁCH 4 GMAIL QUẢN TRỊ VIÊN ĐƯỢC ỦY QUYỀN DUY NHẤT:
+ * 1. hoaip3061@gmail.com
+ * 2. khonghieu924@gmail.com
+ * 3. tranlam6a@gmail.com
+ * 4. datnhatquang@gmail.com
+ */
+const ADMIN_EMAILS_CONFIG = {
+  "datnhatquang@gmail.com": {
+    email: "datnhatquang@gmail.com",
+    name: "Nghiêm Thành Đạt",
+    roleTitle: "Trưởng Nhóm & Admin",
+    phone: "0912 998 888",
+    avatar: "👑"
+  },
+  "khonghieu924@gmail.com": {
+    email: "khonghieu924@gmail.com",
+    name: "Khổng Đức Hiếu",
+    roleTitle: "R&D Pha Chế Mùi & Admin",
+    phone: "0987 654 321",
+    avatar: "🌿"
+  },
+  "tranlam6a@gmail.com": {
+    email: "tranlam6a@gmail.com",
+    name: "Trần Thanh Lâm",
+    roleTitle: "Quản Lý Vận Hành & Admin",
+    phone: "0934 567 890",
+    avatar: "📦"
+  },
+  "hoaip3061@gmail.com": {
+    email: "hoaip3061@gmail.com",
+    name: "Trương Quỳnh Anh",
+    roleTitle: "Truyền Thông & Admin",
+    phone: "0978 112 233",
+    avatar: "✨"
+  }
+};
+
+const AUTHORIZED_ADMIN_EMAILS = Object.keys(ADMIN_EMAILS_CONFIG);
+
+function isAdminEmail(email) {
+  if (!email) return false;
+  return AUTHORIZED_ADMIN_EMAILS.includes(email.trim().toLowerCase());
+}
 
 function getCurrentUser() {
   try {
@@ -1256,23 +1302,31 @@ function loginUser(email, password, roleHint = "customer") {
   const cleanEmail = (email || "").trim().toLowerCase();
   const cleanPass = (password || "").trim();
 
-  // 1. Phân quyền Quản Trị Viên (Admin)
-  if ((cleanEmail === "admin@scentpod.vn" && cleanPass === "admin123") || roleHint === "admin") {
+  // 1. Nếu là 1 trong 4 Gmail của Admin: Luôn tự động chuyển thành tài khoản Quản trị viên
+  if (isAdminEmail(cleanEmail)) {
+    const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
     const adminUser = {
       role: "admin",
-      name: "Quản Trị Viên ScentPod",
-      email: "admin@scentpod.vn",
-      phone: "0912 998 888",
-      avatar: "👑"
+      name: adminInfo.name,
+      email: cleanEmail,
+      title: adminInfo.roleTitle,
+      phone: adminInfo.phone,
+      avatar: adminInfo.avatar
     };
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
     updateHeaderAuthSlot();
-    showToast("👑 Đăng nhập Quản Trị Viên thành công!");
-    return adminUser;
+    showToast(`👑 Đăng nhập Quản Trị Viên thành công: ${adminUser.name}!`);
+    return { success: true, user: adminUser };
   }
 
-  // 2. Phân quyền Khách Hàng (Customer)
-  const isDemoCustomer = cleanEmail === "khachhang@scentpod.vn" || roleHint === "customer";
+  // 2. Nếu đăng nhập ở cổng Quản Trị Viên mà KHÔNG PHẢI 1 trong 4 email trên
+  if (roleHint === "admin") {
+    showToast("⚠️ Tài khoản quản trị viên chỉ được tạo và đăng nhập bằng 4 Gmail được ủy quyền!", 4000);
+    return { success: false, error: "unauthorized_admin" };
+  }
+
+  // 3. Khách hàng thông thường
+  const isDemoCustomer = cleanEmail === "khachhang@scentpod.vn" || !cleanEmail;
   const customerUser = {
     role: "customer",
     name: isDemoCustomer ? "Nguyễn Minh Thư" : (cleanEmail.split("@")[0] || "Khách Hàng"),
@@ -1285,15 +1339,35 @@ function loginUser(email, password, roleHint = "customer") {
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(customerUser));
   updateHeaderAuthSlot();
   showToast(`✨ Chào mừng bạn, ${customerUser.name}!`);
-  return customerUser;
+  return { success: true, user: customerUser };
 }
 
 function registerUser(name, email, phone, password) {
+  const cleanEmail = (email || "").trim().toLowerCase();
+
+  // Nếu đăng ký bằng 1 trong 4 Gmail của Admin: Tự động chuyển thành tài khoản Quản trị viên
+  if (isAdminEmail(cleanEmail)) {
+    const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
+    const adminUser = {
+      role: "admin",
+      name: (name || "").trim() || adminInfo.name,
+      email: cleanEmail,
+      title: adminInfo.roleTitle,
+      phone: (phone || "").trim() || adminInfo.phone,
+      avatar: adminInfo.avatar
+    };
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
+    updateHeaderAuthSlot();
+    showToast(`👑 Đăng ký thành công! Gmail này đã được tự động kích hoạt quyền Quản Trị Viên.`);
+    return { success: true, user: adminUser };
+  }
+
+  // Khách hàng thông thường
   const newUser = {
     role: "customer",
-    name: name.trim() || "Khách Hàng Mới",
-    email: email.trim().toLowerCase(),
-    phone: phone.trim(),
+    name: (name || "").trim() || "Khách Hàng Mới",
+    email: cleanEmail,
+    phone: (phone || "").trim(),
     avatar: "👤",
     tier: "Thành Viên Mới",
     points: 100
@@ -1301,7 +1375,7 @@ function registerUser(name, email, phone, password) {
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
   updateHeaderAuthSlot();
   showToast(`🎉 Đăng ký tài khoản thành công! Tặng bạn 100 điểm ScentClub.`);
-  return newUser;
+  return { success: true, user: newUser };
 }
 
 function logoutUser() {
@@ -1311,6 +1385,186 @@ function logoutUser() {
   if (window.location.pathname.includes("dang-nhap.html")) {
     window.location.reload();
   }
+}
+
+/**
+ * ==========================================================================
+ * HỆ THỐNG QUẢN LÝ KHO & TỒN KHO (INVENTORY & STOCK MANAGEMENT)
+ * ==========================================================================
+ */
+const DEFAULT_INVENTORY = {
+  "first-class": {
+    id: "first-class",
+    code: "Mùi 01",
+    name: "First Class",
+    scentName: "White Tea & Morning Dew",
+    stock: 45,
+    minThreshold: 10,
+    price: 89000,
+    location: "Kệ A1 - Khu nến trà"
+  },
+  "blind-date": {
+    id: "blind-date",
+    code: "Mùi 02",
+    name: "Blind Date",
+    scentName: "Sweet Peach & Vanilla Cloud",
+    stock: 38,
+    minThreshold: 10,
+    price: 89000,
+    location: "Kệ A2 - Khu nến hoa quả"
+  },
+  "campus-breeze": {
+    id: "campus-breeze",
+    code: "Mùi 03",
+    name: "Campus Breeze",
+    scentName: "Sea Salt & Sage",
+    stock: 52,
+    minThreshold: 10,
+    price: 89000,
+    location: "Kệ B1 - Khu hương biển"
+  },
+  "late-night": {
+    id: "late-night",
+    code: "Mùi 04",
+    name: "Late Night",
+    scentName: "Cedarwood & Warm Amber",
+    stock: 26,
+    minThreshold: 10,
+    price: 89000,
+    location: "Kệ B2 - Khu hương gỗ ấm"
+  }
+};
+
+function getInventory() {
+  try {
+    const raw = localStorage.getItem(INVENTORY_STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
+        return Object.assign({}, DEFAULT_INVENTORY, parsed);
+      }
+    }
+  } catch (e) {}
+  localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(DEFAULT_INVENTORY));
+  return Object.assign({}, DEFAULT_INVENTORY);
+}
+
+function saveInventory(inv) {
+  try {
+    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(inv));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function updateProductStock(productId, newStock) {
+  const inv = getInventory();
+  if (inv[productId]) {
+    const qty = Math.max(0, parseInt(newStock, 10) || 0);
+    inv[productId].stock = qty;
+    saveInventory(inv);
+    showToast(`📦 Đã cập nhật kho [${inv[productId].name}]: ${qty} hũ.`);
+    return true;
+  }
+  return false;
+}
+
+function adjustProductStock(productId, delta) {
+  const inv = getInventory();
+  if (inv[productId]) {
+    const current = inv[productId].stock || 0;
+    const updated = Math.max(0, current + delta);
+    inv[productId].stock = updated;
+    saveInventory(inv);
+    showToast(`📦 [${inv[productId].name}] ${delta >= 0 ? '+' + delta : delta} hũ (Còn: ${updated} hũ).`);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * ==========================================================================
+ * BÁO CÁO & THEO DÕI SỐ LƯỢNG ĐƠN TỪNG SẢN PHẨM (PRODUCT ORDER ANALYTICS)
+ * ==========================================================================
+ */
+function getProductOrderStats() {
+  const orders = getOrders();
+  const inv = getInventory();
+
+  const statsMap = {
+    "first-class": {
+      id: "first-class",
+      code: "Mùi 01",
+      name: "First Class",
+      scentName: "White Tea & Morning Dew",
+      price: 89000,
+      orderCount: 0,
+      totalQtySold: 0,
+      revenue: 0,
+      stock: inv["first-class"]?.stock || 0,
+      location: inv["first-class"]?.location || "Kệ A1"
+    },
+    "blind-date": {
+      id: "blind-date",
+      code: "Mùi 02",
+      name: "Blind Date",
+      scentName: "Sweet Peach & Vanilla Cloud",
+      price: 89000,
+      orderCount: 0,
+      totalQtySold: 0,
+      revenue: 0,
+      stock: inv["blind-date"]?.stock || 0,
+      location: inv["blind-date"]?.location || "Kệ A2"
+    },
+    "campus-breeze": {
+      id: "campus-breeze",
+      code: "Mùi 03",
+      name: "Campus Breeze",
+      scentName: "Sea Salt & Sage",
+      price: 89000,
+      orderCount: 0,
+      totalQtySold: 0,
+      revenue: 0,
+      stock: inv["campus-breeze"]?.stock || 0,
+      location: inv["campus-breeze"]?.location || "Kệ B1"
+    },
+    "late-night": {
+      id: "late-night",
+      code: "Mùi 04",
+      name: "Late Night",
+      scentName: "Cedarwood & Warm Amber",
+      price: 89000,
+      orderCount: 0,
+      totalQtySold: 0,
+      revenue: 0,
+      stock: inv["late-night"]?.stock || 0,
+      location: inv["late-night"]?.location || "Kệ B2"
+    }
+  };
+
+  orders.forEach(order => {
+    if (order.status === "Đã hủy") return; // Bỏ qua đơn đã hủy
+    const productsInThisOrder = new Set();
+
+    (order.items || []).forEach(item => {
+      const pId = item.id;
+      if (statsMap[pId]) {
+        const qty = item.quantity || 1;
+        const price = item.price || 89000;
+        statsMap[pId].totalQtySold += qty;
+        statsMap[pId].revenue += (qty * price);
+        productsInThisOrder.add(pId);
+      }
+    });
+
+    productsInThisOrder.forEach(pId => {
+      statsMap[pId].orderCount += 1;
+    });
+  });
+
+  const list = Object.values(statsMap);
+  list.sort((a, b) => b.totalQtySold - a.totalQtySold);
+  return list;
 }
 
 /**
@@ -1354,8 +1608,8 @@ function getOrders() {
         phone: "0908 123 456",
         email: "nam.tran@gmail.com",
         address: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",
-        note: "",
-        giftCard: ""
+        note: "Gói quà cẩn thận giúp mình nhé",
+        giftCard: "Món quà nhỏ tặng sinh nhật người thương."
       },
       items: [
         { id: "blind-date", name: "Blind Date", quantity: 2, price: 89000 }
@@ -1366,6 +1620,28 @@ function getOrders() {
       discount: 0,
       total: 178000,
       status: "Hoàn thành"
+    },
+    {
+      id: "SCP-8756",
+      date: "27/09/2026 14:20",
+      customer: {
+        name: "Lê Thu Uyên",
+        phone: "0982 771 882",
+        email: "uyen.le@gmail.com",
+        address: "Tòa A3 KTX Mễ Trì, Thanh Xuân, Hà Nội",
+        note: "Gọi trước khi ship",
+        giftCard: ""
+      },
+      items: [
+        { id: "campus-breeze", name: "Campus Breeze", quantity: 2, price: 89000 },
+        { id: "first-class", name: "First Class", quantity: 1, price: 89000 }
+      ],
+      paymentMethod: "VietQR (Đã chuyển khoản)",
+      subtotal: 267000,
+      shipping: 0,
+      discount: 15000,
+      total: 252000,
+      status: "Đang đóng gói"
     }
   ];
   localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(initialOrders));
@@ -1384,6 +1660,19 @@ function addOrder(orderData) {
   const orders = getOrders();
   orders.unshift(orderData);
   saveOrders(orders);
+
+  // Tự động trừ tồn kho theo từng sản phẩm
+  const inv = getInventory();
+  if (orderData.items && Array.isArray(orderData.items)) {
+    orderData.items.forEach(item => {
+      const pId = item.id;
+      if (inv[pId]) {
+        inv[pId].stock = Math.max(0, (inv[pId].stock || 0) - (item.quantity || 1));
+      }
+    });
+    saveInventory(inv);
+  }
+
   return orderData;
 }
 
@@ -1494,7 +1783,15 @@ window.ScentPod = {
   logoutUser,
   getOrders,
   addOrder,
-  updateOrderStatus
+  updateOrderStatus,
+  getInventory,
+  saveInventory,
+  updateProductStock,
+  adjustProductStock,
+  getProductOrderStats,
+  isAdminEmail,
+  ADMIN_EMAILS_CONFIG,
+  AUTHORIZED_ADMIN_EMAILS
 };
 
 

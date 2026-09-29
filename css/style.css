@@ -2623,6 +2623,179 @@ p { color: var(--text-muted); font-size: 1rem; }
 .status-completed { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
 .status-cancelled { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
 
+/* Phân hệ Quản trị nâng cao: Kho hàng & Báo cáo sản phẩm */
+.admin-subnav {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+  overflow-x: auto;
+}
+
+.admin-subnav-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  border-radius: 10px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.admin-subnav-btn:hover {
+  border-color: var(--border-gold);
+  color: #fff;
+  background: rgba(229, 169, 59, 0.08);
+}
+
+.admin-subnav-btn.is-active {
+  background: linear-gradient(135deg, rgba(229, 169, 59, 0.2), rgba(217, 119, 6, 0.15));
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+/* Thống kê sản phẩm */
+.product-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+.product-stat-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 18px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.product-stat-card:hover {
+  border-color: var(--border-gold);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.product-stat-card.is-top {
+  border-color: rgba(229, 169, 59, 0.5);
+  background: linear-gradient(180deg, rgba(229, 169, 59, 0.06) 0%, rgba(23, 19, 16, 0.9) 100%);
+}
+
+.top-seller-badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #000;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Nút chỉnh kho nhanh */
+.stock-btn-quick {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stock-btn-quick:hover {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #000;
+}
+
+.badge-stock-ok {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.badge-stock-warning {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.badge-stock-danger {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Bộ lọc & Tìm kiếm đơn hàng */
+.order-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.order-filter-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.order-filter-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.order-filter-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.order-filter-btn.is-active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #171310;
+  font-weight: 700;
+}
+
+.admin-email-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(229, 169, 59, 0.12);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: var(--accent-gold);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-email-pill:hover {
+  background: rgba(229, 169, 59, 0.25);
+  border-color: var(--accent-gold);
+}
+
 /* ==========================================================================
    TRANG THANH TOÁN (THANH-TOAN.HTML)
    ========================================================================== */
