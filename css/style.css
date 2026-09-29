@@ -3025,6 +3025,266 @@ p { color: var(--text-muted); font-size: 1rem; }
   .auth-card {
     padding: 1.8rem 1.4rem;
   }
+  .pricing-strategy-section {
+    padding: 1.8rem 1rem;
+  }
+  .pricing-table-card {
+    padding: 1.2rem 0.8rem;
+  }
+}
+
+/* ==========================================================================
+   BẢNG GIÁ CHÍNH THỨC & CÁC GÓI COMBO BÁN HÀNG CHIẾN LƯỢC (SP01, SP02, CB01, CB02, CB03)
+   ========================================================================== */
+
+.pricing-strategy-section {
+  background: linear-gradient(180deg, rgba(30, 24, 20, 0.95) 0%, rgba(20, 16, 14, 0.98) 100%);
+  border: 1px solid rgba(229, 169, 59, 0.28);
+  border-radius: 20px;
+  padding: 3rem 2.2rem;
+  margin: 3.5rem 0 4.5rem 0;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-strategy-section::before {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(229, 169, 59, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pricing-strategy-header {
+  text-align: center;
+  margin-bottom: 2.8rem;
+}
+
+.pricing-table-card {
+  background: rgba(18, 14, 12, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.8rem;
+  margin-bottom: 2.4rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.pricing-table-card:hover {
+  border-color: rgba(229, 169, 59, 0.35);
+}
+
+.pricing-table-title-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 1.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.table-title-main {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.table-kpi-badge {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  background: rgba(229, 169, 59, 0.12);
+  border: 1px solid rgba(229, 169, 59, 0.25);
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.pricing-table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border-radius: 10px;
+}
+
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 860px;
+  text-align: left;
+}
+
+.pricing-table th {
+  background: rgba(229, 169, 59, 0.1);
+  color: var(--accent-gold);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 13px 14px;
+  border-bottom: 2px solid rgba(229, 169, 59, 0.3);
+  white-space: nowrap;
+}
+
+.pricing-table td {
+  padding: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  vertical-align: middle;
+}
+
+.pricing-table tbody tr:hover td {
+  background: rgba(229, 169, 59, 0.04);
+}
+
+.sku-badge-sp {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  color: #0d0b0a;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(217, 119, 6, 0.3);
+}
+
+.sku-badge-cb {
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.82rem;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(244, 63, 94, 0.3);
+}
+
+.price-original-striked {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  font-size: 0.82rem;
+}
+
+.price-deal-gold {
+  color: #fbbf24;
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.price-inbox-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  color: #60a5fa;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.badge-savings-green {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-weight: 700;
+  font-size: 0.84rem;
+  padding: 4px 10px;
+  border-radius: 14px;
+  white-space: nowrap;
+}
+
+.table-gift-cell {
+  font-size: 0.82rem;
+  color: #f3f4f6;
+  line-height: 1.4;
+  max-width: 250px;
+}
+
+.table-kpi-cell {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+  max-width: 220px;
+}
+
+.table-action-btn {
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: var(--accent-gold);
+  color: #0d0b0a;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.table-action-btn:hover {
+  background: #f3b34c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(229, 169, 59, 0.4);
+}
+
+.product-inbox-hint {
+  font-size: 0.72rem;
+  color: #93c5fd;
+  margin-top: 4px;
+}
+
+.product-gift-banner {
+  font-size: 0.73rem;
+  color: #fbbf24;
+  background: rgba(229, 169, 59, 0.07);
+  border-left: 2px solid var(--accent-gold);
+  padding: 4px 8px;
+  margin: 6px 0 8px 0;
+  border-radius: 0 6px 6px 0;
+  line-height: 1.35;
+}
+
+.combo-shipping-perk {
+  font-size: 0.74rem;
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px dashed rgba(16, 185, 129, 0.3);
+  padding: 4px 8px;
+  border-radius: 6px;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  line-height: 1.35;
+}
+
+.cart-item-perk {
+  font-size: 0.72rem;
+  color: #34d399;
+  margin-top: 3px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 

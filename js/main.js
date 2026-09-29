@@ -206,7 +206,8 @@ const PRODUCTS_CONFIG = {
     filename: "sap-thom-bo-ba.jpg",
     defaultSrc: "images/sap-thom-bo-ba.jpg",
     fallbackSrc: "images/sap-thom-bo-ba.svg",
-    price: "89.000đ",
+    price: "85.000đ",
+    listPrice: "95.000đ",
     topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
     heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
     baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
@@ -221,7 +222,8 @@ const PRODUCTS_CONFIG = {
     filename: "nen-thom-mini.jpg",
     defaultSrc: "images/nen-thom-mini.jpg",
     fallbackSrc: "images/nen-thom-mini.svg",
-    price: "89.000đ",
+    price: "85.000đ",
+    listPrice: "95.000đ",
     topNotes: "Quả đào chín mọng, Quả lê tươi.",
     heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ.",
     baseNotes: "Vani sữa ấm, Hổ phách dịu.",
@@ -236,7 +238,8 @@ const PRODUCTS_CONFIG = {
     filename: "combo-nen-sap.jpg",
     defaultSrc: "images/combo-nen-sap.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
-    price: "89.000đ",
+    price: "85.000đ",
+    listPrice: "95.000đ",
     topNotes: "Muối biển, Hạt bưởi hồng.",
     heartNotes: "Cây xô thơm (Sage), Tảo biển.",
     baseNotes: "Gỗ lũa mục, Xạ hương trắng.",
@@ -251,7 +254,8 @@ const PRODUCTS_CONFIG = {
     filename: "nen-thu-gian.jpg",
     defaultSrc: "images/nen-thu-gian.jpg",
     fallbackSrc: "images/nen-thu-gian.svg",
-    price: "89.000đ",
+    price: "85.000đ",
+    listPrice: "95.000đ",
     topNotes: "Cam Bergamot thoang thoảng.",
     heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
     baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
@@ -260,77 +264,173 @@ const PRODUCTS_CONFIG = {
 };
 
 /**
- * CẤU HÌNH TRỌNG LƯỢNG SẢN PHẨM: 10 GAM, 70 GAM, 100 GAM
+ * ==========================================================================
+ * BẢNG I: DANH MỤC SẢN PHẨM BÁN LẺ (MỤC TIÊU AOV THÁNG 1: 50.000 – 70.000 VNĐ)
+ * - SP01: Sáp thơm bỏ túi khử mùi (Hũ nhôm tiện lợi 50g)
+ *   Giá niêm yết: 55.000 VNĐ | Ưu đãi HSSV: 49.000 VNĐ | Chốt Inbox: 45.000 VNĐ
+ *   KPI: Tiếp cận HSSV, kéo traffic về Web/Fanpage
+ *   Quà: Kèm thiệp cảm ơn viết tay + giấy thử mùi mới
+ * - SP02: Nến thơm thư giãn học bài (Hũ thủy tinh cao cấp 100g)
+ *   Giá niêm yết: 95.000 VNĐ | Ưu đãi HSSV: 85.000 VNĐ | Chốt Inbox: 79.000 VNĐ
+ *   KPI: Tăng giá trị giỏ hàng (AOV) đơn lẻ
+ *   Quà: Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến
+ * ==========================================================================
  */
 const PRODUCT_SIZES_CONFIG = {
-  "10g": {
-    size: "10g",
-    label: "10 gam (Mini dùng thử / Bỏ túi)",
-    shortLabel: "10g",
-    price: 39000,
-    priceFormatted: "39.000đ"
+  "sp01": {
+    code: "SP01",
+    id: "sp01",
+    size: "50g",
+    typeName: "Sáp thơm bỏ túi khử mùi",
+    spec: "Hũ nhôm tiện lợi 50g",
+    label: "SP01: Sáp bỏ túi 50g (Hũ nhôm)",
+    shortLabel: "Sáp 50g (SP01)",
+    listPrice: 55000,
+    listPriceFormatted: "55.000đ",
+    price: 49000,
+    priceFormatted: "49.000đ",
+    inboxPrice: 45000,
+    inboxPriceFormatted: "45.000đ",
+    savings: 6000,
+    savingsFormatted: "6.000đ",
+    giftNote: "Kèm thiệp cảm ơn viết tay + giấy thử mùi mới",
+    kpiTarget: "Tháng 1: Tiếp cận HSSV, kéo traffic về Web/Fanpage",
+    isDefault: false
   },
-  "70g": {
-    size: "70g",
-    label: "70 gam (Hũ tiêu chuẩn)",
-    shortLabel: "70g",
-    price: 89000,
-    priceFormatted: "89.000đ",
-    isDefault: true
-  },
-  "100g": {
+  "sp02": {
+    code: "SP02",
+    id: "sp02",
     size: "100g",
-    label: "100 gam (Hũ lớn thư giãn)",
-    shortLabel: "100g",
-    price: 129000,
-    priceFormatted: "129.000đ"
+    typeName: "Nến thơm thư giãn học bài",
+    spec: "Hũ thủy tinh cao cấp 100g",
+    label: "SP02: Nến thơm 100g (Hũ thủy tinh)",
+    shortLabel: "Nến 100g (SP02)",
+    listPrice: 95000,
+    listPriceFormatted: "95.000đ",
+    price: 85000,
+    priceFormatted: "85.000đ",
+    inboxPrice: 79000,
+    inboxPriceFormatted: "79.000đ",
+    savings: 10000,
+    savingsFormatted: "10.000đ",
+    giftNote: "Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến",
+    kpiTarget: "Tháng 1 & 2: Tăng giá trị giỏ hàng (AOV) đơn lẻ",
+    isDefault: true
   }
 };
 
+// Aliases tương thích ngược để không bị lỗi bất kỳ đoạn mã hay dữ liệu cũ nào
+PRODUCT_SIZES_CONFIG["50g"] = PRODUCT_SIZES_CONFIG["sp01"];
+PRODUCT_SIZES_CONFIG["100g"] = PRODUCT_SIZES_CONFIG["sp02"];
+PRODUCT_SIZES_CONFIG["70g"] = PRODUCT_SIZES_CONFIG["sp02"];
+PRODUCT_SIZES_CONFIG["10g"] = {
+  ...PRODUCT_SIZES_CONFIG["sp01"],
+  code: "SP01-Mini",
+  size: "10g",
+  typeName: "Sáp thơm mini bỏ túi",
+  spec: "Hũ mini 10g",
+  label: "10g: Mini dùng thử bỏ túi",
+  shortLabel: "10g Mini",
+  listPrice: 45000,
+  listPriceFormatted: "45.000đ",
+  price: 39000,
+  priceFormatted: "39.000đ"
+};
+
 /**
- * CẤU HÌNH CÁC COMBO ƯU ĐÃI ĐẶC BIỆT
+ * ==========================================================================
+ * BẢNG II: CÁC GÓI COMBO BÁN HÀNG CHIẾN LƯỢC
+ * (TỐI ƯU AOV THÁNG 2 & 3: 90.000 – 110.000+ VNĐ | TỶ LỆ COMBO ≥ 45%)
+ * - CB01: Combo Hương Sinh Viên (2 Hũ sáp bỏ túi tự chọn mùi)
+ *   Tổng giá gốc: 110.000 VNĐ | Giá bán: 89.000 VNĐ | Tiết kiệm: 21.000 VNĐ
+ *   KPI: Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ
+ *   Chính sách: Đồng giá ship 15k + tặng giấy thơm trải nghiệm
+ * - CB02: Combo Trọn Vẹn Chill (1 Hũ sáp bỏ túi + 1 Hũ nến thơm)
+ *   Tổng giá gốc: 150.000 VNĐ | Giá bán: 119.000 VNĐ | Tiết kiệm: 31.000 VNĐ
+ *   KPI: Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ
+ *   Chính sách: Đồng giá ship 15k + tặng 1 viên tealight mini 0đ
+ * - CB03: Combo Trải Nghiệm Đa Tầng (3 Hũ sáp bỏ túi đủ 3 mùi)
+ *   Tổng giá gốc: 165.000 VNĐ | Giá bán: 129.000 VNĐ | Tiết kiệm: 36.000 VNĐ
+ *   KPI: Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%
+ *   Chính sách: Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay
+ * ==========================================================================
  */
 const COMBOS_CONFIG = {
-  "combo-4-scents": {
-    id: "combo-4-scents",
-    code: "Combo 01",
-    name: "Set 4 Mùi Trải Nghiệm",
-    scentName: "Set 4 hũ 10g: First Class, Blind Date, Campus Breeze, Late Night",
-    category: "Combo khám phá trọn bộ",
-    filename: "combo-nen-sap.jpg",
-    defaultSrc: "images/combo-nen-sap.jpg",
-    fallbackSrc: "images/combo-nen-sap.svg",
-    price: "139.000đ",
-    priceNumber: 139000,
-    vibe: "Trọn bộ 4 nốt hương độc bản ScentPod. Tặng kèm hộp quà vintage và thiệp tay ý nghĩa."
+  "cb01": {
+    id: "cb01",
+    code: "CB01",
+    name: "Combo Hương Sinh Viên",
+    components: "2 Hũ sáp bỏ túi tự chọn mùi",
+    scentName: "2 Hũ sáp bỏ túi khử mùi 50g tự chọn mùi",
+    category: "Combo Bán Hàng Chiến Lược",
+    originalPrice: 110000,
+    originalPriceFormatted: "110.000đ",
+    price: "89.000đ",
+    priceNumber: 89000,
+    savings: 21000,
+    savingsFormatted: "21.000đ",
+    discountPercent: "19%",
+    shippingPolicy: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
+    shippingFee: 15000,
+    gifts: "Tặng giấy thơm trải nghiệm + Đồng giá ship 15k",
+    kpiTarget: "Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ",
+    filename: "sap-thom-bo-ba.jpg",
+    defaultSrc: "images/sap-thom-bo-ba.jpg",
+    fallbackSrc: "images/sap-thom-bo-ba.svg",
+    vibe: "Tối ưu ngân sách sinh viên: Tự do chọn 2 mùi sáp thơm bỏ túi 50g khử mùi tủ đồ, balo. Tiết kiệm ngay 21.000đ so với giá gốc."
   },
-  "combo-gift-box": {
-    id: "combo-gift-box",
-    code: "Combo 02",
-    name: "Hộp Quà Thư Giãn Sinh Viên",
-    scentName: "1 Hũ nến 70g + 1 Sáp thơm 10g + Diêm dài + Thiệp",
-    category: "Set quà tặng ấm áp",
-    filename: "combo-nen-sap.jpg",
-    defaultSrc: "images/combo-nen-sap.jpg",
-    fallbackSrc: "images/combo-nen-sap.svg",
+  "cb02": {
+    id: "cb02",
+    code: "CB02",
+    name: "Combo Trọn Vẹn Chill",
+    components: "1 Hũ sáp bỏ túi + 1 Hũ nến thơm",
+    scentName: "1 Sáp bỏ túi 50g + 1 Nến thơm thư giãn 100g",
+    category: "Combo Tối Ưu AOV",
+    originalPrice: 150000,
+    originalPriceFormatted: "150.000đ",
     price: "119.000đ",
     priceNumber: 119000,
-    vibe: "Món quà tinh tế gửi tặng bạn bè, người thương trong những dịp đặc biệt hoặc mùa ôn thi."
-  },
-  "combo-duo": {
-    id: "combo-duo",
-    code: "Combo 03",
-    name: "Combo Đôi Bạn Cùng Tiến",
-    scentName: "2 Hũ nến 70g tùy chọn mùi theo sở thích",
-    category: "Combo tiết kiệm",
+    savings: 31000,
+    savingsFormatted: "31.000đ",
+    discountPercent: "21%",
+    shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
+    shippingFee: 15000,
+    gifts: "Tặng 1 viên tealight mini 0đ + Đồng giá ship 15k",
+    kpiTarget: "Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ",
     filename: "combo-nen-sap.jpg",
     defaultSrc: "images/combo-nen-sap.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
-    price: "165.000đ",
-    priceNumber: 165000,
-    vibe: "Thắp sáng góc học tập cùng bạn trọ. Giảm thêm 13.000đ so với mua lẻ từng hũ."
+    vibe: "Combo trọn vẹn nhất: Vừa thắp nến 100g học bài tập trung, vừa mang sáp 50g khử mùi bên mình. Tiết kiệm 31.000đ."
+  },
+  "cb03": {
+    id: "cb03",
+    code: "CB03",
+    name: "Combo Trải Nghiệm Đa Tầng",
+    components: "3 Hũ sáp bỏ túi đủ 3 mùi",
+    scentName: "3 Hũ sáp bỏ túi khử mùi 50g đủ 3 nốt hương",
+    category: "Combo Đầy Đủ Hương Sắc",
+    originalPrice: 165000,
+    originalPriceFormatted: "165.000đ",
+    price: "129.000đ",
+    priceNumber: 129000,
+    savings: 36000,
+    savingsFormatted: "36.000đ",
+    discountPercent: "22%",
+    shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
+    shippingFee: 15000,
+    gifts: "Tặng 1 viên tealight mini + thiệp viết tay + Đồng giá ship 15k",
+    kpiTarget: "Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%",
+    filename: "nen-thu-gian.jpg",
+    defaultSrc: "images/nen-thu-gian.jpg",
+    fallbackSrc: "images/nen-thu-gian.svg",
+    vibe: "Trọn bộ 3 mùi hương đổi mới tâm trạng mỗi ngày. Mức tiết kiệm sâu nhất 36.000đ cùng quà tặng kép tealight & thiệp viết tay."
   }
 };
+
+// Aliases tương thích ngược
+COMBOS_CONFIG["combo-4-scents"] = COMBOS_CONFIG["cb01"];
+COMBOS_CONFIG["combo-gift-box"] = COMBOS_CONFIG["cb02"];
+COMBOS_CONFIG["combo-duo"] = COMBOS_CONFIG["cb03"];
 
 /**
  * Khởi chạy hệ thống quản lý và tải ảnh sản phẩm
@@ -990,23 +1090,29 @@ function saveCart(cart) {
   updateCartUI();
 }
 
-function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "70g") {
-  // 1. Kiểm tra nếu là sản phẩm combo
+function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "sp02") {
+  // 1. Kiểm tra nếu là sản phẩm combo (CB01, CB02, CB03 hoặc aliases)
   const combo = COMBOS_CONFIG[productId];
   if (combo) {
     const cart = getCart();
-    const existing = cart.find((item) => item.id === productId);
+    const existing = cart.find((item) => item.id === combo.id || item.id === productId);
     if (existing) {
       existing.quantity += quantity;
     } else {
       cart.push({
-        id: productId,
-        name: combo.name,
+        id: combo.id,
+        code: combo.code,
+        name: `[${combo.code}] ${combo.name}`,
         scentName: combo.scentName,
+        components: combo.components,
         category: combo.category,
         size: "Combo",
+        originalPrice: combo.originalPrice,
         price: combo.priceNumber,
         priceFormatted: combo.price,
+        savings: combo.savings,
+        shippingPolicy: combo.shippingPolicy,
+        gifts: combo.gifts,
         image: combo.defaultSrc,
         fallbackSrc: combo.fallbackSrc,
         quantity: quantity
@@ -1014,18 +1120,20 @@ function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "7
     }
     saveCart(cart);
     triggerCartBump();
-    showToast(`🎁 Đã thêm ${quantity}x "${combo.name}" vào giỏ hàng!`);
+    showToast(`🎁 Đã thêm ${quantity}x [${combo.code}] "${combo.name}" vào giỏ hàng!`);
     if (showDrawer) openCartDrawer();
     return;
   }
 
-  // 2. Sản phẩm nến thông thường có 3 size (10g, 70g, 100g)
+  // 2. Sản phẩm lẻ theo mùi (Hỗ trợ SP01 Sáp 50g & SP02 Nến 100g)
   const p = PRODUCTS_CONFIG[productId];
   if (!p) return;
 
-  const sizeInfo = PRODUCT_SIZES_CONFIG[selectedSize] || PRODUCT_SIZES_CONFIG["70g"];
+  const sizeInfo = PRODUCT_SIZES_CONFIG[selectedSize] || PRODUCT_SIZES_CONFIG["sp02"];
   const cartItemId = `${productId}-${sizeInfo.size}`;
-  const cartItemName = `${p.name} (${sizeInfo.size})`;
+  const codeBadge = sizeInfo.code ? `[${sizeInfo.code}] ` : "";
+  const typeDisplay = sizeInfo.typeName || (sizeInfo.size === "50g" ? "Sáp thơm bỏ túi 50g" : "Nến thơm thư giãn 100g");
+  const cartItemName = `${codeBadge}${p.name} - ${typeDisplay}`;
   const itemPrice = sizeInfo.price;
   const customImg = getCustomImage(productId);
   const imgSrc = customImg || p.defaultSrc;
@@ -1041,13 +1149,17 @@ function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "7
     cart.push({
       id: cartItemId,
       productId: productId,
+      code: sizeInfo.code || "SP",
       name: cartItemName,
       baseName: p.name,
       scentName: p.scentName,
       category: p.category,
       size: sizeInfo.size,
+      spec: sizeInfo.spec || sizeInfo.size,
+      originalPrice: sizeInfo.listPrice,
       price: itemPrice,
       priceFormatted: sizeInfo.priceFormatted,
+      giftNote: sizeInfo.giftNote,
       image: imgSrc,
       fallbackSrc: p.fallbackSrc,
       quantity: quantity
@@ -1141,9 +1253,20 @@ function getCartTotals() {
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
 
-  // Mua từ 2 sản phẩm (>=178k) hoặc tổng >= 150k -> Miễn phí giao hàng (phí ship gốc 25.000đ)
+  // Kiểm tra giỏ hàng có chứa sản phẩm combo nào không (để áp dụng chính sách: Đồng giá ship 15k)
+  const hasCombo = cart.some(item => 
+    (item.id && (item.id.startsWith("cb") || item.id.startsWith("combo"))) ||
+    item.size === "Combo" ||
+    COMBOS_CONFIG[item.id] ||
+    (item.productId && COMBOS_CONFIG[item.productId])
+  );
+
+  // Mua từ 2 sản phẩm trở lên hoặc tổng đơn >= 150.000đ -> Miễn phí giao hàng (Freeship)
   const isFreeShipByQty = totalQty >= 2 || subtotal >= 150000;
-  let shipping = cart.length === 0 ? 0 : (isFreeShipByQty ? 0 : 25000);
+  
+  // Phí ship: Nếu đơn có Combo: Đồng giá ship 15.000đ; Đơn lẻ bình thường: 25.000đ; Đạt mốc: 0đ Freeship
+  const baseShippingRate = hasCombo ? 15000 : 25000;
+  let shipping = cart.length === 0 ? 0 : (isFreeShipByQty ? 0 : baseShippingRate);
 
   const coupon = getActiveCoupon();
   let discount = 0;
@@ -1165,6 +1288,7 @@ function getCartTotals() {
     discount,
     coupon,
     finalTotal,
+    hasCombo,
     isFreeShipByQty
   };
 }
@@ -1188,9 +1312,9 @@ function initCartSystem() {
       e.stopPropagation();
       const pid = btn.getAttribute("data-add-to-cart");
       const card = btn.closest(".product-card, .product-item, [data-scent-id]");
-      let selectedSize = "70g";
+      let selectedSize = "sp02";
       if (card) {
-        selectedSize = card.getAttribute("data-selected-size") || "70g";
+        selectedSize = card.getAttribute("data-selected-size") || "sp02";
       }
       addToCart(pid, 1, true, selectedSize);
     }
@@ -1204,6 +1328,10 @@ function initCartSystem() {
       if (card) {
         const size = sizeBtn.getAttribute("data-size");
         const priceText = sizeBtn.getAttribute("data-price-text");
+        const originalPriceText = sizeBtn.getAttribute("data-original-price-text");
+        const inboxText = sizeBtn.getAttribute("data-inbox-text");
+        const giftText = sizeBtn.getAttribute("data-gift-text");
+        
         card.setAttribute("data-selected-size", size);
 
         card.querySelectorAll(".size-pill-btn").forEach((b) => b.classList.remove("is-active"));
@@ -1211,7 +1339,21 @@ function initCartSystem() {
 
         const priceEl = card.querySelector(".product-price");
         if (priceEl && priceText) {
-          priceEl.textContent = priceText;
+          if (originalPriceText) {
+            priceEl.innerHTML = `${priceText} <small class="price-original-striked" style="font-size: 0.74rem; color: var(--text-muted); text-decoration: line-through; margin-left: 6px;">${originalPriceText}</small>`;
+          } else {
+            priceEl.textContent = priceText;
+          }
+        }
+
+        const inboxEl = card.querySelector(".product-inbox-hint");
+        if (inboxEl && inboxText) {
+          inboxEl.innerHTML = `💬 Giá chốt Inbox: <strong>${inboxText}</strong> (nhắn Fanpage)`;
+        }
+
+        const giftEl = card.querySelector(".product-gift-banner");
+        if (giftEl && giftText) {
+          giftEl.innerHTML = `🎁 ${giftText}`;
         }
       }
     }
