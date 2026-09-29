@@ -54,17 +54,17 @@ async function run() {
   const chromePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
   const chromeProc = spawn(chromePath, [
     '--headless=new',
-    '--remote-debugging-port=9229',
+    '--remote-debugging-port=9231',
     '--no-first-run',
     '--no-default-browser-check',
-    '--user-data-dir=/tmp/chrome_ai_search_' + Date.now(),
-    '--window-size=1280,1100'
+    '--user-data-dir=/tmp/chrome_ai_luxury_' + Date.now(),
+    '--window-size=1280,1150'
   ], { stdio: 'ignore' });
 
   let wsUrl = null;
   for (let i = 0; i < 30; i++) {
     try {
-      const res = await fetch('http://127.0.0.1:9229/json/version');
+      const res = await fetch('http://127.0.0.1:9231/json/version');
       if (res.ok) {
         const data = await res.json();
         wsUrl = data.webSocketDebuggerUrl;
@@ -80,7 +80,7 @@ async function run() {
   }
 
   async function createPage(url) {
-    const res = await fetch('http://127.0.0.1:9229/json/new', { method: 'PUT' });
+    const res = await fetch('http://127.0.0.1:9231/json/new', { method: 'PUT' });
     const target = await res.json();
     const cdp = new SimpleCDP(target.webSocketDebuggerUrl);
     await cdp.connect();
@@ -93,7 +93,7 @@ async function run() {
   }
 
   try {
-    console.log('=== 1. CHỤP GIAO DIỆN TÌM KIẾM AI & BỘ LỌC TỔNG THỂ (DEFAULT) ===');
+    console.log('=== 1. CHỤP GIAO DIỆN LUXURY AI CONTROL CENTER TỔNG THỂ ===');
     const page = await createPage('http://localhost:8080/san-pham.html');
     await sleep(1000);
 
@@ -101,81 +101,81 @@ async function run() {
     await page.send('Runtime.evaluate', {
       expression: `(() => {
         const el = document.getElementById('ai-search-filter-section');
-        if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.pageYOffset - 85;
+          window.scrollTo({ top, behavior: 'instant' });
+        }
       })()`
     });
     await sleep(500);
 
     const ssOverview = await page.send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync(path.join(artifactDir, 'ai_search_overview.png'), Buffer.from(ssOverview.data, 'base64'));
-    console.log('✅ Đã lưu ai_search_overview.png');
+    fs.writeFileSync(path.join(artifactDir, 'ai_search_luxury_overview.png'), Buffer.from(ssOverview.data, 'base64'));
+    console.log('✅ Đã lưu ai_search_luxury_overview.png');
 
-    // 2. Click AI Chip "học bài"
-    console.log('=== 2. CHỤP KHI BẤM CHIP AI "học bài" (LỌC THEO MỤC ĐÍCH SINH VIÊN) ===');
+    // 2. Chụp Dropdown gợi ý trực tiếp (Suggestions Popover)
+    console.log('=== 2. CHỤP DROPDOWN GỢI Ý TRỰC TIẾP AI (SUGGESTIONS POPOVER) ===');
     await page.send('Runtime.evaluate', {
       expression: `(() => {
-        const chip = document.querySelector('.ai-chip-btn[data-chip="học bài"]');
-        if (chip) chip.click();
-      })()`
-    });
-    await sleep(700);
-
-    const ssChip = await page.send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync(path.join(artifactDir, 'ai_search_chip_filter.png'), Buffer.from(ssChip.data, 'base64'));
-    console.log('✅ Đã lưu ai_search_chip_filter.png');
-
-    // 3. Kết hợp chọn bộ lọc: Giá "Trên 100k" và Ưu đãi "Đồng giá ship 15k"
-    console.log('=== 3. CHỤP KẾT HỢP BỘ LỌC: SHIP 15K + COMBO TRÊN 100K ===');
-    await page.send('Runtime.evaluate', {
-      expression: `(() => {
-        // Reset chip trước
-        const resetBtn = document.getElementById('reset-filters-btn');
-        if (resetBtn) resetBtn.click();
-      })()`
-    });
-    await sleep(300);
-
-    await page.send('Runtime.evaluate', {
-      expression: `(() => {
-        const dealSelect = document.getElementById('filter-deal-select');
-        if (dealSelect) {
-          dealSelect.value = 'ship15k';
-          dealSelect.dispatchEvent(new Event('change'));
-        }
-        const priceSelect = document.getElementById('filter-price-select');
-        if (priceSelect) {
-          priceSelect.value = 'over-100k';
-          priceSelect.dispatchEvent(new Event('change'));
-        }
-      })()`
-    });
-    await sleep(700);
-
-    const ssCombined = await page.send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync(path.join(artifactDir, 'ai_search_combined_filter.png'), Buffer.from(ssCombined.data, 'base64'));
-    console.log('✅ Đã lưu ai_search_combined_filter.png');
-
-    // 4. Tìm kiếm từ khóa không khớp để xem Empty State
-    console.log('=== 4. CHỤP TRẠNG THÁI KHÔNG TÌM THẤY SẢN PHẨM (EMPTY STATE SANG TRỌNG) ===');
-    await page.send('Runtime.evaluate', {
-      expression: `(() => {
-        const resetBtn = document.getElementById('reset-filters-btn');
-        if (resetBtn) resetBtn.click();
         const input = document.getElementById('ai-product-search-input');
         if (input) {
-          input.value = 'mùi hoa lavender tím vô định';
-          input.dispatchEvent(new Event('input'));
+          input.focus();
+          input.dispatchEvent(new Event('focus'));
         }
       })()`
     });
-    await sleep(700);
+    await sleep(800);
 
-    const ssEmpty = await page.send('Page.captureScreenshot', { format: 'png' });
-    fs.writeFileSync(path.join(artifactDir, 'ai_search_empty_state.png'), Buffer.from(ssEmpty.data, 'base64'));
-    console.log('✅ Đã lưu ai_search_empty_state.png');
+    const ssPopover = await page.send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync(path.join(artifactDir, 'ai_search_popover_suggestions.png'), Buffer.from(ssPopover.data, 'base64'));
+    console.log('✅ Đã lưu ai_search_popover_suggestions.png');
+
+    // 3. Lọc theo Phân Loại "Sáp bỏ túi 50g (SP01)" và Mục đích AI "Học bài & Ôn thi"
+    console.log('=== 3. CHỤP BỘ LỌC CHÍNH XÁC: PHÂN LOẠI SP01 & MỤC ĐÍCH HỌC BÀI ===');
+    await page.send('Runtime.evaluate', {
+      expression: `(() => {
+        const input = document.getElementById('ai-product-search-input');
+        if (input) input.value = '';
+        const popover = document.getElementById('ai-search-suggestions');
+        if (popover) popover.style.display = 'none';
+
+        const typeSelect = document.getElementById('filter-type-select');
+        if (typeSelect) {
+          typeSelect.value = 'sp01';
+          typeSelect.dispatchEvent(new Event('change'));
+        }
+
+        const purposeSelect = document.getElementById('filter-purpose-select');
+        if (purposeSelect) {
+          purposeSelect.value = 'study';
+          purposeSelect.dispatchEvent(new Event('change'));
+        }
+      })()`
+    });
+    await sleep(800);
+
+    const ssFilterPrecise = await page.send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync(path.join(artifactDir, 'ai_search_purpose_filter.png'), Buffer.from(ssFilterPrecise.data, 'base64'));
+    console.log('✅ Đã lưu ai_search_purpose_filter.png');
+
+    // 4. Lọc chỉ xem Gói Combo Chiến Lược
+    console.log('=== 4. CHỤP KHI LỌC RIÊNG COMBO CHIẾN LƯỢC (KHÔNG GẶP KHOẢNG TRỐNG THỪA) ===');
+    await page.send('Runtime.evaluate', {
+      expression: `(() => {
+        const resetBtn = document.getElementById('reset-filters-btn');
+        if (resetBtn) resetBtn.click();
+        const comboTab = document.querySelector('.category-filter-btn[data-filter="combo"]');
+        if (comboTab) comboTab.click();
+      })()`
+    });
+    await sleep(800);
+
+    const ssComboFilter = await page.send('Page.captureScreenshot', { format: 'png' });
+    fs.writeFileSync(path.join(artifactDir, 'ai_search_combo_seamless.png'), Buffer.from(ssComboFilter.data, 'base64'));
+    console.log('✅ Đã lưu ai_search_combo_seamless.png');
 
     page.close();
-    console.log('\n🎉 ĐÃ CHỤP THÀNH CÔNG TẤT CẢ SCREENSHOT MINH HỌA!');
+    console.log('\n🎉 ĐÃ CHỤP THÀNH CÔNG TẤT CẢ SCREENSHOT NÂNG CẤP!');
   } finally {
     chromeProc.kill();
   }
