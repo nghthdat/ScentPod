@@ -1,0 +1,17 @@
+{
+  "name": "scentpod",
+  "version": "1.0.0",
+  "description": "Website thương hiệu Nến Thơm & Sáp Thơm ScentPod",
+  "main": "scripts/server.js",
+  "scripts": {
+    "start": "node scripts/server.js",
+    "test": "node scripts/verify_all.js"
+  },
+  "keywords": [
+    "scentpod",
+    "candles",
+    "wax"
+  ],
+  "author": "ScentPod Team",
+  "license": "ISC"
+}
