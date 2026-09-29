@@ -24,7 +24,39 @@ document.addEventListener("DOMContentLoaded", () => {
   initCartSystem();
   initHeaderAuth();
   initCategoryFilter();
+  initFloatingChatOptimization();
 });
+
+/**
+ * Tối ưu hiển thị nút chat nổi "Tư vấn ngay" (.fb-floating-btn):
+ * - Tự động thu gọn thành nút tròn Messenger tinh tế (48px) khi cuộn vào khu vực bộ lọc/sản phẩm
+ * - Ngăn chặn triệt để lỗi Overlap (đè lên các tag chip bộ lọc như "Kèm thiệp tay" hoặc các dropdown)
+ * - Tự động mở rộng hiển thị chữ "Tư vấn ngay" khi người dùng hover vào nút hoặc ở đầu trang
+ */
+function initFloatingChatOptimization() {
+  const fbBtn = document.querySelector(".fb-floating-btn");
+  if (!fbBtn) return;
+
+  const updateChatState = () => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    const filterSection = document.getElementById("ai-search-filter-section");
+    
+    // Nếu ở đầu trang hero (scrollY < 120), mở rộng hiển thị đầy đủ
+    // Khi cuộn xuống vùng nội dung / bộ lọc, tự động thu gọn để nhường không gian thao tác
+    if (scrollY > 120) {
+      fbBtn.classList.add("is-compact");
+    } else {
+      if (filterSection && scrollY > 60) {
+        fbBtn.classList.add("is-compact");
+      } else if (!filterSection) {
+        fbBtn.classList.remove("is-compact");
+      }
+    }
+  };
+
+  window.addEventListener("scroll", updateChatState, { passive: true });
+  updateChatState();
+}
 
 /**
  * Tự động gán link Facebook vào tất cả phần tử có thuộc tính [data-fb]
@@ -693,6 +725,71 @@ function initProductSearchAndFilter() {
       }
       if (suggestionsPopover) suggestionsPopover.style.display = "none";
       applyFiltersAndSearch();
+    });
+  });
+
+  // Nút chuyển đổi chế độ xem tag: Cuộn ngang 1 dòng <-> Mở rộng toàn bộ
+  const toggleChipsBtn = document.getElementById("btn-toggle-chips-view");
+  const keywordsCloud = document.getElementById("ai-keywords-cloud");
+  if (toggleChipsBtn && keywordsCloud) {
+    toggleChipsBtn.addEventListener("click", () => {
+      const isExpanded = keywordsCloud.classList.toggle("is-expanded");
+      toggleChipsBtn.innerHTML = isExpanded
+        ? `<span class="toggle-icon">−</span><span class="toggle-text">Thu gọn</span>`
+        : `<span class="toggle-icon">+</span><span class="toggle-text">Xem tất cả</span>`;
+    });
+  }
+
+  // Hỗ trợ cuộn chuột ngang và kéo chuột mượt mà cho các thanh cuộn tag
+  const chipLists = document.querySelectorAll(".ai-chips-list");
+  chipLists.forEach((list) => {
+    // Chuyển cuộn dọc của con lăn chuột thành cuộn ngang
+    list.addEventListener("wheel", (e) => {
+      if (!keywordsCloud || !keywordsCloud.classList.contains("is-expanded")) {
+        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+          e.preventDefault();
+          list.scrollLeft += e.deltaY;
+        }
+      }
+    }, { passive: false });
+
+    // Drag-to-scroll tiện lợi trên máy tính
+    let isDown = false;
+    let startX = 0;
+    let scrollLeft = 0;
+    let hasMoved = false;
+
+    list.addEventListener("mousedown", (e) => {
+      isDown = true;
+      hasMoved = false;
+      startX = e.pageX - list.offsetLeft;
+      scrollLeft = list.scrollLeft;
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDown = false;
+    });
+
+    list.addEventListener("mousemove", (e) => {
+      if (!isDown) return;
+      const x = e.pageX - list.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      if (Math.abs(walk) > 4) {
+        hasMoved = true;
+        e.preventDefault();
+        list.scrollLeft = scrollLeft - walk;
+      }
+    });
+
+    // Ngăn chặn vô tình kích hoạt click chip khi người dùng đang vuốt kéo
+    list.querySelectorAll(".ai-chip-btn").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        if (hasMoved) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          hasMoved = false;
+        }
+      }, true);
     });
   });
 

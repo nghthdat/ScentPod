@@ -146,26 +146,39 @@
           </div>
         </div>
 
-        <!-- Hàng Từ khóa AI gợi ý thông minh (Chia nhóm trực quan) -->
-        <div class="ai-keywords-cloud">
+        <!-- Hàng Từ khóa AI gợi ý thông minh (Dạng thanh cuộn ngang 1 dòng mượt mà / Vuốt chạm trên Mobile) -->
+        <div class="ai-keywords-cloud" id="ai-keywords-cloud">
+          <div class="ai-keywords-cloud-top">
+            <span class="ai-cloud-legend">✨ Gợi ý tìm kiếm nhanh theo ngữ cảnh:</span>
+            <button type="button" class="btn-toggle-chips-view" id="btn-toggle-chips-view" title="Chuyển chế độ cuộn ngang 1 dòng / bung toàn bộ tag">
+              <span class="toggle-icon">+</span>
+              <span class="toggle-text">Xem tất cả</span>
+            </button>
+          </div>
+
           <div class="ai-chips-group">
-            <span class="ai-keywords-label">🎯 Nhu cầu &amp; Tâm trạng:</span>
-            <div class="ai-chips-list" id="ai-quick-chips">
-              <button type="button" class="ai-chip-btn" data-chip="học bài">📚 Học bài &amp; Tỉnh táo</button>
-              <button type="button" class="ai-chip-btn" data-chip="thức khuya">🌙 Thức khuya ôn thi</button>
-              <button type="button" class="ai-chip-btn" data-chip="khử mùi">🌿 Khử mùi phòng trọ</button>
-              <button type="button" class="ai-chip-btn" data-chip="ngọt ngào">🍑 Ngọt ngào thư thái</button>
-              <button type="button" class="ai-chip-btn" data-chip="biển">🌊 Tươi mát gió biển</button>
+            <span class="ai-keywords-label">🎯 Tâm trạng:</span>
+            <div class="ai-chips-scroll-container">
+              <div class="ai-chips-list" id="ai-quick-chips">
+                <button type="button" class="ai-chip-btn" data-chip="học bài">📚 Học bài &amp; Tỉnh táo</button>
+                <button type="button" class="ai-chip-btn" data-chip="thức khuya">🌙 Thức khuya ôn thi</button>
+                <button type="button" class="ai-chip-btn" data-chip="khử mùi">🌿 Khử mùi phòng trọ</button>
+                <button type="button" class="ai-chip-btn" data-chip="ngọt ngào">🍑 Ngọt ngào thư thái</button>
+                <button type="button" class="ai-chip-btn" data-chip="biển">🌊 Tươi mát gió biển</button>
+              </div>
             </div>
           </div>
+
           <div class="ai-chips-group">
-            <span class="ai-keywords-label">⚡ Ưu đãi &amp; Ngân sách:</span>
-            <div class="ai-chips-list">
-              <button type="button" class="ai-chip-btn" data-chip="combo">🎁 Combo tiết kiệm</button>
-              <button type="button" class="ai-chip-btn" data-chip="ship 15k">🚚 Đồng giá ship 15k</button>
-              <button type="button" class="ai-chip-btn" data-chip="dưới 50k">💰 Dưới 50k (SP01)</button>
-              <button type="button" class="ai-chip-btn" data-chip="tealight">🕯️ Tặng tealight 0đ</button>
-              <button type="button" class="ai-chip-btn" data-chip="thiệp">✉️ Kèm thiệp tay</button>
+            <span class="ai-keywords-label">⚡ Ưu đãi:</span>
+            <div class="ai-chips-scroll-container">
+              <div class="ai-chips-list">
+                <button type="button" class="ai-chip-btn" data-chip="combo">🎁 Combo tiết kiệm</button>
+                <button type="button" class="ai-chip-btn" data-chip="ship 15k">🚚 Đồng giá ship 15k</button>
+                <button type="button" class="ai-chip-btn" data-chip="dưới 50k">💰 Dưới 50k (SP01)</button>
+                <button type="button" class="ai-chip-btn" data-chip="tealight">🕯️ Tặng tealight 0đ</button>
+                <button type="button" class="ai-chip-btn" data-chip="thiệp">✉️ Kèm thiệp tay</button>
+              </div>
             </div>
           </div>
         </div>

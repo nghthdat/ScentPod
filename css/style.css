@@ -139,7 +139,7 @@ p { color: var(--text-muted); font-size: 1rem; }
 }
 
 .section-padding {
-  padding: 5.5rem 0;
+  padding: 5.5rem 0 7.5rem 0;
 }
 
 /* 6. THANH ĐIỀU HƯỚNG CỐ ĐỊNH (STICKY NAVBAR) */
@@ -1006,25 +1006,25 @@ p { color: var(--text-muted); font-size: 1rem; }
 /* 14. NÚT FACEBOOK NỔI CỐ ĐỊNH (FLOATING ACTION BUTTON) */
 .fb-floating-btn {
   position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 999;
+  bottom: 24px;
+  right: 24px;
+  z-index: 900;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   padding: 10px 18px 10px 14px;
-  background: #0084ff; /* Màu Messenger xanh đặc trưng hoặc phối gradient */
   background: linear-gradient(135deg, #0099ff 0%, #0066ee 100%);
   color: #ffffff;
   border-radius: 30px;
-  font-size: 0.88rem;
+  font-size: 0.86rem;
   font-weight: 600;
-  box-shadow: 0 8px 24px rgba(0, 102, 238, 0.4), 0 0 16px rgba(201, 162, 107, 0.3);
-  transition: var(--transition-smooth);
+  box-shadow: 0 8px 24px rgba(0, 102, 238, 0.4), 0 0 16px rgba(201, 162, 107, 0.25);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
 }
 
 .fb-floating-btn:hover {
-  transform: translateY(-3px) scale(1.04);
+  transform: translateY(-3px) scale(1.03);
   box-shadow: 0 12px 30px rgba(0, 102, 238, 0.55), 0 0 25px rgba(201, 162, 107, 0.45);
   color: #ffffff;
 }
@@ -1034,6 +1034,42 @@ p { color: var(--text-muted); font-size: 1rem; }
   height: 22px;
   fill: currentColor;
   flex-shrink: 0;
+}
+
+.fb-floating-btn .fb-text {
+  display: inline-block;
+  white-space: nowrap;
+  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease, margin 0.25s ease;
+  overflow: hidden;
+  max-width: 140px;
+}
+
+/* Chế độ thu gọn thông minh (Compact FAB): Tránh che khuất các nút & tag bộ lọc */
+.fb-floating-btn.is-compact {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 6px 20px rgba(0, 102, 238, 0.45);
+}
+
+.fb-floating-btn.is-compact .fb-text {
+  max-width: 0;
+  opacity: 0;
+  margin: 0;
+}
+
+.fb-floating-btn.is-compact:hover {
+  width: auto;
+  border-radius: 30px;
+  padding: 10px 18px 10px 14px;
+}
+
+.fb-floating-btn.is-compact:hover .fb-text {
+  max-width: 140px;
+  opacity: 1;
+  margin-left: 2px;
 }
 
 /* 15. CHÂN TRANG (FOOTER) */
@@ -1277,11 +1313,17 @@ p { color: var(--text-muted); font-size: 1rem; }
 /* Màn hình điện thoại nhỏ (<= 480px) */
 @media (max-width: 480px) {
   .fb-floating-btn {
-    bottom: 20px;
-    right: 18px;
+    bottom: 18px;
+    right: 16px;
     padding: 9px 14px;
     font-size: 0.82rem;
     gap: 6px;
+  }
+
+  .fb-floating-btn.is-compact {
+    width: 44px;
+    height: 44px;
+    padding: 0;
   }
 
   .fb-floating-btn svg {
@@ -3845,8 +3887,8 @@ p { color: var(--text-muted); font-size: 1rem; }
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(229, 169, 59, 0.28);
   border-radius: 20px;
-  padding: 1.75rem 2rem;
-  margin: 1.5rem 0 3.5rem 0;
+  padding: 1.75rem 2.2rem 3.2rem 2.2rem;
+  margin: 1.5rem 0 4rem 0;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   position: relative;
   scroll-margin-top: 100px;
@@ -4137,46 +4179,111 @@ p { color: var(--text-muted); font-size: 1rem; }
   color: #fbbf24;
 }
 
-/* AI Suggested Keywords Cloud (Grouped for maximum clarity) */
+/* AI Suggested Keywords Cloud (Sleek Horizontal Scroll & Low Visual Density) */
 .ai-keywords-cloud {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 1.35rem;
-  padding-bottom: 1.15rem;
+  gap: 10px;
+  margin-bottom: 1.45rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+}
+
+.ai-keywords-cloud-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.ai-cloud-legend {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-toggle-chips-view {
+  background: rgba(229, 169, 59, 0.09);
+  border: 1px solid rgba(229, 169, 59, 0.28);
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+.btn-toggle-chips-view:hover {
+  background: rgba(229, 169, 59, 0.22);
+  border-color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.btn-toggle-chips-view .toggle-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+  font-weight: 700;
 }
 
 .ai-chips-group {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px;
+  width: 100%;
 }
 
 .ai-keywords-label {
-  font-size: 0.78rem;
+  font-size: 0.77rem;
   font-weight: 600;
   color: #e7e5e4;
   white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 72px;
 }
 
+.ai-chips-scroll-container {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Thanh cuộn ngang 1 dòng vuốt chạm mượt mà (Swipeable / Horizontal Track) */
 .ai-chips-list {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+  flex-wrap: nowrap;
+  gap: 7px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  padding: 4px 6px 4px 1px;
+}
+
+.ai-chips-list::-webkit-scrollbar {
+  display: none;
 }
 
 .ai-chip-btn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.12);
   color: #d6d3d1;
-  font-size: 0.77rem;
+  font-size: 0.76rem;
   padding: 5px 12px;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  flex-shrink: 0;
   user-select: none;
 }
 
@@ -4193,6 +4300,24 @@ p { color: var(--text-muted); font-size: 1rem; }
   color: #0c0a09;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+}
+
+/* Chế độ bung rộng (Expanded Grid) khi người dùng bấm nút [+ Xem tất cả] */
+.ai-keywords-cloud.is-expanded .ai-chips-group {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.ai-keywords-cloud.is-expanded .ai-chips-scroll-container {
+  overflow: visible;
+  width: 100%;
+}
+
+.ai-keywords-cloud.is-expanded .ai-chips-list {
+  flex-wrap: wrap;
+  overflow-x: visible;
+  padding: 0;
 }
 
 /* Multi-criteria filter toolbar (Refined 3x2 Grid) */
@@ -4433,7 +4558,7 @@ p { color: var(--text-muted); font-size: 1rem; }
 
 @media (max-width: 768px) {
   .ai-search-filter-section {
-    padding: 1.35rem 1.15rem;
+    padding: 1.35rem 1.15rem 2.8rem 1.15rem;
   }
   .ai-control-header {
     flex-direction: column;
