@@ -177,21 +177,52 @@ p { color: var(--text-muted); font-size: 1rem; }
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-family: var(--font-serif);
-  font-size: 1.75rem;
+  font-size: 1.65rem;
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: transform var(--transition-fast), filter var(--transition-fast);
+}
+
+.brand-logo:hover {
+  transform: translateY(-1px);
+}
+
+.brand-logo-img {
+  height: 42px;
+  width: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(229, 169, 59, 0.45));
+  transition: filter var(--transition-normal), transform var(--transition-normal);
+  flex-shrink: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.brand-logo:hover .brand-logo-img {
+  filter: drop-shadow(0 0 14px rgba(229, 169, 59, 0.8));
+  transform: scale(1.05);
 }
 
 .brand-logo .candle-icon {
-  font-size: 1.25rem;
-  filter: drop-shadow(0 0 6px rgba(255, 183, 94, 0.6));
+  display: none;
 }
 
 .brand-logo span.accent {
   color: var(--accent-gold);
+}
+
+/* Footer logo */
+.footer-logo {
+  font-size: 1.55rem;
+}
+
+.footer-logo .brand-logo-img {
+  height: 38px;
+  width: 38px;
 }
 
 /* Menu desktop */
@@ -1069,7 +1100,11 @@ p { color: var(--text-muted); font-size: 1rem; }
   }
   .brand-logo {
     font-size: 1.25rem;
-    gap: 4px;
+    gap: 6px;
+  }
+  .brand-logo-img {
+    height: 34px;
+    width: 34px;
   }
   .nav-actions {
     margin-right: 4px;
@@ -1091,7 +1126,12 @@ p { color: var(--text-muted); font-size: 1rem; }
   }
   @media (max-width: 480px) {
     .brand-logo {
-      font-size: 1.18rem;
+      font-size: 1.15rem;
+      gap: 5px;
+    }
+    .brand-logo-img {
+      height: 28px;
+      width: 28px;
     }
     .header-auth-btn .auth-btn-text {
       display: none;
