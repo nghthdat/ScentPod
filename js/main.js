@@ -205,6 +205,78 @@ const PRODUCTS_CONFIG = {
     heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
     baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
     vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya."
+};
+
+/**
+ * CẤU HÌNH TRỌNG LƯỢNG SẢN PHẨM: 10 GAM, 70 GAM, 100 GAM
+ */
+const PRODUCT_SIZES_CONFIG = {
+  "10g": {
+    size: "10g",
+    label: "10 gam (Mini dùng thử / Bỏ túi)",
+    shortLabel: "10g",
+    price: 39000,
+    priceFormatted: "39.000đ"
+  },
+  "70g": {
+    size: "70g",
+    label: "70 gam (Hũ tiêu chuẩn)",
+    shortLabel: "70g",
+    price: 89000,
+    priceFormatted: "89.000đ",
+    isDefault: true
+  },
+  "100g": {
+    size: "100g",
+    label: "100 gam (Hũ lớn thư giãn)",
+    shortLabel: "100g",
+    price: 129000,
+    priceFormatted: "129.000đ"
+  }
+};
+
+/**
+ * CẤU HÌNH CÁC COMBO ƯU ĐÃI ĐẶC BIỆT
+ */
+const COMBOS_CONFIG = {
+  "combo-4-scents": {
+    id: "combo-4-scents",
+    code: "Combo 01",
+    name: "Set 4 Mùi Trải Nghiệm",
+    scentName: "Set 4 hũ 10g: First Class, Blind Date, Campus Breeze, Late Night",
+    category: "Combo khám phá trọn bộ",
+    filename: "combo-nen-sap.jpg",
+    defaultSrc: "images/combo-nen-sap.jpg",
+    fallbackSrc: "images/combo-nen-sap.svg",
+    price: "139.000đ",
+    priceNumber: 139000,
+    vibe: "Trọn bộ 4 nốt hương độc bản ScentPod. Tặng kèm hộp quà vintage và thiệp tay ý nghĩa."
+  },
+  "combo-gift-box": {
+    id: "combo-gift-box",
+    code: "Combo 02",
+    name: "Hộp Quà Thư Giãn Sinh Viên",
+    scentName: "1 Hũ nến 70g + 1 Sáp thơm 10g + Diêm dài + Thiệp",
+    category: "Set quà tặng ấm áp",
+    filename: "combo-nen-sap.jpg",
+    defaultSrc: "images/combo-nen-sap.jpg",
+    fallbackSrc: "images/combo-nen-sap.svg",
+    price: "119.000đ",
+    priceNumber: 119000,
+    vibe: "Món quà tinh tế gửi tặng bạn bè, người thương trong những dịp đặc biệt hoặc mùa ôn thi."
+  },
+  "combo-duo": {
+    id: "combo-duo",
+    code: "Combo 03",
+    name: "Combo Đôi Bạn Cùng Tiến",
+    scentName: "2 Hũ nến 70g tùy chọn mùi theo sở thích",
+    category: "Combo tiết kiệm",
+    filename: "combo-nen-sap.jpg",
+    defaultSrc: "images/combo-nen-sap.jpg",
+    fallbackSrc: "images/combo-nen-sap.svg",
+    price: "165.000đ",
+    priceNumber: 165000,
+    vibe: "Thắp sáng góc học tập cùng bạn trọ. Giảm thêm 13.000đ so với mua lẻ từng hũ."
   }
 };
 
@@ -866,25 +938,64 @@ function saveCart(cart) {
   updateCartUI();
 }
 
-function addToCart(productId, quantity = 1, showDrawer = true) {
+function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "70g") {
+  // 1. Kiểm tra nếu là sản phẩm combo
+  const combo = COMBOS_CONFIG[productId];
+  if (combo) {
+    const cart = getCart();
+    const existing = cart.find((item) => item.id === productId);
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      cart.push({
+        id: productId,
+        name: combo.name,
+        scentName: combo.scentName,
+        category: combo.category,
+        size: "Combo",
+        price: combo.priceNumber,
+        priceFormatted: combo.price,
+        image: combo.defaultSrc,
+        fallbackSrc: combo.fallbackSrc,
+        quantity: quantity
+      });
+    }
+    saveCart(cart);
+    triggerCartBump();
+    showToast(`🎁 Đã thêm ${quantity}x "${combo.name}" vào giỏ hàng!`);
+    if (showDrawer) openCartDrawer();
+    return;
+  }
+
+  // 2. Sản phẩm nến thông thường có 3 size (10g, 70g, 100g)
   const p = PRODUCTS_CONFIG[productId];
   if (!p) return;
 
-  const cart = getCart();
-  const existing = cart.find((item) => item.id === productId);
+  const sizeInfo = PRODUCT_SIZES_CONFIG[selectedSize] || PRODUCT_SIZES_CONFIG["70g"];
+  const cartItemId = `${productId}-${sizeInfo.size}`;
+  const cartItemName = `${p.name} (${sizeInfo.size})`;
+  const itemPrice = sizeInfo.price;
   const customImg = getCustomImage(productId);
   const imgSrc = customImg || p.defaultSrc;
 
+  const cart = getCart();
+  const existing = cart.find((item) => item.id === cartItemId || (item.id === productId && (!item.size || item.size === sizeInfo.size)));
+
   if (existing) {
     existing.quantity += quantity;
+    existing.id = cartItemId;
+    existing.size = sizeInfo.size;
   } else {
     cart.push({
-      id: productId,
-      name: p.name,
+      id: cartItemId,
+      productId: productId,
+      name: cartItemName,
+      baseName: p.name,
       scentName: p.scentName,
       category: p.category,
-      price: 89000,
-      priceFormatted: p.price,
+      size: sizeInfo.size,
+      price: itemPrice,
+      priceFormatted: sizeInfo.priceFormatted,
       image: imgSrc,
       fallbackSrc: p.fallbackSrc,
       quantity: quantity
@@ -892,19 +1003,20 @@ function addToCart(productId, quantity = 1, showDrawer = true) {
   }
 
   saveCart(cart);
+  triggerCartBump();
+  showToast(`✅ Đã thêm ${quantity}x "${cartItemName}" vào giỏ hàng!`);
 
-  // Hiệu ứng bump trên icon giỏ hàng header
+  if (showDrawer) {
+    openCartDrawer();
+  }
+}
+
+function triggerCartBump() {
   const badge = document.getElementById("header-cart-badge");
   if (badge) {
     badge.classList.remove("bump");
     void badge.offsetWidth;
     badge.classList.add("bump");
-  }
-
-  showToast(`✅ Đã thêm ${quantity}x "${p.name}" vào giỏ hàng!`);
-
-  if (showDrawer) {
-    openCartDrawer();
   }
 }
 
@@ -1023,7 +1135,33 @@ function initCartSystem() {
       e.preventDefault();
       e.stopPropagation();
       const pid = btn.getAttribute("data-add-to-cart");
-      addToCart(pid, 1, true);
+      const card = btn.closest(".product-card, .product-item, [data-scent-id]");
+      let selectedSize = "70g";
+      if (card) {
+        selectedSize = card.getAttribute("data-selected-size") || "70g";
+      }
+      addToCart(pid, 1, true, selectedSize);
+    }
+
+    // Bắt sự kiện chọn kích thước size-pill-btn
+    const sizeBtn = e.target.closest(".size-pill-btn");
+    if (sizeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = sizeBtn.closest(".product-card, .product-item, [data-scent-id]");
+      if (card) {
+        const size = sizeBtn.getAttribute("data-size");
+        const priceText = sizeBtn.getAttribute("data-price-text");
+        card.setAttribute("data-selected-size", size);
+
+        card.querySelectorAll(".size-pill-btn").forEach((b) => b.classList.remove("is-active"));
+        sizeBtn.classList.add("is-active");
+
+        const priceEl = card.querySelector(".product-price");
+        if (priceEl && priceText) {
+          priceEl.textContent = priceText;
+        }
+      }
     }
   });
 }
@@ -1689,76 +1827,100 @@ function updateOrderStatus(orderId, newStatus) {
 }
 
 /**
- * Tự động gắn nút Giỏ hàng và Tài khoản vào Header của tất cả các trang
+ * Tự động gắn nút Đăng nhập / Tài khoản ở góc ngoài cùng bên trái Header
+ * và nút Giỏ hàng ở bên phải, kèm thẻ Combo trên nav-menu
  */
 function initHeaderAuth() {
   const headerContainer = document.querySelector(".header-container, .nav-container");
-  if (headerContainer && !headerContainer.querySelector(".nav-actions")) {
-    const navActions = document.createElement("div");
-    navActions.className = "nav-actions";
-    navActions.innerHTML = `
-      <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span class="cart-badge" id="header-cart-badge">0</span>
-      </button>
-      <div class="nav-user-wrapper" id="nav-user-slot"></div>
-    `;
-
-    const toggleBtn = headerContainer.querySelector(".menu-toggle");
-    if (toggleBtn) {
-      headerContainer.insertBefore(navActions, toggleBtn);
-    } else {
-      headerContainer.appendChild(navActions);
+  if (headerContainer) {
+    // 1. Gắn nút Tài khoản / Đăng nhập ở góc ngoài cùng BÊN TRÁI
+    let leftSlot = headerContainer.querySelector(".header-auth-left");
+    if (!leftSlot) {
+      leftSlot = document.createElement("div");
+      leftSlot.className = "header-auth-left";
+      leftSlot.id = "header-auth-left-slot";
+      headerContainer.insertBefore(leftSlot, headerContainer.firstChild);
     }
 
-    // Sự kiện mở giỏ hàng từ nút trên header
-    navActions.querySelector("#open-cart-btn").addEventListener("click", openCartDrawer);
+    // 2. Gắn nút Giỏ hàng bên phải (nếu chưa có)
+    let navActions = headerContainer.querySelector(".nav-actions");
+    if (!navActions) {
+      navActions = document.createElement("div");
+      navActions.className = "nav-actions";
+      navActions.innerHTML = `
+        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+          <span class="cart-badge" id="header-cart-badge">0</span>
+        </button>
+      `;
+      const toggleBtn = headerContainer.querySelector(".menu-toggle");
+      if (toggleBtn) {
+        headerContainer.insertBefore(navActions, toggleBtn);
+      } else {
+        headerContainer.appendChild(navActions);
+      }
+      navActions.querySelector("#open-cart-btn").addEventListener("click", openCartDrawer);
+    } else {
+      // Xóa bỏ nav-user-slot bên phải nếu có để chỉ giữ lại giỏ hàng
+      const oldSlot = navActions.querySelector("#nav-user-slot, .nav-user-wrapper");
+      if (oldSlot) oldSlot.remove();
+    }
   }
 
-  // Thêm mục Tài khoản vào nav-menu mobile nếu chưa có
+  // 3. Cập nhật nav-menu: Thay thẻ Tài khoản bằng thẻ Combo
   const navMenu = document.querySelector(".nav-menu");
-  if (navMenu && !navMenu.querySelector(".nav-auth-item")) {
-    const li = document.createElement("li");
-    li.className = "nav-auth-item";
-    li.innerHTML = `<a href="dang-nhap.html" class="nav-link">Tài khoản</a>`;
-    navMenu.appendChild(li);
+  if (navMenu) {
+    // Xóa mục Tài khoản khỏi menu nếu có
+    const authItem = navMenu.querySelector(".nav-auth-item");
+    if (authItem) authItem.remove();
+
+    // Thêm thẻ Combo vào menu nếu chưa có
+    const hasCombo = Array.from(navMenu.querySelectorAll("a")).some(a => a.textContent.trim().toLowerCase() === "combo");
+    if (!hasCombo) {
+      const comboLi = document.createElement("li");
+      comboLi.innerHTML = `<a href="san-pham.html#combo" class="nav-link">Combo</a>`;
+      const spLink = Array.from(navMenu.querySelectorAll("a")).find(a => a.getAttribute("href")?.includes("san-pham"));
+      if (spLink && spLink.parentElement) {
+        navMenu.insertBefore(comboLi, spLink.parentElement.nextSibling);
+      } else {
+        navMenu.appendChild(comboLi);
+      }
+    }
   }
 
   updateHeaderAuthSlot();
 }
 
 function updateHeaderAuthSlot() {
-  const slot = document.getElementById("nav-user-slot");
-  if (!slot) return;
+  const leftSlot = document.getElementById("header-auth-left-slot") || document.querySelector(".header-auth-left");
+  if (!leftSlot) return;
 
   const user = getCurrentUser();
   if (user) {
     if (user.role === "admin") {
-      slot.innerHTML = `
-        <a href="dang-nhap.html" class="nav-user-pill is-admin" title="Vào Bảng Quản Trị Admin">
-          <span>👑 Admin</span>
+      leftSlot.innerHTML = `
+        <a href="dang-nhap.html" class="header-auth-left-btn is-admin" title="Vào Bảng Quản Trị Hệ Thống">
+          <span class="auth-btn-icon">👑</span>
+          <span class="auth-btn-text">Tài khoản</span>
         </a>
       `;
     } else {
-      const shortName = user.name.split(" ").slice(-1)[0] || "Tài khoản";
-      slot.innerHTML = `
-        <a href="dang-nhap.html" class="nav-user-pill" title="Trang Cá Nhân & Đơn Hàng">
-          <span>👤 ${shortName}</span>
+      leftSlot.innerHTML = `
+        <a href="dang-nhap.html" class="header-auth-left-btn is-logged-in" title="Vào Trang Quản Lý Tài Khoản">
+          <span class="auth-btn-icon">👤</span>
+          <span class="auth-btn-text">Tài khoản</span>
         </a>
       `;
     }
   } else {
-    slot.innerHTML = `
-      <a href="dang-nhap.html" class="nav-auth-link" title="Đăng nhập / Đăng ký">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        <span>Tài khoản</span>
+    leftSlot.innerHTML = `
+      <a href="dang-nhap.html" class="header-auth-left-btn is-logged-out" title="Đăng nhập tài khoản ScentPod">
+        <span class="auth-btn-icon">👤</span>
+        <span class="auth-btn-text">Đăng nhập</span>
       </a>
     `;
   }
@@ -1791,7 +1953,9 @@ window.ScentPod = {
   getProductOrderStats,
   isAdminEmail,
   ADMIN_EMAILS_CONFIG,
-  AUTHORIZED_ADMIN_EMAILS
+  AUTHORIZED_ADMIN_EMAILS,
+  PRODUCT_SIZES_CONFIG,
+  COMBOS_CONFIG
 };
 
 

@@ -1063,6 +1063,24 @@ p { color: var(--text-muted); font-size: 1rem; }
     align-items: center;
   }
 
+  /* Tinh chỉnh nút Đăng nhập / Tài khoản bên trái trên mobile */
+  .header-auth-left {
+    margin-right: 6px;
+  }
+  .header-auth-left-btn {
+    padding: 5px 9px;
+    font-size: 0.75rem;
+    gap: 3px;
+  }
+  .brand-logo {
+    font-size: 1.32rem;
+    gap: 4px;
+  }
+  .nav-actions {
+    margin-right: 6px;
+    gap: 8px;
+  }
+
   /* Menu chuyển sang dạng trượt từ trên */
   .nav-menu {
     position: fixed;
@@ -1859,6 +1877,53 @@ p { color: var(--text-muted); font-size: 1rem; }
   margin-right: 14px;
 }
 
+/* Thẻ Tài khoản / Đăng nhập ở góc ngoài cùng bên trái */
+.header-auth-left {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 14px;
+}
+
+.header-auth-left-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.header-auth-left-btn:hover {
+  background: rgba(229, 169, 59, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  transform: translateY(-1px);
+}
+
+.header-auth-left-btn.is-logged-in {
+  background: rgba(229, 169, 59, 0.12);
+  border-color: rgba(229, 169, 59, 0.4);
+  color: var(--accent-gold);
+}
+
+.header-auth-left-btn.is-admin {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: #f59e0b;
+  color: #fbbf24;
+}
+
+.header-auth-left-btn .auth-btn-icon {
+  font-size: 0.95rem;
+}
+
 .nav-cart-btn {
   position: relative;
   display: inline-flex;
@@ -1910,51 +1975,102 @@ p { color: var(--text-muted); font-size: 1rem; }
   100% { transform: scale(1); }
 }
 
-.nav-auth-link {
-  display: inline-flex;
+/* ==========================================================================
+   TÙY CHỌN TRỌNG LƯỢNG SẢN PHẨM (10G, 70G, 100G) & COMBO
+   ========================================================================== */
+.product-size-wrapper {
+  margin: 10px 0 14px 0;
+  display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 8px 16px;
-  border-radius: 24px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-primary);
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-size-label {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.product-size-btns {
+  display: flex;
+  gap: 4px;
+}
+
+.size-pill-btn {
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--border-subtle);
-  transition: all 0.25s ease;
-  text-decoration: none;
-}
-
-.nav-auth-link:hover {
-  background: rgba(229, 169, 59, 0.12);
-  border-color: var(--accent-gold);
-  color: var(--accent-gold);
-}
-
-.nav-user-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.84rem;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
   font-weight: 600;
-  background: rgba(229, 169, 59, 0.12);
-  border: 1px solid rgba(229, 169, 59, 0.4);
-  color: var(--accent-gold);
-  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.size-pill-btn:hover {
+  border-color: rgba(229, 169, 59, 0.5);
+  color: #fff;
+}
+
+.size-pill-btn.is-active {
+  background: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #0d0b0a;
+  font-weight: 700;
+  box-shadow: 0 0 8px rgba(229, 169, 59, 0.35);
+}
+
+/* Thẻ Combo đặc biệt */
+.combo-badge {
+  background: linear-gradient(135deg, #ec4899, #f43f5e);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+/* Bộ lọc danh mục sản phẩm / Combo */
+.category-filter-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.category-filter-btn {
+  padding: 9px 20px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.nav-user-pill:hover {
-  background: var(--accent-gold);
-  color: #0d0b0a;
+.category-filter-btn:hover {
+  color: #fff;
+  border-color: rgba(229, 169, 59, 0.4);
 }
 
-.nav-user-pill.is-admin {
-  background: rgba(245, 158, 11, 0.16);
-  border-color: #f59e0b;
-  color: #fbbf24;
+.category-filter-btn.is-active {
+  background: linear-gradient(135deg, rgba(229, 169, 59, 0.2), rgba(217, 119, 6, 0.15));
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
 }
 
 .product-actions-group {
