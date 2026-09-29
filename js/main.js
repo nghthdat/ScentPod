@@ -1928,7 +1928,7 @@ function initCartSystem() {
         const priceEl = card.querySelector(".product-price");
         if (priceEl && priceText) {
           if (originalPriceText) {
-            priceEl.innerHTML = `${priceText} <small class="price-original-striked" style="font-size: 0.74rem; color: var(--text-muted); text-decoration: line-through; margin-left: 6px;">${originalPriceText}</small>`;
+            priceEl.innerHTML = `${priceText} <small class="price-original-striked">${originalPriceText}</small>`;
           } else {
             priceEl.textContent = priceText;
           }
