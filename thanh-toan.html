@@ -129,8 +129,11 @@
                 <label class="payment-option-label is-selected" id="label-pay-cod">
                   <input type="radio" name="payment_method" value="COD" checked style="accent-color: var(--accent-gold); margin-top: 3px;">
                   <div class="payment-option-info">
-                    <h4>💵 Thanh toán khi nhận hàng (COD)</h4>
-                    <p>Bạn kiểm tra kiện hàng nến thơm rồi thanh toán tiền mặt cho shipper.</p>
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;">
+                      <h4>💵 Thanh toán khi nhận hàng (COD)</h4>
+                      <span class="badge-cod-deposit">Cọc trước ship 15k</span>
+                    </div>
+                    <p>Quý khách cọc trước 15.000đ phí vận chuyển để xác nhận đơn. Tiền nến còn lại bạn thanh toán cho shipper khi nhận hàng.</p>
                   </div>
                 </label>
 
@@ -153,9 +156,101 @@
                 </label>
               </div>
 
+              <!-- Hộp Cọc Phí Vận Chuyển COD 15k (với Mã QR tùy chọn) -->
+              <div class="cod-deposit-box" id="cod-deposit-display-box">
+                <div class="cod-deposit-header">
+                  <div class="cod-deposit-title">
+                    <span class="cod-deposit-badge">🛡️ QUY ĐỊNH CỌC SHIP COD</span>
+                    <span class="cod-deposit-highlight">15.000đ</span>
+                  </div>
+                  <p class="cod-deposit-note">
+                    Để đảm bảo đơn hàng được xác thực và đóng gói gửi đi an toàn (tránh đơn ảo/bom hàng), ScentPod áp dụng chính sách <strong>cọc trước 15.000đ tiền ship</strong>. Số tiền hàng còn lại bạn thanh toán tiền mặt cho shipper khi nhận nến.
+                  </p>
+                </div>
+
+                <!-- Bảng phân tách thanh toán -->
+                <div class="cod-deposit-split">
+                  <div class="split-card">
+                    <span class="split-card-label">📦 Tiền cọc ship chuyển trước:</span>
+                    <strong class="split-card-val text-gold">15.000đ</strong>
+                    <span class="split-card-sub">(Quét mã QR VietQR)</span>
+                  </div>
+                  <div class="split-card">
+                    <span class="split-card-label">💵 Shipper thu khi nhận hàng:</span>
+                    <strong class="split-card-val text-green" id="cod-remaining-val">0đ</strong>
+                    <span class="split-card-sub">(Tiền mặt khi giao tận nơi)</span>
+                  </div>
+                </div>
+
+                <!-- Khung Mã QR Tuỳ Chọn -->
+                <div class="cod-qr-accordion">
+                  <div class="cod-qr-selector-row">
+                    <span class="cod-qr-selector-label">Lựa chọn phương thức cọc ship 15k:</span>
+                    <div class="cod-qr-toggle-group">
+                      <label class="cod-qr-toggle-btn is-active" id="lbl-qr-now">
+                        <input type="radio" name="cod_qr_mode" value="now" checked>
+                        <span>📱 Quét mã QR ngay (15.000đ)</span>
+                      </label>
+                      <label class="cod-qr-toggle-btn" id="lbl-qr-later">
+                        <input type="radio" name="cod_qr_mode" value="later">
+                        <span>💬 Nhận mã QR qua Zalo/SMS sau</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Khung QR Quét Ngay -->
+                  <div class="cod-qr-content" id="cod-qr-content-now">
+                    <div class="cod-qr-visual">
+                      <img id="cod-vietqr-image" class="vietqr-img" src="" alt="Mã VietQR Cọc Ship 15k ScentPod">
+                      <span class="cod-qr-chip">Mã Napas 24/7 &bull; Cọc 15.000đ</span>
+                    </div>
+                    <div class="cod-qr-info">
+                      <div class="cod-info-line">
+                        <span>Ngân Hàng:</span>
+                        <strong>Quân Đội (MB Bank)</strong>
+                      </div>
+                      <div class="cod-info-line">
+                        <span>Số Tài Khoản:</span>
+                        <div class="copy-cell">
+                          <strong id="cod-acc-num">0912 998 888</strong>
+                          <button type="button" class="btn-copy-code" id="btn-copy-cod-stk">Sao chép</button>
+                        </div>
+                      </div>
+                      <div class="cod-info-line">
+                        <span>Chủ Tài Khoản:</span>
+                        <strong>SCENTPOD VIETNAM</strong>
+                      </div>
+                      <div class="cod-info-line">
+                        <span>Số Tiền Cọc:</span>
+                        <strong style="color: var(--accent-gold); font-size: 1.05rem;">15.000đ</strong>
+                      </div>
+                      <div class="cod-info-line">
+                        <span>Nội Dung CK:</span>
+                        <div class="copy-cell">
+                          <strong style="color: var(--accent-gold);" id="cod-qr-memo">COC SHIP SCP...</strong>
+                          <button type="button" class="btn-copy-code" id="btn-copy-cod-memo">Sao chép</button>
+                        </div>
+                      </div>
+                      <div class="cod-qr-tip">
+                        ✨ <em>Mẹo:</em> Quét mã QR cọc 15k trước khi bấm đặt hàng để đơn được tự động ưu tiên đóng gói xuất kho sớm nhất.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Khung Hỗ Trợ Nhận QR Sau -->
+                  <div class="cod-later-box" id="cod-qr-content-later" style="display: none; margin-top: 14px;">
+                    <div class="later-icon">📞</div>
+                    <div>
+                      <strong>Bạn đã chọn nhận mã QR cọc ship sau:</strong>
+                      <p>Sau khi bạn bấm <em>"Xác Nhận Đặt Hàng"</em>, chuyên viên tư vấn ScentPod sẽ gọi điện xác nhận đơn và gửi ảnh mã QR cọc ship 15.000đ qua Zalo/Tin nhắn cho bạn.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <!-- Hộp VietQR động -->
               <div class="vietqr-box" id="vietqr-display-box" style="display: none;">
-                <h4 style="color: var(--accent-gold); margin: 0 0 8px 0; font-size: 0.95rem;">Mã VietQR Thanh Toán Đơn Hàng</h4>
+                <h4 style="color: var(--accent-gold); margin: 0 0 8px 0; font-size: 0.95rem;">Mã VietQR Thanh Toán Đơn Hàng (Toàn Bộ)</h4>
                 <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">Mở app ngân hàng bất kỳ (MB, Vietcombank, Techcombank...) để quét mã</p>
                 <img id="vietqr-image" class="vietqr-img" src="" alt="Mã VietQR ScentPod">
                 <div class="vietqr-details">
@@ -211,6 +306,18 @@
               </div>
             </div>
 
+            <!-- Tóm tắt phân bổ COD -->
+            <div id="chk-cod-breakdown" style="margin-top: 12px; padding: 10px 14px; background: rgba(229, 169, 59, 0.08); border: 1px dashed var(--border-gold); border-radius: 8px; font-size: 0.82rem; line-height: 1.6;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                <span style="color: var(--text-muted);">🛡️ Cọc trước tiền ship:</span>
+                <span style="color: var(--accent-gold); font-weight: 700;">15.000đ</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: var(--text-muted);">💵 Shipper thu khi nhận:</span>
+                <span style="color: #4ade80; font-weight: 700;" id="chk-summary-cod-remain">0đ</span>
+              </div>
+            </div>
+
             <div style="margin-top: 16px; font-size: 0.78rem; color: var(--text-muted); line-height: 1.5; text-align: center;">
               🔒 Thông tin đơn hàng được mã hóa và bảo mật. Đơn hàng sẽ được nhân viên ScentPod gọi điện xác nhận trước khi giao.
             </div>
@@ -239,6 +346,10 @@
         <div><strong>Địa chỉ:</strong> <span id="succ-address"></span></div>
         <div><strong>Tổng thanh toán:</strong> <span id="succ-total" style="color: #4ade80; font-weight: 700;"></span></div>
         <div><strong>Phương thức:</strong> <span id="succ-payment"></span></div>
+        <div id="succ-cod-box" style="display: none; margin-top: 10px; padding-top: 8px; border-top: 1px dashed rgba(229, 169, 59, 0.3);">
+          <div><strong>Tiền cọc ship 15k:</strong> <span style="color: var(--accent-gold); font-weight: 700;">15.000đ</span> <span id="succ-cod-mode-badge" style="font-size: 0.76rem; color: var(--text-muted);"></span></div>
+          <div><strong>Shipper thu khi giao:</strong> <span id="succ-cod-remain" style="color: #4ade80; font-weight: 700;"></span></div>
+        </div>
       </div>
 
       <div style="display: flex; gap: 10px; justify-content: center;">
@@ -295,20 +406,74 @@
       // Lựa chọn phương thức thanh toán
       const payRadios = document.querySelectorAll('input[name="payment_method"]');
       const vietqrBox = document.getElementById("vietqr-display-box");
+      const codDepositBox = document.getElementById("cod-deposit-display-box");
+      const chkCodBreakdown = document.getElementById("chk-cod-breakdown");
 
       payRadios.forEach(radio => {
         radio.addEventListener("change", () => {
           document.querySelectorAll(".payment-option-label").forEach(l => l.classList.remove("is-selected"));
           radio.closest(".payment-option-label").classList.add("is-selected");
 
-          if (radio.value === "VietQR") {
-            vietqrBox.style.display = "flex";
+          if (radio.value === "COD") {
+            if (codDepositBox) codDepositBox.style.display = "flex";
+            if (vietqrBox) vietqrBox.style.display = "none";
+            if (chkCodBreakdown) chkCodBreakdown.style.display = "block";
+            updateCodDepositUI();
+          } else if (radio.value === "VietQR") {
+            if (codDepositBox) codDepositBox.style.display = "none";
+            if (vietqrBox) vietqrBox.style.display = "flex";
+            if (chkCodBreakdown) chkCodBreakdown.style.display = "none";
             updateVietQRImage();
           } else {
-            vietqrBox.style.display = "none";
+            if (codDepositBox) codDepositBox.style.display = "none";
+            if (vietqrBox) vietqrBox.style.display = "none";
+            if (chkCodBreakdown) chkCodBreakdown.style.display = "none";
           }
         });
       });
+
+      // Lựa chọn chế độ cọc ship COD (Quét ngay hoặc Nhận qua Zalo sau)
+      const codQrRadios = document.querySelectorAll('input[name="cod_qr_mode"]');
+      const codQrNowPane = document.getElementById("cod-qr-content-now");
+      const codQrLaterPane = document.getElementById("cod-qr-content-later");
+      const lblQrNow = document.getElementById("lbl-qr-now");
+      const lblQrLater = document.getElementById("lbl-qr-later");
+
+      codQrRadios.forEach(r => {
+        r.addEventListener("change", () => {
+          if (r.value === "now") {
+            if (lblQrNow) lblQrNow.classList.add("is-active");
+            if (lblQrLater) lblQrLater.classList.remove("is-active");
+            if (codQrNowPane) codQrNowPane.style.display = "flex";
+            if (codQrLaterPane) codQrLaterPane.style.display = "none";
+          } else {
+            if (lblQrLater) lblQrLater.classList.add("is-active");
+            if (lblQrNow) lblQrNow.classList.remove("is-active");
+            if (codQrNowPane) codQrNowPane.style.display = "none";
+            if (codQrLaterPane) codQrLaterPane.style.display = "flex";
+          }
+        });
+      });
+
+      // Nút Copy STK và Nội dung chuyển cọc COD
+      const btnCopyStk = document.getElementById("btn-copy-cod-stk");
+      if (btnCopyStk) {
+        btnCopyStk.addEventListener("click", () => {
+          navigator.clipboard.writeText("0912998888");
+          window.ScentPod.showToast("✓ Đã sao chép STK: 0912 998 888");
+        });
+      }
+      const btnCopyMemo = document.getElementById("btn-copy-cod-memo");
+      if (btnCopyMemo) {
+        btnCopyMemo.addEventListener("click", () => {
+          const memo = `COC SHIP ${currentOrderId}`;
+          navigator.clipboard.writeText(memo);
+          window.ScentPod.showToast("✓ Đã sao chép nội dung: " + memo);
+        });
+      }
+
+      // Khởi tạo hiển thị cọc ship COD ban đầu
+      updateCodDepositUI();
 
       // Áp dụng coupon trong trang checkout
       document.getElementById("btn-chk-coupon").addEventListener("click", () => {
@@ -316,6 +481,7 @@
         if (window.ScentPod.applyCoupon(code)) {
           renderCheckoutSummary();
           updateVietQRImage();
+          updateCodDepositUI();
         }
       });
 
@@ -325,6 +491,29 @@
         e.preventDefault();
         handleOrderSubmit();
       });
+    }
+
+    function updateCodDepositUI() {
+      const totals = window.ScentPod.getCartTotals();
+      const formatVND = window.ScentPod.formatVND;
+      const remaining = Math.max(0, totals.finalTotal - 15000);
+
+      const remainingEl = document.getElementById("cod-remaining-val");
+      if (remainingEl) remainingEl.textContent = formatVND(remaining);
+
+      const summaryRemainEl = document.getElementById("chk-summary-cod-remain");
+      if (summaryRemainEl) summaryRemainEl.textContent = formatVND(remaining);
+
+      const qrImg = document.getElementById("cod-vietqr-image");
+      const memoSpan = document.getElementById("cod-qr-memo");
+      const memo = `COC SHIP ${currentOrderId}`;
+      if (memoSpan) memoSpan.textContent = memo;
+
+      if (qrImg) {
+        // Sinh URL VietQR 15.000đ cọc ship Napas 247
+        const qrUrl = `https://img.vietqr.io/image/MB-0912998888-compact.png?amount=15000&addInfo=${encodeURIComponent(memo)}&accountName=SCENTPOD%20VIETNAM`;
+        qrImg.src = qrUrl;
+      }
     }
 
     function renderCheckoutSummary() {
@@ -376,6 +565,7 @@
       }
 
       document.getElementById("chk-total").textContent = formatVND(totals.finalTotal);
+      updateCodDepositUI();
     }
 
     function updateVietQRImage() {
@@ -387,7 +577,7 @@
       memoSpan.textContent = memo;
 
       // Sinh URL VietQR chuẩn Napas 247
-      const qrUrl = `https://img.vietqr.io/image/MB-0912998888-compact.png?amount=${totals.finalTotal}&addInfo=${memo}&accountName=SCENTPOD%20VIETNAM`;
+      const qrUrl = `https://img.vietqr.io/image/MB-0912998888-compact.png?amount=${totals.finalTotal}&addInfo=${encodeURIComponent(memo)}&accountName=SCENTPOD%20VIETNAM`;
       qrImg.src = qrUrl;
     }
 
@@ -408,6 +598,11 @@
 
       const paymentMethodRadio = document.querySelector('input[name="payment_method"]:checked');
       const paymentMethod = paymentMethodRadio ? paymentMethodRadio.value : "COD";
+      const isCOD = paymentMethod === "COD";
+
+      const codDeposit = isCOD ? 15000 : 0;
+      const codRemaining = isCOD ? Math.max(0, totals.finalTotal - 15000) : 0;
+      const codQrMode = document.querySelector('input[name="cod_qr_mode"]:checked')?.value || 'now';
 
       // Tạo object đơn hàng
       const newOrder = {
@@ -422,7 +617,10 @@
           giftCard
         },
         items: cart.map(i => ({ id: i.id, name: i.name, quantity: i.quantity, price: i.price })),
-        paymentMethod: paymentMethod === 'VietQR' ? 'VietQR (Chuyển khoản)' : (paymentMethod === 'MoMo' ? 'Ví MoMo' : 'COD (Tiền mặt)'),
+        paymentMethod: isCOD ? 'COD (Cọc trước ship 15k)' : (paymentMethod === 'VietQR' ? 'VietQR (Chuyển khoản)' : 'Ví MoMo'),
+        codDeposit,
+        codRemaining,
+        codQrMode,
         subtotal: totals.subtotal,
         shipping: totals.shipping,
         discount: totals.discount,
@@ -440,6 +638,18 @@
       document.getElementById("succ-address").textContent = newOrder.customer.address;
       document.getElementById("succ-total").textContent = window.ScentPod.formatVND(newOrder.total);
       document.getElementById("succ-payment").textContent = newOrder.paymentMethod;
+
+      const succCodBox = document.getElementById("succ-cod-box");
+      if (isCOD && succCodBox) {
+        succCodBox.style.display = "block";
+        document.getElementById("succ-cod-remain").textContent = window.ScentPod.formatVND(codRemaining);
+        const modeBadge = document.getElementById("succ-cod-mode-badge");
+        if (modeBadge) {
+          modeBadge.textContent = codQrMode === 'now' ? '(Đã mở mã QR cọc)' : '(Shop sẽ gửi mã QR qua Zalo)';
+        }
+      } else if (succCodBox) {
+        succCodBox.style.display = "none";
+      }
 
       const modal = document.getElementById("order-success-modal");
       modal.classList.add("is-open");

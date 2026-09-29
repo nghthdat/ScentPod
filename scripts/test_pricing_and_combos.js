@@ -156,9 +156,13 @@ assert(sanphamHtml.includes('combo-cb01-huong-sinh-vien.jpg'), 'Ảnh combo CB01
 assert(sanphamHtml.includes('combo-cb02-tron-ven-chill.jpg'), 'Ảnh combo CB02 phải hiển thị ảnh combo thật');
 assert(sanphamHtml.includes('combo-cb03-trai-nghiem-da-tang.jpg'), 'Ảnh combo CB03 phải hiển thị ảnh combo thật');
 
-assert(sanphamHtml.includes('COMBO BÁN HÀNG CHIẾN LƯỢC') && sanphamHtml.includes('Combo Hương Sinh Viên'), 'Card CB01 đầy đủ tag & tên');
-assert(sanphamHtml.includes('COMBO TỐI ƯU AOV') && sanphamHtml.includes('Combo Trọn Vẹn Chill'), 'Card CB02 đầy đủ tag & tên');
-assert(sanphamHtml.includes('COMBO ĐẦY ĐỦ HƯƠNG SẮC') && sanphamHtml.includes('Combo Trải Nghiệm Đa Tầng'), 'Card CB03 đầy đủ tag & tên');
+assert(sanphamHtml.includes('Combo Hương Sinh Viên') && sanphamHtml.includes('cb01'), 'Card CB01 đầy đủ tên và mã');
+assert(sanphamHtml.includes('Combo Trọn Vẹn Chill') && sanphamHtml.includes('cb02'), 'Card CB02 đầy đủ tên và mã');
+assert(sanphamHtml.includes('Combo Trải Nghiệm Đa Tầng') && sanphamHtml.includes('cb03'), 'Card CB03 đầy đủ tên và mã');
+assert(!sanphamHtml.includes('tag-strategy'), 'Đã gỡ bỏ dòng tag COMBO BÁN HÀNG CHIẾN LƯỢC theo yêu cầu người dùng');
+assert(!sanphamHtml.includes('tag-aov'), 'Đã gỡ bỏ dòng tag COMBO TỐI ƯU AOV theo yêu cầu người dùng');
+assert(!sanphamHtml.includes('tag-full'), 'Đã gỡ bỏ dòng tag COMBO ĐẦY ĐỦ HƯƠNG SẮC theo yêu cầu người dùng');
+assert(!sanphamHtml.includes('product-inbox-hint'), 'Đã gỡ bỏ dòng Giá chốt Inbox trên thẻ sản phẩm theo yêu cầu');
 
 assert(sanphamHtml.includes('2 Hũ Sáp Bỏ Túi 50g'), 'Quy cách CB01 chuẩn');
 assert(sanphamHtml.includes('1 Sáp 50g + 1 Nến 100g'), 'Quy cách CB02 chuẩn');
