@@ -5,7 +5,7 @@
   "main": "scripts/server.js",
   "scripts": {
     "start": "node scripts/server.js",
-    "test": "node scripts/verify_all.js"
+    "test": "node scripts/test_cart_auth_checkout.js"
   },
   "keywords": [
     "scentpod",

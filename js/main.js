@@ -21,6 +21,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollAnimations();
   initProductImageManager();
   initScentDetailModal();
+  initCartSystem();
+  initHeaderAuth();
 });
 
 /**
@@ -632,8 +634,12 @@ function downloadProductImage(productId) {
  * - Tên thương mại & tên mùi
  * - Nhóm hương
  * - Cấu trúc 3 tầng hương chi tiết (Top - Heart - Base)
- * - Vibe cảm xúc & lưu ý
+ * - Nút chọn số lượng & Thêm vào giỏ hàng
+ * - Vibe cảm xúc & tư vấn Messenger
  */
+let currentModalScentId = null;
+let currentModalQty = 1;
+
 function initScentDetailModal() {
   // Tạo khung Modal nếu chưa có trong DOM
   let backdrop = document.querySelector(".scent-modal-backdrop");
@@ -689,11 +695,23 @@ function initScentDetailModal() {
               <span>📦 Size mini bỏ túi</span>
             </div>
 
-            <a href="${FB_LINK}" target="_blank" rel="noopener noreferrer" class="btn btn-primary scent-order-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <!-- Nút Thêm vào giỏ hàng & Bộ chọn số lượng -->
+            <div class="modal-cart-actions">
+              <div class="qty-stepper">
+                <button type="button" class="btn-modal-minus" aria-label="Giảm số lượng">&minus;</button>
+                <span class="modal-qty-val" id="scent-modal-qty">1</span>
+                <button type="button" class="btn-modal-plus" aria-label="Tăng số lượng">+</button>
+              </div>
+              <button type="button" class="btn btn-primary btn-modal-add-cart" id="btn-modal-add-cart" style="flex: 1; padding: 11px 16px; font-weight: 700; font-size: 0.92rem;">
+                🛒 Thêm vào giỏ hàng
+              </button>
+            </div>
+
+            <a href="${FB_LINK}" target="_blank" rel="noopener noreferrer" class="btn btn-outline scent-order-btn" style="border-color: rgba(255,255,255,0.18); font-size: 0.85rem; padding: 8px;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
               </svg>
-              Nhắn tin đặt mùi này ngay
+              Nhắn tin tư vấn Messenger
             </a>
           </div>
         </div>
@@ -713,10 +731,39 @@ function initScentDetailModal() {
   const tierTop = backdrop.querySelector("#scent-tier-top");
   const tierHeart = backdrop.querySelector("#scent-tier-heart");
   const tierBase = backdrop.querySelector("#scent-tier-base");
+  const qtyVal = backdrop.querySelector("#scent-modal-qty");
+  const minusBtn = backdrop.querySelector(".btn-modal-minus");
+  const plusBtn = backdrop.querySelector(".btn-modal-plus");
+  const addCartBtn = backdrop.querySelector("#btn-modal-add-cart");
+
+  minusBtn.addEventListener("click", () => {
+    if (currentModalQty > 1) {
+      currentModalQty--;
+      qtyVal.textContent = currentModalQty;
+    }
+  });
+
+  plusBtn.addEventListener("click", () => {
+    if (currentModalQty < 20) {
+      currentModalQty++;
+      qtyVal.textContent = currentModalQty;
+    }
+  });
+
+  addCartBtn.addEventListener("click", () => {
+    if (currentModalScentId) {
+      addToCart(currentModalScentId, currentModalQty, true);
+      closeScentModal();
+    }
+  });
 
   function openScentModal(scentId) {
     const p = PRODUCTS_CONFIG[scentId];
     if (!p) return;
+
+    currentModalScentId = scentId;
+    currentModalQty = 1;
+    qtyVal.textContent = "1";
 
     modalBadge.textContent = p.code;
     modalGroup.textContent = "Nhóm hương: " + p.category;
@@ -759,12 +806,14 @@ function initScentDetailModal() {
 
   // Bắt sự kiện click trên card hoặc nút "Tầng hương"
   document.addEventListener("click", (e) => {
-    // Bỏ qua nếu click trong thanh upload ảnh hoặc modal quản lý ảnh
+    // Bỏ qua nếu click trong thanh upload ảnh, giỏ hàng hoặc modal quản lý ảnh
     if (
       e.target.closest(".product-card-upload-bar") ||
       e.target.closest(".img-manager-fab") ||
       e.target.closest(".scentpod-modal-backdrop") ||
-      e.target.closest(".scent-modal-container")
+      e.target.closest(".scent-modal-container") ||
+      e.target.closest(".cart-drawer") ||
+      e.target.closest(".btn-add-cart")
     ) {
       return;
     }
@@ -790,5 +839,663 @@ function initScentDetailModal() {
     }
   });
 }
+
+/**
+ * ==========================================================================
+ * HỆ THỐNG GIỎ HÀNG (SHOPPING CART & SLIDE-OVER DRAWER)
+ * ==========================================================================
+ */
+const CART_STORAGE_KEY = "scentpod_cart";
+const COUPON_STORAGE_KEY = "scentpod_coupon";
+
+function getCart() {
+  try {
+    const raw = localStorage.getItem(CART_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCart(cart) {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  } catch (e) {
+    console.error(e);
+  }
+  updateCartUI();
+}
+
+function addToCart(productId, quantity = 1, showDrawer = true) {
+  const p = PRODUCTS_CONFIG[productId];
+  if (!p) return;
+
+  const cart = getCart();
+  const existing = cart.find((item) => item.id === productId);
+  const customImg = getCustomImage(productId);
+  const imgSrc = customImg || p.defaultSrc;
+
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    cart.push({
+      id: productId,
+      name: p.name,
+      scentName: p.scentName,
+      category: p.category,
+      price: 89000,
+      priceFormatted: p.price,
+      image: imgSrc,
+      fallbackSrc: p.fallbackSrc,
+      quantity: quantity
+    });
+  }
+
+  saveCart(cart);
+
+  // Hiệu ứng bump trên icon giỏ hàng header
+  const badge = document.getElementById("header-cart-badge");
+  if (badge) {
+    badge.classList.remove("bump");
+    void badge.offsetWidth;
+    badge.classList.add("bump");
+  }
+
+  showToast(`✅ Đã thêm ${quantity}x "${p.name}" vào giỏ hàng!`);
+
+  if (showDrawer) {
+    openCartDrawer();
+  }
+}
+
+function updateCartQuantity(productId, delta) {
+  const cart = getCart();
+  const item = cart.find((i) => i.id === productId);
+  if (!item) return;
+
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    removeFromCart(productId);
+    return;
+  }
+  saveCart(cart);
+}
+
+function removeFromCart(productId) {
+  let cart = getCart();
+  cart = cart.filter((i) => i.id !== productId);
+  saveCart(cart);
+  showToast("Đã xóa sản phẩm khỏi giỏ hàng.");
+}
+
+function clearCart() {
+  localStorage.removeItem(CART_STORAGE_KEY);
+  localStorage.removeItem(COUPON_STORAGE_KEY);
+  updateCartUI();
+}
+
+function getActiveCoupon() {
+  try {
+    return JSON.parse(localStorage.getItem(COUPON_STORAGE_KEY)) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function applyCoupon(code) {
+  const cleanCode = (code || "").trim().toUpperCase();
+  if (!cleanCode) return false;
+
+  if (cleanCode === "SINHVIEN") {
+    const coupon = { code: "SINHVIEN", discount: 15000, label: "Ưu đãi sinh viên (-15.000đ)" };
+    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
+    showToast("🎉 Đã áp dụng mã SINHVIEN: Giảm ngay 15.000đ!");
+    updateCartUI();
+    return true;
+  }
+  if (cleanCode === "SCENTPOD10") {
+    const coupon = { code: "SCENTPOD10", discount: 10000, label: "Mã tri ân (-10.000đ)" };
+    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
+    showToast("🎉 Đã áp dụng mã SCENTPOD10: Giảm 10.000đ!");
+    updateCartUI();
+    return true;
+  }
+  if (cleanCode === "FREESHIP") {
+    const coupon = { code: "FREESHIP", discount: 25000, label: "Miễn phí vận chuyển (-25.000đ)" };
+    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
+    showToast("🎉 Đã áp dụng mã FREESHIP!");
+    updateCartUI();
+    return true;
+  }
+
+  showToast("⚠️ Mã không hợp lệ. Gợi ý: SINHVIEN hoặc SCENTPOD10");
+  return false;
+}
+
+function getCartTotals() {
+  const cart = getCart();
+  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  // Mua từ 2 sản phẩm (>=178k) hoặc tổng >= 150k -> Miễn phí giao hàng (phí ship gốc 25.000đ)
+  const isFreeShipByQty = totalQty >= 2 || subtotal >= 150000;
+  let shipping = cart.length === 0 ? 0 : (isFreeShipByQty ? 0 : 25000);
+
+  const coupon = getActiveCoupon();
+  let discount = 0;
+  if (coupon && cart.length > 0) {
+    if (coupon.code === "FREESHIP") {
+      discount = shipping;
+      shipping = 0;
+    } else {
+      discount = Math.min(coupon.discount, subtotal);
+    }
+  }
+
+  const finalTotal = Math.max(0, subtotal + shipping - discount);
+
+  return {
+    subtotal,
+    totalQty,
+    shipping,
+    discount,
+    coupon,
+    finalTotal,
+    isFreeShipByQty
+  };
+}
+
+function formatVND(amount) {
+  return new Intl.NumberFormat("vi-VN").format(amount) + "đ";
+}
+
+/**
+ * Khởi tạo giao diện Giỏ hàng (Drawer & Events)
+ */
+function initCartSystem() {
+  ensureCartDrawerInDOM();
+  updateCartUI();
+
+  // Bắt sự kiện click [data-add-to-cart]
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add-to-cart]");
+    if (btn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pid = btn.getAttribute("data-add-to-cart");
+      addToCart(pid, 1, true);
+    }
+  });
+}
+
+function ensureCartDrawerInDOM() {
+  if (document.getElementById("scent-cart-drawer-backdrop")) return;
+
+  const drawerBackdrop = document.createElement("div");
+  drawerBackdrop.className = "cart-drawer-backdrop";
+  drawerBackdrop.id = "scent-cart-drawer-backdrop";
+  drawerBackdrop.innerHTML = `
+    <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
+      <div class="cart-header">
+        <h3 class="cart-title" id="cart-drawer-title">
+          <span>🕯️ Giỏ Hàng</span>
+          <span class="cart-count-badge" id="drawer-items-count" style="font-size: 0.82rem; color: var(--accent-gold); font-weight: 600;">(0 món)</span>
+        </h3>
+        <button type="button" class="cart-close-btn" id="btn-close-cart" aria-label="Đóng giỏ hàng">&times;</button>
+      </div>
+
+      <!-- Thanh tiến trình Freeship -->
+      <div class="cart-free-shipping-bar" id="cart-freeship-bar">
+        <div class="free-shipping-text">
+          <span id="freeship-text-label">Mua từ 2 hũ: FREESHIP toàn quốc 🚚</span>
+          <span id="freeship-percent-label">0%</span>
+        </div>
+        <div class="free-shipping-progress">
+          <div class="free-shipping-fill" id="freeship-fill" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Danh sách sản phẩm -->
+      <div class="cart-body">
+        <div class="cart-items-list" id="cart-items-container"></div>
+        <div class="cart-empty-state" id="cart-empty-state" style="display: none;">
+          <span class="cart-empty-icon">🕯️</span>
+          <h3>Giỏ hàng của bạn đang trống</h3>
+          <p>Hãy chọn những nốt hương thư thái đồng hành cùng bạn hôm nay!</p>
+          <a href="san-pham.html" class="btn btn-outline" style="padding: 8px 18px; font-size: 0.88rem;">Khám phá sản phẩm</a>
+        </div>
+
+        <!-- Ô mã giảm giá -->
+        <div class="cart-coupon-box" id="cart-coupon-section" style="display: none;">
+          <input type="text" class="cart-coupon-input" id="cart-coupon-input" placeholder="MÃ GIẢM GIÁ (VD: SINHVIEN)">
+          <button type="button" class="cart-coupon-btn" id="btn-apply-coupon">Áp dụng</button>
+        </div>
+      </div>
+
+      <!-- Tóm tắt & Nút thanh toán -->
+      <div class="cart-footer" id="cart-footer">
+        <div class="cart-summary-line">
+          <span>Tạm tính</span>
+          <span id="cart-subtotal-val">0đ</span>
+        </div>
+        <div class="cart-summary-line" id="cart-discount-row" style="display: none; color: #4ade80;">
+          <span id="cart-discount-label">Giảm giá voucher</span>
+          <span id="cart-discount-val">-0đ</span>
+        </div>
+        <div class="cart-summary-line">
+          <span>Phí vận chuyển</span>
+          <span id="cart-shipping-val">Miễn phí</span>
+        </div>
+        <div class="cart-total-line">
+          <span>Tổng thanh toán</span>
+          <span id="cart-total-val" style="color: var(--accent-gold);">0đ</span>
+        </div>
+        <a href="thanh-toan.html" class="btn btn-primary cart-checkout-btn" id="btn-go-checkout">
+          <span>Tiến Hành Thanh Toán</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </aside>
+  `;
+  document.body.appendChild(drawerBackdrop);
+
+  // Sự kiện đóng
+  drawerBackdrop.querySelector("#btn-close-cart").addEventListener("click", closeCartDrawer);
+  drawerBackdrop.addEventListener("click", (e) => {
+    if (e.target === drawerBackdrop) closeCartDrawer();
+  });
+
+  // Sự kiện áp dụng coupon
+  drawerBackdrop.querySelector("#btn-apply-coupon").addEventListener("click", () => {
+    const input = drawerBackdrop.querySelector("#cart-coupon-input");
+    applyCoupon(input.value);
+  });
+}
+
+function openCartDrawer() {
+  ensureCartDrawerInDOM();
+  updateCartUI();
+  const drawer = document.getElementById("scent-cart-drawer-backdrop");
+  if (drawer) {
+    drawer.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+  }
+}
+
+function closeCartDrawer() {
+  const drawer = document.getElementById("scent-cart-drawer-backdrop");
+  if (drawer) {
+    drawer.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+}
+
+function updateCartUI() {
+  const cart = getCart();
+  const totals = getCartTotals();
+
+  // 1. Cập nhật Badge trên Header
+  const badges = document.querySelectorAll(".cart-badge, #header-cart-badge");
+  badges.forEach((b) => {
+    b.textContent = totals.totalQty;
+    b.style.display = totals.totalQty > 0 ? "flex" : "none";
+  });
+
+  // 2. Cập nhật trong Drawer
+  const itemsContainer = document.getElementById("cart-items-container");
+  const emptyState = document.getElementById("cart-empty-state");
+  const couponSection = document.getElementById("cart-coupon-section");
+  const cartFooter = document.getElementById("cart-footer");
+  const countBadge = document.getElementById("drawer-items-count");
+  const fillBar = document.getElementById("freeship-fill");
+  const freeshipLabel = document.getElementById("freeship-text-label");
+  const freeshipPercent = document.getElementById("freeship-percent-label");
+
+  if (!itemsContainer) return;
+
+  if (countBadge) countBadge.textContent = `(${totals.totalQty} món)`;
+
+  // Thanh tiến trình freeship
+  if (fillBar && freeshipLabel && freeshipPercent) {
+    if (totals.totalQty >= 2) {
+      fillBar.style.width = "100%";
+      freeshipPercent.textContent = "100%";
+      freeshipLabel.textContent = "🎉 Bạn đã được MIỄN PHÍ VẬN CHUYỂN toàn quốc!";
+    } else if (totals.totalQty === 1) {
+      fillBar.style.width = "50%";
+      freeshipPercent.textContent = "50%";
+      freeshipLabel.textContent = "Thêm 1 mùi nữa để được FREESHIP toàn quốc 🚚";
+    } else {
+      fillBar.style.width = "0%";
+      freeshipPercent.textContent = "0%";
+      freeshipLabel.textContent = "Mua từ 2 hũ: FREESHIP toàn quốc 🚚";
+    }
+  }
+
+  if (cart.length === 0) {
+    itemsContainer.innerHTML = "";
+    emptyState.style.display = "block";
+    if (couponSection) couponSection.style.display = "none";
+    if (cartFooter) cartFooter.style.display = "none";
+    return;
+  }
+
+  emptyState.style.display = "none";
+  if (couponSection) couponSection.style.display = "flex";
+  if (cartFooter) cartFooter.style.display = "block";
+
+  itemsContainer.innerHTML = cart
+    .map(
+      (item) => `
+    <div class="cart-item" data-cart-item-id="${item.id}">
+      <div class="cart-item-thumb">
+        <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null; this.src='${item.fallbackSrc}';">
+      </div>
+      <div class="cart-item-info">
+        <h4 class="cart-item-name">${item.name}</h4>
+        <div class="cart-item-scent">${item.scentName}</div>
+        <div class="cart-item-price">${formatVND(item.price)}</div>
+        <div class="cart-item-ctrl">
+          <button type="button" class="cart-qty-btn btn-cart-dec" data-id="${item.id}" aria-label="Giảm">&minus;</button>
+          <span class="cart-qty-num">${item.quantity}</span>
+          <button type="button" class="cart-qty-btn btn-cart-inc" data-id="${item.id}" aria-label="Tăng">+</button>
+          <button type="button" class="cart-item-remove btn-cart-del" data-id="${item.id}">Xóa</button>
+        </div>
+      </div>
+    </div>
+  `
+    )
+    .join("");
+
+  // Bắt sự kiện trên các nút giỏ hàng
+  itemsContainer.querySelectorAll(".btn-cart-dec").forEach((b) => {
+    b.addEventListener("click", () => updateCartQuantity(b.getAttribute("data-id"), -1));
+  });
+  itemsContainer.querySelectorAll(".btn-cart-inc").forEach((b) => {
+    b.addEventListener("click", () => updateCartQuantity(b.getAttribute("data-id"), 1));
+  });
+  itemsContainer.querySelectorAll(".btn-cart-del").forEach((b) => {
+    b.addEventListener("click", () => removeFromCart(b.getAttribute("data-id")));
+  });
+
+  // Tóm tắt tài chính
+  document.getElementById("cart-subtotal-val").textContent = formatVND(totals.subtotal);
+  document.getElementById("cart-shipping-val").textContent = totals.shipping === 0 ? "Miễn phí (Freeship)" : formatVND(totals.shipping);
+
+  const discountRow = document.getElementById("cart-discount-row");
+  if (totals.discount > 0) {
+    discountRow.style.display = "flex";
+    document.getElementById("cart-discount-val").textContent = "-" + formatVND(totals.discount);
+    if (totals.coupon) {
+      document.getElementById("cart-discount-label").textContent = `Voucher (${totals.coupon.code})`;
+    }
+  } else {
+    discountRow.style.display = "none";
+  }
+
+  document.getElementById("cart-total-val").textContent = formatVND(totals.finalTotal);
+}
+
+/**
+ * ==========================================================================
+ * HỆ THỐNG XÁC THỰC & PHÂN QUYỀN (AUTH & USER/ADMIN ROLES)
+ * ==========================================================================
+ */
+const USER_STORAGE_KEY = "scentpod_user";
+const ORDERS_STORAGE_KEY = "scentpod_orders";
+
+function getCurrentUser() {
+  try {
+    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function loginUser(email, password, roleHint = "customer") {
+  const cleanEmail = (email || "").trim().toLowerCase();
+  const cleanPass = (password || "").trim();
+
+  // 1. Phân quyền Quản Trị Viên (Admin)
+  if ((cleanEmail === "admin@scentpod.vn" && cleanPass === "admin123") || roleHint === "admin") {
+    const adminUser = {
+      role: "admin",
+      name: "Quản Trị Viên ScentPod",
+      email: "admin@scentpod.vn",
+      phone: "0912 998 888",
+      avatar: "👑"
+    };
+    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
+    updateHeaderAuthSlot();
+    showToast("👑 Đăng nhập Quản Trị Viên thành công!");
+    return adminUser;
+  }
+
+  // 2. Phân quyền Khách Hàng (Customer)
+  const isDemoCustomer = cleanEmail === "khachhang@scentpod.vn" || roleHint === "customer";
+  const customerUser = {
+    role: "customer",
+    name: isDemoCustomer ? "Nguyễn Minh Thư" : (cleanEmail.split("@")[0] || "Khách Hàng"),
+    email: cleanEmail || "khachhang@scentpod.vn",
+    phone: "0912 345 678",
+    avatar: "👤",
+    tier: "Hạng Bạc (Sinh Viên)",
+    points: 250
+  };
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(customerUser));
+  updateHeaderAuthSlot();
+  showToast(`✨ Chào mừng bạn, ${customerUser.name}!`);
+  return customerUser;
+}
+
+function registerUser(name, email, phone, password) {
+  const newUser = {
+    role: "customer",
+    name: name.trim() || "Khách Hàng Mới",
+    email: email.trim().toLowerCase(),
+    phone: phone.trim(),
+    avatar: "👤",
+    tier: "Thành Viên Mới",
+    points: 100
+  };
+  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
+  updateHeaderAuthSlot();
+  showToast(`🎉 Đăng ký tài khoản thành công! Tặng bạn 100 điểm ScentClub.`);
+  return newUser;
+}
+
+function logoutUser() {
+  localStorage.removeItem(USER_STORAGE_KEY);
+  updateHeaderAuthSlot();
+  showToast("Đã đăng xuất tài khoản.");
+  if (window.location.pathname.includes("dang-nhap.html")) {
+    window.location.reload();
+  }
+}
+
+/**
+ * Quản lý Đơn Hàng (Orders Storage)
+ */
+function getOrders() {
+  try {
+    const orders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY));
+    if (orders && Array.isArray(orders) && orders.length > 0) return orders;
+  } catch (e) {}
+
+  // Đơn hàng mẫu ban đầu để giao diện Admin & User trực quan ngay từ đầu
+  const initialOrders = [
+    {
+      id: "SCP-9042",
+      date: "29/09/2026 16:30",
+      customer: {
+        name: "Nguyễn Minh Thư",
+        phone: "0912 345 678",
+        email: "khachhang@scentpod.vn",
+        address: "Ký túc xá Khu B, ĐHQG TP.HCM",
+        note: "Giao vào buổi chiều giúp mình nhé",
+        giftCard: "Chúc bạn học bài thật tốt và luôn thư thái cùng ScentPod!"
+      },
+      items: [
+        { id: "late-night", name: "Late Night", quantity: 1, price: 89000 },
+        { id: "first-class", name: "First Class", quantity: 1, price: 89000 }
+      ],
+      paymentMethod: "VietQR (Đã chuyển khoản)",
+      subtotal: 178000,
+      shipping: 0,
+      discount: 15000,
+      total: 163000,
+      status: "Đang giao hàng"
+    },
+    {
+      id: "SCP-8921",
+      date: "28/09/2026 10:15",
+      customer: {
+        name: "Trần Hoàng Nam",
+        phone: "0908 123 456",
+        email: "nam.tran@gmail.com",
+        address: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",
+        note: "",
+        giftCard: ""
+      },
+      items: [
+        { id: "blind-date", name: "Blind Date", quantity: 2, price: 89000 }
+      ],
+      paymentMethod: "COD (Thanh toán khi nhận)",
+      subtotal: 178000,
+      shipping: 0,
+      discount: 0,
+      total: 178000,
+      status: "Hoàn thành"
+    }
+  ];
+  localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(initialOrders));
+  return initialOrders;
+}
+
+function saveOrders(orders) {
+  try {
+    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+function addOrder(orderData) {
+  const orders = getOrders();
+  orders.unshift(orderData);
+  saveOrders(orders);
+  return orderData;
+}
+
+function updateOrderStatus(orderId, newStatus) {
+  const orders = getOrders();
+  const target = orders.find((o) => o.id === orderId);
+  if (target) {
+    target.status = newStatus;
+    saveOrders(orders);
+    showToast(`✅ Đơn hàng ${orderId} đã đổi trạng thái thành: "${newStatus}"!`);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Tự động gắn nút Giỏ hàng và Tài khoản vào Header của tất cả các trang
+ */
+function initHeaderAuth() {
+  const headerContainer = document.querySelector(".header-container, .nav-container");
+  if (headerContainer && !headerContainer.querySelector(".nav-actions")) {
+    const navActions = document.createElement("div");
+    navActions.className = "nav-actions";
+    navActions.innerHTML = `
+      <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="cart-badge" id="header-cart-badge">0</span>
+      </button>
+      <div class="nav-user-wrapper" id="nav-user-slot"></div>
+    `;
+
+    const toggleBtn = headerContainer.querySelector(".menu-toggle");
+    if (toggleBtn) {
+      headerContainer.insertBefore(navActions, toggleBtn);
+    } else {
+      headerContainer.appendChild(navActions);
+    }
+
+    // Sự kiện mở giỏ hàng từ nút trên header
+    navActions.querySelector("#open-cart-btn").addEventListener("click", openCartDrawer);
+  }
+
+  // Thêm mục Tài khoản vào nav-menu mobile nếu chưa có
+  const navMenu = document.querySelector(".nav-menu");
+  if (navMenu && !navMenu.querySelector(".nav-auth-item")) {
+    const li = document.createElement("li");
+    li.className = "nav-auth-item";
+    li.innerHTML = `<a href="dang-nhap.html" class="nav-link">Tài khoản</a>`;
+    navMenu.appendChild(li);
+  }
+
+  updateHeaderAuthSlot();
+}
+
+function updateHeaderAuthSlot() {
+  const slot = document.getElementById("nav-user-slot");
+  if (!slot) return;
+
+  const user = getCurrentUser();
+  if (user) {
+    if (user.role === "admin") {
+      slot.innerHTML = `
+        <a href="dang-nhap.html" class="nav-user-pill is-admin" title="Vào Bảng Quản Trị Admin">
+          <span>👑 Admin</span>
+        </a>
+      `;
+    } else {
+      const shortName = user.name.split(" ").slice(-1)[0] || "Tài khoản";
+      slot.innerHTML = `
+        <a href="dang-nhap.html" class="nav-user-pill" title="Trang Cá Nhân & Đơn Hàng">
+          <span>👤 ${shortName}</span>
+        </a>
+      `;
+    }
+  } else {
+    slot.innerHTML = `
+      <a href="dang-nhap.html" class="nav-auth-link" title="Đăng nhập / Đăng ký">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span>Tài khoản</span>
+      </a>
+    `;
+  }
+}
+
+// Xuất các hàm ra phạm vi toàn cục để trang checkout và trang login sử dụng
+window.ScentPod = {
+  getCart,
+  saveCart,
+  addToCart,
+  removeFromCart,
+  updateCartQuantity,
+  clearCart,
+  getCartTotals,
+  openCartDrawer,
+  closeCartDrawer,
+  applyCoupon,
+  formatVND,
+  getCurrentUser,
+  loginUser,
+  registerUser,
+  logoutUser,
+  getOrders,
+  addOrder,
+  updateOrderStatus
+};
+
 
 

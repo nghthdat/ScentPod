@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tài Khoản &amp; Quản Trị - ScentPod</title>
+  <meta name="description" content="Đăng nhập tài khoản khách hàng hoặc cổng quản trị viên ScentPod. Quản lý đơn hàng nến thơm và ưu đãi ScentClub.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Chính -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="images/sap-thom-bo-ba.svg" type="image/svg+xml">
+
+  <!-- Vercel Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body>
+
+  <!-- ========================================================================
+       HEADER DÙNG CHUNG
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
+        <span class="candle-icon">🕯️</span>
+        <span>Scent<span class="accent">Pod</span></span>
+      </a>
+
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="san-pham.html" class="nav-link">Sản phẩm</a></li>
+          <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       NỘI DUNG CHÍNH (AUTH & DASHBOARD VIEW CONTAINER)
+       ======================================================================== -->
+  <main class="auth-page-wrapper">
+    <div class="container" id="auth-main-container">
+      <!-- Nội dung sẽ tự động render dựa trên trạng thái đăng nhập bằng JS -->
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       FOOTER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-logo footer-logo">
+          <span class="candle-icon">🕯️</span>
+          <span>Scent<span class="accent">Pod</span></span>
+        </div>
+        <p class="brand-desc">Thương hiệu nến thơm và sáp thơm bỏ túi thủ công từ sáp thực vật tự nhiên, an lành cho sức khỏe.</p>
+      </div>
+
+      <div class="footer-col contact-col">
+        <h4>Liên Hệ</h4>
+        <ul class="contact-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Khu Đô Thị Đại Học Quốc Gia, TP. Hồ Chí Minh</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <a href="tel:0912998888">0912 998 888</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col nav-col">
+        <h4>Khám Phá</h4>
+        <ul class="footer-nav">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="san-pham.html">Bộ sưu tập mùi hương</a></li>
+          <li><a href="ve-chung-toi.html">Câu chuyện thương hiệu</a></li>
+          <li><a href="dang-nhap.html">Tài khoản &amp; Quản trị</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 ScentPod. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script Chính -->
+  <script src="js/main.js"></script>
+
+  <!-- Script Quản lý Trang Đăng Nhập & Dashboard -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      renderAuthView();
+    });
+
+    let currentRoleTab = "customer"; // "customer" | "admin"
+    let isRegisterMode = false;
+
+    function renderAuthView() {
+      const container = document.getElementById("auth-main-container");
+      const user = window.ScentPod.getCurrentUser();
+
+      // NẾU ĐÃ ĐĂNG NHẬP:
+      if (user) {
+        if (user.role === "admin") {
+          renderAdminDashboard(container, user);
+        } else {
+          renderCustomerPortal(container, user);
+        }
+        return;
+      }
+
+      // NẾU CHƯA ĐĂNG NHẬP: HIỂN THỊ FORM ĐĂNG NHẬP PHÂN QUYỀN
+      container.innerHTML = `
+        <div class="auth-container">
+          <div class="auth-card">
+            <!-- Tabs chuyển đổi vai trò -->
+            <div class="auth-role-tabs">
+              <button type="button" class="auth-role-tab ${currentRoleTab === 'customer' ? 'is-active' : ''}" id="tab-btn-customer">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Khách Hàng</span>
+              </button>
+              <button type="button" class="auth-role-tab ${currentRoleTab === 'admin' ? 'is-active' : ''}" id="tab-btn-admin">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                <span>Quản Trị Viên</span>
+              </button>
+            </div>
+
+            <!-- Form Khách hàng / Admin -->
+            <div id="auth-form-content">
+              ${currentRoleTab === 'customer' ? renderCustomerFormHtml() : renderAdminFormHtml()}
+            </div>
+
+            <!-- Khối Đăng Nhập Nhanh 1-Click Thử Nghiệm -->
+            <div class="quick-demo-box">
+              <div class="quick-demo-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <span>Đăng Nhập Thử Nghiệm Nhanh (1-Click)</span>
+              </div>
+              <div class="quick-demo-btns">
+                <button type="button" class="btn-demo-quick" id="btn-quick-customer">
+                  👤 Khách Hàng Demo
+                </button>
+                <button type="button" class="btn-demo-quick" id="btn-quick-admin">
+                  👑 Quản Trị Viên Demo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Bắt sự kiện đổi tab
+      document.getElementById("tab-btn-customer").addEventListener("click", () => {
+        currentRoleTab = "customer";
+        isRegisterMode = false;
+        renderAuthView();
+      });
+
+      document.getElementById("tab-btn-admin").addEventListener("click", () => {
+        currentRoleTab = "admin";
+        isRegisterMode = false;
+        renderAuthView();
+      });
+
+      // Quick login 1-click
+      document.getElementById("btn-quick-customer").addEventListener("click", () => {
+        window.ScentPod.loginUser("khachhang@scentpod.vn", "user123", "customer");
+        renderAuthView();
+      });
+
+      document.getElementById("btn-quick-admin").addEventListener("click", () => {
+        window.ScentPod.loginUser("admin@scentpod.vn", "admin123", "admin");
+        renderAuthView();
+      });
+
+      // Gắn submit handlers
+      attachFormSubmitHandlers();
+    }
+
+    function renderCustomerFormHtml() {
+      if (isRegisterMode) {
+        return `
+          <div class="auth-header">
+            <h1>Đăng Ký ScentClub</h1>
+            <p>Tạo tài khoản để nhận voucher 15k và tích điểm đổi nến thơm</p>
+          </div>
+          <form id="form-register">
+            <div class="form-group">
+              <label for="reg-name">Họ và tên của bạn</label>
+              <input type="text" id="reg-name" class="form-control" placeholder="Nguyễn Văn A" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-phone">Số điện thoại</label>
+              <input type="tel" id="reg-phone" class="form-control" placeholder="0912 345 678" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-email">Địa chỉ Email</label>
+              <input type="email" id="reg-email" class="form-control" placeholder="email@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label for="reg-password">Mật khẩu</label>
+              <input type="password" id="reg-password" class="form-control" placeholder="Tối thiểu 6 ký tự" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px; font-weight: 700; margin-top: 8px;">
+              Đăng Ký Tài Khoản
+            </button>
+            <div style="text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--text-muted);">
+              Đã có tài khoản? <a href="#" id="link-toggle-login" style="color: var(--accent-gold); font-weight: 600;">Đăng nhập ngay</a>
+            </div>
+          </form>
+        `;
+      }
+
+      return `
+        <div class="auth-header">
+          <h1>Đăng Nhập Khách Hàng</h1>
+          <p>Chào mừng bạn trở lại với không gian hương thơm ScentPod</p>
+        </div>
+        <form id="form-login-customer">
+          <div class="form-group">
+            <label for="cust-email">Địa chỉ Email</label>
+            <input type="email" id="cust-email" class="form-control" placeholder="khachhang@scentpod.vn" required>
+          </div>
+          <div class="form-group">
+            <label for="cust-password">Mật khẩu</label>
+            <input type="password" id="cust-password" class="form-control" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px; font-weight: 700; margin-top: 8px;">
+            Đăng Nhập
+          </button>
+          <div style="text-align: center; margin-top: 14px; font-size: 0.85rem; color: var(--text-muted);">
+            Chưa có tài khoản? <a href="#" id="link-toggle-reg" style="color: var(--accent-gold); font-weight: 600;">Đăng ký thành viên</a>
+          </div>
+        </form>
+      `;
+    }
+
+    function renderAdminFormHtml() {
+      return `
+        <div class="auth-header">
+          <div style="font-size: 2.2rem; margin-bottom: 8px;">🛡️</div>
+          <h1>Cổng Quản Trị Hệ Thống</h1>
+          <p>Dành riêng cho Ban Quản Trị &amp; Quản Lý Cửa Hàng ScentPod</p>
+        </div>
+        <form id="form-login-admin">
+          <div class="form-group">
+            <label for="admin-email">Email Quản Trị</label>
+            <input type="email" id="admin-email" class="form-control" value="admin@scentpod.vn" required>
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Mật khẩu Quản Trị</label>
+            <input type="password" id="admin-password" class="form-control" value="admin123" required>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; padding: 13px; font-weight: 700; margin-top: 8px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #f59e0b;">
+            👑 Đăng Nhập Cổng Quản Trị
+          </button>
+        </form>
+      `;
+    }
+
+    function attachFormSubmitHandlers() {
+      const toggleRegLink = document.getElementById("link-toggle-reg");
+      if (toggleRegLink) {
+        toggleRegLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          isRegisterMode = true;
+          renderAuthView();
+        });
+      }
+
+      const toggleLoginLink = document.getElementById("link-toggle-login");
+      if (toggleLoginLink) {
+        toggleLoginLink.addEventListener("click", (e) => {
+          e.preventDefault();
+          isRegisterMode = false;
+          renderAuthView();
+        });
+      }
+
+      const loginCustForm = document.getElementById("form-login-customer");
+      if (loginCustForm) {
+        loginCustForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("cust-email").value;
+          const pass = document.getElementById("cust-password").value;
+          window.ScentPod.loginUser(email, pass, "customer");
+          renderAuthView();
+        });
+      }
+
+      const regForm = document.getElementById("form-register");
+      if (regForm) {
+        regForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const name = document.getElementById("reg-name").value;
+          const phone = document.getElementById("reg-phone").value;
+          const email = document.getElementById("reg-email").value;
+          const pass = document.getElementById("reg-password").value;
+          window.ScentPod.registerUser(name, email, phone, pass);
+          renderAuthView();
+        });
+      }
+
+      const loginAdminForm = document.getElementById("form-login-admin");
+      if (loginAdminForm) {
+        loginAdminForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const email = document.getElementById("admin-email").value;
+          const pass = document.getElementById("admin-password").value;
+          window.ScentPod.loginUser(email, pass, "admin");
+          renderAuthView();
+        });
+      }
+    }
+
+    /**
+     * ========================================================================
+     * GIAO DIỆN KHÁCH HÀNG (CUSTOMER PORTAL)
+     * ========================================================================
+     */
+    function renderCustomerPortal(container, user) {
+      const orders = window.ScentPod.getOrders();
+      const formatVND = window.ScentPod.formatVND;
+
+      container.innerHTML = `
+        <div class="dashboard-container">
+          <div class="dashboard-topbar">
+            <div class="dashboard-user-greeting">
+              <h1>Xin chào, ${user.name} 👋</h1>
+              <p>Thành viên ScentClub: <strong style="color: var(--accent-gold);">${user.tier || 'Hạng Bạc (Sinh Viên)'}</strong> &bull; Điểm tích lũy: <strong style="color: #4ade80;">${user.points || 250} điểm</strong></p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <a href="san-pham.html" class="btn btn-primary" style="padding: 9px 18px; font-size: 0.88rem;">🛍️ Tiếp tục mua nến</a>
+              <button type="button" class="btn btn-outline" id="btn-logout" style="padding: 9px 18px; font-size: 0.88rem;">Đăng xuất</button>
+            </div>
+          </div>
+
+          <!-- Danh sách đơn hàng của khách -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-title">
+              <span>📦 Đơn Hàng Của Bạn (${orders.length})</span>
+              <span style="font-size: 0.82rem; color: var(--text-muted); font-weight: normal;">Cập nhật theo thời gian thực</span>
+            </div>
+
+            <div class="dashboard-table-wrap">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Mã Đơn</th>
+                    <th>Thời Gian</th>
+                    <th>Sản Phẩm</th>
+                    <th>Tổng Tiền</th>
+                    <th>Phương Thức</th>
+                    <th>Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${orders.map(order => `
+                    <tr>
+                      <td style="font-weight: 700; color: var(--accent-gold);">${order.id}</td>
+                      <td style="font-size: 0.82rem;">${order.date}</td>
+                      <td>
+                        <div style="line-height: 1.4;">
+                          ${order.items.map(item => `<div>&bull; <strong>${item.name}</strong> &times; ${item.quantity}</div>`).join('')}
+                        </div>
+                      </td>
+                      <td style="font-weight: 700; color: #fff;">${formatVND(order.total)}</td>
+                      <td style="font-size: 0.82rem;">${order.paymentMethod}</td>
+                      <td>
+                        <span class="badge-status ${getStatusClass(order.status)}">${order.status}</span>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Thẻ đặc quyền ưu đãi -->
+          <div class="dashboard-card" style="background: rgba(229, 169, 59, 0.05); border: 1px dashed rgba(229, 169, 59, 0.35);">
+            <div class="dashboard-card-title" style="color: var(--accent-gold); margin-bottom: 8px;">
+              🎁 Đặc quyền thành viên ScentPod dành cho bạn
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              • Dùng mã <strong style="color: #fff; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px;">SINHVIEN</strong> để được giảm ngay 15.000đ cho mọi đơn hàng.<br>
+              • Miễn phí giao hàng toàn quốc khi đặt từ 2 hũ nến hoặc sáp thơm.<br>
+              • Miễn phí thiệp tay chúc mừng đính kèm trong từng hộp quà.
+            </p>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("btn-logout").addEventListener("click", () => {
+        window.ScentPod.logoutUser();
+      });
+    }
+
+    /**
+     * ========================================================================
+     * GIAO DIỆN BẢNG ĐIỀU KHIỂN QUẢN TRỊ VIÊN (ADMIN DASHBOARD)
+     * ========================================================================
+     */
+    function renderAdminDashboard(container, user) {
+      const orders = window.ScentPod.getOrders();
+      const formatVND = window.ScentPod.formatVND;
+
+      // Tính tổng doanh thu
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.status !== 'Đã hủy' ? o.total : 0), 0);
+
+      container.innerHTML = `
+        <div class="dashboard-container">
+          <div class="dashboard-topbar">
+            <div class="dashboard-user-greeting">
+              <h1 style="color: #fbbf24;">👑 Bảng Quản Trị Hệ Thống ScentPod</h1>
+              <p>Quản lý đơn hàng, kho mùi hương và doanh thu bán lẻ thời gian thực</p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <a href="san-pham.html" class="btn btn-outline" style="padding: 9px 18px; font-size: 0.88rem;">🛍️ Xem trang cửa hàng</a>
+              <button type="button" class="btn btn-outline" id="btn-admin-logout" style="padding: 9px 18px; font-size: 0.88rem; color: #f87171;">Đăng xuất Admin</button>
+            </div>
+          </div>
+
+          <!-- 4 Thẻ KPI Doanh Thu & Chỉ Số -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon">💰</div>
+              <div class="kpi-value" style="color: #4ade80;">${formatVND(totalRevenue)}</div>
+              <div class="kpi-label">Tổng Doanh Thu Đơn Hàng</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon">📦</div>
+              <div class="kpi-value" style="color: var(--accent-gold);">${orders.length}</div>
+              <div class="kpi-label">Tổng Số Đơn Đã Đặt</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon">🕯️</div>
+              <div class="kpi-value">4</div>
+              <div class="kpi-label">Mùi Hương Đang Mở Bán</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-icon">⭐</div>
+              <div class="kpi-value" style="color: #60a5fa;">100%</div>
+              <div class="kpi-label">Tỉ Lệ Đơn Xử Lý Tốt</div>
+            </div>
+          </div>
+
+          <!-- Bảng Quản Lý Đơn Hàng -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-title">
+              <span>📋 Danh Sách Đơn Hàng Của Khách (${orders.length} đơn)</span>
+              <span style="font-size: 0.82rem; color: #4ade80;">⚡ Admin có thể đổi trạng thái đơn trực tiếp</span>
+            </div>
+
+            <div class="dashboard-table-wrap">
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Mã Đơn</th>
+                    <th>Thời Gian</th>
+                    <th>Khách Hàng &amp; Địa Chỉ</th>
+                    <th>Sản Phẩm Đặt</th>
+                    <th>Tổng Tiền</th>
+                    <th>Thanh Toán</th>
+                    <th style="min-width: 170px;">Cập Nhật Trạng Thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${orders.map(order => `
+                    <tr>
+                      <td style="font-weight: 700; color: var(--accent-gold);">${order.id}</td>
+                      <td style="font-size: 0.8rem; white-space: nowrap;">${order.date}</td>
+                      <td>
+                        <strong>${order.customer.name}</strong><br>
+                        <span style="font-size: 0.8rem; color: var(--text-muted);">${order.customer.phone}</span><br>
+                        <span style="font-size: 0.78rem; color: var(--text-secondary);">${order.customer.address}</span>
+                        ${order.customer.giftCard ? `<div style="font-size: 0.74rem; color: var(--accent-gold); margin-top: 4px;">💌 Thiệp: "${order.customer.giftCard}"</div>` : ''}
+                      </td>
+                      <td>
+                        ${order.items.map(item => `<div>&bull; ${item.name} &times; <strong>${item.quantity}</strong></div>`).join('')}
+                      </td>
+                      <td style="font-weight: 700; color: #fff;">${formatVND(order.total)}</td>
+                      <td style="font-size: 0.82rem;">${order.paymentMethod}</td>
+                      <td>
+                        <select class="form-control admin-status-select" data-order-id="${order.id}" style="padding: 6px 10px; font-size: 0.82rem; border-color: var(--accent-gold);">
+                          <option value="Chờ xác nhận" ${order.status === 'Chờ xác nhận' ? 'selected' : ''}>⏳ Chờ xác nhận</option>
+                          <option value="Đang đóng gói" ${order.status === 'Đang đóng gói' ? 'selected' : ''}>📦 Đang đóng gói</option>
+                          <option value="Đang giao hàng" ${order.status === 'Đang giao hàng' ? 'selected' : ''}>🚚 Đang giao hàng</option>
+                          <option value="Hoàn thành" ${order.status === 'Hoàn thành' ? 'selected' : ''}>✅ Hoàn thành</option>
+                          <option value="Đã hủy" ${order.status === 'Đã hủy' ? 'selected' : ''}>❌ Đã hủy</option>
+                        </select>
+                      </td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Quản Lý 4 Mùi Hương ScentPod -->
+          <div class="dashboard-card">
+            <div class="dashboard-card-title">
+              <span>🕯️ Danh Mục 4 Mùi Hương Đang Mở Bán</span>
+              <button type="button" class="btn btn-outline" onclick="document.querySelector('.img-manager-fab').click();" style="padding: 6px 14px; font-size: 0.82rem;">
+                📷 Quản lý ảnh sản phẩm
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
+                <span class="badge-status status-completed">Mùi 01 &bull; Đang bán</span>
+                <h4 style="margin: 8px 0 2px 0;">First Class</h4>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">White Tea &amp; Morning Dew</div>
+                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
+                <span class="badge-status status-completed">Mùi 02 &bull; Đang bán</span>
+                <h4 style="margin: 8px 0 2px 0;">Blind Date</h4>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Sweet Peach &amp; Vanilla Cloud</div>
+                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
+                <span class="badge-status status-completed">Mùi 03 &bull; Đang bán</span>
+                <h4 style="margin: 8px 0 2px 0;">Campus Breeze</h4>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Sea Salt &amp; Sage</div>
+                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px;">
+                <span class="badge-status status-completed">Mùi 04 &bull; Đang bán</span>
+                <h4 style="margin: 8px 0 2px 0;">Late Night</h4>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Cedarwood &amp; Warm Amber</div>
+                <div style="font-weight: 700; color: var(--accent-gold);">89.000đ</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Bắt sự kiện đổi trạng thái đơn hàng
+      container.querySelectorAll(".admin-status-select").forEach(sel => {
+        sel.addEventListener("change", (e) => {
+          const oid = e.target.getAttribute("data-order-id");
+          const nst = e.target.value;
+          window.ScentPod.updateOrderStatus(oid, nst);
+        });
+      });
+
+      document.getElementById("btn-admin-logout").addEventListener("click", () => {
+        window.ScentPod.logoutUser();
+      });
+    }
+
+    function getStatusClass(status) {
+      if (status === "Chờ xác nhận") return "status-pending";
+      if (status === "Đang đóng gói" || status === "Đang giao hàng") return "status-shipping";
+      if (status === "Hoàn thành") return "status-completed";
+      if (status === "Đã hủy") return "status-cancelled";
+      return "status-shipping";
+    }
+  </script>
+</body>
+</html>
