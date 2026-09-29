@@ -799,6 +799,26 @@ p { color: var(--text-muted); font-size: 1rem; }
   transform: scale(1.04);
 }
 
+.story-closing-quote {
+  margin-top: 2.4rem;
+  padding: 1.8rem 2.2rem;
+  background: rgba(229, 169, 59, 0.08);
+  border: 1px solid var(--border-gold);
+  border-radius: 14px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.story-closing-quote p {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--accent-gold);
+  line-height: 1.7;
+  margin: 0;
+}
+
 /* Giá trị cốt lõi (Values Grid) */
 .values-grid {
   display: grid;
