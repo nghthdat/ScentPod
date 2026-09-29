@@ -145,7 +145,7 @@ function initScrollAnimations() {
 const PRODUCTS_CONFIG = {
   "sap-thom-bo-ba": {
     id: "sap-thom-bo-ba",
-    name: "Bộ ba sáp thơm trải nghiệm",
+    name: "Bộ ba sáp thơm & Nến trải nghiệm",
     filename: "sap-thom-bo-ba.jpg",
     defaultSrc: "images/sap-thom-bo-ba.jpg",
     fallbackSrc: "images/sap-thom-bo-ba.svg",
@@ -153,7 +153,7 @@ const PRODUCTS_CONFIG = {
   },
   "nen-thom-mini": {
     id: "nen-thom-mini",
-    name: "Nến thơm mini (50g)",
+    name: "Nến thơm Santal & Fig (113g)",
     filename: "nen-thom-mini.jpg",
     defaultSrc: "images/nen-thom-mini.jpg",
     fallbackSrc: "images/nen-thom-mini.svg",
@@ -161,7 +161,7 @@ const PRODUCTS_CONFIG = {
   },
   "combo-nen-sap": {
     id: "combo-nen-sap",
-    name: "Combo Nến mini + Bộ ba sáp thơm",
+    name: "Combo Góc Học Bài & Thư Giãn",
     filename: "combo-nen-sap.jpg",
     defaultSrc: "images/combo-nen-sap.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
@@ -169,7 +169,7 @@ const PRODUCTS_CONFIG = {
   },
   "nen-thu-gian": {
     id: "nen-thu-gian",
-    name: "Nến thơm thư giãn hũ nâu (100g)",
+    name: "Nến thơm thư giãn Classic (Hũ nắp kim loại)",
     filename: "nen-thu-gian.jpg",
     defaultSrc: "images/nen-thu-gian.jpg",
     fallbackSrc: "images/nen-thu-gian.svg",
@@ -177,7 +177,7 @@ const PRODUCTS_CONFIG = {
   },
   "sap-treo-tu": {
     id: "sap-treo-tu",
-    name: "Sáp thơm treo tủ quần áo thảo mộc",
+    name: "Sáp thơm bỏ túi & Treo tủ thảo mộc",
     filename: "sap-treo-tu.jpg",
     defaultSrc: "images/sap-treo-tu.jpg",
     fallbackSrc: "images/sap-treo-tu.svg",

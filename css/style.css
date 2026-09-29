@@ -333,6 +333,14 @@ p { color: var(--text-muted); font-size: 1rem; }
   padding-bottom: 4rem;
   text-align: center;
   overflow: hidden;
+  background-color: var(--bg-primary);
+  background-image: 
+    radial-gradient(circle at 50% 45%, rgba(13, 11, 10, 0.78) 0%, rgba(13, 11, 10, 0.94) 85%),
+    linear-gradient(to bottom, rgba(13, 11, 10, 0.68) 0%, rgba(13, 11, 10, 0.98) 100%),
+    url('../images/hero-candle-bg.jpg');
+  background-size: cover;
+  background-position: center 35%;
+  background-repeat: no-repeat;
 }
 
 /* Nền hào quang ấm phía sau Hero */
@@ -529,6 +537,7 @@ p { color: var(--text-muted); font-size: 1rem; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 55%;
   transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -669,13 +678,21 @@ p { color: var(--text-muted); font-size: 1rem; }
 
 /* 13. TRANG VỀ CHÚNG TÔI (ABOUT PAGE) */
 .story-wrapper {
-  max-width: 820px;
+  max-width: 960px;
   margin: 0 auto 4rem auto;
   background: var(--bg-card);
   border: 1px solid var(--border-subtle);
-  border-radius: 12px;
-  padding: 3rem 2.5rem;
+  border-radius: 16px;
+  padding: 3rem 2.8rem;
   position: relative;
+  box-shadow: var(--shadow-warm);
+}
+
+.story-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 2.8rem;
+  align-items: center;
 }
 
 .story-lead {
@@ -684,7 +701,7 @@ p { color: var(--text-muted); font-size: 1rem; }
   font-style: italic;
   color: var(--accent-gold);
   margin-bottom: 1.4rem;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
 .story-text {
@@ -692,6 +709,27 @@ p { color: var(--text-muted); font-size: 1rem; }
   color: var(--text-primary);
   line-height: 1.8;
   margin-bottom: 1.2rem;
+}
+
+.story-image-col {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-gold);
+  aspect-ratio: 4 / 5;
+  box-shadow: var(--shadow-warm-hover);
+}
+
+.story-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 55%;
+  transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.story-image-col:hover .story-img {
+  transform: scale(1.04);
 }
 
 /* Giá trị cốt lõi (Values Grid) */
@@ -1027,6 +1065,15 @@ p { color: var(--text-muted); font-size: 1rem; }
 
   .story-wrapper {
     padding: 2rem 1.4rem;
+  }
+
+  .story-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+  }
+
+  .story-image-col {
+    aspect-ratio: 16 / 11;
   }
 }
 
