@@ -6,10 +6,10 @@
     </radialGradient>
   </defs>
   <circle cx="100" cy="100" r="98" fill="url(#avBg2)" stroke="#c9a26b" stroke-width="2"/>
-  <!-- Stylized avatar outline for Thành Đạt -->
+  <!-- Stylized avatar outline for Khổng Đức Hiếu -->
   <circle cx="100" cy="80" r="34" fill="#384230"/>
   <path d="M50 165 C55 125, 145 125, 150 165 Z" fill="#242b1f"/>
   <!-- Monogram -->
-  <text x="100" y="87" font-family="'Cormorant Garamond', serif" font-size="28" fill="#c9a26b" text-anchor="middle" font-weight="600">TĐ</text>
+  <text x="100" y="87" font-family="'Cormorant Garamond', 'Playfair Display', serif" font-size="28" fill="#c9a26b" text-anchor="middle" font-weight="600">ĐH</text>
   <circle cx="140" cy="50" r="3" fill="#ffe299"/>
 </svg>
