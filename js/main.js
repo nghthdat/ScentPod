@@ -286,7 +286,9 @@ const PRODUCT_SIZES_CONFIG = {
     label: "SP01: Sáp bỏ túi 50g (Hũ nhôm)",
     shortLabel: "Sáp 50g (SP01)",
     listPrice: 55000,
+    originalPrice: 55000,
     listPriceFormatted: "55.000đ",
+    originalPriceFormatted: "55.000đ",
     price: 49000,
     priceFormatted: "49.000đ",
     inboxPrice: 45000,
@@ -294,6 +296,7 @@ const PRODUCT_SIZES_CONFIG = {
     savings: 6000,
     savingsFormatted: "6.000đ",
     giftNote: "Kèm thiệp cảm ơn viết tay + giấy thử mùi mới",
+    gift: "Kèm thiệp cảm ơn viết tay + giấy thử mùi mới",
     kpiTarget: "Tháng 1: Tiếp cận HSSV, kéo traffic về Web/Fanpage",
     isDefault: false
   },
@@ -306,7 +309,9 @@ const PRODUCT_SIZES_CONFIG = {
     label: "SP02: Nến thơm 100g (Hũ thủy tinh)",
     shortLabel: "Nến 100g (SP02)",
     listPrice: 95000,
+    originalPrice: 95000,
     listPriceFormatted: "95.000đ",
+    originalPriceFormatted: "95.000đ",
     price: 85000,
     priceFormatted: "85.000đ",
     inboxPrice: 79000,
@@ -314,6 +319,7 @@ const PRODUCT_SIZES_CONFIG = {
     savings: 10000,
     savingsFormatted: "10.000đ",
     giftNote: "Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến",
+    gift: "Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến",
     kpiTarget: "Tháng 1 & 2: Tăng giá trị giỏ hàng (AOV) đơn lẻ",
     isDefault: true
   }
@@ -367,11 +373,14 @@ const COMBOS_CONFIG = {
     originalPriceFormatted: "110.000đ",
     price: "89.000đ",
     priceNumber: 89000,
+    salePrice: 89000,
     savings: 21000,
     savingsFormatted: "21.000đ",
     discountPercent: "19%",
     shippingPolicy: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
+    shippingPerk: "Đồng giá ship 15k",
     shippingFee: 15000,
+    gift: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
     gifts: "Tặng giấy thơm trải nghiệm + Đồng giá ship 15k",
     kpiTarget: "Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ",
     filename: "sap-thom-bo-ba.jpg",
@@ -390,11 +399,14 @@ const COMBOS_CONFIG = {
     originalPriceFormatted: "150.000đ",
     price: "119.000đ",
     priceNumber: 119000,
+    salePrice: 119000,
     savings: 31000,
     savingsFormatted: "31.000đ",
     discountPercent: "21%",
     shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
+    shippingPerk: "Đồng giá ship 15k",
     shippingFee: 15000,
+    gift: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
     gifts: "Tặng 1 viên tealight mini 0đ + Đồng giá ship 15k",
     kpiTarget: "Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ",
     filename: "combo-nen-sap.jpg",
@@ -413,11 +425,14 @@ const COMBOS_CONFIG = {
     originalPriceFormatted: "165.000đ",
     price: "129.000đ",
     priceNumber: 129000,
+    salePrice: 129000,
     savings: 36000,
     savingsFormatted: "36.000đ",
     discountPercent: "22%",
     shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
+    shippingPerk: "Đồng giá ship 15k",
     shippingFee: 15000,
+    gift: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
     gifts: "Tặng 1 viên tealight mini + thiệp viết tay + Đồng giá ship 15k",
     kpiTarget: "Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%",
     filename: "nen-thu-gian.jpg",
@@ -1091,6 +1106,12 @@ function saveCart(cart) {
 }
 
 function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "sp02") {
+  // Nếu tham số thứ 3 được truyền là chuỗi kích thước (vd: "sp01", "50g")
+  if (typeof showDrawer === "string") {
+    selectedSize = showDrawer;
+    showDrawer = true;
+  }
+
   // 1. Kiểm tra nếu là sản phẩm combo (CB01, CB02, CB03 hoặc aliases)
   const combo = COMBOS_CONFIG[productId];
   if (combo) {
@@ -1261,12 +1282,14 @@ function getCartTotals() {
     (item.productId && COMBOS_CONFIG[item.productId])
   );
 
-  // Mua từ 2 sản phẩm trở lên hoặc tổng đơn >= 150.000đ -> Miễn phí giao hàng (Freeship)
-  const isFreeShipByQty = totalQty >= 2 || subtotal >= 150000;
+  // Đạt freeship khi:
+  // 1. Tổng tiền hàng >= 150.000đ (cho mọi đơn hàng kể cả combo)
+  // 2. Hoặc đối với đơn lẻ không combo: mua từ 2 sản phẩm trở lên
+  const isFreeShip = subtotal >= 150000 || (!hasCombo && totalQty >= 2);
   
-  // Phí ship: Nếu đơn có Combo: Đồng giá ship 15.000đ; Đơn lẻ bình thường: 25.000đ; Đạt mốc: 0đ Freeship
+  // Phí ship: Nếu đơn có Combo: Đồng giá ship 15.000đ; Đơn lẻ bình thường: 25.000đ; Đạt freeship: 0đ
   const baseShippingRate = hasCombo ? 15000 : 25000;
-  let shipping = cart.length === 0 ? 0 : (isFreeShipByQty ? 0 : baseShippingRate);
+  let shipping = cart.length === 0 ? 0 : (isFreeShip ? 0 : baseShippingRate);
 
   const coupon = getActiveCoupon();
   let discount = 0;
@@ -1289,7 +1312,8 @@ function getCartTotals() {
     coupon,
     finalTotal,
     hasCombo,
-    isFreeShipByQty
+    isFreeShip,
+    isFreeShipByQty: isFreeShip
   };
 }
 
@@ -1489,18 +1513,22 @@ function updateCartUI() {
 
   // Thanh tiến trình freeship
   if (fillBar && freeshipLabel && freeshipPercent) {
-    if (totals.totalQty >= 2) {
+    if (totals.shipping === 0 && totals.totalQty > 0) {
       fillBar.style.width = "100%";
       freeshipPercent.textContent = "100%";
       freeshipLabel.textContent = "🎉 Bạn đã được MIỄN PHÍ VẬN CHUYỂN toàn quốc!";
+    } else if (totals.hasCombo) {
+      fillBar.style.width = "75%";
+      freeshipPercent.textContent = "75%";
+      freeshipLabel.textContent = "⚡ Ưu đãi Combo: Đồng giá ship 15k! (Đơn từ 150k Freeship) 🚚";
     } else if (totals.totalQty === 1) {
       fillBar.style.width = "50%";
       freeshipPercent.textContent = "50%";
-      freeshipLabel.textContent = "Thêm 1 mùi nữa để được FREESHIP toàn quốc 🚚";
+      freeshipLabel.textContent = "Thêm 1 sản phẩm nữa để được FREESHIP toàn quốc 🚚";
     } else {
       fillBar.style.width = "0%";
       freeshipPercent.textContent = "0%";
-      freeshipLabel.textContent = "Mua từ 2 hũ: FREESHIP toàn quốc 🚚";
+      freeshipLabel.textContent = "Mua từ 2 hũ hoặc Combo: Hỗ trợ phí ship 🚚";
     }
   }
 
@@ -1526,6 +1554,7 @@ function updateCartUI() {
       <div class="cart-item-info">
         <h4 class="cart-item-name">${item.name}</h4>
         <div class="cart-item-scent">${item.scentName}</div>
+        ${item.gifts ? `<div class="cart-item-perk">🎁 ${item.gifts}</div>` : (item.giftNote ? `<div class="cart-item-perk">🎁 ${item.giftNote}</div>` : '')}
         <div class="cart-item-price">${formatVND(item.price)}</div>
         <div class="cart-item-ctrl">
           <button type="button" class="cart-qty-btn btn-cart-dec" data-id="${item.id}" aria-label="Giảm">&minus;</button>
@@ -1552,7 +1581,10 @@ function updateCartUI() {
 
   // Tóm tắt tài chính
   document.getElementById("cart-subtotal-val").textContent = formatVND(totals.subtotal);
-  document.getElementById("cart-shipping-val").textContent = totals.shipping === 0 ? "Miễn phí (Freeship)" : formatVND(totals.shipping);
+  const shipText = totals.shipping === 0 
+    ? "Miễn phí (Freeship)" 
+    : (totals.hasCombo ? `${formatVND(totals.shipping)} (Đồng giá Combo)` : formatVND(totals.shipping));
+  document.getElementById("cart-shipping-val").textContent = shipText;
 
   const discountRow = document.getElementById("cart-discount-row");
   if (totals.discount > 0) {
@@ -1732,7 +1764,7 @@ const DEFAULT_INVENTORY = {
     scentName: "White Tea & Morning Dew",
     stock: 45,
     minThreshold: 10,
-    price: 89000,
+    price: 85000,
     location: "Kệ A1 - Khu nến trà"
   },
   "blind-date": {
@@ -1742,7 +1774,7 @@ const DEFAULT_INVENTORY = {
     scentName: "Sweet Peach & Vanilla Cloud",
     stock: 38,
     minThreshold: 10,
-    price: 89000,
+    price: 85000,
     location: "Kệ A2 - Khu nến hoa quả"
   },
   "campus-breeze": {
@@ -1752,7 +1784,7 @@ const DEFAULT_INVENTORY = {
     scentName: "Sea Salt & Sage",
     stock: 52,
     minThreshold: 10,
-    price: 89000,
+    price: 85000,
     location: "Kệ B1 - Khu hương biển"
   },
   "late-night": {
@@ -1762,7 +1794,7 @@ const DEFAULT_INVENTORY = {
     scentName: "Cedarwood & Warm Amber",
     stock: 26,
     minThreshold: 10,
-    price: 89000,
+    price: 85000,
     location: "Kệ B2 - Khu hương gỗ ấm"
   }
 };
@@ -1829,7 +1861,7 @@ function getProductOrderStats() {
       code: "Mùi 01",
       name: "First Class",
       scentName: "White Tea & Morning Dew",
-      price: 89000,
+      price: 85000,
       orderCount: 0,
       totalQtySold: 0,
       revenue: 0,
@@ -1841,7 +1873,7 @@ function getProductOrderStats() {
       code: "Mùi 02",
       name: "Blind Date",
       scentName: "Sweet Peach & Vanilla Cloud",
-      price: 89000,
+      price: 85000,
       orderCount: 0,
       totalQtySold: 0,
       revenue: 0,
@@ -1853,7 +1885,7 @@ function getProductOrderStats() {
       code: "Mùi 03",
       name: "Campus Breeze",
       scentName: "Sea Salt & Sage",
-      price: 89000,
+      price: 85000,
       orderCount: 0,
       totalQtySold: 0,
       revenue: 0,
@@ -1865,7 +1897,7 @@ function getProductOrderStats() {
       code: "Mùi 04",
       name: "Late Night",
       scentName: "Cedarwood & Warm Amber",
-      price: 89000,
+      price: 85000,
       orderCount: 0,
       totalQtySold: 0,
       revenue: 0,
@@ -1879,18 +1911,19 @@ function getProductOrderStats() {
     const productsInThisOrder = new Set();
 
     (order.items || []).forEach(item => {
-      const pId = item.id;
-      if (statsMap[pId]) {
+      const pId = item.productId || (item.id ? item.id.split('-')[0] : '');
+      const key = statsMap[item.id] ? item.id : (statsMap[pId] ? pId : null);
+      if (key) {
         const qty = item.quantity || 1;
-        const price = item.price || 89000;
-        statsMap[pId].totalQtySold += qty;
-        statsMap[pId].revenue += (qty * price);
-        productsInThisOrder.add(pId);
+        const price = item.price || 85000;
+        statsMap[key].totalQtySold += qty;
+        statsMap[key].revenue += (qty * price);
+        productsInThisOrder.add(key);
       }
     });
 
-    productsInThisOrder.forEach(pId => {
-      statsMap[pId].orderCount += 1;
+    productsInThisOrder.forEach(key => {
+      statsMap[key].orderCount += 1;
     });
   });
 

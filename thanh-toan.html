@@ -335,21 +335,33 @@
 
       const container = document.getElementById("checkout-items-list");
       container.innerHTML = cart.map(item => `
-        <div style="display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center;">
-          <div style="width: 52px; height: 62px; border-radius: 6px; overflow: hidden; background: #221a15; flex-shrink: 0; border: 1px solid var(--border-subtle);">
+        <div style="display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: flex-start;">
+          <div style="width: 52px; height: 62px; border-radius: 6px; overflow: hidden; background: #221a15; flex-shrink: 0; border: 1px solid var(--border-subtle); margin-top: 2px;">
             <img src="${item.image}" alt="${item.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='${item.fallbackSrc}';">
           </div>
           <div style="flex: 1; min-width: 0;">
-            <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">${item.name}</div>
-            <div style="font-size: 0.78rem; color: var(--text-muted);">${item.scentName}</div>
-            <div style="font-size: 0.82rem; color: var(--accent-gold); font-weight: 600;">${formatVND(item.price)} &times; ${item.quantity}</div>
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+              ${item.code ? `<span style="font-size: 0.68rem; font-weight: 700; padding: 1px 6px; border-radius: 4px; background: ${item.isCombo ? 'rgba(74, 222, 128, 0.15)' : 'rgba(229, 169, 59, 0.15)'}; color: ${item.isCombo ? '#4ade80' : 'var(--accent-gold)'}; border: 1px solid ${item.isCombo ? 'rgba(74, 222, 128, 0.3)' : 'rgba(229, 169, 59, 0.3)'};">${item.code}</span>` : ''}
+              <span style="font-weight: 600; font-size: 0.9rem; color: var(--text-primary);">${item.name}</span>
+            </div>
+            <div style="font-size: 0.78rem; color: var(--text-muted); margin-top: 2px;">${item.scentName}</div>
+            ${item.gift ? `<div style="font-size: 0.72rem; color: #4ade80; margin-top: 3px; display: flex; align-items: center; gap: 4px;"><span>🎁</span><span>${item.gift}</span></div>` : ''}
+            <div style="font-size: 0.82rem; color: var(--accent-gold); font-weight: 600; margin-top: 4px;">${formatVND(item.price)} &times; ${item.quantity}</div>
           </div>
-          <div style="font-weight: 700; font-size: 0.92rem; color: #fff;">${formatVND(item.price * item.quantity)}</div>
+          <div style="font-weight: 700; font-size: 0.92rem; color: #fff; margin-left: 8px; white-space: nowrap;">${formatVND(item.price * item.quantity)}</div>
         </div>
       `).join('');
 
       document.getElementById("chk-subtotal").textContent = formatVND(totals.subtotal);
-      document.getElementById("chk-shipping").textContent = totals.shipping === 0 ? "Miễn phí (Freeship)" : formatVND(totals.shipping);
+      
+      const shippingEl = document.getElementById("chk-shipping");
+      if (totals.shipping === 0) {
+        shippingEl.innerHTML = '<span style="color: #4ade80; font-weight: 600;">Miễn phí (Freeship)</span>';
+      } else if (totals.hasCombo) {
+        shippingEl.innerHTML = `<span style="color: #4ade80; font-weight: 600;">15.000đ</span> <span style="font-size: 0.75rem; color: var(--text-muted);">(Đồng giá ship Combo)</span>`;
+      } else {
+        shippingEl.textContent = formatVND(totals.shipping);
+      }
 
       const discountLine = document.getElementById("chk-discount-line");
       if (totals.discount > 0) {
