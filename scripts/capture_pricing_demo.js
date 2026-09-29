@@ -93,18 +93,9 @@ async function run() {
   }
 
   try {
-    console.log('=== 1. CHỤP BẢNG GIÁ CHIẾN LƯỢC TRÊN SAN-PHAM.HTML ===');
+    console.log('=== 1. CHỤP ĐẦU TRANG SAN-PHAM.HTML (KHÔNG CÒN BẢNG 1 BÁN LẺ) ===');
     const pageSanpham = await createPage('http://localhost:8080/san-pham.html');
     await sleep(1000);
-
-    // Cuộn tới Bảng giá chiến lược
-    await pageSanpham.send('Runtime.evaluate', {
-      expression: `(() => {
-        const el = document.querySelector('.pricing-strategy-section');
-        if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
-      })()`
-    });
-    await sleep(800);
 
     const ssTable = await pageSanpham.send('Page.captureScreenshot', { format: 'png' });
     fs.writeFileSync(path.join(artifactDir, 'pricing_table_preview.png'), Buffer.from(ssTable.data, 'base64'));

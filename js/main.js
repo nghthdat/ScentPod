@@ -141,53 +141,416 @@ function initScrollAnimations() {
 }
 
 /**
- * Bộ lọc danh mục sản phẩm (Tất cả, Nến đơn, Combo) & xử lý cuộn hash #combo
+ * Chuẩn hóa chuỗi tiếng Việt (bỏ dấu, chuyển chữ thường) để tìm kiếm AI thông minh
  */
-function initCategoryFilter() {
+function normalizeVietnamese(str) {
+  if (!str) return "";
+  return String(str)
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "d")
+    .trim();
+}
+
+/**
+ * ==========================================================================
+ * BỘ LỌC ĐA TIÊU CHÍ & TÌM KIẾM THÔNG MINH BẰNG TỪ KHÓA AI
+ * Hỗ trợ tìm kiếm theo:
+ * - Tâm trạng / Công dụng AI: "học bài", "thức khuya", "khử mùi", "ngủ ngon"...
+ * - Tầng hương: "trà", "đào", "muối biển", "gỗ tuyết tùng", "hổ phách"...
+ * - Mức giá: Dưới 50k, 50k - 100k, Trên 100k
+ * - Ưu đãi: Đồng giá ship 15k, Quà tặng kèm, Tiết kiệm 20k+, Chốt Inbox
+ * - Sắp xếp: Mặc định, Giá tăng, Giá giảm, Tiết kiệm nhiều nhất
+ * ==========================================================================
+ */
+function initProductSearchAndFilter() {
+  const searchInput = document.getElementById("ai-product-search-input");
+  const clearSearchBtn = document.getElementById("clear-search-btn");
+  const priceSelect = document.getElementById("filter-price-select");
+  const dealSelect = document.getElementById("filter-deal-select");
+  const scentSelect = document.getElementById("filter-scent-select");
+  const sortSelect = document.getElementById("filter-sort-select");
+  const resetBtn = document.getElementById("reset-filters-btn");
+  const noResultsResetBtn = document.getElementById("no-results-reset-btn");
+  const matchingCountEl = document.getElementById("matching-count");
+  const activeTagsEl = document.getElementById("active-filter-tags");
+  const noProductsBox = document.getElementById("no-products-found");
+  const chipBtns = document.querySelectorAll(".ai-chip-btn");
   const filterBtns = document.querySelectorAll(".category-filter-btn");
+
   const singleGrid = document.getElementById("single-candles-grid");
+  const comboGrid = document.getElementById("combo-grid");
   const comboSection = document.getElementById("combo");
 
-  const activateFilter = (filter) => {
-    filterBtns.forEach((b) => {
-      b.classList.toggle("is-active", b.getAttribute("data-filter") === filter);
+  // Nếu không ở trang san-pham.html, bỏ qua an toàn
+  if (!singleGrid && !comboGrid) return;
+
+  const allCards = Array.from(document.querySelectorAll("#single-candles-grid .product-card, #combo-grid .product-card"));
+  if (allCards.length === 0) return;
+
+  // Lưu trữ thứ tự DOM ban đầu để khôi phục khi sắp xếp mặc định
+  const initialSingleCards = Array.from(singleGrid ? singleGrid.querySelectorAll(".product-card") : []);
+  const initialComboCards = Array.from(comboGrid ? comboGrid.querySelectorAll(".product-card") : []);
+
+  let currentCategory = "all"; // 'all' | 'single' | 'combo'
+
+  function applyFiltersAndSearch() {
+    const rawQuery = searchInput ? searchInput.value.trim() : "";
+    const normQuery = normalizeVietnamese(rawQuery);
+    const queryWords = normQuery.split(/\s+/).filter(Boolean);
+
+    // Hiển thị / ẩn nút xóa tìm kiếm
+    if (clearSearchBtn) {
+      clearSearchBtn.style.display = rawQuery ? "flex" : "none";
+    }
+
+    const selectedPrice = priceSelect ? priceSelect.value : "all";
+    const selectedDeal = dealSelect ? dealSelect.value : "all";
+    const selectedScent = scentSelect ? scentSelect.value : "all";
+    const selectedSort = sortSelect ? sortSelect.value : "default";
+
+    let visibleCount = 0;
+    let visibleSingleCount = 0;
+    let visibleComboCount = 0;
+
+    allCards.forEach((card) => {
+      const type = card.getAttribute("data-product-type") || "single";
+      const family = card.getAttribute("data-family") || "";
+      const perks = (card.getAttribute("data-perks") || "").split(",").map((s) => s.trim());
+      const priceMin = parseInt(card.getAttribute("data-price-min") || "0", 10);
+      const priceDefault = parseInt(card.getAttribute("data-price-default") || "0", 10);
+      const savings = parseInt(card.getAttribute("data-savings") || "0", 10);
+      const aiKeywords = card.getAttribute("data-ai-keywords") || "";
+      const cardTitle = card.getAttribute("data-title") || "";
+      const cardText = card.innerText || "";
+
+      // 1. Lọc theo Phân Loại (Tất cả / Nến lẻ / Combo)
+      if (currentCategory !== "all" && type !== currentCategory) {
+        card.style.display = "none";
+        return;
+      }
+
+      // 2. Lọc theo Mức Giá
+      if (selectedPrice === "under-50") {
+        if (priceMin > 50000 && priceDefault > 50000) {
+          card.style.display = "none";
+          return;
+        }
+      } else if (selectedPrice === "50-100") {
+        if (priceDefault < 50000 || priceDefault > 100000) {
+          card.style.display = "none";
+          return;
+        }
+      } else if (selectedPrice === "above-100") {
+        if (priceDefault <= 100000) {
+          card.style.display = "none";
+          return;
+        }
+      }
+
+      // 3. Lọc theo Ưu Đãi & Quà Tặng
+      if (selectedDeal === "ship15k" && !perks.includes("ship15k")) {
+        card.style.display = "none";
+        return;
+      }
+      if (selectedDeal === "gift" && !perks.includes("gift")) {
+        card.style.display = "none";
+        return;
+      }
+      if (selectedDeal === "savings" && savings < 20000) {
+        card.style.display = "none";
+        return;
+      }
+      if (selectedDeal === "inbox" && !perks.includes("inbox")) {
+        card.style.display = "none";
+        return;
+      }
+
+      // 4. Lọc theo Nhóm Hương
+      if (selectedScent !== "all" && family !== selectedScent) {
+        card.style.display = "none";
+        return;
+      }
+
+      // 5. Tìm kiếm AI theo Từ Khóa (Tên mùi, tầng hương, tâm trạng, công dụng, mã...)
+      if (queryWords.length > 0) {
+        const searchableRaw = [cardTitle, cardText, aiKeywords, family].join(" ");
+        const searchableNorm = normalizeVietnamese(searchableRaw);
+
+        // Kiểm tra xem tất cả các từ trong query có xuất hiện không
+        const matchesAll = queryWords.every((w) => searchableNorm.includes(w));
+        if (!matchesAll) {
+          card.style.display = "none";
+          return;
+        }
+      }
+
+      // Khớp tất cả điều kiện!
+      card.style.display = "";
+      visibleCount++;
+      if (type === "single") visibleSingleCount++;
+      if (type === "combo") visibleComboCount++;
     });
 
-    if (filter === "all") {
-      if (singleGrid) singleGrid.style.display = "grid";
-      if (comboSection) comboSection.style.display = "block";
-    } else if (filter === "single") {
+    // 6. Xử lý sắp xếp (Sorting)
+    if (selectedSort !== "default") {
+      const sortFn = (a, b) => {
+        const priceA = parseInt(a.getAttribute("data-price-default") || "0", 10);
+        const priceB = parseInt(b.getAttribute("data-price-default") || "0", 10);
+        const savingsA = parseInt(a.getAttribute("data-savings") || "0", 10);
+        const savingsB = parseInt(b.getAttribute("data-savings") || "0", 10);
+
+        if (selectedSort === "price-asc") return priceA - priceB;
+        if (selectedSort === "price-desc") return priceB - priceA;
+        if (selectedSort === "savings-desc") return savingsB - savingsA;
+        return 0;
+      };
+
       if (singleGrid) {
-        singleGrid.style.display = "grid";
-        singleGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+        const singleList = Array.from(singleGrid.querySelectorAll(".product-card"));
+        singleList.sort(sortFn).forEach((el) => singleGrid.appendChild(el));
       }
-      if (comboSection) comboSection.style.display = "none";
-    } else if (filter === "combo") {
-      if (singleGrid) singleGrid.style.display = "none";
-      if (comboSection) {
-        comboSection.style.display = "block";
-        comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (comboGrid) {
+        const comboList = Array.from(comboGrid.querySelectorAll(".product-card"));
+        comboList.sort(sortFn).forEach((el) => comboGrid.appendChild(el));
+      }
+    } else {
+      // Khôi phục thứ tự ban đầu
+      if (singleGrid) {
+        initialSingleCards.forEach((el) => singleGrid.appendChild(el));
+      }
+      if (comboGrid) {
+        initialComboCards.forEach((el) => comboGrid.appendChild(el));
       }
     }
-  };
 
+    // 7. Cập nhật hiển thị các khối Section
+    if (singleGrid) {
+      singleGrid.style.display = visibleSingleCount > 0 ? "grid" : "none";
+    }
+    if (comboSection) {
+      comboSection.style.display = visibleComboCount > 0 ? "block" : "none";
+    }
+
+    // 8. Hiển thị Trạng thái Rỗng (No products found)
+    if (noProductsBox) {
+      noProductsBox.style.display = visibleCount === 0 ? "block" : "none";
+    }
+
+    // 9. Cập nhật Số lượng & Thẻ lọc đang hoạt động (Active Tags)
+    if (matchingCountEl) {
+      matchingCountEl.textContent = visibleCount;
+    }
+    updateActiveFilterTags(rawQuery, selectedPrice, selectedDeal, selectedScent, selectedSort);
+  }
+
+  function updateActiveFilterTags(query, price, deal, scent, sort) {
+    if (!activeTagsEl) return;
+    activeTagsEl.innerHTML = "";
+
+    const addTag = (text, onRemove) => {
+      const tag = document.createElement("span");
+      tag.className = "active-tag-chip";
+      tag.innerHTML = `<span>${text}</span> <span class="remove-tag" role="button" title="Gỡ bộ lọc này">&times;</span>`;
+      tag.querySelector(".remove-tag").addEventListener("click", onRemove);
+      activeTagsEl.appendChild(tag);
+    };
+
+    if (query) {
+      addTag(`🔍 "${query}"`, () => {
+        if (searchInput) searchInput.value = "";
+        chipBtns.forEach((c) => c.classList.remove("is-active"));
+        applyFiltersAndSearch();
+      });
+    }
+
+    if (currentCategory !== "all") {
+      const label = currentCategory === "single" ? "Nến & Sáp lẻ" : "Combo chiến lược";
+      addTag(`🏷️ ${label}`, () => {
+        currentCategory = "all";
+        filterBtns.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-filter") === "all"));
+        applyFiltersAndSearch();
+      });
+    }
+
+    if (price !== "all") {
+      const priceLabels = {
+        "under-50": "Dưới 50k",
+        "50-100": "50k – 100k",
+        "above-100": "Trên 100k"
+      };
+      addTag(`💰 ${priceLabels[price] || price}`, () => {
+        if (priceSelect) priceSelect.value = "all";
+        applyFiltersAndSearch();
+      });
+    }
+
+    if (deal !== "all") {
+      const dealLabels = {
+        ship15k: "Đồng giá ship 15k",
+        gift: "Có quà tặng",
+        savings: "Tiết kiệm 20k+",
+        inbox: "Giá chốt Inbox"
+      };
+      addTag(`🎁 ${dealLabels[deal] || deal}`, () => {
+        if (dealSelect) dealSelect.value = "all";
+        applyFiltersAndSearch();
+      });
+    }
+
+    if (scent !== "all") {
+      const scentLabels = {
+        "tea-herbal": "Trà & Thảo mộc",
+        "fruity-sweet": "Trái cây & Đào",
+        "ocean-fresh": "Khoáng biển & Sage",
+        "woody-warm": "Gỗ tuyết tùng"
+      };
+      addTag(`🌿 ${scentLabels[scent] || scent}`, () => {
+        if (scentSelect) scentSelect.value = "all";
+        applyFiltersAndSearch();
+      });
+    }
+
+    if (sort !== "default") {
+      const sortLabels = {
+        "price-asc": "Giá: Thấp -> Cao",
+        "price-desc": "Giá: Cao -> Thấp",
+        "savings-desc": "Tiết kiệm nhiều nhất"
+      };
+      addTag(`⚡ ${sortLabels[sort] || sort}`, () => {
+        if (sortSelect) sortSelect.value = "default";
+        applyFiltersAndSearch();
+      });
+    }
+  }
+
+  function resetAllFilters() {
+    if (searchInput) searchInput.value = "";
+    if (priceSelect) priceSelect.value = "all";
+    if (dealSelect) dealSelect.value = "all";
+    if (scentSelect) scentSelect.value = "all";
+    if (sortSelect) sortSelect.value = "default";
+    currentCategory = "all";
+
+    filterBtns.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-filter") === "all"));
+    chipBtns.forEach((c) => c.classList.remove("is-active"));
+
+    applyFiltersAndSearch();
+  }
+
+  // Lắng nghe sự kiện gõ tìm kiếm với debounce nhẹ
+  let searchDebounceTimer = null;
+  if (searchInput) {
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchDebounceTimer);
+      searchDebounceTimer = setTimeout(() => {
+        // Cập nhật trạng thái chip tương ứng
+        const val = normalizeVietnamese(searchInput.value);
+        chipBtns.forEach((btn) => {
+          const chipVal = normalizeVietnamese(btn.getAttribute("data-chip") || "");
+          btn.classList.toggle("is-active", Boolean(val && chipVal && val.includes(chipVal)));
+        });
+        applyFiltersAndSearch();
+      }, 150);
+    });
+
+    searchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        searchInput.value = "";
+        chipBtns.forEach((c) => c.classList.remove("is-active"));
+        applyFiltersAndSearch();
+      }
+    });
+  }
+
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener("click", () => {
+      if (searchInput) {
+        searchInput.value = "";
+        searchInput.focus();
+      }
+      chipBtns.forEach((c) => c.classList.remove("is-active"));
+      applyFiltersAndSearch();
+    });
+  }
+
+  // Click vào các chip từ khóa gợi ý AI
+  chipBtns.forEach((chip) => {
+    chip.addEventListener("click", (e) => {
+      e.preventDefault();
+      const chipKeyword = chip.getAttribute("data-chip") || "";
+      const isActive = chip.classList.contains("is-active");
+
+      chipBtns.forEach((c) => c.classList.remove("is-active"));
+
+      if (isActive) {
+        // Tắt chip hiện tại
+        if (searchInput) searchInput.value = "";
+      } else {
+        chip.classList.add("is-active");
+        if (searchInput) searchInput.value = chipKeyword;
+      }
+      applyFiltersAndSearch();
+    });
+  });
+
+  // Sự kiện thay đổi bộ lọc Mức giá, Ưu đãi, Nhóm hương, Sắp xếp
+  [priceSelect, dealSelect, scentSelect, sortSelect].forEach((el) => {
+    if (el) el.addEventListener("change", applyFiltersAndSearch);
+  });
+
+  // Nút Đặt lại bộ lọc
+  if (resetBtn) resetBtn.addEventListener("click", resetAllFilters);
+  if (noResultsResetBtn) noResultsResetBtn.addEventListener("click", resetAllFilters);
+
+  // Bộ lọc phân loại danh mục Tabs
   filterBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const filter = btn.getAttribute("data-filter");
       if (!filter) return;
       e.preventDefault();
-      activateFilter(filter);
+      currentCategory = filter;
+      filterBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
+      applyFiltersAndSearch();
+
+      if (filter === "combo" && comboSection) {
+        comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (filter === "single" && singleGrid) {
+        singleGrid.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
   });
 
-  // Tự động cuộn và kích hoạt khi mở link có hash #combo
-  if (window.location.hash === "#combo" && comboSection) {
-    if (singleGrid) singleGrid.style.display = "grid";
-    comboSection.style.display = "block";
+  // Hỗ trợ tìm kiếm từ URL Query Params: ?search=... hoặc ?q=...
+  try {
+    if (typeof window !== "undefined" && window.location && window.location.search) {
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialQuery = urlParams.get("search") || urlParams.get("q");
+      if (initialQuery && searchInput) {
+        searchInput.value = initialQuery;
+      }
+    }
+  } catch (e) {}
+
+  // Tự động cuộn đến #combo nếu có hash
+  if (typeof window !== "undefined" && window.location && window.location.hash === "#combo" && comboSection) {
     setTimeout(() => {
       comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 250);
   }
+
+  // Kích hoạt lọc lần đầu
+  applyFiltersAndSearch();
+}
+
+// Bí danh tương thích ngược
+const initCategoryFilter = initProductSearchAndFilter;
+if (typeof window !== "undefined") {
+  window.initProductSearchAndFilter = initProductSearchAndFilter;
+  window.initCategoryFilter = initProductSearchAndFilter;
+  window.normalizeVietnamese = normalizeVietnamese;
 }
 
 /**
@@ -383,8 +746,8 @@ const COMBOS_CONFIG = {
     gift: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
     gifts: "Tặng giấy thơm trải nghiệm + Đồng giá ship 15k",
     kpiTarget: "Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ",
-    filename: "sap-thom-bo-ba.jpg",
-    defaultSrc: "images/sap-thom-bo-ba.jpg",
+    filename: "combo-cb01-huong-sinh-vien.jpg",
+    defaultSrc: "images/combo-cb01-huong-sinh-vien.jpg",
     fallbackSrc: "images/sap-thom-bo-ba.svg",
     vibe: "Tối ưu ngân sách sinh viên: Tự do chọn 2 mùi sáp thơm bỏ túi 50g khử mùi tủ đồ, balo. Tiết kiệm ngay 21.000đ so với giá gốc."
   },
@@ -409,8 +772,8 @@ const COMBOS_CONFIG = {
     gift: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
     gifts: "Tặng 1 viên tealight mini 0đ + Đồng giá ship 15k",
     kpiTarget: "Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ",
-    filename: "combo-nen-sap.jpg",
-    defaultSrc: "images/combo-nen-sap.jpg",
+    filename: "combo-cb02-tron-ven-chill.jpg",
+    defaultSrc: "images/combo-cb02-tron-ven-chill.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
     vibe: "Combo trọn vẹn nhất: Vừa thắp nến 100g học bài tập trung, vừa mang sáp 50g khử mùi bên mình. Tiết kiệm 31.000đ."
   },
@@ -435,8 +798,8 @@ const COMBOS_CONFIG = {
     gift: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
     gifts: "Tặng 1 viên tealight mini + thiệp viết tay + Đồng giá ship 15k",
     kpiTarget: "Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%",
-    filename: "nen-thu-gian.jpg",
-    defaultSrc: "images/nen-thu-gian.jpg",
+    filename: "combo-cb03-trai-nghiem-da-tang.jpg",
+    defaultSrc: "images/combo-cb03-trai-nghiem-da-tang.jpg",
     fallbackSrc: "images/nen-thu-gian.svg",
     vibe: "Trọn bộ 3 mùi hương đổi mới tâm trạng mỗi ngày. Mức tiết kiệm sâu nhất 36.000đ cùng quà tặng kép tealight & thiệp viết tay."
   }

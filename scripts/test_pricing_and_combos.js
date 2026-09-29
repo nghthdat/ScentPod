@@ -145,20 +145,29 @@ assert.strictEqual(totals.shipping, 0, 'Đơn từ 150k trở lên được Free
 assert.strictEqual(totals.finalTotal, 187000);
 console.log('✅ Giỏ hàng >= 150k (187k): Miễn phí vận chuyển 0đ thành công!');
 
-// TEST 4: Kiểm tra HTML san-pham.html
+// TEST 4: Kiểm tra HTML san-pham.html (Bảng 1 bán lẻ đã bỏ, Combo trình bày dạng card với ảnh chụp thật)
 console.log('\n--- TEST 4: Kiểm tra giao diện san-pham.html ---');
 const sanphamHtml = fs.readFileSync(path.resolve(__dirname, '../san-pham.html'), 'utf8');
-assert(sanphamHtml.includes('DANH MỤC SẢN PHẨM BÁN LẺ'), 'Bảng I danh mục bán lẻ phải có');
-assert(sanphamHtml.includes('SP01') && sanphamHtml.includes('SP02'), 'Mã SP01 và SP02 phải có trên bảng');
-assert(sanphamHtml.includes('CÁC GÓI COMBO BÁN HÀNG CHIẾN LƯỢC'), 'Bảng II các gói combo chiến lược phải có');
-assert(sanphamHtml.includes('CB01') && sanphamHtml.includes('CB02') && sanphamHtml.includes('CB03'), 'Mã CB01, CB02, CB03 phải có');
-assert(sanphamHtml.includes('110.000'), 'Giá gốc CB01 110.000đ phải có');
-assert(sanphamHtml.includes('150.000'), 'Giá gốc CB02 150.000đ phải có');
-assert(sanphamHtml.includes('165.000'), 'Giá gốc CB03 165.000đ phải có');
-assert(sanphamHtml.includes('21.000'), 'Tiết kiệm 21k CB01 phải có');
-assert(sanphamHtml.includes('31.000'), 'Tiết kiệm 31k CB02 phải có');
-assert(sanphamHtml.includes('36.000'), 'Tiết kiệm 36k CB03 phải có');
-console.log('✅ Trang san-pham.html chứa đầy đủ Bảng I và Bảng II đúng 100% dữ liệu!');
+assert(!sanphamHtml.includes('DANH MỤC SẢN PHẨM BÁN LẺ'), 'Bảng 1 sản phẩm bán lẻ đã được gỡ bỏ theo yêu cầu');
+assert(!sanphamHtml.includes('id="bang-gia"'), 'Section bảng giá cũ đã được loại bỏ');
+
+// Kiểm tra 3 card Combo chiến lược theo đúng thiết kế
+assert(sanphamHtml.includes('combo-cb01-huong-sinh-vien.jpg'), 'Ảnh combo CB01 phải hiển thị ảnh combo thật');
+assert(sanphamHtml.includes('combo-cb02-tron-ven-chill.jpg'), 'Ảnh combo CB02 phải hiển thị ảnh combo thật');
+assert(sanphamHtml.includes('combo-cb03-trai-nghiem-da-tang.jpg'), 'Ảnh combo CB03 phải hiển thị ảnh combo thật');
+
+assert(sanphamHtml.includes('COMBO BÁN HÀNG CHIẾN LƯỢC') && sanphamHtml.includes('Combo Hương Sinh Viên'), 'Card CB01 đầy đủ tag & tên');
+assert(sanphamHtml.includes('COMBO TỐI ƯU AOV') && sanphamHtml.includes('Combo Trọn Vẹn Chill'), 'Card CB02 đầy đủ tag & tên');
+assert(sanphamHtml.includes('COMBO ĐẦY ĐỦ HƯƠNG SẮC') && sanphamHtml.includes('Combo Trải Nghiệm Đa Tầng'), 'Card CB03 đầy đủ tag & tên');
+
+assert(sanphamHtml.includes('2 Hũ Sáp Bỏ Túi 50g'), 'Quy cách CB01 chuẩn');
+assert(sanphamHtml.includes('1 Sáp 50g + 1 Nến 100g'), 'Quy cách CB02 chuẩn');
+assert(sanphamHtml.includes('3 Hũ Sáp Bỏ Túi 50g'), 'Quy cách CB03 chuẩn');
+
+assert(sanphamHtml.includes('89.000đ'), 'Giá bán CB01 89.000đ');
+assert(sanphamHtml.includes('119.000đ'), 'Giá bán CB02 119.000đ');
+assert(sanphamHtml.includes('129.000đ'), 'Giá bán CB03 129.000đ');
+console.log('✅ Bảng 1 bán lẻ đã được bỏ, 3 combo chiến lược hiển thị dạng card cực đẹp với ảnh combo mới!');
 
 // TEST 5: Kiểm tra HTML index.html
 console.log('\n--- TEST 5: Kiểm tra giao diện index.html ---');
