@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#3a2a1d"/>
+      <stop offset="50%" stop-color="#191310"/>
+      <stop offset="100%" stop-color="#0d0a08"/>
+    </radialGradient>
+    <radialGradient id="warmLight" cx="50%" cy="38%" r="45%">
+      <stop offset="0%" stop-color="#ffe6a8" stop-opacity="0.9"/>
+      <stop offset="25%" stop-color="#f8a946" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#c9a26b" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="jarGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#543e2b" stop-opacity="0.9"/>
+      <stop offset="20%" stop-color="#73573e" stop-opacity="0.6"/>
+      <stop offset="50%" stop-color="#916f50" stop-opacity="0.3"/>
+      <stop offset="80%" stop-color="#73573e" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#543e2b" stop-opacity="0.9"/>
+    </linearGradient>
+    <linearGradient id="goldRim" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f5e0b8"/>
+      <stop offset="50%" stop-color="#c9a26b"/>
+      <stop offset="100%" stop-color="#7a5a28"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGlow)"/>
+
+  <!-- Halo Light from flame -->
+  <circle cx="200" cy="180" r="160" fill="url(#warmLight)"/>
+
+  <!-- Shadow beneath jar -->
+  <ellipse cx="200" cy="390" rx="90" ry="24" fill="#050403" opacity="0.8"/>
+
+  <!-- Candle Glass Body -->
+  <rect x="125" y="220" width="150" height="155" rx="14" fill="url(#jarGlass)" stroke="#664d36" stroke-width="1.5"/>
+
+  <!-- Inner Soy Wax Pool -->
+  <ellipse cx="200" cy="225" rx="72" ry="20" fill="#fdfbf7"/>
+  <ellipse cx="200" cy="225" rx="66" ry="16" fill="#f6ede2"/>
+
+  <!-- Candle Wick -->
+  <line x1="200" y1="225" x2="200" y2="198" stroke="#3d2a1b" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Flame Core -->
+  <path d="M200 155 C206 175, 212 188, 206 198 C202 204, 198 204, 194 198 C188 188, 194 175, 200 155 Z" fill="#ffe299"/>
+  <path d="M200 165 C203 178, 207 188, 203 196 C201 199, 199 199, 197 196 C193 188, 197 178, 200 165 Z" fill="#fff5d6"/>
+  <ellipse cx="200" cy="197" rx="3.5" ry="3.5" fill="#4d88ff" opacity="0.6"/>
+
+  <!-- Elegant Minimalist Label on Jar -->
+  <g transform="translate(145, 260)">
+    <rect width="110" height="90" rx="4" fill="#14110f" stroke="url(#goldRim)" stroke-width="1"/>
+    <text x="55" y="24" font-family="'Cormorant Garamond', serif" font-size="14" fill="#c9a26b" text-anchor="middle" font-weight="600" letter-spacing="2">SCENTPOD</text>
+    <line x1="30" y1="32" x2="80" y2="32" stroke="#c9a26b" stroke-width="0.7" opacity="0.7"/>
+    <text x="55" y="48" font-family="'Be Vietnam Pro', sans-serif" font-size="8.5" fill="#efe6d8" text-anchor="middle" font-weight="400">MINI SOY CANDLE</text>
+    <text x="55" y="62" font-family="'Be Vietnam Pro', sans-serif" font-size="7" fill="#a89d8f" text-anchor="middle">50g • Thủ công</text>
+    <circle cx="55" cy="74" r="2.5" fill="#c9a26b"/>
+  </g>
+
+  <!-- Sparkle details -->
+  <g stroke="#ffda85" stroke-width="1.2" opacity="0.7">
+    <line x1="200" y1="125" x2="200" y2="135"/>
+    <line x1="195" y1="130" x2="205" y2="130"/>
+  </g>
+
+  <!-- Title Watermark -->
+  <text x="200" y="445" font-family="'Cormorant Garamond', serif" font-size="20" fill="#c9a26b" text-anchor="middle" letter-spacing="2">SCENTPOD</text>
+  <text x="200" y="470" font-family="'Be Vietnam Pro', sans-serif" font-size="11" fill="#a89d8f" text-anchor="middle" letter-spacing="1">NẾN THƠM MINI 50G</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="#34281e"/>
+      <stop offset="60%" stop-color="#191411"/>
+      <stop offset="100%" stop-color="#0f0c0a"/>
+    </radialGradient>
+    <radialGradient id="flameGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffdf9e" stop-opacity="0.9"/>
+      <stop offset="40%" stop-color="#c9a26b" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#c9a26b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2c89d"/>
+      <stop offset="50%" stop-color="#c9a26b"/>
+      <stop offset="100%" stop-color="#8a6736"/>
+    </linearGradient>
+    <linearGradient id="tinGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3b322c"/>
+      <stop offset="100%" stop-color="#211b17"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bgGlow)"/>
+
+  <!-- Ambient Light Circle -->
+  <circle cx="200" cy="220" r="140" fill="url(#flameGlow)"/>
+
+  <!-- Three Wax Melt Tins Trio -->
+  <!-- Left Tin (Đi học) -->
+  <g transform="translate(90, 240)">
+    <ellipse cx="45" cy="55" rx="42" ry="18" fill="#14110f" opacity="0.6"/>
+    <rect x="5" y="15" width="80" height="35" rx="8" fill="url(#tinGrad1)" stroke="#52443a" stroke-width="1.5"/>
+    <ellipse cx="45" cy="15" rx="40" ry="14" fill="#ede1d1"/>
+    <ellipse cx="45" cy="15" rx="35" ry="11" fill="#dbcaba" stroke="url(#goldGradient)" stroke-width="1"/>
+    <circle cx="45" cy="15" r="4" fill="#c9a26b"/>
+    <!-- Label -->
+    <rect x="18" y="27" width="54" height="15" rx="3" fill="#14110e" stroke="#c9a26b" stroke-width="0.8"/>
+    <text x="45" y="38" font-family="'Be Vietnam Pro', sans-serif" font-size="7.5" fill="#efe6d8" text-anchor="middle" font-weight="500">ĐI HỌC</text>
+  </g>
+
+  <!-- Right Tin (Học bài đêm) -->
+  <g transform="translate(225, 240)">
+    <ellipse cx="45" cy="55" rx="42" ry="18" fill="#14110f" opacity="0.6"/>
+    <rect x="5" y="15" width="80" height="35" rx="8" fill="url(#tinGrad1)" stroke="#52443a" stroke-width="1.5"/>
+    <ellipse cx="45" cy="15" rx="40" ry="14" fill="#363147"/>
+    <ellipse cx="45" cy="15" rx="35" ry="11" fill="#2d283c" stroke="url(#goldGradient)" stroke-width="1"/>
+    <circle cx="45" cy="15" r="4" fill="#c9a26b"/>
+    <!-- Label -->
+    <rect x="15" y="27" width="60" height="15" rx="3" fill="#14110e" stroke="#c9a26b" stroke-width="0.8"/>
+    <text x="45" y="38" font-family="'Be Vietnam Pro', sans-serif" font-size="7.5" fill="#efe6d8" text-anchor="middle" font-weight="500">HỌC BÀI ĐÊM</text>
+  </g>
+
+  <!-- Center Main Tin (Hẹn hò - placed slightly forward) -->
+  <g transform="translate(155, 195)">
+    <ellipse cx="45" cy="65" rx="48" ry="20" fill="#0d0a08" opacity="0.7"/>
+    <rect x="0" y="15" width="90" height="42" rx="8" fill="url(#tinGrad1)" stroke="url(#goldGradient)" stroke-width="1.5"/>
+    <ellipse cx="45" cy="15" rx="45" ry="16" fill="#f5ebe0"/>
+    <ellipse cx="45" cy="15" rx="39" ry="12" fill="#eddcd2" stroke="url(#goldGradient)" stroke-width="1.2"/>
+    <circle cx="45" cy="15" r="5" fill="#c9a26b"/>
+    <!-- Label -->
+    <rect x="12" y="30" width="66" height="18" rx="3" fill="#14110e" stroke="url(#goldGradient)" stroke-width="1"/>
+    <text x="45" y="42.5" font-family="'Be Vietnam Pro', sans-serif" font-size="8.5" fill="#c9a26b" text-anchor="middle" font-weight="600" letter-spacing="1">HẸN HÒ</text>
+  </g>
+
+  <!-- Sparkles / Botanical accents -->
+  <g stroke="#c9a26b" stroke-width="1" opacity="0.6">
+    <line x1="200" y1="120" x2="200" y2="135"/>
+    <line x1="192.5" y1="127.5" x2="207.5" y2="127.5"/>
+    <circle cx="280" cy="160" r="1.5" fill="#c9a26b"/>
+    <circle cx="120" cy="170" r="1.5" fill="#c9a26b"/>
+  </g>
+
+  <!-- Title Watermark -->
+  <text x="200" y="440" font-family="'Cormorant Garamond', serif" font-size="20" fill="#c9a26b" text-anchor="middle" letter-spacing="2">SCENTPOD</text>
+  <text x="200" y="465" font-family="'Be Vietnam Pro', sans-serif" font-size="11" fill="#a89d8f" text-anchor="middle" letter-spacing="1">BỘ BA SÁP THƠM TRẢI NGHIỆM</text>
+</svg>

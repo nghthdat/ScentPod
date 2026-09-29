@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <radialGradient id="bgGlow" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#302419"/>
+      <stop offset="55%" stop-color="#16120f"/>
+      <stop offset="100%" stop-color="#0a0807"/>
+    </radialGradient>
+    <radialGradient id="amberGlow" cx="50%" cy="38%" r="48%">
+      <stop offset="0%" stop-color="#ffce73" stop-opacity="0.85"/>
+      <stop offset="35%" stop-color="#e08e2d" stop-opacity="0.4"/>
+      <stop offset="80%" stop-color="#c9a26b" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="amberGlass" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6e3d16"/>
+      <stop offset="25%" stop-color="#a86022"/>
+      <stop offset="50%" stop-color="#c97c36"/>
+      <stop offset="75%" stop-color="#a86022"/>
+      <stop offset="100%" stop-color="#6e3d16"/>
+    </linearGradient>
+    <linearGradient id="metalLid" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#241e1a"/>
+      <stop offset="50%" stop-color="#4d4138"/>
+      <stop offset="100%" stop-color="#241e1a"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="400" height="500" fill="url(#bgGlow)"/>
+  <circle cx="200" cy="180" r="170" fill="url(#amberGlow)"/>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="400" rx="95" ry="24" fill="#040302" opacity="0.85"/>
+
+  <!-- Amber Jar Body -->
+  <rect x="115" y="210" width="170" height="175" rx="16" fill="url(#amberGlass)" stroke="#522e12" stroke-width="1.5"/>
+
+  <!-- Neck & Lid (rested beside or top rim) -->
+  <rect x="125" y="195" width="150" height="18" rx="5" fill="#382212" stroke="#874f1f" stroke-width="1"/>
+  
+  <!-- Wax Top -->
+  <ellipse cx="200" cy="204" rx="72" ry="12" fill="#faf2e6"/>
+
+  <!-- Wick & Flame -->
+  <line x1="200" y1="204" x2="200" y2="175" stroke="#2b1a0d" stroke-width="3" stroke-linecap="round"/>
+  <path d="M200 130 C208 150, 214 165, 207 175 C203 181, 197 181, 193 175 C186 165, 192 150, 200 130 Z" fill="#ffeaa3"/>
+  <path d="M200 142 C204 156, 208 166, 204 173 C201 176, 199 176, 196 173 C192 166, 196 156, 200 142 Z" fill="#ffffff"/>
+
+  <!-- Kraft Style Label -->
+  <g transform="translate(135, 245)">
+    <rect width="130" height="105" rx="4" fill="#1f1812" stroke="#c9a26b" stroke-width="1.2"/>
+    <text x="65" y="28" font-family="'Cormorant Garamond', serif" font-size="16" fill="#c9a26b" text-anchor="middle" font-weight="600" letter-spacing="2">SCENTPOD</text>
+    <line x1="35" y1="36" x2="95" y2="36" stroke="#c9a26b" stroke-width="0.7"/>
+    <text x="65" y="55" font-family="'Be Vietnam Pro', sans-serif" font-size="9" fill="#efe6d8" text-anchor="middle" font-weight="600">GỖ THÔNG &amp; HỔ PHÁCH</text>
+    <text x="65" y="72" font-family="'Be Vietnam Pro', sans-serif" font-size="8" fill="#a89d8f" text-anchor="middle">Nến Thư Giãn • 100g</text>
+    <text x="65" y="88" font-family="'Be Vietnam Pro', sans-serif" font-size="7.5" fill="#c9a26b" text-anchor="middle">Burn time ~ 25h</text>
+  </g>
+
+  <!-- Pine branch subtle icon -->
+  <path d="M75 140 Q90 125 110 135 M75 140 Q95 140 105 155" stroke="#c9a26b" stroke-width="1.2" fill="none" opacity="0.4"/>
+
+  <!-- Watermark -->
+  <text x="200" y="445" font-family="'Cormorant Garamond', serif" font-size="20" fill="#c9a26b" text-anchor="middle" letter-spacing="2">SCENTPOD</text>
+  <text x="200" y="470" font-family="'Be Vietnam Pro', sans-serif" font-size="11" fill="#a89d8f" text-anchor="middle" letter-spacing="1">NẾN HŨ NÂU GỖ THÔNG</text>
+</svg>
