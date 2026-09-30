@@ -708,6 +708,14 @@ function initProductSearchAndFilter() {
     });
   }
 
+  const aiSearchBadge = document.querySelector(".ai-search-badge");
+  if (aiSearchBadge && searchInput) {
+    aiSearchBadge.addEventListener("click", () => {
+      searchInput.focus();
+      applyFiltersAndSearch();
+    });
+  }
+
   // Click vào các chip từ khóa gợi ý AI
   chipBtns.forEach((chip) => {
     chip.addEventListener("click", (e) => {
