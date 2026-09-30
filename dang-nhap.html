@@ -196,20 +196,20 @@
               </div>
               <div class="quick-demo-btns" style="display: flex; flex-direction: column; gap: 8px;">
                 <button type="button" class="btn-demo-quick" id="btn-quick-customer" style="width: 100%;">
-                  👤 Khách Hàng Demo (Nguyễn Minh Thư)
+                  <span class="tag-icon">👤</span>Khách Hàng Demo (Nguyễn Minh Thư)
                 </button>
                 <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px;">
                   <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('datnhatquang@gmail.com')">
-                    👑 Đạt (datnhatquang)
+                    <span class="tag-icon">👑</span>Đạt (datnhatquang)
                   </button>
                   <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('khonghieu924@gmail.com')">
-                    🌿 Hiếu (khonghieu924)
+                    <span class="tag-icon">🌿</span>Hiếu (khonghieu924)
                   </button>
                   <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('tranlam6a@gmail.com')">
-                    📦 Lâm (tranlam6a)
+                    <span class="tag-icon">📦</span>Lâm (tranlam6a)
                   </button>
                   <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('hoaip3061@gmail.com')">
-                    ✨ Q.Anh (hoaip3061)
+                    <span class="tag-icon">✨</span>Q.Anh (hoaip3061)
                   </button>
                 </div>
               </div>
@@ -339,20 +339,20 @@
 
         <div style="margin-top: 20px;">
           <div style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600;">
-            ⚡ Bấm chọn tài khoản Admin đăng nhập nhanh:
+            <span class="tag-icon">⚡</span>Bấm chọn tài khoản Admin đăng nhập nhanh:
           </div>
           <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
             <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('datnhatquang@gmail.com')">
-              👑 Nghiêm Thành Đạt
+              <span class="tag-icon">👑</span>Nghiêm Thành Đạt
             </button>
             <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('khonghieu924@gmail.com')">
-              🌿 Khổng Đức Hiếu
+              <span class="tag-icon">🌿</span>Khổng Đức Hiếu
             </button>
             <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('tranlam6a@gmail.com')">
-              📦 Trần Thanh Lâm
+              <span class="tag-icon">📦</span>Trần Thanh Lâm
             </button>
             <button type="button" class="btn-demo-quick" onclick="window.quickLoginAdmin('hoaip3061@gmail.com')">
-              ✨ Trương Quỳnh Anh
+              <span class="tag-icon">✨</span>Trương Quỳnh Anh
             </button>
           </div>
         </div>
@@ -664,11 +664,11 @@
           <div class="order-toolbar">
             <div class="order-filter-group">
               <button type="button" class="order-filter-btn ${orderStatusFilter === 'all' ? 'is-active' : ''}" data-filter="all">Tất cả (${orders.length})</button>
-              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Chờ xác nhận' ? 'is-active' : ''}" data-filter="Chờ xác nhận">⏳ Chờ xác nhận</button>
-              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang đóng gói' ? 'is-active' : ''}" data-filter="Đang đóng gói">📦 Đang đóng gói</button>
-              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang giao hàng' ? 'is-active' : ''}" data-filter="Đang giao hàng">🚚 Đang giao</button>
-              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Hoàn thành' ? 'is-active' : ''}" data-filter="Hoàn thành">✅ Hoàn thành</button>
-              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đã hủy' ? 'is-active' : ''}" data-filter="Đã hủy">❌ Đã hủy</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Chờ xác nhận' ? 'is-active' : ''}" data-filter="Chờ xác nhận"><span class="tag-icon">⏳</span>Chờ xác nhận</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang đóng gói' ? 'is-active' : ''}" data-filter="Đang đóng gói"><span class="tag-icon">📦</span>Đang đóng gói</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đang giao hàng' ? 'is-active' : ''}" data-filter="Đang giao hàng"><span class="tag-icon">🚚</span>Đang giao</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Hoàn thành' ? 'is-active' : ''}" data-filter="Hoàn thành"><span class="tag-icon">✅</span>Hoàn thành</button>
+              <button type="button" class="order-filter-btn ${orderStatusFilter === 'Đã hủy' ? 'is-active' : ''}" data-filter="Đã hủy"><span class="tag-icon">❌</span>Đã hủy</button>
             </div>
             <div>
               <input type="text" id="order-search-input" class="form-control" placeholder="🔍 Tìm theo mã đơn, tên, SĐT..." value="${orderSearchQuery}" style="width: 250px; padding: 7px 12px; font-size: 0.85rem;">

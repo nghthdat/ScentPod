@@ -462,17 +462,17 @@ function initProductSearchAndFilter() {
 
     let tagCount = 0;
 
-    const addTag = (text, onRemove) => {
+    const addTag = (icon, text, onRemove) => {
       tagCount++;
       const tag = document.createElement("span");
       tag.className = "active-tag-chip";
-      tag.innerHTML = `<span>${text}</span> <span class="remove-tag" role="button" title="Gỡ bộ lọc này">&times;</span>`;
+      tag.innerHTML = `<span><span class="tag-icon">${icon}</span>${text}</span> <span class="remove-tag" role="button" title="Gỡ bộ lọc này">&times;</span>`;
       tag.querySelector(".remove-tag").addEventListener("click", onRemove);
       activeTagsEl.appendChild(tag);
     };
 
     if (query) {
-      addTag(`🔍 "${query}"`, () => {
+      addTag("🔍", `"${query}"`, () => {
         if (searchInput) searchInput.value = "";
         chipBtns.forEach((c) => c.classList.remove("is-active"));
         applyFiltersAndSearch();
@@ -481,7 +481,7 @@ function initProductSearchAndFilter() {
 
     if (currentCategory !== "all") {
       const label = currentCategory === "single" ? "Nến & Sáp lẻ" : "Combo chiến lược";
-      addTag(`🏷️ ${label}`, () => {
+      addTag("🏷️", label, () => {
         currentCategory = "all";
         filterBtns.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-filter") === "all"));
         applyFiltersAndSearch();
@@ -495,7 +495,7 @@ function initProductSearchAndFilter() {
         combo: "Combo chiến lược",
         mini: "Mini 10g"
       };
-      addTag(`🥫 ${typeLabels[type] || type}`, () => {
+      addTag("🥫", typeLabels[type] || type, () => {
         if (typeSelect) typeSelect.value = "all";
         applyFiltersAndSearch();
       });
@@ -507,7 +507,7 @@ function initProductSearchAndFilter() {
         "50-90": "50k – 90k",
         "above-90": "Trên 90k"
       };
-      addTag(`💰 ${priceLabels[price] || price}`, () => {
+      addTag("💰", priceLabels[price] || price, () => {
         if (priceSelect) priceSelect.value = "all";
         applyFiltersAndSearch();
       });
@@ -522,7 +522,7 @@ function initProductSearchAndFilter() {
         fresh: "Gió biển tươi mát",
         gift: "Quà tặng tinh tế"
       };
-      addTag(`🎯 ${purposeLabels[purpose] || purpose}`, () => {
+      addTag("🎯", purposeLabels[purpose] || purpose, () => {
         if (purposeSelect) purposeSelect.value = "all";
         applyFiltersAndSearch();
       });
@@ -536,7 +536,7 @@ function initProductSearchAndFilter() {
         savings: "Tiết kiệm 20k - 36k",
         inbox: "Giá chốt Inbox"
       };
-      addTag(`🎁 ${dealLabels[deal] || deal}`, () => {
+      addTag("🎁", dealLabels[deal] || deal, () => {
         if (dealSelect) dealSelect.value = "all";
         applyFiltersAndSearch();
       });
@@ -549,7 +549,7 @@ function initProductSearchAndFilter() {
         "ocean-fresh": "Khoáng biển & Sage",
         "woody-warm": "Gỗ tuyết tùng"
       };
-      addTag(`🌿 ${scentLabels[scent] || scent}`, () => {
+      addTag("🌿", scentLabels[scent] || scent, () => {
         if (scentSelect) scentSelect.value = "all";
         applyFiltersAndSearch();
       });
@@ -561,7 +561,7 @@ function initProductSearchAndFilter() {
         "price-desc": "Giá: Cao -> Thấp",
         "savings-desc": "Tiết kiệm nhiều nhất"
       };
-      addTag(`⚡ ${sortLabels[sort] || sort}`, () => {
+      addTag("⚡", sortLabels[sort] || sort, () => {
         if (sortSelect) sortSelect.value = "default";
         applyFiltersAndSearch();
       });
@@ -1598,9 +1598,9 @@ function initScentDetailModal() {
             </div>
 
             <div class="scent-specs">
-              <span>🌿 Sáp thực vật tự nhiên</span>
-              <span>🔥 Bấc cotton sạch không khói</span>
-              <span>📦 Size mini bỏ túi</span>
+              <span><span class="tag-icon">🌿</span>Sáp thực vật tự nhiên</span>
+              <span><span class="tag-icon">🔥</span>Bấc cotton sạch không khói</span>
+              <span><span class="tag-icon">📦</span>Size mini bỏ túi</span>
             </div>
 
             <!-- Nút Thêm vào giỏ hàng & Bộ chọn số lượng -->
@@ -2046,7 +2046,7 @@ function initCartSystem() {
 
         const giftEl = card.querySelector(".product-gift-banner");
         if (giftEl && giftText) {
-          giftEl.innerHTML = `🎁 ${giftText}`;
+          giftEl.innerHTML = `<span class="tag-icon">🎁</span>${giftText}`;
         }
       }
     }

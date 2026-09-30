@@ -4325,7 +4325,17 @@ p { color: var(--text-muted); font-size: 1rem; }
   display: none;
 }
 
+/* Chuẩn hóa khoảng cách (margin-right: 6px) giữa icon emoji và text trong các thẻ pill/tag */
+.tag-icon {
+  display: inline-block;
+  margin-right: 6px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 .ai-chip-btn {
+  display: inline-flex;
+  align-items: center;
   background: #26211e;
   border: 1px solid rgba(255, 255, 255, 0.16);
   color: #f5f3ef;
