@@ -913,10 +913,10 @@ const PRODUCTS_CONFIG = {
     fallbackSrc: "images/sap-thom-bo-ba.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Quýt non căng mọng, Chanh vàng Ý tươi sáng cùng Lá bạc hà thanh mát đánh thức mọi giác quan.",
-    heartNotes: "Hương trà xanh thảo mộc quyện cùng Trà trắng non, Hoa linh lan và Hoa sen nước dịu êm.",
-    baseNotes: "Gỗ tuyết tùng nhạt tĩnh lặng và Xạ hương sạch tạo nên mùi hương tập trung học tập hoàn hảo.",
-    vibe: "<p style='margin-bottom: 10px;'>Một làn gió thanh mát, trong lành thổi qua mang theo nguồn năng lượng tích cực, <strong>First Class</strong> chính là hũ <em>nến thơm cho phòng học tập trung</em> mà bạn luôn tìm kiếm. Không chỉ là một <em>sáp thơm mini thư giãn</em>, sự giao thoa tuyệt vời của <em>hương trà xanh thảo mộc</em> sẽ giúp bạn dọn dẹp tâm trí, nạp đầy cảm hứng để bắt đầu ngày mới.</p><p style='margin-bottom: 15px;'>Dòng <em>nến thơm handmade cho sinh viên</em> này còn là món đồ <em>decor góc học tập</em> cực kỳ xinh xắn. Dù đặt trên bàn học hay mang theo đến thư viện, thiết kế <em>sáp thơm nhỏ gọn bỏ túi</em> luôn là người bạn đồng hành lý tưởng.</p><ul style='padding-left: 1rem; margin-bottom: 15px; color: rgba(255,255,255,0.9); line-height: 1.6;'><li>🌿 <strong>Nguyên liệu an toàn:</strong> Trải nghiệm <em>Natural soy wax</em> và <em>cotton wick sạch không khói</em>, <em>an toàn cho phòng nhỏ</em>.</li><li>🎒 <strong>Tiện lợi tối đa:</strong> <em>Size mini bỏ túi gọn gàng</em>.</li><li>📚 <strong>Tăng hiệu suất:</strong> Lan tỏa hương thanh khiết <em>hỗ trợ tập trung học tập</em>.</li></ul><p style='font-size: 0.85rem; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;'>Nến thơm mini First Class - Hương trà xanh thảo mộc, lựa chọn hoàn hảo cho góc học tập, phòng trọ nhỏ của học sinh, sinh viên.</p>"
+    topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
+    heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
+    baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
+    vibe: "First Class là lời chào ngày mới đầy thanh lịch và thư thái, tựa như khoảnh khắc nhâm nhi tách trà trắng non cạnh cửa sổ ngập nắng. Mùi hương trong trẻo, thanh sạch giúp xua tan âu lo, mang lại cảm giác bình yên và thanh lọc tâm trí tuyệt đối."
   },
   "blind-date": {
     id: "blind-date",
@@ -932,7 +932,7 @@ const PRODUCTS_CONFIG = {
     topNotes: "Bản hòa tấu mở đầu bằng nốt hương thanh tao của Quả lê tươi, e ấp đan xen cùng vị ngọt lịm căng mọng từ Quả đào chín, đánh thức khứu giác bằng sự rạng rỡ.",
     heartNotes: "Sự giao thoa đầy mộng mơ nở rộ khi những cánh Lan Nam phi trắng tinh khiết quyện hòa cùng lớp hương Kẹo bông xốp nhẹ, tạo nên một dải hương bồng bềnh.",
     baseNotes: "Dư vị cuối cùng đọng lại là lớp Vani sữa ấm áp ôm ấp lấy Hổ phách dịu dàng, để lại một vệt hương vương vấn, quyến rũ không rời.",
-    vibe: "<p style='margin-bottom: 10px;'>Giống như những nhịp đập thổn thức của một buổi hẹn hò đầu tiên, <strong>Blind Date</strong> là một hành trình khứu giác đầy thi vị. Mùi hương dẫn dắt ta đi từ sự rụt rè, bỡ ngỡ ban đầu, dần chìm đắm vào một không gian bồng bềnh của những xúc cảm lãng mạn, tinh tế và đầy nữ tính.</p><p style='margin-bottom: 10px;'>Điểm đắt giá nhất của tác phẩm này chính là <em>sự giao thoa</em> mượt mà giữa các tầng hương: cái ngọt ngào tươi trẻ của nốt hương trái cây dần nhường chỗ cho vẻ đẹp thanh tao của muôn hoa, trước khi lắng đọng thành một <em>dư vị</em> trầm ấm, lưu luyến mãi nơi góc phòng.</p><p style='font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;'>Sang trọng, lãng mạn và tinh tế - Một tác phẩm nghệ thuật mùi hương dành riêng cho những tâm hồn mộng mơ.</p>"
+    vibe: "Giống như nhịp đập thổn thức của buổi hẹn hò đầu tiên, Blind Date là hành trình khứu giác đầy thi vị. Sự giao thoa giữa trái cây tươi trẻ và muôn hoa thanh tao dần lắng đọng thành một dư vị trầm ấm, lưu luyến mãi nơi góc phòng."
   },
   "campus-breeze": {
     id: "campus-breeze",
