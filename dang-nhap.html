@@ -565,6 +565,46 @@
             </div>
           </div>
 
+          <!-- Danh sách yêu thích -->
+          <div class="dashboard-card" style="margin-top: 20px;">
+            <div class="dashboard-card-title">
+              <span>❤️ Danh Sách Yêu Thích (Wishlist)</span>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0; margin-bottom: 15px;">
+              Những hũ nến bạn đã "thả tim" sẽ được lưu lại tại đây. Hãy rinh các em ấy về nhà ngay khi bạn sẵn sàng nhé!
+            </p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px;">
+              <!-- Item 1 -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; display: flex; gap: 15px; align-items: center; position: relative;">
+                <button title="Bỏ yêu thích" onclick="this.parentElement.style.display='none'" style="position: absolute; top: 8px; right: 8px; background: none; border: none; color: #f87171; cursor: pointer; font-size: 1.1rem;">&times;</button>
+                <div style="width: 70px; height: 70px; border-radius: 6px; background: url('images/blind-date-jar.png') center/cover no-repeat; border: 1px solid rgba(229,169,59,0.2);"></div>
+                <div style="flex: 1;">
+                  <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #fff;">Blind Date</h4>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px;">Nến Thơm Cao Cấp</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: var(--accent-gold);">85.000đ</span>
+                    <button type="button" class="btn btn-primary" onclick="if(window.ScentPod && window.ScentPod.addToCart){ window.ScentPod.addToCart('blind-date', 'Blind Date', 85000, 'images/blind-date-jar.png'); window.ScentPod.openCartDrawer(); } else { alert('Đã thêm vào giỏ!'); }" style="padding: 4px 10px; font-size: 0.75rem;">Thêm vào giỏ</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Item 2 -->
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 12px; display: flex; gap: 15px; align-items: center; position: relative;">
+                <button title="Bỏ yêu thích" onclick="this.parentElement.style.display='none'" style="position: absolute; top: 8px; right: 8px; background: none; border: none; color: #f87171; cursor: pointer; font-size: 1.1rem;">&times;</button>
+                <div style="width: 70px; height: 70px; border-radius: 6px; background: url('images/campus-breeze-jar.png') center/cover no-repeat; border: 1px solid rgba(229,169,59,0.2);"></div>
+                <div style="flex: 1;">
+                  <h4 style="margin: 0 0 5px 0; font-size: 1rem; color: #fff;">Campus Breeze</h4>
+                  <div style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px;">Nến Thơm Cao Cấp</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: bold; color: var(--accent-gold);">85.000đ</span>
+                    <button type="button" class="btn btn-primary" onclick="if(window.ScentPod && window.ScentPod.addToCart){ window.ScentPod.addToCart('campus-breeze', 'Campus Breeze', 85000, 'images/campus-breeze-jar.png'); window.ScentPod.openCartDrawer(); } else { alert('Đã thêm vào giỏ!'); }" style="padding: 4px 10px; font-size: 0.75rem;">Thêm vào giỏ</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Thẻ đặc quyền ưu đãi -->
           <div class="dashboard-card" style="background: rgba(229, 169, 59, 0.05); border: 1px dashed rgba(229, 169, 59, 0.35);">
             <div class="dashboard-card-title" style="color: var(--accent-gold); margin-bottom: 8px;">
