@@ -913,10 +913,10 @@ const PRODUCTS_CONFIG = {
     fallbackSrc: "images/sap-thom-bo-ba.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
-    heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
-    baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
-    vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập."
+    topNotes: "Quýt non căng mọng, Chanh vàng Ý tươi sáng cùng Lá bạc hà thanh mát đánh thức mọi giác quan.",
+    heartNotes: "Hương trà xanh thảo mộc quyện cùng Trà trắng non, Hoa linh lan và Hoa sen nước dịu êm.",
+    baseNotes: "Gỗ tuyết tùng nhạt tĩnh lặng và Xạ hương sạch tạo nên mùi hương tập trung học tập hoàn hảo.",
+    vibe: "<p style='margin-bottom: 10px;'>Một làn gió thanh mát, trong lành thổi qua mang theo nguồn năng lượng tích cực, <strong>First Class</strong> chính là hũ <em>nến thơm cho phòng học tập trung</em> mà bạn luôn tìm kiếm. Không chỉ là một <em>sáp thơm mini thư giãn</em>, sự giao thoa tuyệt vời của <em>hương trà xanh thảo mộc</em> sẽ giúp bạn dọn dẹp tâm trí, nạp đầy cảm hứng để bắt đầu ngày mới.</p><p style='margin-bottom: 15px;'>Dòng <em>nến thơm handmade cho sinh viên</em> này còn là món đồ <em>decor góc học tập</em> cực kỳ xinh xắn. Dù đặt trên bàn học hay mang theo đến thư viện, thiết kế <em>sáp thơm nhỏ gọn bỏ túi</em> luôn là người bạn đồng hành lý tưởng.</p><ul style='padding-left: 1rem; margin-bottom: 15px; color: rgba(255,255,255,0.9); line-height: 1.6;'><li>🌿 <strong>Nguyên liệu an toàn:</strong> Trải nghiệm <em>Natural soy wax</em> và <em>cotton wick sạch không khói</em>, <em>an toàn cho phòng nhỏ</em>.</li><li>🎒 <strong>Tiện lợi tối đa:</strong> <em>Size mini bỏ túi gọn gàng</em>.</li><li>📚 <strong>Tăng hiệu suất:</strong> Lan tỏa hương thanh khiết <em>hỗ trợ tập trung học tập</em>.</li></ul><p style='font-size: 0.85rem; color: rgba(255,255,255,0.5); font-style: italic; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;'>Nến thơm mini First Class - Hương trà xanh thảo mộc, lựa chọn hoàn hảo cho góc học tập, phòng trọ nhỏ của học sinh, sinh viên.</p>"
   },
   "blind-date": {
     id: "blind-date",
