@@ -485,6 +485,45 @@
             </div>
           </div>
 
+          <!-- Quản lý thông tin cá nhân -->
+          <div class="dashboard-card" style="margin-bottom: 20px;">
+            <div class="dashboard-card-title" style="margin-bottom: 15px;">
+              <span>👤 Cập Nhật Thông Tin Cơ Bản</span>
+            </div>
+            <form id="form-update-profile" style="background: rgba(229, 169, 59, 0.03); padding: 20px; border: 1px solid rgba(229, 169, 59, 0.15); border-radius: 8px;">
+              <div style="display: flex; gap: 30px; align-items: flex-start; flex-wrap: wrap;">
+                
+                <!-- Avatar -->
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; min-width: 120px;">
+                  <div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden; border: 2px solid var(--accent-gold); display: flex; justify-content: center; align-items: center; background: rgba(255,255,255,0.05); font-size: 2rem;">
+                    ${user.avatar && user.avatar.length > 5 ? `<img id="profile-avatar-preview" src="${user.avatar}" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover;">` : `<span id="profile-avatar-preview-text">${user.avatar || '👤'}</span>`}
+                  </div>
+                  <label for="profile-avatar-upload" class="btn btn-outline" style="padding: 5px 12px; font-size: 0.75rem; cursor: pointer;">Thay Avatar</label>
+                  <input type="file" id="profile-avatar-upload" accept="image/*" style="display: none;">
+                </div>
+                
+                <!-- Info Fields -->
+                <div style="flex: 1; min-width: 280px; display: grid; gap: 15px;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="profile-phone" style="font-size: 0.85rem; color: var(--text-secondary);">Số điện thoại</label>
+                    <input type="tel" id="profile-phone" class="form-control" value="${user.phone || ''}" placeholder="Nhập số điện thoại">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="profile-email" style="font-size: 0.85rem; color: var(--text-secondary);">Email</label>
+                    <input type="email" id="profile-email" class="form-control" value="${user.email || ''}" placeholder="Nhập email">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label for="profile-password" style="font-size: 0.85rem; color: var(--text-secondary);">Mật khẩu mới (để trống nếu không đổi)</label>
+                    <input type="password" id="profile-password" class="form-control" placeholder="••••••••">
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top: 20px; text-align: right; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                <button type="submit" class="btn btn-primary" style="padding: 10px 24px; font-size: 0.9rem; font-weight: 600;">Lưu Thay Đổi</button>
+              </div>
+            </form>
+          </div>
+
           <!-- Danh sách đơn hàng của khách -->
           <div class="dashboard-card">
             <div class="dashboard-card-title">
@@ -543,6 +582,78 @@
       document.getElementById("btn-logout").addEventListener("click", () => {
         window.ScentPod.logoutUser();
       });
+
+      // Bắt sự kiện cập nhật thông tin cá nhân
+      const formUpdateProfile = document.getElementById("form-update-profile");
+      if (formUpdateProfile) {
+        const avatarUpload = document.getElementById("profile-avatar-upload");
+        let newAvatarData = user.avatar || "";
+
+        avatarUpload.addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+              newAvatarData = event.target.result;
+              const imgPreview = document.getElementById("profile-avatar-preview");
+              const textPreview = document.getElementById("profile-avatar-preview-text");
+              if (imgPreview) {
+                imgPreview.src = newAvatarData;
+              } else if (textPreview) {
+                const img = document.createElement("img");
+                img.id = "profile-avatar-preview";
+                img.src = newAvatarData;
+                img.style.width = "100%";
+                img.style.height = "100%";
+                img.style.objectFit = "cover";
+                textPreview.replaceWith(img);
+              }
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+        formUpdateProfile.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const phone = document.getElementById("profile-phone").value;
+          const email = document.getElementById("profile-email").value;
+          const pass = document.getElementById("profile-password").value;
+
+          const updatedUser = { ...user };
+          updatedUser.phone = phone;
+          updatedUser.email = email;
+          updatedUser.avatar = newAvatarData;
+          if (pass) {
+            updatedUser.password = pass; // Nếu hệ thống có lưu password
+          }
+
+          if (window.ScentPod && typeof window.ScentPod.updateUser === "function") {
+             window.ScentPod.updateUser(updatedUser);
+             alert("Cập nhật thông tin thành công!");
+             renderAuthView();
+          } else {
+             // Fallback tìm key lưu trên localStorage
+             let saved = false;
+             for (let i = 0; i < localStorage.length; i++) {
+               let key = localStorage.key(i);
+               try {
+                 let val = JSON.parse(localStorage.getItem(key));
+                 if (val && val.role && val.email === user.email) {
+                    localStorage.setItem(key, JSON.stringify(updatedUser));
+                    saved = true;
+                    break;
+                 }
+               } catch(err) {}
+             }
+             if (saved) {
+               alert("Cập nhật thông tin thành công!");
+               renderAuthView();
+             } else {
+               alert("Có lỗi xảy ra khi lưu thông tin.");
+             }
+          }
+        });
+      }
     }
 
     /**
