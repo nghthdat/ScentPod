@@ -4,18 +4,23 @@
  * ==========================================================================
  */
 
+// 1. CẤU HÌNH LINK SOCIAL TẬP TRUNG (SOCIAL CONFIG)
 // --------------------------------------------------------------------------
-// 1. CẤU HÌNH LINK FACEBOOK DUY NHẤT (BẠN CHỈ CẦN THAY LINK TẠI ĐÂY)
-// --------------------------------------------------------------------------
-// Thay bằng link Fanpage hoặc link tin nhắn Messenger của ScentPod
-const FB_LINK = "https://www.facebook.com/profile.php?id=61594607444699"; 
-// Ví dụ khác: "https://www.facebook.com/scentpod.official"
+const SOCIAL_LINKS = {
+  facebook: "https://www.facebook.com/profile.php?id=61594607444699",
+  instagram: "https://www.instagram.com/scentpod929/",
+  threads: "https://www.threads.com/@scentpod929",
+  email: "mailto:scentpodcontact@gmail.com"
+};
+
+const FB_LINK = SOCIAL_LINKS.facebook; 
 
 // --------------------------------------------------------------------------
 // 2. KHỞI CHẠY KHI TẢI XONG TRANG
 // --------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   initFacebookLinks();
+  initSocialLinks();
   initMobileMenu();
   initHeaderScroll();
   initScrollAnimations();
@@ -56,6 +61,37 @@ function initFloatingChatOptimization() {
 
   window.addEventListener("scroll", updateChatState, { passive: true });
   updateChatState();
+}
+
+/**
+ * Tự động gán link Social vào tất cả phần tử có thuộc tính [data-social]
+ */
+function initSocialLinks() {
+  const socialElements = document.querySelectorAll("[data-social]");
+  socialElements.forEach((el) => {
+    const platform = el.getAttribute("data-social");
+    const link = SOCIAL_LINKS[platform];
+    if (!link) return;
+
+    if (el.tagName.toLowerCase() === "a") {
+      el.setAttribute("href", link);
+      // Không target blank cho mailto để mở app mail tốt hơn
+      if (!link.startsWith("mailto:")) {
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener noreferrer");
+      }
+    } else {
+      el.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (link.startsWith("mailto:")) {
+          window.location.href = link;
+        } else {
+          window.open(link, "_blank", "noopener,noreferrer");
+        }
+      });
+      el.style.cursor = "pointer";
+    }
+  });
 }
 
 /**

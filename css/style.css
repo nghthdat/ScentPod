@@ -1095,28 +1095,86 @@ p { color: var(--text-muted); font-size: 1rem; }
   z-index: 10;
 }
 
-.footer-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 2rem;
+.footer-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.2fr;
+  gap: 2.5rem;
   margin-bottom: 2.5rem;
 }
 
-.footer-nav {
+.footer-brand .footer-logo {
   display: flex;
-  gap: 1.8rem;
-  list-style: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
-.footer-nav a {
-  font-size: 0.9rem;
+.footer-description {
   color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
-.footer-nav a:hover {
+.footer-heading {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.footer-links, .footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li, .footer-contact li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a, .footer-contact a, .footer-contact-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover, .footer-contact a:hover, .footer-contact-link:hover {
   color: var(--accent-gold);
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.footer-social-link:hover {
+  background: var(--accent-gold);
+  color: #000;
+  transform: translateY(-2px);
+}
+
+.footer-social-icon {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
 }
 
 .footer-bottom {
@@ -1158,6 +1216,10 @@ p { color: var(--text-muted); font-size: 1rem; }
   .team-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -1351,6 +1413,11 @@ p { color: var(--text-muted); font-size: 1rem; }
     height: 18px;
   }
   
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
   .product-footer {
     flex-direction: column;
     align-items: flex-start;
