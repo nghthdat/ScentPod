@@ -929,10 +929,10 @@ const PRODUCTS_CONFIG = {
     fallbackSrc: "images/nen-thom-mini.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Quả đào chín mọng, Quả lê tươi.",
-    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ.",
-    baseNotes: "Vani sữa ấm, Hổ phách dịu.",
-    vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên."
+    topNotes: "Bản hòa tấu mở đầu bằng nốt hương thanh tao của Quả lê tươi, e ấp đan xen cùng vị ngọt lịm căng mọng từ Quả đào chín, đánh thức khứu giác bằng sự rạng rỡ.",
+    heartNotes: "Sự giao thoa đầy mộng mơ nở rộ khi những cánh Lan Nam phi trắng tinh khiết quyện hòa cùng lớp hương Kẹo bông xốp nhẹ, tạo nên một dải hương bồng bềnh.",
+    baseNotes: "Dư vị cuối cùng đọng lại là lớp Vani sữa ấm áp ôm ấp lấy Hổ phách dịu dàng, để lại một vệt hương vương vấn, quyến rũ không rời.",
+    vibe: "<p style='margin-bottom: 10px;'>Giống như những nhịp đập thổn thức của một buổi hẹn hò đầu tiên, <strong>Blind Date</strong> là một hành trình khứu giác đầy thi vị. Mùi hương dẫn dắt ta đi từ sự rụt rè, bỡ ngỡ ban đầu, dần chìm đắm vào một không gian bồng bềnh của những xúc cảm lãng mạn, tinh tế và đầy nữ tính.</p><p style='margin-bottom: 10px;'>Điểm đắt giá nhất của tác phẩm này chính là <em>sự giao thoa</em> mượt mà giữa các tầng hương: cái ngọt ngào tươi trẻ của nốt hương trái cây dần nhường chỗ cho vẻ đẹp thanh tao của muôn hoa, trước khi lắng đọng thành một <em>dư vị</em> trầm ấm, lưu luyến mãi nơi góc phòng.</p><p style='font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; margin-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 10px;'>Sang trọng, lãng mạn và tinh tế - Một tác phẩm nghệ thuật mùi hương dành riêng cho những tâm hồn mộng mơ.</p>"
   },
   "campus-breeze": {
     id: "campus-breeze",
