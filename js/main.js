@@ -916,7 +916,7 @@ const PRODUCTS_CONFIG = {
     topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
     heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
     baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
-    vibe: "First Class là lời chào ngày mới đầy thanh lịch và thư thái, tựa như khoảnh khắc nhâm nhi tách trà trắng non cạnh cửa sổ ngập nắng. Mùi hương trong trẻo, thanh sạch giúp xua tan âu lo, mang lại cảm giác bình yên và thanh lọc tâm trí tuyệt đối."
+    vibe: "Khung cửa sổ ngập nắng sớm, tách trà thanh tao đánh thức tâm trí, những giọt sương mai còn vương trên kẽ lá. Hương quýt non, trà trắng, bạc hà, gỗ tuyết tùng."
   },
   "blind-date": {
     id: "blind-date",
@@ -929,10 +929,10 @@ const PRODUCTS_CONFIG = {
     fallbackSrc: "images/nen-thom-mini.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Bản hòa tấu mở đầu bằng nốt hương thanh tao của Quả lê tươi, e ấp đan xen cùng vị ngọt lịm căng mọng từ Quả đào chín, đánh thức khứu giác bằng sự rạng rỡ.",
-    heartNotes: "Sự giao thoa đầy mộng mơ nở rộ khi những cánh Lan Nam phi trắng tinh khiết quyện hòa cùng lớp hương Kẹo bông xốp nhẹ, tạo nên một dải hương bồng bềnh.",
-    baseNotes: "Dư vị cuối cùng đọng lại là lớp Vani sữa ấm áp ôm ấp lấy Hổ phách dịu dàng, để lại một vệt hương vương vấn, quyến rũ không rời.",
-    vibe: "Giống như nhịp đập thổn thức của buổi hẹn hò đầu tiên, Blind Date là hành trình khứu giác đầy thi vị. Sự giao thoa giữa trái cây tươi trẻ và muôn hoa thanh tao dần lắng đọng thành một dư vị trầm ấm, lưu luyến mãi nơi góc phòng."
+    topNotes: "Quả đào chín mọng, Quả lê tươi.",
+    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ.",
+    baseNotes: "Vani sữa ấm, Hổ phách dịu.",
+    vibe: "Nhịp đập thổn thức của buổi hẹn đầu, không gian lãng mạn bồng bềnh, những xúc cảm e ấp và ngọt ngào. Hương đào chín, lan Nam phi, kẹo bông, vani ấm."
   },
   "campus-breeze": {
     id: "campus-breeze",
@@ -948,7 +948,7 @@ const PRODUCTS_CONFIG = {
     topNotes: "Muối biển, Hạt bưởi hồng.",
     heartNotes: "Cây xô thơm (Sage), Tảo biển.",
     baseNotes: "Gỗ lũa mục, Xạ hương trắng.",
-    vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường."
+    vibe: "Làn gió phóng khoáng dọc hành lang, ánh nắng ban mai rực rỡ, tiếng cười rộn rã giữa sân trường tự do. Hương muối biển, xô thơm, bưởi hồng, xạ hương trắng."
   },
   "late-night": {
     id: "late-night",
@@ -964,7 +964,7 @@ const PRODUCTS_CONFIG = {
     topNotes: "Cam Bergamot thoang thoảng.",
     heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
     baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
-    vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya."
+    vibe: "Sự tĩnh lặng của màn đêm, ngọn đèn vàng hiu hắt, vòng tay vỗ về tâm hồn sau những giờ học căng thẳng. Hương cam bergamot, oải hương, gỗ tuyết tùng, hổ phách."
   }
 };
 
