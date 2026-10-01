@@ -477,7 +477,7 @@
           <div class="dashboard-topbar">
             <div class="dashboard-user-greeting">
               <h1>Xin chào, ${user.name} 👋</h1>
-              <p>Thành viên ScentClub: <strong style="color: var(--accent-gold);">${user.tier || 'Hạng Bạc (Sinh Viên)'}</strong> &bull; Điểm tích lũy: <strong style="color: #4ade80;">${user.points || 250} điểm</strong></p>
+              <p>Thành viên ScentClub: <strong style="color: var(--accent-gold);">${user.tier || 'Hạng Bạc (Sinh Viên)'}</strong> &bull; Điểm tích lũy: <strong style="color: #4ade80;">${user.points || 250} điểm</strong> <a href="#" onclick="openPointsModal(${user.points || 250}); return false;" style="font-size: 0.8rem; color: var(--accent-gold); text-decoration: underline; margin-left: 10px;">(Xem lịch sử & Đổi điểm)</a></p>
             </div>
             <div style="display: flex; gap: 10px; align-items: center;">
               <a href="san-pham.html" class="btn btn-primary" style="padding: 9px 18px; font-size: 0.88rem;">🛍️ Tiếp tục mua nến</a>
@@ -1212,6 +1212,56 @@
 
     function closeOrderModal() {
       const modal = document.getElementById('order-detail-modal');
+      if (modal) {
+        modal.remove();
+      }
+    }
+
+    function openPointsModal(points) {
+      const history = [
+        { date: "29/09/2026", reason: "Mua đơn hàng SCP-9042", change: "+163 điểm" },
+        { date: "15/09/2026", reason: "Đổi voucher 50K", change: "-500 điểm" },
+        { date: "10/08/2026", reason: "Đăng ký thành viên mới", change: "+100 điểm" }
+      ];
+      let modalHtml = `
+        <div id="points-detail-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+          <div style="background: #1c1815; border: 1px solid var(--accent-gold); border-radius: 12px; width: 90%; max-width: 450px; padding: 25px; color: #fff; position: relative;">
+            <button onclick="closePointsModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            <h3 style="color: var(--accent-gold); margin-top: 0; border-bottom: 1px solid rgba(229,169,59,0.3); padding-bottom: 10px; margin-bottom: 20px;">Quản lý điểm ScentClub</h3>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+              <div style="font-size: 0.9rem; color: var(--text-muted);">Điểm hiện tại của bạn</div>
+              <div style="font-size: 2.5rem; font-weight: bold; color: #4ade80;">${points}</div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+              <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 10px;">Lịch Sử Điểm (Gần nhất)</div>
+              <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.85rem;">
+                ${history.map(item => `
+                  <li style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                    <div>
+                      <div style="color: #fff;">${item.reason}</div>
+                      <div style="color: var(--text-muted); font-size: 0.75rem;">${item.date}</div>
+                    </div>
+                    <div style="color: ${item.change.startsWith('+') ? '#4ade80' : '#f87171'}; font-weight: bold;">
+                      ${item.change}
+                    </div>
+                  </li>
+                `).join('')}
+              </ul>
+            </div>
+
+            <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px;">
+              <button onclick="alert('Đã đổi 200 điểm thành Voucher giảm 20K thành công! Mã: SCENT20K'); closePointsModal(); document.querySelector('#form-update-profile').scrollIntoView();" class="btn btn-primary" style="width: 100%; padding: 12px; font-weight: 600; background: linear-gradient(135deg, #f59e0b, #d97706); border: none;">Đổi 200 điểm lấy Voucher 20K</button>
+            </div>
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    function closePointsModal() {
+      const modal = document.getElementById('points-detail-modal');
       if (modal) {
         modal.remove();
       }
