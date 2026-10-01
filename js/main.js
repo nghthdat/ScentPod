@@ -1176,13 +1176,34 @@ function showToast(message) {
 }
 
 /**
- * Cập nhật ảnh của các sản phẩm trên toàn trang và tạo nút đổi ảnh nhanh
+ * Lấy thông tin cấu hình của Sản phẩm hoặc Combo
+ */
+function getProductMeta(productId) {
+  if (PRODUCTS_CONFIG[productId]) return PRODUCTS_CONFIG[productId];
+  if (COMBOS_CONFIG && COMBOS_CONFIG[productId]) {
+    const c = COMBOS_CONFIG[productId];
+    return {
+      id: c.id,
+      code: c.code || "Combo",
+      name: c.name,
+      filename: c.filename,
+      defaultSrc: c.defaultSrc,
+      fallbackSrc: c.fallbackSrc,
+      price: c.price,
+      isCombo: true
+    };
+  }
+  return null;
+}
+
+/**
+ * Cập nhật ảnh của các sản phẩm trên toàn trang và tạo nút đổi/chỉnh khung ảnh
  */
 function applyProductImages() {
   const wrappers = document.querySelectorAll(".product-img-wrapper[data-product-id]");
   wrappers.forEach((wrapper) => {
     const productId = wrapper.getAttribute("data-product-id");
-    const info = PRODUCTS_CONFIG[productId];
+    const info = getProductMeta(productId);
     if (!info) return;
 
     const img = wrapper.querySelector("img");
@@ -1210,11 +1231,11 @@ function applyProductImages() {
       uploadBar = document.createElement("div");
       uploadBar.className = "product-card-upload-bar";
 
-      // Nút Tải ảnh từ máy
+      // 1. Nút Đổi ảnh từ máy (chọn file mới -> mở khung chỉnh sửa)
       const uploadBtn = document.createElement("button");
       uploadBtn.type = "button";
       uploadBtn.className = "btn-card-upload";
-      uploadBtn.title = "Tải ảnh từ máy tính hoặc thư viện ảnh";
+      uploadBtn.title = "Tải ảnh từ máy tính hoặc thư viện ảnh và căn chỉnh khung";
       uploadBtn.setAttribute("aria-label", "Tải ảnh mới từ máy");
       uploadBtn.innerHTML = `
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1238,7 +1259,7 @@ function applyProductImages() {
 
       fileInput.addEventListener("change", (e) => {
         if (e.target.files && e.target.files[0]) {
-          processImageUpload(productId, e.target.files[0]);
+          openImageCropperModal({ productId, file: e.target.files[0] });
           e.target.value = "";
         }
       });
@@ -1246,7 +1267,30 @@ function applyProductImages() {
       uploadBar.appendChild(uploadBtn);
       uploadBar.appendChild(fileInput);
 
-      // Nút khôi phục ảnh gốc
+      // 2. Nút Chỉnh khung ảnh hiện tại
+      const cropBtn = document.createElement("button");
+      cropBtn.type = "button";
+      cropBtn.className = "btn-card-crop";
+      cropBtn.title = "Căn chỉnh khung ảnh (cắt, thu phóng, xoay ảnh vừa vặn)";
+      cropBtn.setAttribute("aria-label", "Chỉnh khung ảnh");
+      cropBtn.innerHTML = `
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2v14a2 2 0 0 0 2 2h14"></path>
+          <path d="M18 22V8a2 2 0 0 0-2-2H2"></path>
+        </svg>
+        <span>Chỉnh khung</span>
+      `;
+
+      cropBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const currentSrc = img.src;
+        openImageCropperModal({ productId, imageSrc: currentSrc });
+      });
+
+      uploadBar.appendChild(cropBtn);
+
+      // 3. Nút khôi phục ảnh gốc
       const resetBtn = document.createElement("button");
       resetBtn.type = "button";
       resetBtn.className = "btn-card-reset";
@@ -1281,46 +1325,628 @@ function applyProductImages() {
 }
 
 /**
- * Xử lý tải ảnh lên, tự động nén tối ưu và lưu trữ
+ * ==========================================================================
+ * BỘ CÔNG CỤ CĂN CHỈNH KHUNG ẢNH CHUYÊN NGHIỆP (SCENTPOD IMAGE CROPPER)
+ * ==========================================================================
+ * Hỗ trợ:
+ * - Khung cắt tỉ lệ chuẩn thẻ ScentPod 4:5, 1:1, 3:4
+ * - Kéo rê ảnh (Pan / Drag) bằng chuột hoặc chạm vuốt cảm ứng
+ * - Thu phóng (Zoom) mượt mà bằng thanh trượt, nút +/-, hoặc con lăn chuột
+ * - Xoay 90° hai chiều và Lật ngang
+ * - Live Preview trực tiếp mô phỏng thẻ sản phẩm
+ * - Xuất Canvas JPEG độ phân giải cao sắc nét
  */
-async function processImageUpload(productId, file) {
-  const info = PRODUCTS_CONFIG[productId];
+const CROP_RATIO_CONFIG = {
+  "4:5": { ratio: 0.8, boxW: 280, boxH: 350, label: "4:5", name: "Chuẩn Thẻ ScentPod" },
+  "1:1": { ratio: 1.0, boxW: 320, boxH: 320, label: "1:1", name: "Khung Vuông" },
+  "3:4": { ratio: 0.75, boxW: 270, boxH: 360, label: "3:4", name: "Khung Đứng" }
+};
+
+let cropperState = {
+  productId: null,
+  sourceImg: null,
+  rawSrc: null,
+  ratioKey: "4:5",
+  ratio: 0.8,
+  ratioLabel: "4:5",
+  zoom: 1.0,
+  panX: 0,
+  panY: 0,
+  rotation: 0,
+  flipH: 1,
+  boxW: 280,
+  boxH: 350,
+  baseW: 0,
+  baseH: 0,
+  isDragging: false,
+  startX: 0,
+  startY: 0
+};
+
+let cropperBackdropEl = null;
+
+/**
+ * Khởi tạo DOM của Cropper Modal (Singleton)
+ */
+function getOrCreateCropperModal() {
+  if (cropperBackdropEl) return cropperBackdropEl;
+
+  cropperBackdropEl = document.createElement("div");
+  cropperBackdropEl.className = "scentpod-cropper-backdrop";
+  cropperBackdropEl.innerHTML = `
+    <div class="scentpod-cropper-modal" role="dialog" aria-modal="true" aria-labelledby="cropper-title">
+      
+      <!-- Header -->
+      <div class="cropper-header">
+        <div class="cropper-title-box">
+          <h3 id="cropper-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2v14a2 2 0 0 0 2 2h14"></path>
+              <path d="M18 22V8a2 2 0 0 0-2-2H2"></path>
+            </svg>
+            Chỉnh Sửa Khung Ảnh Sản Phẩm
+          </h3>
+          <span class="cropper-product-badge">ScentPod</span>
+        </div>
+        <button type="button" class="cropper-close-btn" aria-label="Đóng cửa sổ">&times;</button>
+      </div>
+
+      <!-- Body -->
+      <div class="cropper-body">
+        
+        <!-- Khu vực hiển thị khung cắt trực quan -->
+        <div class="cropper-stage-container">
+          <div class="cropper-viewport" id="cropper-viewport">
+            <!-- Lớp ảnh nguồn -->
+            <div class="cropper-image-layer" id="cropper-image-layer">
+              <img id="cropper-source-img" src="" alt="Căn chỉnh khung ảnh" draggable="false" />
+            </div>
+
+            <!-- Khung cắt (Crop Box) -->
+            <div class="cropper-crop-box" id="cropper-crop-box">
+              <span class="crop-corner top-left"></span>
+              <span class="crop-corner top-right"></span>
+              <span class="crop-corner bottom-left"></span>
+              <span class="crop-corner bottom-right"></span>
+
+              <div class="crop-grid-lines">
+                <span class="grid-line-h h1"></span>
+                <span class="grid-line-h h2"></span>
+                <span class="grid-line-v v1"></span>
+                <span class="grid-line-v v2"></span>
+              </div>
+
+              <div class="crop-ratio-badge">4:5 • Chuẩn Thẻ ScentPod</div>
+            </div>
+          </div>
+
+          <div class="cropper-stage-hint">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>Nhấn giữ để <strong>kéo ảnh</strong> • Cuộn chuột hoặc dùng thanh trượt để <strong>thu phóng</strong></span>
+          </div>
+        </div>
+
+        <!-- Bảng điều khiển công cụ -->
+        <div class="cropper-sidebar">
+          
+          <!-- 1. Tỉ lệ khung ảnh -->
+          <div class="cropper-control-group">
+            <label class="control-label">Tỉ lệ khung hình:</label>
+            <div class="ratio-button-group">
+              <button type="button" class="btn-ratio active" data-ratio="4:5">4:5 (Thẻ Pod)</button>
+              <button type="button" class="btn-ratio" data-ratio="1:1">1:1 (Vuông)</button>
+              <button type="button" class="btn-ratio" data-ratio="3:4">3:4 (Đứng)</button>
+            </div>
+          </div>
+
+          <!-- 2. Thu phóng Zoom -->
+          <div class="cropper-control-group">
+            <div class="control-label-row">
+              <label class="control-label">Thu phóng (Zoom):</label>
+              <span class="zoom-percent-val" id="cropper-zoom-val">100%</span>
+            </div>
+            <div class="zoom-slider-wrap">
+              <button type="button" class="btn-zoom-step" id="cropper-zoom-out" title="Thu nhỏ">-</button>
+              <input type="range" id="cropper-zoom-slider" min="1" max="3" step="0.02" value="1" />
+              <button type="button" class="btn-zoom-step" id="cropper-zoom-in" title="Phóng to">+</button>
+            </div>
+          </div>
+
+          <!-- 3. Xoay & Lật -->
+          <div class="cropper-control-group">
+            <label class="control-label">Xoay &amp; Căn chỉnh:</label>
+            <div class="cropper-tool-grid">
+              <button type="button" class="btn-tool-action" id="cropper-rot-left" title="Xoay trái 90°">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                <span>Xoay trái</span>
+              </button>
+              <button type="button" class="btn-tool-action" id="cropper-rot-right" title="Xoay phải 90°">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                <span>Xoay phải</span>
+              </button>
+              <button type="button" class="btn-tool-action" id="cropper-flip" title="Lật ngang">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                <span>Lật ảnh</span>
+              </button>
+              <button type="button" class="btn-tool-action" id="cropper-center" title="Đưa ảnh về giữa">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
+                <span>Căn giữa</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 4. Xem trước thực tế trên thẻ -->
+          <div class="cropper-preview-box">
+            <div class="preview-header">
+              <span>Mô phỏng trên thẻ sản phẩm</span>
+              <span class="preview-badge">Live</span>
+            </div>
+            <div class="preview-card-mockup">
+              <div class="preview-img-frame">
+                <canvas id="cropper-preview-canvas" width="120" height="150"></canvas>
+              </div>
+              <div class="preview-mock-info">
+                <span class="mock-title">ScentPod</span>
+                <span class="mock-price">85.000đ</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="cropper-footer">
+        <div class="footer-left">
+          <label class="btn-choose-other">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            <span>Chọn ảnh khác...</span>
+            <input type="file" id="cropper-file-replacer" accept="image/*" style="display: none;" />
+          </label>
+        </div>
+        <div class="footer-right">
+          <button type="button" class="btn-cropper-cancel">Hủy</button>
+          <button type="button" class="btn-cropper-apply">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <span>Cắt &amp; Áp dụng</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  `;
+  document.body.appendChild(cropperBackdropEl);
+
+  // Gắn sự kiện đóng modal
+  const closeBtn = cropperBackdropEl.querySelector(".cropper-close-btn");
+  const cancelBtn = cropperBackdropEl.querySelector(".btn-cropper-cancel");
+  closeBtn.addEventListener("click", closeCropperModal);
+  cancelBtn.addEventListener("click", closeCropperModal);
+  cropperBackdropEl.addEventListener("click", (e) => {
+    if (e.target === cropperBackdropEl) closeCropperModal();
+  });
+
+  // Tương tác kéo thả chuột (Pan/Drag)
+  const viewport = cropperBackdropEl.querySelector("#cropper-viewport");
+  viewport.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    cropperState.isDragging = true;
+    cropperState.startX = e.clientX;
+    cropperState.startY = e.clientY;
+    viewport.classList.add("is-dragging");
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!cropperState.isDragging) return;
+    const dx = e.clientX - cropperState.startX;
+    const dy = e.clientY - cropperState.startY;
+    cropperState.panX += dx;
+    cropperState.panY += dy;
+    cropperState.startX = e.clientX;
+    cropperState.startY = e.clientY;
+    updateCropperTransform();
+    updateCropperPreview();
+  });
+
+  window.addEventListener("mouseup", () => {
+    if (cropperState.isDragging) {
+      cropperState.isDragging = false;
+      const vp = document.querySelector("#cropper-viewport");
+      if (vp) vp.classList.remove("is-dragging");
+    }
+  });
+
+  // Cảm ứng vuốt chạm trên thiết bị di động
+  viewport.addEventListener("touchstart", (e) => {
+    if (e.touches && e.touches[0]) {
+      cropperState.isDragging = true;
+      cropperState.startX = e.touches[0].clientX;
+      cropperState.startY = e.touches[0].clientY;
+      viewport.classList.add("is-dragging");
+    }
+  }, { passive: false });
+
+  window.addEventListener("touchmove", (e) => {
+    if (!cropperState.isDragging || !e.touches || !e.touches[0]) return;
+    const dx = e.touches[0].clientX - cropperState.startX;
+    const dy = e.touches[0].clientY - cropperState.startY;
+    cropperState.panX += dx;
+    cropperState.panY += dy;
+    cropperState.startX = e.touches[0].clientX;
+    cropperState.startY = e.touches[0].clientY;
+    updateCropperTransform();
+    updateCropperPreview();
+  }, { passive: false });
+
+  window.addEventListener("touchend", () => {
+    if (cropperState.isDragging) {
+      cropperState.isDragging = false;
+      const vp = document.querySelector("#cropper-viewport");
+      if (vp) vp.classList.remove("is-dragging");
+    }
+  });
+
+  // Cuộn chuột để thu phóng (Mouse Wheel Zoom)
+  viewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 0.08 : -0.08;
+    setCropperZoom(cropperState.zoom + delta);
+  }, { passive: false });
+
+  // Slider Zoom
+  const zoomSlider = cropperBackdropEl.querySelector("#cropper-zoom-slider");
+  zoomSlider.addEventListener("input", (e) => {
+    setCropperZoom(parseFloat(e.target.value));
+  });
+
+  const zoomInBtn = cropperBackdropEl.querySelector("#cropper-zoom-in");
+  const zoomOutBtn = cropperBackdropEl.querySelector("#cropper-zoom-out");
+  zoomInBtn.addEventListener("click", () => setCropperZoom(cropperState.zoom + 0.1));
+  zoomOutBtn.addEventListener("click", () => setCropperZoom(cropperState.zoom - 0.1));
+
+  // Nút chuyển tỉ lệ (Aspect Ratio)
+  const ratioButtons = cropperBackdropEl.querySelectorAll(".btn-ratio");
+  ratioButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      ratioButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      const rKey = btn.dataset.ratio || "4:5";
+      updateCropBoxDimensions(rKey);
+      updateCropperTransform();
+      updateCropperPreview();
+    });
+  });
+
+  // Nút Xoay & Lật & Căn giữa
+  const rotLeftBtn = cropperBackdropEl.querySelector("#cropper-rot-left");
+  const rotRightBtn = cropperBackdropEl.querySelector("#cropper-rot-right");
+  const flipBtn = cropperBackdropEl.querySelector("#cropper-flip");
+  const centerBtn = cropperBackdropEl.querySelector("#cropper-center");
+
+  rotLeftBtn.addEventListener("click", () => {
+    cropperState.rotation = (cropperState.rotation - 90 + 360) % 360;
+    updateCropperTransform();
+    updateCropperPreview();
+  });
+
+  rotRightBtn.addEventListener("click", () => {
+    cropperState.rotation = (cropperState.rotation + 90) % 360;
+    updateCropperTransform();
+    updateCropperPreview();
+  });
+
+  flipBtn.addEventListener("click", () => {
+    cropperState.flipH = cropperState.flipH === 1 ? -1 : 1;
+    updateCropperTransform();
+    updateCropperPreview();
+  });
+
+  centerBtn.addEventListener("click", () => {
+    cropperState.panX = 0;
+    cropperState.panY = 0;
+    setCropperZoom(1.0);
+    cropperState.rotation = 0;
+    cropperState.flipH = 1;
+    updateCropperTransform();
+    updateCropperPreview();
+  });
+
+  // Chọn ảnh khác
+  const replacerInput = cropperBackdropEl.querySelector("#cropper-file-replacer");
+  replacerInput.addEventListener("change", (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        cropperState.panX = 0;
+        cropperState.panY = 0;
+        setCropperZoom(1.0);
+        cropperState.rotation = 0;
+        cropperState.flipH = 1;
+        loadCropperImage(ev.target.result);
+      };
+      reader.readAsDataURL(file);
+      e.target.value = "";
+    }
+  });
+
+  // Nút Cắt & Áp dụng
+  const applyBtn = cropperBackdropEl.querySelector(".btn-cropper-apply");
+  applyBtn.addEventListener("click", executeCropAndSave);
+
+  return cropperBackdropEl;
+}
+
+/**
+ * Đặt mức zoom cho Cropper
+ */
+function setCropperZoom(val) {
+  const clamped = Math.min(3.0, Math.max(1.0, Math.round(val * 100) / 100));
+  cropperState.zoom = clamped;
+  const slider = document.querySelector("#cropper-zoom-slider");
+  if (slider) slider.value = clamped;
+  const valLabel = document.querySelector("#cropper-zoom-val");
+  if (valLabel) valLabel.textContent = `${Math.round(clamped * 100)}%`;
+  updateCropperTransform();
+  updateCropperPreview();
+}
+
+/**
+ * Cập nhật kích thước khung cắt (Crop Box) theo tỉ lệ đã chọn
+ */
+function updateCropBoxDimensions(key) {
+  const backdrop = getOrCreateCropperModal();
+  const cropBox = backdrop.querySelector("#cropper-crop-box");
+  const ratioBadge = backdrop.querySelector(".crop-ratio-badge");
+  if (!cropBox) return;
+
+  const targetKey = key || cropperState.ratioKey || "4:5";
+  const preset = CROP_RATIO_CONFIG[targetKey] || CROP_RATIO_CONFIG["4:5"];
+
+  cropperState.ratioKey = targetKey;
+  cropperState.ratio = preset.ratio;
+  cropperState.ratioLabel = preset.label;
+  cropperState.boxW = preset.boxW;
+  cropperState.boxH = preset.boxH;
+
+  cropBox.style.width = `${preset.boxW}px`;
+  cropBox.style.height = `${preset.boxH}px`;
+
+  if (ratioBadge) {
+    ratioBadge.textContent = `${preset.label} • ${preset.name}`;
+  }
+}
+
+/**
+ * Cập nhật vị trí biến hình (Transform) của ảnh trong khung cắt
+ */
+function updateCropperTransform() {
+  const backdrop = getOrCreateCropperModal();
+  const imgLayer = backdrop.querySelector("#cropper-image-layer");
+  const sourceImg = backdrop.querySelector("#cropper-source-img");
+  if (!imgLayer || !sourceImg || !cropperState.sourceImg) return;
+
+  const nw = cropperState.sourceImg.naturalWidth;
+  const nh = cropperState.sourceImg.naturalHeight;
+  if (!nw || !nh) return;
+
+  const isRotated90 = (cropperState.rotation % 180 !== 0);
+  const effW = isRotated90 ? nh : nw;
+  const effH = isRotated90 ? nw : nh;
+
+  const coverScale = Math.max(cropperState.boxW / effW, cropperState.boxH / effH);
+  cropperState.baseW = nw * coverScale;
+  cropperState.baseH = nh * coverScale;
+
+  sourceImg.style.width = `${cropperState.baseW}px`;
+  sourceImg.style.height = `${cropperState.baseH}px`;
+
+  imgLayer.style.transform = `translate(-50%, -50%) translate(${cropperState.panX}px, ${cropperState.panY}px) rotate(${cropperState.rotation}deg) scaleX(${cropperState.flipH}) scale(${cropperState.zoom})`;
+}
+
+/**
+ * Cập nhật Live Mini Preview mô phỏng thẻ sản phẩm
+ */
+function updateCropperPreview() {
+  const backdrop = getOrCreateCropperModal();
+  const canvas = backdrop.querySelector("#cropper-preview-canvas");
+  if (!canvas || !cropperState.sourceImg) return;
+
+  const prevW = 120;
+  const prevH = Math.round(prevW / cropperState.ratio);
+  canvas.width = prevW;
+  canvas.height = prevH;
+
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, prevW, prevH);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+
+  const scaleFactor = prevW / cropperState.boxW;
+
+  ctx.save();
+  ctx.translate(prevW / 2, prevH / 2);
+  ctx.translate(cropperState.panX * scaleFactor, cropperState.panY * scaleFactor);
+  ctx.rotate((cropperState.rotation * Math.PI) / 180);
+  ctx.scale(cropperState.flipH, 1);
+  ctx.scale(cropperState.zoom, cropperState.zoom);
+
+  const drawW = cropperState.baseW * scaleFactor;
+  const drawH = cropperState.baseH * scaleFactor;
+  ctx.drawImage(cropperState.sourceImg, -drawW / 2, -drawH / 2, drawW, drawH);
+  ctx.restore();
+}
+
+/**
+ * Đóng Cropper Modal
+ */
+function closeCropperModal() {
+  if (cropperBackdropEl) {
+    cropperBackdropEl.classList.remove("is-open");
+    document.body.style.overflow = "";
+  }
+}
+
+/**
+ * Mở Cropper Modal từ file hoặc từ đường dẫn ảnh hiện tại
+ */
+function openImageCropperModal({ productId, file, imageSrc }) {
+  const info = getProductMeta(productId);
   if (!info) return;
 
-  if (!file.type.startsWith("image/")) {
-    showToast("⚠️ Vui lòng chọn đúng file hình ảnh (JPG, PNG, WebP)!");
-    return;
+  const backdrop = getOrCreateCropperModal();
+  cropperState.productId = productId;
+  cropperState.ratioKey = "4:5";
+  cropperState.ratio = 0.8;
+  cropperState.ratioLabel = "4:5";
+  cropperState.boxW = 280;
+  cropperState.boxH = 350;
+  cropperState.zoom = 1.0;
+  cropperState.panX = 0;
+  cropperState.panY = 0;
+  cropperState.rotation = 0;
+  cropperState.flipH = 1;
+
+  // Cập nhật thông tin tiêu đề và mockup
+  const badge = backdrop.querySelector(".cropper-product-badge");
+  if (badge) badge.textContent = `${info.name} (${info.code || 'SP'})`;
+
+  const mockTitle = backdrop.querySelector(".mock-title");
+  if (mockTitle) mockTitle.textContent = info.name;
+  const mockPrice = backdrop.querySelector(".mock-price");
+  if (mockPrice) mockPrice.textContent = info.price || "85.000đ";
+
+  // Reset nút tỉ lệ
+  backdrop.querySelectorAll(".btn-ratio").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.ratio === "4:5");
+  });
+
+  // Reset slider zoom
+  const zoomSlider = backdrop.querySelector("#cropper-zoom-slider");
+  if (zoomSlider) zoomSlider.value = "1";
+  const zoomVal = backdrop.querySelector("#cropper-zoom-val");
+  if (zoomVal) zoomVal.textContent = "100%";
+
+  if (file) {
+    if (!file.type.startsWith("image/")) {
+      showToast("⚠️ Vui lòng chọn đúng file hình ảnh (JPG, PNG, WebP)!");
+      return;
+    }
+    showToast("Đang tải ảnh vào khung chỉnh sửa...");
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      loadCropperImage(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  } else if (imageSrc) {
+    showToast("Đang mở công cụ chỉnh khung ảnh...");
+    loadCropperImage(imageSrc);
   }
+}
+
+/**
+ * Nạp ảnh vào đối tượng Image để bắt đầu căn chỉnh
+ */
+function loadCropperImage(src) {
+  const backdrop = getOrCreateCropperModal();
+  const sourceImg = backdrop.querySelector("#cropper-source-img");
+  const imgObj = new Image();
+  imgObj.crossOrigin = "anonymous";
+  imgObj.onload = () => {
+    cropperState.sourceImg = imgObj;
+    cropperState.rawSrc = src;
+    sourceImg.src = src;
+    backdrop.classList.add("is-open");
+    document.body.style.overflow = "hidden";
+    updateCropBoxDimensions();
+    updateCropperTransform();
+    updateCropperPreview();
+  };
+  imgObj.onerror = () => {
+    showToast("⚠️ Không thể đọc file ảnh này để chỉnh sửa. Vui lòng thử lại với ảnh khác!");
+  };
+  imgObj.src = src;
+}
+
+/**
+ * Xuất ảnh cắt độ phân giải cao bằng Canvas và lưu vào hệ thống
+ */
+async function executeCropAndSave() {
+  if (!cropperState.productId || !cropperState.sourceImg) return;
 
   try {
-    showToast("Đang nén & tối ưu ảnh...");
-    const optimizedBase64 = await resizeAndCompressImage(file, 1200, 1500, 0.88);
+    showToast("Đang xuất ảnh & tối ưu khung hình...");
 
-    // 1. Lưu vào trình duyệt (localStorage)
-    setCustomImage(productId, optimizedBase64);
-    applyProductImages();
-    renderModalProductList();
+    const outW = 1200;
+    const outH = Math.round(1200 / cropperState.ratio);
 
-    // 2. Nếu đang chạy local server (node scripts/server.js), tự động ghi ra thư mục images/ trên đĩa
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ productId, imageData: optimizedBase64, filename: info.filename })
-      });
-      if (res.ok) {
-        showToast(`✅ Đã lưu ảnh vào thư mục images/${info.filename} và hiển thị trên web! 🎉`);
-        return;
-      }
-    } catch (netErr) {
-      // Server không bật: sử dụng lưu trữ trình duyệt hoàn toàn bình thường
-    }
+    const canvas = document.createElement("canvas");
+    canvas.width = outW;
+    canvas.height = outH;
+    const ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
 
-    showToast(`✅ Đã cập nhật ảnh sản phẩm "${info.name}" từ thiết bị của bạn! 🎉`);
+    const scaleFactor = outW / cropperState.boxW;
+
+    ctx.save();
+    ctx.translate(outW / 2, outH / 2);
+    ctx.translate(cropperState.panX * scaleFactor, cropperState.panY * scaleFactor);
+    ctx.rotate((cropperState.rotation * Math.PI) / 180);
+    ctx.scale(cropperState.flipH, 1);
+    ctx.scale(cropperState.zoom, cropperState.zoom);
+
+    const drawW = cropperState.baseW * scaleFactor;
+    const drawH = cropperState.baseH * scaleFactor;
+    ctx.drawImage(cropperState.sourceImg, -drawW / 2, -drawH / 2, drawW, drawH);
+    ctx.restore();
+
+    const croppedBase64 = canvas.toDataURL("image/jpeg", 0.90);
+    const productId = cropperState.productId;
+    closeCropperModal();
+
+    await saveAndApplyProductImage(productId, croppedBase64);
   } catch (err) {
-    console.error("Lỗi khi tải ảnh:", err);
-    showToast("⚠️ Không thể đọc file ảnh. Vui lòng thử lại với ảnh khác.");
+    console.error("Lỗi khi cắt ảnh:", err);
+    showToast("⚠️ Có lỗi khi xử lý cắt ảnh. Vui lòng thử lại!");
   }
+}
+
+/**
+ * Lưu ảnh tùy chỉnh vào bộ nhớ trình duyệt và ghi ra server
+ */
+async function saveAndApplyProductImage(productId, croppedBase64) {
+  const info = getProductMeta(productId);
+  if (!info) return;
+
+  // 1. Lưu vào trình duyệt (localStorage)
+  setCustomImage(productId, croppedBase64);
+  applyProductImages();
+  renderModalProductList();
+
+  // 2. Ghi ra thư mục images/ trên đĩa nếu local server đang chạy
+  try {
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ productId, imageData: croppedBase64, filename: info.filename })
+    });
+    if (res.ok) {
+      showToast(`✅ Đã lưu khung ảnh chuẩn vào images/${info.filename} và hiển thị trên web! 🎉`);
+      return;
+    }
+  } catch (netErr) {
+    // Server không bật: sử dụng lưu trữ trình duyệt hoàn toàn bình thường
+  }
+
+  showToast(`✅ Đã căn chỉnh khung ảnh thành công cho "${info.name}"! 🎉`);
+}
+
+/**
+ * Hàm tương thích ngược khi tải ảnh từ máy
+ */
+async function processImageUpload(productId, file) {
+  openImageCropperModal({ productId, file });
 }
 
 /**
@@ -1367,7 +1993,7 @@ function setupFloatingManagerAndModal() {
   const fab = document.createElement("button");
   fab.className = "img-manager-fab";
   fab.type = "button";
-  fab.title = "Quản lý ảnh sản phẩm từ máy tính / điện thoại";
+  fab.title = "Quản lý & căn chỉnh khung ảnh sản phẩm";
   fab.setAttribute("aria-label", "Quản lý ảnh sản phẩm");
   fab.innerHTML = `
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1385,15 +2011,15 @@ function setupFloatingManagerAndModal() {
     <div class="scentpod-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
         <div class="modal-title-group">
-          <h3 id="modal-title">Quản Lý Ảnh Sản Phẩm ScentPod</h3>
-          <p>Tải ảnh trực tiếp từ máy tính hoặc thư viện ảnh trên điện thoại</p>
+          <h3 id="modal-title">Quản Lý &amp; Căn Chỉnh Ảnh ScentPod</h3>
+          <p>Tải ảnh, căn chỉnh khung ảnh (cắt cúp, thu phóng) vừa vặn với thẻ sản phẩm</p>
         </div>
         <button type="button" class="modal-close-btn" aria-label="Đóng cửa sổ">&times;</button>
       </div>
       <div class="modal-body">
         <div class="modal-instruction-box">
-          💡 <strong>Cách đổi ảnh:</strong> Bạn bấm <em>"Tải ảnh từ máy"</em> ở từng sản phẩm để chọn ảnh từ máy tính hoặc thư viện ảnh điện thoại. Ảnh sẽ hiển thị ngay lập tức trên web.<br>
-          📦 <strong>Để lưu lâu dài lên GitHub:</strong> Bấm <em>"Tải file .jpg"</em> rồi chép vào thư mục <code>images/</code> và đẩy lên GitHub. Hoặc chạy <code>npm start</code> để tự động lưu khi tải ảnh!
+          💡 <strong>Cách đổi &amp; căn khung ảnh:</strong> Bấm <em>"Tải ảnh từ máy"</em> hoặc <em>"Chỉnh khung"</em> để mở bộ công cụ căn chỉnh tỉ lệ 4:5, thu phóng và xoay ảnh sao cho đối tượng chai/hũ nằm ngay vị trí đẹp nhất.<br>
+          📦 <strong>Để lưu lâu dài lên GitHub:</strong> Bấm <em>"Tải .jpg"</em> rồi chép vào thư mục <code>images/</code> và đẩy lên GitHub. Hoặc chạy <code>npm start</code> để tự động lưu khi cắt ảnh!
         </div>
         <div class="modal-product-list"></div>
       </div>
@@ -1432,7 +2058,8 @@ function setupFloatingManagerAndModal() {
 
   resetAllBtn.addEventListener("click", () => {
     if (confirm("Bạn có chắc muốn khôi phục tất cả ảnh sản phẩm về ảnh gốc ban đầu không?")) {
-      Object.keys(PRODUCTS_CONFIG).forEach((id) => removeCustomImage(id));
+      const allProductIds = [...Object.keys(PRODUCTS_CONFIG), "cb01", "cb02", "cb03"];
+      allProductIds.forEach((id) => removeCustomImage(id));
       applyProductImages();
       renderModalProductList();
       showToast("Đã khôi phục tất cả ảnh về mặc định ban đầu!");
@@ -1441,7 +2068,7 @@ function setupFloatingManagerAndModal() {
 }
 
 /**
- * Hiển thị danh sách 5 sản phẩm trong Modal
+ * Hiển thị danh sách sản phẩm & combo trong Modal Quản lý
  */
 function renderModalProductList() {
   const container = document.querySelector(".modal-product-list");
@@ -1449,8 +2076,12 @@ function renderModalProductList() {
 
   container.innerHTML = "";
 
-  Object.keys(PRODUCTS_CONFIG).forEach((id) => {
-    const p = PRODUCTS_CONFIG[id];
+  const allProductIds = [...Object.keys(PRODUCTS_CONFIG), "cb01", "cb02", "cb03"];
+
+  allProductIds.forEach((id) => {
+    const p = getProductMeta(id);
+    if (!p) return;
+
     const customImg = getCustomImage(id);
     const imgSrc = customImg || p.defaultSrc;
 
@@ -1464,15 +2095,19 @@ function renderModalProductList() {
         <h4 class="modal-product-name">${p.name}</h4>
         <div class="modal-product-filename">images/${p.filename} &bull; ${p.price}</div>
         <span class="modal-product-status ${customImg ? 'is-custom' : 'is-default'}">
-          ${customImg ? '✓ Đang dùng ảnh từ máy của bạn' : 'Ảnh mặc định'}
+          ${customImg ? '✓ Đang dùng ảnh tùy chỉnh từ máy' : 'Ảnh mặc định'}
         </span>
       </div>
       <div class="modal-product-actions">
-        <label class="btn-upload-file">
+        <label class="btn-upload-file" title="Tải ảnh mới từ thiết bị và căn chỉnh khung">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          Tải ảnh từ máy
+          Tải ảnh mới
           <input type="file" accept="image/*" style="display: none;" class="modal-file-input" data-id="${id}">
         </label>
+        <button type="button" class="btn-action-small btn-crop-single" data-id="${id}" title="Căn chỉnh khung ảnh (cắt cúp, thu phóng, xoay)">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>
+          Chỉnh khung
+        </button>
         <button type="button" class="btn-action-small btn-dl-img" data-id="${id}" title="Tải file .jpg về máy">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Tải .jpg
@@ -1485,12 +2120,18 @@ function renderModalProductList() {
       </div>
     `;
 
-    // Sự kiện input file
+    // Sự kiện input file -> mở Cropper
     const fileInput = item.querySelector(".modal-file-input");
     fileInput.addEventListener("change", (e) => {
       if (e.target.files && e.target.files[0]) {
-        processImageUpload(id, e.target.files[0]);
+        openImageCropperModal({ productId: id, file: e.target.files[0] });
       }
+    });
+
+    // Sự kiện nút Chỉnh khung
+    const cropSingleBtn = item.querySelector(".btn-crop-single");
+    cropSingleBtn.addEventListener("click", () => {
+      openImageCropperModal({ productId: id, imageSrc: imgSrc });
     });
 
     // Sự kiện tải file .jpg về máy
@@ -1518,7 +2159,7 @@ function renderModalProductList() {
  * Tải file ảnh về máy để người dùng dễ dàng lưu vào thư mục images/
  */
 function downloadProductImage(productId) {
-  const p = PRODUCTS_CONFIG[productId];
+  const p = getProductMeta(productId);
   if (!p) return;
 
   const customImg = getCustomImage(productId);
