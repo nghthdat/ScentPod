@@ -546,7 +546,7 @@
                 <tbody>
                   ${orders.map(order => `
                     <tr>
-                      <td style="font-weight: 700; color: var(--accent-gold);">${order.id}</td>
+                      <td style="font-weight: 700; color: var(--accent-gold);"><a href="#" onclick="openOrderModal('${order.id}'); return false;" style="color: var(--accent-gold); text-decoration: underline;">${order.id}</a></td>
                       <td style="font-size: 0.82rem;">${order.date}</td>
                       <td>
                         <div style="line-height: 1.4;">
@@ -839,7 +839,7 @@
                   </tr>
                 ` : filteredOrders.map(order => `
                   <tr>
-                    <td style="font-weight: 700; color: var(--accent-gold); white-space: nowrap;">${order.id}</td>
+                    <td style="font-weight: 700; color: var(--accent-gold); white-space: nowrap;"><a href="#" onclick="openOrderModal('${order.id}'); return false;" style="color: var(--accent-gold); text-decoration: underline;">${order.id}</a></td>
                     <td style="font-size: 0.8rem; white-space: nowrap;">${order.date}</td>
                     <td>
                       <strong>${order.customer.name}</strong><br>
@@ -1150,6 +1150,71 @@
       if (status === "Hoàn thành") return "status-completed";
       if (status === "Đã hủy") return "status-cancelled";
       return "status-shipping";
+    }
+
+    function openOrderModal(orderId) {
+      const orders = window.ScentPod.getOrders();
+      const order = orders.find(o => o.id === orderId);
+      if (!order) return;
+
+      const trackingCode = "SP" + Math.random().toString().slice(2, 11);
+
+      let modalHtml = `
+        <div id="order-detail-modal" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+          <div style="background: #1c1815; border: 1px solid var(--accent-gold); border-radius: 12px; width: 90%; max-width: 500px; padding: 25px; color: #fff; position: relative; max-height: 90vh; overflow-y: auto;">
+            <button onclick="closeOrderModal()" style="position: absolute; top: 15px; right: 20px; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            <h3 style="color: var(--accent-gold); margin-top: 0; border-bottom: 1px solid rgba(229,169,59,0.3); padding-bottom: 10px; margin-bottom: 20px;">Chi tiết đơn hàng: ${order.id}</h3>
+            
+            <div style="margin-bottom: 15px;">
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px;">Mã Vận Đơn (Tracking)</div>
+              <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; font-family: monospace; font-size: 1.1rem; color: #4ade80;">
+                ${trackingCode}
+              </div>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 5px;">Địa Chỉ Nhận Hàng</div>
+              <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 6px; font-size: 0.95rem; line-height: 1.5;">
+                <strong>${order.customer.name}</strong> - ${order.customer.phone}<br>
+                ${order.customer.address}
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Lịch Sử Giao Hàng</div>
+              <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9rem; position: relative; border-left: 2px solid rgba(255,255,255,0.1); margin-left: 10px; padding-left: 15px;">
+                <li style="margin-bottom: 15px; position: relative;">
+                  <span style="position: absolute; left: -21px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: ${order.status === 'Hoàn thành' ? '#4ade80' : 'rgba(255,255,255,0.2)'};"></span>
+                  <div style="color: ${order.status === 'Hoàn thành' ? '#fff' : 'var(--text-muted)'};">Giao hàng thành công</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">Dự kiến 1-2 ngày sau khi gửi</div>
+                </li>
+                <li style="margin-bottom: 15px; position: relative;">
+                  <span style="position: absolute; left: -21px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: ${(order.status === 'Đang giao hàng' || order.status === 'Hoàn thành') ? '#60a5fa' : 'rgba(255,255,255,0.2)'};"></span>
+                  <div style="color: ${(order.status === 'Đang giao hàng' || order.status === 'Hoàn thành') ? '#fff' : 'var(--text-muted)'};">Đơn vị vận chuyển đang lấy hàng</div>
+                </li>
+                <li style="margin-bottom: 15px; position: relative;">
+                  <span style="position: absolute; left: -21px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: ${(order.status === 'Đang đóng gói' || order.status === 'Đang giao hàng' || order.status === 'Hoàn thành') ? 'var(--accent-gold)' : 'rgba(255,255,255,0.2)'};"></span>
+                  <div style="color: ${(order.status === 'Đang đóng gói' || order.status === 'Đang giao hàng' || order.status === 'Hoàn thành') ? '#fff' : 'var(--text-muted)'};">Đang đóng gói đơn hàng</div>
+                </li>
+                <li style="position: relative;">
+                  <span style="position: absolute; left: -21px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-gold);"></span>
+                  <div style="color: #fff;">Đã xác nhận đơn hàng</div>
+                  <div style="font-size: 0.8rem; color: var(--text-muted);">${order.date}</div>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      `;
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    function closeOrderModal() {
+      const modal = document.getElementById('order-detail-modal');
+      if (modal) {
+        modal.remove();
+      }
     }
   </script>
 </body>
