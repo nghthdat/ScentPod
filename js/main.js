@@ -1156,8 +1156,31 @@ COMBOS_CONFIG["combo-duo"] = COMBOS_CONFIG["cb03"];
  * Khởi chạy hệ thống quản lý và tải ảnh sản phẩm
  */
 function initProductImageManager() {
+  refreshAdminImageTools();
+
+  // Đăng nhập/đăng xuất ở tab khác cũng cập nhật quyền ngay
+  window.addEventListener("storage", (e) => {
+    if (e.key === USER_STORAGE_KEY || e.key === null) refreshAdminImageTools();
+  });
+}
+
+/**
+ * Ẩn/hiện công cụ sửa ảnh theo quyền: Admin thấy đủ, mọi người khác không thấy gì
+ */
+function refreshAdminImageTools() {
   applyProductImages();
-  setupFloatingManagerAndModal();
+
+  if (isCurrentUserAdmin()) {
+    setupFloatingManagerAndModal();
+    return;
+  }
+
+  // Không phải Admin: gỡ hẳn khỏi DOM (không chỉ ẩn bằng CSS)
+  document.querySelectorAll(".img-manager-fab, #img-manager-modal").forEach((el) => el.remove());
+  if (cropperBackdropEl && cropperBackdropEl.classList.contains("is-open")) {
+    closeCropperModal();
+  }
+  document.body.style.overflow = "";
 }
 
 /**
@@ -1236,6 +1259,7 @@ function getProductMeta(productId) {
  * Cập nhật ảnh của các sản phẩm trên toàn trang và tạo nút đổi/chỉnh khung ảnh
  */
 function applyProductImages() {
+  const isAdmin = isCurrentUserAdmin();
   const wrappers = document.querySelectorAll(".product-img-wrapper[data-product-id]");
   wrappers.forEach((wrapper) => {
     const productId = wrapper.getAttribute("data-product-id");
@@ -1249,7 +1273,9 @@ function applyProductImages() {
     if (customImg) {
       img.src = customImg;
       let badge = wrapper.querySelector(".custom-badge-indicator");
-      if (!badge) {
+      if (!isAdmin) {
+        if (badge) badge.remove();
+      } else if (!badge) {
         badge = document.createElement("span");
         badge.className = "custom-badge-indicator";
         badge.textContent = "Ảnh từ máy";
@@ -1261,8 +1287,12 @@ function applyProductImages() {
       if (badge) badge.remove();
     }
 
-    // Gắn thanh nút thao tác nhanh trên ảnh
+    // Gắn thanh nút thao tác nhanh trên ảnh (chỉ Admin)
     let uploadBar = wrapper.querySelector(".product-card-upload-bar");
+    if (!isAdmin) {
+      if (uploadBar) uploadBar.remove();
+      return;
+    }
     if (!uploadBar) {
       uploadBar = document.createElement("div");
       uploadBar.className = "product-card-upload-bar";
@@ -1827,6 +1857,10 @@ function closeCropperModal() {
  * Mở Cropper Modal từ file hoặc từ đường dẫn ảnh hiện tại
  */
 function openImageCropperModal({ productId, file, imageSrc }) {
+  if (!isCurrentUserAdmin()) {
+    showToast("⚠️ Chỉ Quản trị viên mới được chỉnh sửa ảnh sản phẩm.");
+    return;
+  }
   const info = getProductMeta(productId);
   if (!info) return;
 
@@ -1952,6 +1986,7 @@ async function executeCropAndSave() {
  * Lưu ảnh tùy chỉnh vào bộ nhớ trình duyệt và ghi ra server
  */
 async function saveAndApplyProductImage(productId, croppedBase64) {
+  if (!isCurrentUserAdmin()) return;
   const info = getProductMeta(productId);
   if (!info) return;
 
@@ -1964,11 +1999,18 @@ async function saveAndApplyProductImage(productId, croppedBase64) {
   try {
     const res = await fetch("/api/upload", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${getAdminToken() || ""}`
+      },
       body: JSON.stringify({ productId, imageData: croppedBase64, filename: info.filename })
     });
     if (res.ok) {
       showToast(`✅ Đã lưu khung ảnh chuẩn vào images/${info.filename} và hiển thị trên web! 🎉`);
+      return;
+    }
+    if (res.status === 401 || res.status === 403) {
+      showToast("⚠️ Phiên Admin hết hạn hoặc không hợp lệ — ảnh chưa được lưu lên server. Vui lòng đăng nhập lại.", 4500);
       return;
     }
   } catch (netErr) {
@@ -2043,6 +2085,7 @@ function setupFloatingManagerAndModal() {
   // Khung Modal nền mờ
   const backdrop = document.createElement("div");
   backdrop.className = "scentpod-modal-backdrop";
+  backdrop.id = "img-manager-modal";
   backdrop.innerHTML = `
     <div class="scentpod-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
       <div class="modal-header">
@@ -3008,12 +3051,61 @@ function getCurrentUser() {
   }
 }
 
+/**
+ * Phân quyền giao diện: chỉ Admin mới thấy & dùng được công cụ sửa ảnh.
+ * Lưu ý: đây chỉ là lớp hiển thị (role nằm trong localStorage nên có thể bị sửa tay);
+ * lớp bảo vệ thật nằm ở API backend (scripts/server.js) bằng JWT.
+ */
+const ADMIN_TOKEN_KEY = "scentpod_admin_token";
+
+function isCurrentUserAdmin() {
+  const user = getCurrentUser();
+  return !!(user && user.role === "admin" && isAdminEmail(user.email));
+}
+
+function getAdminToken() {
+  try {
+    return localStorage.getItem(ADMIN_TOKEN_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ * Xin JWT admin từ backend (chỉ có khi chạy `npm start`).
+ * Trên bản deploy tĩnh (Vercel) không có API nên bỏ qua êm.
+ */
+async function requestAdminToken(email, password) {
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password })
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    if (data.token) localStorage.setItem(ADMIN_TOKEN_KEY, data.token);
+  } catch (e) {
+    // Không có backend: bỏ qua
+  }
+}
+
+/**
+ * Gọi mỗi khi trạng thái đăng nhập thay đổi
+ */
+function notifyAuthChanged() {
+  updateHeaderAuthSlot();
+  refreshAdminImageTools();
+}
+
 function loginUser(email, password, roleHint = "customer") {
   const cleanEmail = (email || "").trim().toLowerCase();
   const cleanPass = (password || "").trim();
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
 
   // 1. Nếu là 1 trong 4 Gmail của Admin: Luôn tự động chuyển thành tài khoản Quản trị viên
   if (isAdminEmail(cleanEmail)) {
+    requestAdminToken(cleanEmail, cleanPass);
     const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
     const adminUser = {
       role: "admin",
@@ -3024,7 +3116,7 @@ function loginUser(email, password, roleHint = "customer") {
       avatar: adminInfo.avatar
     };
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
-    updateHeaderAuthSlot();
+    notifyAuthChanged();
     showToast(`👑 Đăng nhập Quản Trị Viên thành công: ${adminUser.name}!`);
     return { success: true, user: adminUser };
   }
@@ -3047,16 +3139,18 @@ function loginUser(email, password, roleHint = "customer") {
     points: 250
   };
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(customerUser));
-  updateHeaderAuthSlot();
+  notifyAuthChanged();
   showToast(`✨ Chào mừng bạn, ${customerUser.name}!`);
   return { success: true, user: customerUser };
 }
 
 function registerUser(name, email, phone, password) {
   const cleanEmail = (email || "").trim().toLowerCase();
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
 
   // Nếu đăng ký bằng 1 trong 4 Gmail của Admin: Tự động chuyển thành tài khoản Quản trị viên
   if (isAdminEmail(cleanEmail)) {
+    requestAdminToken(cleanEmail, (password || "").trim());
     const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
     const adminUser = {
       role: "admin",
@@ -3067,7 +3161,7 @@ function registerUser(name, email, phone, password) {
       avatar: adminInfo.avatar
     };
     localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
-    updateHeaderAuthSlot();
+    notifyAuthChanged();
     showToast(`👑 Đăng ký thành công! Gmail này đã được tự động kích hoạt quyền Quản Trị Viên.`);
     return { success: true, user: adminUser };
   }
@@ -3083,14 +3177,15 @@ function registerUser(name, email, phone, password) {
     points: 100
   };
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
-  updateHeaderAuthSlot();
+  notifyAuthChanged();
   showToast(`🎉 Đăng ký tài khoản thành công! Tặng bạn 100 điểm ScentClub.`);
   return { success: true, user: newUser };
 }
 
 function logoutUser() {
   localStorage.removeItem(USER_STORAGE_KEY);
-  updateHeaderAuthSlot();
+  localStorage.removeItem(ADMIN_TOKEN_KEY);
+  notifyAuthChanged();
   showToast("Đã đăng xuất tài khoản.");
   if (window.location.pathname.includes("dang-nhap.html")) {
     window.location.reload();
