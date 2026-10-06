@@ -111,6 +111,7 @@ async function run() {
         hasHeaderCart: !!headerCart,
         hasHeaderFb: !!headerFb,
         headerFbText: headerFb ? headerFb.innerText.trim() : null,
+        headerFbHref: headerFb ? (headerFb.href || headerFb.getAttribute('href')) : null,
         hasFooterAuthLink: !!footerAuthLink,
         inboxBtnsCount: inboxBtns.length,
         detailBtnsCount: detailBtns.length
