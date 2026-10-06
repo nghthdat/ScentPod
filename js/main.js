@@ -2187,7 +2187,58 @@ function downloadProductImage(productId) {
  * - Vibe cảm xúc & tư vấn Messenger
  */
 let currentModalScentId = null;
-let currentModalQty = 1;
+let currentModalSize = "sp02";
+
+/**
+ * Xử lý đặt hàng / tư vấn nhanh qua Facebook Messenger
+ * Tự động tạo tin nhắn đặt hàng chuẩn, sao chép vào bộ nhớ tạm (Clipboard),
+ * hiển thị thông báo Toast trang nhã và mở Messenger tới ScentPod Fanpage.
+ */
+function handleInboxOrder(productId, sizeCode) {
+  let productName = "";
+  let variantText = "";
+  let priceText = "";
+
+  // 1. Kiểm tra xem có phải combo không
+  if (COMBOS_CONFIG && COMBOS_CONFIG[productId]) {
+    const cb = COMBOS_CONFIG[productId];
+    productName = `${cb.code} - ${cb.name}`;
+    variantText = cb.components || "Combo ưu đãi";
+    priceText = cb.price || `${cb.priceNumber}đ`;
+  } else if (PRODUCTS_CONFIG && PRODUCTS_CONFIG[productId]) {
+    const p = PRODUCTS_CONFIG[productId];
+    productName = `${p.code}: ${p.name} (${p.scentName})`;
+    
+    const sizeCfg = PRODUCT_SIZES_CONFIG[sizeCode || "sp02"] || PRODUCT_SIZES_CONFIG["sp02"];
+    variantText = sizeCfg ? sizeCfg.label : "Nến 100g";
+    priceText = sizeCfg ? sizeCfg.priceFormatted : p.price;
+  } else {
+    productName = productId;
+    priceText = "Liên hệ";
+  }
+
+  const message = `Chào ScentPod! Mình muốn tư vấn & đặt mua sản phẩm:
+• Tên: ${productName}
+• Phân loại: ${variantText}
+• Giá ưu đãi: ${priceText}
+Nhờ shop tư vấn mùi hương và ship hàng giúp mình nhé!`;
+
+  // Thử copy vào Clipboard để khách dán ngay vào Messenger
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(message).then(() => {
+      showToast(`💬 Đã lưu thông tin đơn "${productName}"! Đang mở Facebook Messenger...`, 4000);
+    }).catch(() => {
+      showToast(`💬 Đang mở Facebook Messenger để tư vấn cho bạn...`, 3000);
+    });
+  } else {
+    showToast(`💬 Đang mở Facebook Messenger để tư vấn cho bạn...`, 3000);
+  }
+
+  // Mở Messenger sau 350ms
+  setTimeout(() => {
+    window.open(FB_LINK, "_blank", "noopener,noreferrer");
+  }, 350);
+}
 
 function initScentDetailModal() {
   // Tạo khung Modal nếu chưa có trong DOM
@@ -2208,7 +2259,7 @@ function initScentDetailModal() {
             <span class="scent-modal-group" id="scent-modal-group">Nhóm hương</span>
             <h2 class="scent-modal-title" id="scent-modal-title">First Class</h2>
             <div class="scent-modal-subtitle" id="scent-modal-subtitle">White Tea &amp; Morning Dew</div>
-            <div class="scent-modal-price" id="scent-modal-price">89.000đ</div>
+            <div class="scent-modal-price" id="scent-modal-price">85.000đ</div>
             <p class="scent-modal-vibe" id="scent-modal-vibe"></p>
 
             <div class="scent-pyramid-card">
@@ -2244,24 +2295,41 @@ function initScentDetailModal() {
               <span><span class="tag-icon">📦</span>Size mini bỏ túi</span>
             </div>
 
-            <!-- Nút Thêm vào giỏ hàng & Bộ chọn số lượng -->
-            <div class="modal-cart-actions">
-              <div class="qty-stepper">
-                <button type="button" class="btn-modal-minus" aria-label="Giảm số lượng">&minus;</button>
-                <span class="modal-qty-val" id="scent-modal-qty">1</span>
-                <button type="button" class="btn-modal-plus" aria-label="Tăng số lượng">+</button>
+            <!-- Bộ chọn phân loại trong Modal -->
+            <div class="modal-size-container">
+              <span class="modal-size-title">Chọn phân loại:</span>
+              <div class="modal-size-options" id="modal-size-options">
+                <button type="button" class="modal-size-pill" data-modal-size="sp01">
+                  <span class="size-pill-name">Sáp bỏ túi 50g</span>
+                  <span class="size-pill-price">49.000đ</span>
+                </button>
+                <button type="button" class="modal-size-pill is-active" data-modal-size="sp02">
+                  <span class="size-pill-name">Nến thơm 100g</span>
+                  <span class="size-pill-price">85.000đ</span>
+                </button>
+                <button type="button" class="modal-size-pill" data-modal-size="10g">
+                  <span class="size-pill-name">Mini dùng thử</span>
+                  <span class="size-pill-price">39.000đ</span>
+                </button>
               </div>
-              <button type="button" class="btn btn-primary btn-modal-add-cart" id="btn-modal-add-cart" style="flex: 1; padding: 11px 16px; font-weight: 700; font-size: 0.92rem;">
-                🛒 Thêm vào giỏ hàng
-              </button>
             </div>
 
-            <a href="${FB_LINK}" target="_blank" rel="noopener noreferrer" class="btn btn-outline scent-order-btn" style="border-color: rgba(255,255,255,0.18); font-size: 0.85rem; padding: 8px;">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-              </svg>
-              Nhắn tin tư vấn Messenger
-            </a>
+            <!-- Banner quà tặng trong Modal -->
+            <div class="modal-gift-banner" id="modal-gift-banner">
+              <span class="tag-icon">🎁</span>
+              <span id="modal-gift-text">Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến</span>
+            </div>
+
+            <!-- Nút Đặt hàng / Tư vấn qua Messenger chính -->
+            <div class="modal-inbox-action-box">
+              <button type="button" class="btn-modal-inbox" id="btn-modal-inbox">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+                </svg>
+                <span>Nhắn tin đặt hàng qua Facebook</span>
+              </button>
+              <span class="modal-inbox-subtext">⚡ Tư vấn trực tiếp 1-1, xác nhận mùi hương và giao hàng tận nơi</span>
+            </div>
           </div>
         </div>
       </div>
@@ -2280,45 +2348,50 @@ function initScentDetailModal() {
   const tierTop = backdrop.querySelector("#scent-tier-top");
   const tierHeart = backdrop.querySelector("#scent-tier-heart");
   const tierBase = backdrop.querySelector("#scent-tier-base");
-  const qtyVal = backdrop.querySelector("#scent-modal-qty");
-  const minusBtn = backdrop.querySelector(".btn-modal-minus");
-  const plusBtn = backdrop.querySelector(".btn-modal-plus");
-  const addCartBtn = backdrop.querySelector("#btn-modal-add-cart");
+  const modalGiftText = backdrop.querySelector("#modal-gift-text");
+  const inboxOrderBtn = backdrop.querySelector("#btn-modal-inbox");
+  const sizePills = backdrop.querySelectorAll(".modal-size-pill");
 
-  minusBtn.addEventListener("click", () => {
-    if (currentModalQty > 1) {
-      currentModalQty--;
-      qtyVal.textContent = currentModalQty;
+  function updateModalSizeUI(sizeCode) {
+    currentModalSize = sizeCode || "sp02";
+    sizePills.forEach((p) => {
+      p.classList.toggle("is-active", p.getAttribute("data-modal-size") === currentModalSize);
+    });
+
+    const sizeCfg = PRODUCT_SIZES_CONFIG[currentModalSize] || PRODUCT_SIZES_CONFIG["sp02"];
+    if (sizeCfg) {
+      modalPrice.innerHTML = `${sizeCfg.priceFormatted} <small class="price-original-striked" style="font-size: 0.95rem; font-weight: normal; color: var(--text-muted); text-decoration: line-through; margin-left: 6px;">${sizeCfg.originalPriceFormatted}</small>`;
+      if (modalGiftText && sizeCfg.gift) {
+        modalGiftText.textContent = sizeCfg.gift;
+      }
     }
+  }
+
+  sizePills.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const s = btn.getAttribute("data-modal-size");
+      updateModalSizeUI(s);
+    });
   });
 
-  plusBtn.addEventListener("click", () => {
-    if (currentModalQty < 20) {
-      currentModalQty++;
-      qtyVal.textContent = currentModalQty;
-    }
-  });
-
-  addCartBtn.addEventListener("click", () => {
+  inboxOrderBtn.addEventListener("click", () => {
     if (currentModalScentId) {
-      addToCart(currentModalScentId, currentModalQty, true);
+      handleInboxOrder(currentModalScentId, currentModalSize);
       closeScentModal();
     }
   });
 
-  function openScentModal(scentId) {
+  function openScentModal(scentId, preferredSize = "sp02") {
     const p = PRODUCTS_CONFIG[scentId];
     if (!p) return;
 
     currentModalScentId = scentId;
-    currentModalQty = 1;
-    qtyVal.textContent = "1";
+    updateModalSizeUI(preferredSize);
 
     modalBadge.textContent = p.code;
     modalGroup.textContent = "Nhóm hương: " + p.category;
     modalTitle.textContent = p.name;
     modalSubtitle.textContent = p.scentName;
-    modalPrice.textContent = p.price;
     modalVibe.textContent = p.vibe;
 
     tierTop.textContent = p.topNotes;
@@ -2353,30 +2426,42 @@ function initScentDetailModal() {
     }
   });
 
-  // Bắt sự kiện click trên card hoặc nút "Tầng hương"
+  // Bắt sự kiện click trên card hoặc nút "Tầng hương" hoặc nút "Inbox"
   document.addEventListener("click", (e) => {
-    // Bỏ qua nếu click trong thanh upload ảnh, giỏ hàng hoặc modal quản lý ảnh
+    // 1. Click vào nút "Inbox đặt hàng" ([data-inbox-order])
+    const inboxBtn = e.target.closest("[data-inbox-order]");
+    if (inboxBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const pid = inboxBtn.getAttribute("data-inbox-order");
+      const card = inboxBtn.closest(".product-card, .product-item, [data-scent-id]");
+      const size = card ? card.getAttribute("data-selected-size") || "sp02" : "sp02";
+      handleInboxOrder(pid, size);
+      return;
+    }
+
+    // Bỏ qua nếu click trong thanh upload ảnh hoặc modal quản lý ảnh
     if (
       e.target.closest(".product-card-upload-bar") ||
       e.target.closest(".img-manager-fab") ||
       e.target.closest(".scentpod-modal-backdrop") ||
-      e.target.closest(".scent-modal-container") ||
-      e.target.closest(".cart-drawer") ||
-      e.target.closest(".btn-add-cart")
+      e.target.closest(".scent-modal-container")
     ) {
       return;
     }
 
-    // 1. Click vào nút "Tầng hương"
+    // 2. Click vào nút "Tầng hương"
     const btn = e.target.closest("[data-open-scent]");
     if (btn) {
       e.preventDefault();
       const scentId = btn.getAttribute("data-open-scent");
-      openScentModal(scentId);
+      const card = btn.closest(".product-card");
+      const size = card ? card.getAttribute("data-selected-size") || "sp02" : "sp02";
+      openScentModal(scentId, size);
       return;
     }
 
-    // 2. Click vào thẻ sản phẩm
+    // 3. Click vào thẻ sản phẩm
     const card = e.target.closest(".product-card[data-scent-id]");
     if (card) {
       // Nếu click vào thẻ <a> hoặc nút đặc biệt khác, bỏ qua
@@ -2384,7 +2469,12 @@ function initScentDetailModal() {
         return;
       }
       const scentId = card.getAttribute("data-scent-id");
-      openScentModal(scentId);
+      const size = card.getAttribute("data-selected-size") || "sp02";
+      if (COMBOS_CONFIG && COMBOS_CONFIG[scentId]) {
+        handleInboxOrder(scentId);
+      } else {
+        openScentModal(scentId, size);
+      }
     }
   });
 }
@@ -2635,10 +2725,7 @@ function formatVND(amount) {
  * Khởi tạo giao diện Giỏ hàng (Drawer & Events)
  */
 function initCartSystem() {
-  ensureCartDrawerInDOM();
-  updateCartUI();
-
-  // Bắt sự kiện click [data-add-to-cart]
+  // Bắt sự kiện click [data-add-to-cart] dự phòng chuyển sang đặt qua Facebook
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-add-to-cart]");
     if (btn) {
@@ -2650,7 +2737,7 @@ function initCartSystem() {
       if (card) {
         selectedSize = card.getAttribute("data-selected-size") || "sp02";
       }
-      addToCart(pid, 1, true, selectedSize);
+      handleInboxOrder(pid, selectedSize);
     }
 
     // Bắt sự kiện chọn kích thước size-pill-btn
@@ -3364,17 +3451,15 @@ function updateOrderStatus(orderId, newStatus) {
 }
 
 /**
- * Khởi tạo và đồng bộ thanh điều hướng Header theo thứ tự chuẩn:
- * 1. Tên Thương hiệu - 2. Trang chủ - 3. Sản phẩm - 4. Combo - 5. Về chúng tôi - 6. Giỏ hàng - 7. Tài khoản
+ * Khởi tạo và đồng bộ thanh điều hướng Header:
+ * Tên Thương hiệu - Trang chủ - Sản phẩm - Combo - Về chúng tôi - Nút Tư vấn Facebook Messenger
+ * (Đã loại bỏ mục Tài khoản và Giỏ hàng theo yêu cầu tinh giản luồng đặt hàng trực tiếp qua Fanpage)
  */
 function initHeaderAuth() {
   const headerContainer = document.querySelector(".header-container, .nav-container");
   if (headerContainer) {
-    // 1. Xóa bỏ thẻ auth ở góc trái cũ (nếu có) để Tên Thương hiệu luôn đứng đầu tiên
-    const oldLeftSlot = headerContainer.querySelector(".header-auth-left, #header-auth-left-slot");
-    if (oldLeftSlot) {
-      oldLeftSlot.remove();
-    }
+    // 1. Xóa bỏ các thẻ auth và giỏ hàng cũ nếu còn tồn tại
+    headerContainer.querySelectorAll("#header-auth-left-slot, .header-auth-left, #header-auth-slot, .header-auth-slot, #open-cart-btn, .nav-cart-btn").forEach(el => el.remove());
 
     // 2. Đảm bảo khu vực nav-actions ở bên phải header
     let navActions = headerContainer.querySelector(".nav-actions");
@@ -3389,48 +3474,32 @@ function initHeaderAuth() {
       }
     }
 
-    // 3. Đảm bảo nút 6: Giỏ hàng đứng trước trong nav-actions
-    let cartBtn = navActions.querySelector("#open-cart-btn, .nav-cart-btn");
-    if (!cartBtn) {
-      cartBtn = document.createElement("button");
-      cartBtn.type = "button";
-      cartBtn.className = "nav-cart-btn";
-      cartBtn.id = "open-cart-btn";
-      cartBtn.setAttribute("aria-label", "Xem giỏ hàng");
-      cartBtn.setAttribute("title", "Giỏ hàng");
-      cartBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
+    // 3. Đảm bảo nút Tư vấn Facebook Messenger có mặt trong nav-actions
+    let fbBtn = navActions.querySelector(".header-fb-btn");
+    if (!fbBtn) {
+      fbBtn = document.createElement("a");
+      fbBtn.href = FB_LINK;
+      fbBtn.setAttribute("data-fb", "");
+      fbBtn.target = "_blank";
+      fbBtn.rel = "noopener noreferrer";
+      fbBtn.className = "header-fb-btn";
+      fbBtn.title = "Nhắn tin với ScentPod qua Facebook";
+      fbBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
         </svg>
-        <span class="nav-cart-label">Giỏ hàng</span>
-        <span class="cart-badge" id="header-cart-badge">0</span>
+        <span class="header-fb-label">Tư vấn Messenger</span>
       `;
-      navActions.insertBefore(cartBtn, navActions.firstChild);
-    }
-    cartBtn.onclick = openCartDrawer;
-
-    // 4. Đảm bảo nút 7: Tài khoản đứng sau nút Giỏ hàng
-    let authSlot = navActions.querySelector("#header-auth-slot, .header-auth-slot");
-    if (!authSlot) {
-      authSlot = document.createElement("div");
-      authSlot.className = "header-auth-slot";
-      authSlot.id = "header-auth-slot";
-      navActions.appendChild(authSlot);
-    } else {
-      navActions.appendChild(authSlot); // Di chuyển ra sau cùng của nav-actions
+      navActions.appendChild(fbBtn);
     }
   }
 
-  // 5. Đồng bộ danh sách menu: Trang chủ -> Sản phẩm -> Combo -> Về chúng tôi
+  // 4. Đồng bộ danh sách menu: Trang chủ -> Sản phẩm -> Combo -> Về chúng tôi
   const navMenu = document.querySelector(".nav-menu");
   if (navMenu) {
-    // Xóa thẻ tài khoản cũ trong menu nếu có
     const authItem = navMenu.querySelector(".nav-auth-item");
     if (authItem) authItem.remove();
 
-    // Đảm bảo thẻ Combo có mặt sau Sản phẩm và trước Về chúng tôi
     const links = Array.from(navMenu.querySelectorAll("a"));
     const hasCombo = links.some(a => a.textContent.trim().toLowerCase() === "combo");
     if (!hasCombo) {
@@ -3444,8 +3513,6 @@ function initHeaderAuth() {
       }
     }
   }
-
-  updateHeaderAuthSlot();
 }
 
 function updateHeaderAuthSlot() {
@@ -3508,7 +3575,8 @@ window.ScentPod = {
   ADMIN_EMAILS_CONFIG,
   AUTHORIZED_ADMIN_EMAILS,
   PRODUCT_SIZES_CONFIG,
-  COMBOS_CONFIG
+  COMBOS_CONFIG,
+  handleInboxOrder
 };
 
 

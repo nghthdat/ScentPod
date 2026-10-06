@@ -2637,6 +2637,126 @@ p { color: var(--text-muted); font-size: 1rem; }
   margin-bottom: 1.2rem;
 }
 
+/* Bộ chọn size trong Scent Modal */
+.modal-size-container {
+  margin-bottom: 1rem;
+}
+
+.modal-size-title {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.modal-size-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.modal-size-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.modal-size-pill:hover {
+  border-color: var(--accent-gold);
+  color: var(--text-primary);
+  background: rgba(229, 169, 59, 0.08);
+}
+
+.modal-size-pill.is-active {
+  border-color: var(--accent-gold);
+  background: rgba(229, 169, 59, 0.18);
+  color: var(--accent-gold);
+  box-shadow: 0 0 10px rgba(229, 169, 59, 0.2);
+}
+
+.size-pill-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.size-pill-price {
+  font-size: 0.78rem;
+  font-weight: 700;
+  margin-top: 3px;
+  color: var(--accent-gold);
+}
+
+.modal-size-pill.is-active .size-pill-price {
+  color: #fff;
+}
+
+.modal-gift-banner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--accent-gold);
+  background: rgba(229, 169, 59, 0.1);
+  border: 1px dashed rgba(229, 169, 59, 0.35);
+  padding: 7px 12px;
+  border-radius: 6px;
+  margin-bottom: 1.1rem;
+}
+
+/* Nút CTA đặt hàng qua Facebook trong Modal */
+.modal-inbox-action-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 0.4rem;
+}
+
+.btn-modal-inbox {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0084ff 0%, #0062e0 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 18px rgba(0, 132, 255, 0.35);
+}
+
+.btn-modal-inbox:hover {
+  background: linear-gradient(135deg, #0094ff 0%, #0073ff 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0, 132, 255, 0.5);
+}
+
+.modal-inbox-subtext {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.4;
+}
+
 .scent-order-btn {
   width: 100%;
   display: flex;
@@ -2711,7 +2831,95 @@ p { color: var(--text-muted); font-size: 1rem; }
   flex-shrink: 0;
 }
 
-/* 6. Thẻ Giỏ hàng */
+/* Nút tư vấn / Inbox Facebook trên Header */
+.header-fb-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(229, 169, 59, 0.15) 0%, rgba(212, 175, 55, 0.28) 100%);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+.header-fb-btn:hover {
+  background: var(--accent-gold);
+  color: #12100e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 18px rgba(229, 169, 59, 0.38);
+}
+
+.header-fb-btn svg {
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.header-fb-btn:hover svg {
+  transform: scale(1.1);
+}
+
+@media (max-width: 640px) {
+  .header-fb-label {
+    display: none;
+  }
+  .header-fb-btn {
+    padding: 7px 10px;
+    border-radius: 20px;
+  }
+}
+
+/* Nút Inbox đặt hàng trên Card sản phẩm */
+.btn-inbox-order {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0084ff 0%, #0066cc 100%);
+  border: none;
+  color: #ffffff;
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(0, 132, 255, 0.28);
+}
+
+.btn-inbox-order:hover {
+  background: linear-gradient(135deg, #0094ff 0%, #0077e6 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 132, 255, 0.45);
+  color: #ffffff;
+}
+
+.btn-inbox-order svg {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.btn-inbox-order:hover svg {
+  transform: scale(1.12);
+}
+
+.btn-inbox-order.combo-inbox-btn {
+  width: 100%;
+  padding: 10px 18px;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+/* 6. Thẻ Giỏ hàng (dự phòng legacy) */
 .nav-cart-btn {
   position: relative;
   display: inline-flex;
