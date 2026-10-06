@@ -7,9 +7,8 @@
 // --------------------------------------------------------------------------
 // 1. CẤU HÌNH LINK FACEBOOK DUY NHẤT (BẠN CHỈ CẦN THAY LINK TẠI ĐÂY)
 // --------------------------------------------------------------------------
-// Thay bằng link Fanpage hoặc link tin nhắn Messenger của ScentPod
-const FB_LINK = "https://m.me/scentpod.candle"; 
-// Ví dụ khác: "https://www.facebook.com/scentpod.official"
+// Link Fanpage / Facebook chính thức của ScentPod
+const FB_LINK = "https://www.facebook.com/profile.php?id=61594607444699";
 
 // --------------------------------------------------------------------------
 // 2. KHỞI CHẠY KHI TẢI XONG TRANG
