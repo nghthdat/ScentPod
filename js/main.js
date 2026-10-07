@@ -1208,118 +1208,20 @@ function applyProductImages() {
     const img = wrapper.querySelector("img");
     if (!img) return;
 
-    const customImg = getCustomImage(productId);
-    if (customImg) {
-      img.src = customImg;
-      let badge = wrapper.querySelector(".custom-badge-indicator");
-      if (!badge) {
-        badge = document.createElement("span");
-        badge.className = "custom-badge-indicator";
-        badge.textContent = "Ảnh từ máy";
-        wrapper.appendChild(badge);
+    // Luôn hiển thị ảnh chính thức chuẩn của sản phẩm
+    img.src = info.defaultSrc;
+    img.onerror = function () {
+      if (this.src !== info.fallbackSrc) {
+        this.src = info.fallbackSrc;
       }
-    } else {
-      img.src = info.defaultSrc;
-      const badge = wrapper.querySelector(".custom-badge-indicator");
-      if (badge) badge.remove();
-    }
+    };
 
-    // Gắn thanh nút thao tác nhanh trên ảnh
-    let uploadBar = wrapper.querySelector(".product-card-upload-bar");
-    if (!uploadBar) {
-      uploadBar = document.createElement("div");
-      uploadBar.className = "product-card-upload-bar";
+    // Loại bỏ hoàn toàn nhãn và thanh nút đổi/chỉnh ảnh nếu có
+    const badge = wrapper.querySelector(".custom-badge-indicator");
+    if (badge) badge.remove();
 
-      // 1. Nút Đổi ảnh từ máy (chọn file mới -> mở khung chỉnh sửa)
-      const uploadBtn = document.createElement("button");
-      uploadBtn.type = "button";
-      uploadBtn.className = "btn-card-upload";
-      uploadBtn.title = "Tải ảnh từ máy tính hoặc thư viện ảnh và căn chỉnh khung";
-      uploadBtn.setAttribute("aria-label", "Tải ảnh mới từ máy");
-      uploadBtn.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
-        </svg>
-        <span>Đổi ảnh</span>
-      `;
-
-      // Input file ẩn
-      const fileInput = document.createElement("input");
-      fileInput.type = "file";
-      fileInput.accept = "image/*";
-      fileInput.style.display = "none";
-
-      uploadBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        fileInput.click();
-      });
-
-      fileInput.addEventListener("change", (e) => {
-        if (e.target.files && e.target.files[0]) {
-          openImageCropperModal({ productId, file: e.target.files[0] });
-          e.target.value = "";
-        }
-      });
-
-      uploadBar.appendChild(uploadBtn);
-      uploadBar.appendChild(fileInput);
-
-      // 2. Nút Chỉnh khung ảnh hiện tại
-      const cropBtn = document.createElement("button");
-      cropBtn.type = "button";
-      cropBtn.className = "btn-card-crop";
-      cropBtn.title = "Căn chỉnh khung ảnh (cắt, thu phóng, xoay ảnh vừa vặn)";
-      cropBtn.setAttribute("aria-label", "Chỉnh khung ảnh");
-      cropBtn.innerHTML = `
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2v14a2 2 0 0 0 2 2h14"></path>
-          <path d="M18 22V8a2 2 0 0 0-2-2H2"></path>
-        </svg>
-        <span>Chỉnh khung</span>
-      `;
-
-      cropBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const currentSrc = img.src;
-        openImageCropperModal({ productId, imageSrc: currentSrc });
-      });
-
-      uploadBar.appendChild(cropBtn);
-
-      // 3. Nút khôi phục ảnh gốc
-      const resetBtn = document.createElement("button");
-      resetBtn.type = "button";
-      resetBtn.className = "btn-card-reset";
-      resetBtn.title = "Khôi phục ảnh gốc ban đầu";
-      resetBtn.setAttribute("aria-label", "Khôi phục ảnh gốc");
-      resetBtn.innerHTML = `
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="1 4 1 10 7 10"></polyline>
-          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-        </svg>
-      `;
-      resetBtn.style.display = customImg ? "inline-flex" : "none";
-
-      resetBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        removeCustomImage(productId);
-        applyProductImages();
-        renderModalProductList();
-        showToast(`Đã khôi phục ảnh mặc định cho "${info.name}"!`);
-      });
-
-      uploadBar.appendChild(resetBtn);
-      wrapper.appendChild(uploadBar);
-    } else {
-      const resetBtn = uploadBar.querySelector(".btn-card-reset");
-      if (resetBtn) {
-        resetBtn.style.display = customImg ? "inline-flex" : "none";
-      }
-    }
+    const uploadBar = wrapper.querySelector(".product-card-upload-bar");
+    if (uploadBar) uploadBar.remove();
   });
 }
 
@@ -1986,84 +1888,11 @@ function resizeAndCompressImage(file, maxWidth = 1200, maxHeight = 1500, quality
  * Tạo nút nổi Quản lý ảnh và Modal cửa sổ trung tâm
  */
 function setupFloatingManagerAndModal() {
-  if (document.querySelector(".img-manager-fab")) return;
-
-  // Nút nổi ở góc trái màn hình
-  const fab = document.createElement("button");
-  fab.className = "img-manager-fab";
-  fab.type = "button";
-  fab.title = "Quản lý & căn chỉnh khung ảnh sản phẩm";
-  fab.setAttribute("aria-label", "Quản lý ảnh sản phẩm");
-  fab.innerHTML = `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-      <circle cx="12" cy="13" r="4"></circle>
-    </svg>
-    <span>Quản lý ảnh</span>
-  `;
-  document.body.appendChild(fab);
-
-  // Khung Modal nền mờ
-  const backdrop = document.createElement("div");
-  backdrop.className = "scentpod-modal-backdrop";
-  backdrop.innerHTML = `
-    <div class="scentpod-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-header">
-        <div class="modal-title-group">
-          <h3 id="modal-title">Quản Lý &amp; Căn Chỉnh Ảnh ScentPod</h3>
-          <p>Tải ảnh, căn chỉnh khung ảnh (cắt cúp, thu phóng) vừa vặn với thẻ sản phẩm</p>
-        </div>
-        <button type="button" class="modal-close-btn" aria-label="Đóng cửa sổ">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-instruction-box">
-          💡 <strong>Cách đổi &amp; căn khung ảnh:</strong> Bấm <em>"Tải ảnh từ máy"</em> hoặc <em>"Chỉnh khung"</em> để mở bộ công cụ căn chỉnh tỉ lệ 4:5, thu phóng và xoay ảnh sao cho đối tượng chai/hũ nằm ngay vị trí đẹp nhất.<br>
-          📦 <strong>Để lưu lâu dài lên GitHub:</strong> Bấm <em>"Tải .jpg"</em> rồi chép vào thư mục <code>images/</code> và đẩy lên GitHub. Hoặc chạy <code>npm start</code> để tự động lưu khi cắt ảnh!
-        </div>
-        <div class="modal-product-list"></div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn-action-small btn-reset-all">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-          Khôi phục tất cả ảnh gốc
-        </button>
-        <button type="button" class="btn btn-primary btn-modal-done" style="padding: 8px 18px; font-size: 0.88rem;">Hoàn tất &amp; Đóng</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(backdrop);
-
-  const closeBtn = backdrop.querySelector(".modal-close-btn");
-  const doneBtn = backdrop.querySelector(".btn-modal-done");
-  const resetAllBtn = backdrop.querySelector(".btn-reset-all");
-
-  const openModal = () => {
-    renderModalProductList();
-    backdrop.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-  };
-
-  const closeModal = () => {
-    backdrop.classList.remove("is-open");
-    document.body.style.overflow = "";
-  };
-
-  fab.addEventListener("click", openModal);
-  closeBtn.addEventListener("click", closeModal);
-  doneBtn.addEventListener("click", closeModal);
-  backdrop.addEventListener("click", (e) => {
-    if (e.target === backdrop) closeModal();
-  });
-
-  resetAllBtn.addEventListener("click", () => {
-    if (confirm("Bạn có chắc muốn khôi phục tất cả ảnh sản phẩm về ảnh gốc ban đầu không?")) {
-      const allProductIds = [...Object.keys(PRODUCTS_CONFIG), "cb01", "cb02", "cb03"];
-      allProductIds.forEach((id) => removeCustomImage(id));
-      applyProductImages();
-      renderModalProductList();
-      showToast("Đã khôi phục tất cả ảnh về mặc định ban đầu!");
-    }
-  });
+  // Loại bỏ nút nổi Quản lý ảnh và modal nếu có để người dùng không thể đổi ảnh
+  const fab = document.querySelector(".img-manager-fab");
+  if (fab) fab.remove();
+  const backdrop = document.querySelector(".scentpod-modal-backdrop");
+  if (backdrop) backdrop.remove();
 }
 
 /**

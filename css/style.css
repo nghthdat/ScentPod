@@ -1375,15 +1375,18 @@ p { color: var(--text-muted); font-size: 1rem; }
    TÍNH NĂNG TẢI & QUẢN LÝ ẢNH SẢN PHẨM TRỰC TIẾP TỪ MÁY TÍNH / THƯ VIỆN
    ========================================================================== */
 
+/* Đã vô hiệu hóa tính năng đổi/chỉnh ảnh để cố định ảnh sản phẩm */
+.product-card-upload-bar,
+.img-manager-fab,
+.scentpod-modal-backdrop,
+.scentpod-cropper-backdrop,
+.custom-badge-indicator {
+  display: none !important;
+}
+
 /* Thanh thao tác tải ảnh trên từng thẻ sản phẩm */
 .product-card-upload-bar {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  z-index: 4;
+  display: none !important;
 }
 
 .btn-card-upload {
