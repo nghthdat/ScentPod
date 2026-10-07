@@ -3380,8 +3380,8 @@ function updateOrderStatus(orderId, newStatus) {
 function initHeaderAuth() {
   const headerContainer = document.querySelector(".header-container, .nav-container");
   if (headerContainer) {
-    // 1. Xóa bỏ các thẻ auth và giỏ hàng cũ nếu còn tồn tại
-    headerContainer.querySelectorAll("#header-auth-left-slot, .header-auth-left, #header-auth-slot, .header-auth-slot, #open-cart-btn, .nav-cart-btn").forEach(el => el.remove());
+    // 1. Xóa bỏ các thẻ auth cũ nếu còn tồn tại
+    headerContainer.querySelectorAll("#header-auth-left-slot, .header-auth-left, #header-auth-slot, .header-auth-slot").forEach(el => el.remove());
 
     // 2. Đảm bảo khu vực nav-actions ở bên phải header
     let navActions = headerContainer.querySelector(".nav-actions");
@@ -3396,7 +3396,37 @@ function initHeaderAuth() {
       }
     }
 
-    // 3. Đảm bảo nút Tư vấn Facebook Messenger có mặt trong nav-actions
+    // 3. Đảm bảo nút Giỏ hàng (kèm số lượng) có mặt trong nav-actions
+    let cartBtn = navActions.querySelector("#open-cart-btn, .nav-cart-btn");
+    if (!cartBtn) {
+      cartBtn = document.createElement("button");
+      cartBtn.type = "button";
+      cartBtn.className = "nav-cart-btn";
+      cartBtn.id = "open-cart-btn";
+      cartBtn.setAttribute("aria-label", "Xem giỏ hàng");
+      cartBtn.setAttribute("title", "Xem giỏ hàng");
+      cartBtn.innerHTML = `
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <span class="nav-cart-label">Giỏ hàng</span>
+        <span class="cart-badge" id="header-cart-badge">0</span>
+      `;
+      const fbBtn = navActions.querySelector(".header-fb-btn");
+      if (fbBtn) {
+        navActions.insertBefore(cartBtn, fbBtn);
+      } else {
+        navActions.appendChild(cartBtn);
+      }
+    }
+    cartBtn.onclick = (e) => {
+      e.preventDefault();
+      openCartDrawer();
+    };
+
+    // 4. Đảm bảo nút Tư vấn Facebook Messenger / Hỗ trợ có mặt trong nav-actions
     let fbBtn = navActions.querySelector(".header-fb-btn");
     if (!fbBtn) {
       fbBtn = document.createElement("a");
@@ -3405,7 +3435,7 @@ function initHeaderAuth() {
       fbBtn.target = "_blank";
       fbBtn.rel = "noopener noreferrer";
       fbBtn.className = "header-fb-btn";
-      fbBtn.title = "Nhắn tin với ScentPod qua Facebook";
+      fbBtn.title = "Nhắn tin tư vấn với ScentPod qua Facebook";
       fbBtn.innerHTML = `
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
@@ -3414,6 +3444,9 @@ function initHeaderAuth() {
       `;
       navActions.appendChild(fbBtn);
     }
+    
+    // Đồng bộ số lượng giỏ hàng ban đầu
+    updateCartUI();
   }
 
   // 4. Đồng bộ danh sách menu: Trang chủ -> Sản phẩm -> Combo -> Về chúng tôi
