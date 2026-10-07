@@ -884,7 +884,7 @@ const PRODUCTS_CONFIG = {
     vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập.",
     story: "Chanh, đào & bạc hà — bộ ba sống động tràn đầy năng lượng, vị chanh chua tươi bật lên rộn ràng, đào chín ngọt mọng tiếp nối, rồi bạc hà mát lạnh khép lại như làn gió mùa hè thật sảng khoái.",
     ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu nhập khẩu cao cấp an toàn tuyệt đối.",
-    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
     scentRadius: "15 - 20 m² (bàn học, phòng ngủ, phòng làm việc)"
   },
   "blind-date": {
@@ -906,7 +906,7 @@ const PRODUCTS_CONFIG = {
     vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên.",
     story: "Hương xạ hương hoa hồng — ngọt ngào mà quyến rũ, cánh hồng tươi thắm hòa cùng nét ấm nồng bí ẩn của xạ hương, gợi lên sự lãng mạn sâu lắng, sang trọng và đầy mê hoặc.",
     ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu hoa hồng & xạ hương nhập khẩu cao cấp.",
-    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
     scentRadius: "15 - 20 m² (góc học tập, phòng ngủ, không gian chill)"
   },
   "campus-breeze": {
@@ -928,7 +928,7 @@ const PRODUCTS_CONFIG = {
     vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường.",
     story: "Xô thơm, muối biển & lily — ba thanh âm tươi mát cộng hưởng thành một bản nhạc thiên nhiên khoáng đạt, nơi thảo mộc xanh tươi gặp gió biển mặn mòi, rồi bừng sáng bởi lily tinh khôi rực rỡ.",
     ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu khoáng biển & thảo mộc xô thơm.",
-    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
     scentRadius: "15 - 20 m² (phòng học, bàn làm việc, góc thư giãn)"
   },
   "late-night": {
@@ -950,7 +950,7 @@ const PRODUCTS_CONFIG = {
     vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya.",
     story: "Cà phê và gỗ — trầm ấm như góc quán quen thuở cũ, mùi cà phê rang đậm đà quyện vào nền gỗ ấm áp sâu lắng, kéo tâm trí chìm vào khoảnh khắc chậm rãi, thư thái và đầy dễ chịu.",
     ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu cà phê rang & gỗ tuyết tùng nguyên chất.",
-    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
     scentRadius: "15 - 20 m² (bàn học đêm, góc đọc sách, phòng ngủ)"
   }
 };
@@ -977,6 +977,7 @@ const PRODUCT_SIZES_CONFIG = {
     spec: "Hũ nhôm tiện lợi 50g",
     label: "SP01: Sáp bỏ túi 50g (Hũ nhôm)",
     shortLabel: "Sáp 50g (SP01)",
+    burnTime: "15 - 20 ngày tự tỏa hương (để hé nắp) / ~10 - 12 giờ đốt",
     listPrice: 55000,
     originalPrice: 55000,
     listPriceFormatted: "55.000đ",
@@ -1000,6 +1001,7 @@ const PRODUCT_SIZES_CONFIG = {
     spec: "Hũ thủy tinh cao cấp 100g",
     label: "SP02: Nến thơm 100g (Hũ thủy tinh)",
     shortLabel: "Nến 100g (SP02)",
+    burnTime: "15 - 18 giờ đốt liên tục (chuẩn an toàn 1.5 - 2h/lần)",
     listPrice: 95000,
     originalPrice: 95000,
     listPriceFormatted: "95.000đ",
@@ -1029,6 +1031,7 @@ PRODUCT_SIZES_CONFIG["10g"] = {
   spec: "Hũ mini 10g",
   label: "10g: Mini dùng thử bỏ túi",
   shortLabel: "10g Mini",
+  burnTime: "2 - 3 giờ đốt liên tục / Tỏa hương 5 - 7 ngày",
   listPrice: 45000,
   listPriceFormatted: "45.000đ",
   originalPrice: 45000,
@@ -2160,9 +2163,9 @@ function initScentDetailModal() {
             <div class="modal-tab-pane" id="modal-pane-usage">
               <div style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
                 <p style="margin: 0 0 6px 0;"><strong>1. Cắt bấc:</strong> Cắt ngắn tim nến còn 3 - 5mm trước mỗi lần thắp để lửa cháy đều và không sinh khói.</p>
-                <p style="margin: 0 0 6px 0;"><strong>2. Lần đốt đầu:</strong> Thắp 1 - 2 tiếng liên tục cho sáp tan đều đến mép cốc (tránh lõm tim nến).</p>
-                <p style="margin: 0 0 6px 0;"><strong>3. Lần đốt sau:</strong> Thắp 1.5 - 3 tiếng, không đốt quá 4 tiếng liên tục.</p>
-                <p style="margin: 0;"><strong>4. Sáp bỏ túi (50g):</strong> Mở nắp nhẹ đặt ở góc bàn học, trong ba lô hoặc tủ đồ để tự tỏa hương 30 - 45 ngày.</p>
+                <p style="margin: 0 0 6px 0;"><strong>2. Lần đốt đầu:</strong> Thắp 1 - 1.5 tiếng (hũ mini 10g thắp 30 - 45 phút) cho sáp tan đều đến mép cốc (tránh lõm tim nến).</p>
+                <p style="margin: 0 0 6px 0;"><strong>3. Lần đốt sau:</strong> Thắp 1 - 2 tiếng (không đốt quá 3 tiếng; nến 100g cháy 15 - 18h, hũ mini 10g cháy 2 - 3h).</p>
+                <p style="margin: 0;"><strong>4. Sáp bỏ túi (50g):</strong> Mở nắp nhẹ đặt ở góc bàn học, ba lô hoặc tủ đồ để tự tỏa hương 15 - 20 ngày (hũ mini 10g tỏa hương 5 - 7 ngày).</p>
               </div>
             </div>
 
