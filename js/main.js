@@ -869,8 +869,10 @@ const PRODUCTS_CONFIG = {
     id: "first-class",
     code: "Mùi 01",
     name: "First Class",
-    scentName: "White Tea & Morning Dew",
-    category: "Trà xanh và thảo mộc tươi",
+    posterTitle: "Another Sunday",
+    tagline: "Chanh, đào & bạc hà",
+    scentName: "White Tea & Morning Dew (Another Sunday)",
+    category: "Trà xanh & Thảo mộc tươi",
     filename: "sap-thom-bo-ba.jpg",
     defaultSrc: "images/sap-thom-bo-ba.jpg",
     fallbackSrc: "images/sap-thom-bo-ba.svg",
@@ -879,55 +881,77 @@ const PRODUCTS_CONFIG = {
     topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
     heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
     baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
-    vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập."
+    vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập.",
+    story: "Chanh, đào & bạc hà — bộ ba sống động tràn đầy năng lượng, vị chanh chua tươi bật lên rộn ràng, đào chín ngọt mọng tiếp nối, rồi bạc hà mát lạnh khép lại như làn gió mùa hè thật sảng khoái.",
+    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu nhập khẩu cao cấp an toàn tuyệt đối.",
+    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    scentRadius: "15 - 20 m² (bàn học, phòng ngủ, phòng làm việc)"
   },
   "blind-date": {
     id: "blind-date",
     code: "Mùi 02",
     name: "Blind Date",
-    scentName: "Sweet Peach & Vanilla Cloud",
-    category: "Trái cây ngọt dịu kết hợp phấn hoa",
+    posterTitle: "Beloved Summer",
+    tagline: "Xạ hương & hoa hồng",
+    scentName: "Sweet Peach & Vanilla Cloud (Beloved Summer)",
+    category: "Trái cây ngọt dịu & Phấn hoa",
     filename: "nen-thom-mini.jpg",
     defaultSrc: "images/nen-thom-mini.jpg",
     fallbackSrc: "images/nen-thom-mini.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Quả đào chín mọng, Quả lê tươi.",
-    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ.",
-    baseNotes: "Vani sữa ấm, Hổ phách dịu.",
-    vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên."
+    topNotes: "Quả đào chín mọng, Quả lê tươi, Hoa hồng tháng Năm.",
+    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ, Cánh hồng tươi thắm.",
+    baseNotes: "Xạ hương bí ẩn, Vani sữa ấm, Hổ phách dịu.",
+    vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên.",
+    story: "Hương xạ hương hoa hồng — ngọt ngào mà quyến rũ, cánh hồng tươi thắm hòa cùng nét ấm nồng bí ẩn của xạ hương, gợi lên sự lãng mạn sâu lắng, sang trọng và đầy mê hoặc.",
+    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu hoa hồng & xạ hương nhập khẩu cao cấp.",
+    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    scentRadius: "15 - 20 m² (góc học tập, phòng ngủ, không gian chill)"
   },
   "campus-breeze": {
     id: "campus-breeze",
     code: "Mùi 03",
     name: "Campus Breeze",
-    scentName: "Sea Salt & Sage",
-    category: "Hương khoáng biển và thảo mộc",
+    posterTitle: "Tidal Bloom",
+    tagline: "Xô thơm, muối biển & lily",
+    scentName: "Sea Salt & Sage (Tidal Bloom)",
+    category: "Hương khoáng biển & Thảo mộc",
     filename: "combo-nen-sap.jpg",
     defaultSrc: "images/combo-nen-sap.jpg",
     fallbackSrc: "images/combo-nen-sap.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Muối biển, Hạt bưởi hồng.",
-    heartNotes: "Cây xô thơm (Sage), Tảo biển.",
-    baseNotes: "Gỗ lũa mục, Xạ hương trắng.",
-    vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường."
+    topNotes: "Muối biển khoáng, Hạt bưởi hồng, Xô thơm Clary Sage.",
+    heartNotes: "Hoa lily tinh khôi, Tảo biển xanh mát, Thảo mộc tươi.",
+    baseNotes: "Gỗ lũa mục, Xạ hương trắng, Gió biển mặn mòi.",
+    vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường.",
+    story: "Xô thơm, muối biển & lily — ba thanh âm tươi mát cộng hưởng thành một bản nhạc thiên nhiên khoáng đạt, nơi thảo mộc xanh tươi gặp gió biển mặn mòi, rồi bừng sáng bởi lily tinh khôi rực rỡ.",
+    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu khoáng biển & thảo mộc xô thơm.",
+    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    scentRadius: "15 - 20 m² (phòng học, bàn làm việc, góc thư giãn)"
   },
   "late-night": {
     id: "late-night",
     code: "Mùi 04",
     name: "Late Night",
-    scentName: "Cedarwood & Warm Amber",
-    category: "Hương gỗ ấm và thư giãn",
+    posterTitle: "Coffee Holic",
+    tagline: "Cà phê & gỗ",
+    scentName: "Cedarwood & Warm Amber (Coffee Holic)",
+    category: "Hương gỗ ấm & Thư giãn",
     filename: "nen-thu-gian.jpg",
     defaultSrc: "images/nen-thu-gian.jpg",
     fallbackSrc: "images/nen-thu-gian.svg",
     price: "85.000đ",
     listPrice: "95.000đ",
-    topNotes: "Cam Bergamot thoang thoảng.",
-    heartNotes: "Hoa oải hương nhẹ, Nhục đậu khấu.",
-    baseNotes: "Gỗ thông tuyết tùng, Hổ phách vàng ấm.",
-    vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya."
+    topNotes: "Hạt cà phê rang mộc thơm lừng, Cam Bergamot thoang thoảng.",
+    heartNotes: "Hương cà phê sữa ấm, Hoa oải hương nhẹ, Nhục đậu khấu.",
+    baseNotes: "Gỗ thông tuyết tùng (Cedarwood), Hổ phách vàng ấm, Nền gỗ mộc.",
+    vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya.",
+    story: "Cà phê và gỗ — trầm ấm như góc quán quen thuở cũ, mùi cà phê rang đậm đà quyện vào nền gỗ ấm áp sâu lắng, kéo tâm trí chìm vào khoảnh khắc chậm rãi, thư thái và đầy dễ chịu.",
+    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu cà phê rang & gỗ tuyết tùng nguyên chất.",
+    burnTime: "20 - 25 giờ đốt (Hũ 100g) | Tự tỏa hương 30 - 45 ngày (Sáp bỏ túi 50g)",
+    scentRadius: "15 - 20 m² (bàn học đêm, góc đọc sách, phòng ngủ)"
   }
 };
 
@@ -2082,6 +2106,9 @@ function initScentDetailModal() {
           <div class="scent-modal-img-col">
             <span class="scent-modal-badge" id="scent-modal-badge">Mùi 01</span>
             <img id="scent-modal-img" src="" alt="ScentPod Fragrance">
+            <a id="scent-modal-full-img-link" href="#" class="detail-zoom-btn" style="bottom: 14px; left: 50%; transform: translateX(-50%); position: absolute; font-size: 0.78rem; white-space: nowrap; text-decoration: none;">
+              🔍 Mở trang chi tiết đầy đủ
+            </a>
           </div>
           <div class="scent-modal-info-col">
             <span class="scent-modal-group" id="scent-modal-group">Nhóm hương</span>
@@ -2090,37 +2117,57 @@ function initScentDetailModal() {
             <div class="scent-modal-price" id="scent-modal-price">85.000đ</div>
             <p class="scent-modal-vibe" id="scent-modal-vibe"></p>
 
-            <div class="scent-pyramid-card">
-              <div class="scent-pyramid-header">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <polygon points="12 2 2 22 22 22 12 2"/>
-                </svg>
-                Cấu trúc 3 tầng hương chi tiết
+            <!-- Tabs điều hướng trong Modal -->
+            <div class="modal-tabs-nav">
+              <button type="button" class="modal-tab-btn is-active" data-modal-tab="scents">✨ 3 Tầng hương</button>
+              <button type="button" class="modal-tab-btn" data-modal-tab="usage">🕯️ Cách sử dụng</button>
+              <button type="button" class="modal-tab-btn" data-modal-tab="storage">🛡️ Bảo quản</button>
+            </div>
+
+            <!-- Tab 1: Cấu trúc 3 tầng hương -->
+            <div class="modal-tab-pane is-active" id="modal-pane-scents">
+              <div class="scent-pyramid-card">
+                <div class="scent-tier">
+                  <span class="tier-dot"></span>
+                  <span class="tier-label">Hương đầu:</span>
+                  <div class="tier-notes" id="scent-tier-top"></div>
+                </div>
+                <div class="scent-tier">
+                  <span class="tier-dot"></span>
+                  <span class="tier-label">Hương giữa:</span>
+                  <div class="tier-notes" id="scent-tier-heart"></div>
+                </div>
+                <div class="scent-tier">
+                  <span class="tier-dot"></span>
+                  <span class="tier-label">Hương cuối:</span>
+                  <div class="tier-notes" id="scent-tier-base"></div>
+                </div>
               </div>
 
-              <div class="scent-tier">
-                <span class="tier-dot"></span>
-                <span class="tier-label">Hương đầu (Top Notes)</span>
-                <div class="tier-notes" id="scent-tier-top"></div>
-              </div>
-
-              <div class="scent-tier">
-                <span class="tier-dot"></span>
-                <span class="tier-label">Hương giữa (Heart Notes)</span>
-                <div class="tier-notes" id="scent-tier-heart"></div>
-              </div>
-
-              <div class="scent-tier">
-                <span class="tier-dot"></span>
-                <span class="tier-label">Hương cuối (Base Notes)</span>
-                <div class="tier-notes" id="scent-tier-base"></div>
+              <div class="scent-specs">
+                <span><span class="tag-icon">🌿</span>Sáp thực vật tự nhiên</span>
+                <span><span class="tag-icon">🔥</span>Bấc cotton sạch không khói</span>
+                <span><span class="tag-icon">📦</span>Size mini bỏ túi</span>
               </div>
             </div>
 
-            <div class="scent-specs">
-              <span><span class="tag-icon">🌿</span>Sáp thực vật tự nhiên</span>
-              <span><span class="tag-icon">🔥</span>Bấc cotton sạch không khói</span>
-              <span><span class="tag-icon">📦</span>Size mini bỏ túi</span>
+            <!-- Tab 2: Hướng dẫn sử dụng -->
+            <div class="modal-tab-pane" id="modal-pane-usage">
+              <div style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+                <p style="margin: 0 0 6px 0;"><strong>1. Cắt bấc:</strong> Cắt ngắn tim nến còn 3 - 5mm trước mỗi lần thắp để lửa cháy đều và không sinh khói.</p>
+                <p style="margin: 0 0 6px 0;"><strong>2. Lần đốt đầu:</strong> Thắp 1 - 2 tiếng liên tục cho sáp tan đều đến mép cốc (tránh lõm tim nến).</p>
+                <p style="margin: 0 0 6px 0;"><strong>3. Lần đốt sau:</strong> Thắp 1.5 - 3 tiếng, không đốt quá 4 tiếng liên tục.</p>
+                <p style="margin: 0;"><strong>4. Sáp bỏ túi (50g):</strong> Mở nắp nhẹ đặt ở góc bàn học, trong ba lô hoặc tủ đồ để tự tỏa hương 30 - 45 ngày.</p>
+              </div>
+            </div>
+
+            <!-- Tab 3: Hướng dẫn bảo quản -->
+            <div class="modal-tab-pane" id="modal-pane-storage">
+              <div style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+                <p style="margin: 0 0 6px 0;"><strong>• Nhiệt độ:</strong> Để nơi khô ráo, thoáng mát dưới 30°C, tránh ánh nắng mặt trời trực tiếp.</p>
+                <p style="margin: 0 0 6px 0;"><strong>• Đậy nắp kín:</strong> Đậy nắp sau khi nến đã nguội hẳn để tránh bụi và giữ hương thơm lâu dài.</p>
+                <p style="margin: 0;"><strong>• An toàn cháy nổ:</strong> Đặt trên bề mặt cách nhiệt, xa rèm cửa, sách vở và xa tầm tay trẻ em.</p>
+              </div>
             </div>
 
             <!-- Bộ chọn phân loại trong Modal -->
@@ -2150,13 +2197,20 @@ function initScentDetailModal() {
 
             <!-- Nút Đặt hàng / Tư vấn qua Messenger chính -->
             <div class="modal-inbox-action-box">
-              <button type="button" class="btn-modal-inbox" id="btn-modal-inbox">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-                </svg>
-                <span>Nhắn tin đặt hàng qua Facebook</span>
-              </button>
-              <span class="modal-inbox-subtext">⚡ Tư vấn trực tiếp 1-1, xác nhận mùi hương và giao hàng tận nơi</span>
+              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                <button type="button" class="btn btn-outline" id="btn-modal-add-cart" style="flex: 1; padding: 10px; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+                  <span>🛒 Thêm vào giỏ</span>
+                </button>
+                <button type="button" class="btn-modal-inbox" id="btn-modal-inbox" style="flex: 1.3; margin: 0; padding: 10px 14px; font-size: 0.88rem;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+                  </svg>
+                  <span>Tư vấn Messenger</span>
+                </button>
+              </div>
+              <a href="#" class="btn-view-full-page" id="btn-modal-view-page">
+                <span>📄 Xem toàn bộ trang giới thiệu sản phẩm &rarr;</span>
+              </a>
             </div>
           </div>
         </div>
@@ -2178,7 +2232,24 @@ function initScentDetailModal() {
   const tierBase = backdrop.querySelector("#scent-tier-base");
   const modalGiftText = backdrop.querySelector("#modal-gift-text");
   const inboxOrderBtn = backdrop.querySelector("#btn-modal-inbox");
+  const modalAddCartBtn = backdrop.querySelector("#btn-modal-add-cart");
+  const modalViewPageBtn = backdrop.querySelector("#btn-modal-view-page");
+  const modalFullImgLink = backdrop.querySelector("#scent-modal-full-img-link");
   const sizePills = backdrop.querySelectorAll(".modal-size-pill");
+
+  // Xử lý Tabs trong Modal
+  const modalTabBtns = backdrop.querySelectorAll(".modal-tab-btn");
+  const modalPanes = backdrop.querySelectorAll(".modal-tab-pane");
+  modalTabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabName = btn.getAttribute("data-modal-tab");
+      modalTabBtns.forEach(b => b.classList.remove("is-active"));
+      modalPanes.forEach(p => p.classList.remove("is-active"));
+      btn.classList.add("is-active");
+      const targetPane = backdrop.querySelector(`#modal-pane-${tabName}`);
+      if (targetPane) targetPane.classList.add("is-active");
+    });
+  });
 
   function updateModalSizeUI(sizeCode) {
     currentModalSize = sizeCode || "sp02";
@@ -2209,6 +2280,17 @@ function initScentDetailModal() {
     }
   });
 
+  if (modalAddCartBtn) {
+    modalAddCartBtn.addEventListener("click", () => {
+      if (currentModalScentId) {
+        addToCart(currentModalScentId, 1, true, currentModalSize);
+        closeScentModal();
+        const p = PRODUCTS_CONFIG[currentModalScentId];
+        showToast(`Đã thêm "${p ? p.name : 'Sản phẩm'}" vào giỏ hàng!`);
+      }
+    });
+  }
+
   function openScentModal(scentId, preferredSize = "sp02") {
     const p = PRODUCTS_CONFIG[scentId];
     if (!p) return;
@@ -2218,8 +2300,8 @@ function initScentDetailModal() {
 
     modalBadge.textContent = p.code;
     modalGroup.textContent = "Nhóm hương: " + p.category;
-    modalTitle.textContent = p.name;
-    modalSubtitle.textContent = p.scentName;
+    modalTitle.textContent = `${p.name} (${p.posterTitle || ''})`;
+    modalSubtitle.textContent = `${p.scentName} • ${p.tagline || ''}`;
     modalVibe.textContent = p.vibe;
 
     tierTop.textContent = p.topNotes;
@@ -2233,6 +2315,13 @@ function initScentDetailModal() {
       this.onerror = null;
       this.src = p.fallbackSrc;
     };
+
+    if (modalViewPageBtn) {
+      modalViewPageBtn.href = `chi-tiet-san-pham.html?id=${scentId}`;
+    }
+    if (modalFullImgLink) {
+      modalFullImgLink.href = `chi-tiet-san-pham.html?id=${scentId}`;
+    }
 
     backdrop.classList.add("is-open");
     document.body.style.overflow = "hidden";
@@ -2268,7 +2357,7 @@ function initScentDetailModal() {
       return;
     }
 
-    // Bỏ qua nếu click trong thanh upload ảnh hoặc modal quản lý ảnh
+    // Bỏ qua nếu click trong modal hoặc dropdown
     if (
       e.target.closest(".product-card-upload-bar") ||
       e.target.closest(".img-manager-fab") ||
@@ -2282,6 +2371,7 @@ function initScentDetailModal() {
     const btn = e.target.closest("[data-open-scent]");
     if (btn) {
       e.preventDefault();
+      e.stopPropagation();
       const scentId = btn.getAttribute("data-open-scent");
       const card = btn.closest(".product-card");
       const size = card ? card.getAttribute("data-selected-size") || "sp02" : "sp02";
@@ -2289,19 +2379,18 @@ function initScentDetailModal() {
       return;
     }
 
-    // 3. Click vào thẻ sản phẩm
+    // 3. Click vào thẻ sản phẩm -> Chuyển trực tiếp sang trang chi tiết đầy đủ
     const card = e.target.closest(".product-card[data-scent-id]");
     if (card) {
-      // Nếu click vào thẻ <a> hoặc nút đặc biệt khác, bỏ qua
-      if (e.target.closest("a") || e.target.closest("button:not(.btn-scent-detail)")) {
+      // Nếu click vào thẻ <a> hoặc nút bấm phân loại size / inbox, không chuyển trang
+      if (e.target.closest("a") || e.target.closest("button")) {
         return;
       }
       const scentId = card.getAttribute("data-scent-id");
-      const size = card.getAttribute("data-selected-size") || "sp02";
       if (COMBOS_CONFIG && COMBOS_CONFIG[scentId]) {
         handleInboxOrder(scentId);
       } else {
-        openScentModal(scentId, size);
+        window.location.href = `chi-tiet-san-pham.html?id=${scentId}`;
       }
     }
   });
