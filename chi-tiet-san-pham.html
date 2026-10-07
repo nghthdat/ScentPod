@@ -612,6 +612,7 @@
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      text-decoration: none;
       padding: 15px 24px;
       border-radius: 12px;
       cursor: pointer;
@@ -888,7 +889,7 @@
 
       .btn-sticky-buy {
         height: 38px;
-        padding: 0 16px;
+        padding: 0 18px;
         border-radius: 8px;
         background: linear-gradient(135deg, #f5d488 0%, #d4af37 50%, #a98036 100%);
         color: #0d0b0a;
@@ -900,6 +901,7 @@
         align-items: center;
         justify-content: center;
         white-space: nowrap;
+        text-decoration: none;
         flex-shrink: 0;
         box-shadow: 0 4px 14px rgba(212, 175, 55, 0.38);
       }
@@ -1360,28 +1362,15 @@
             <span class="stock-badge-tag">✓ Sẵn hàng giao hỏa tốc</span>
           </div>
 
-          <!-- 3. QUÀ TẶNG KÈM DẠNG THẺ GRADIENT CAO CẤP -->
-          <div class="detail-gift-box" id="detail-gift-banner">
-            <div class="gift-icon-bubble">🎁</div>
-            <div class="gift-text-wrap">
-              <span class="gift-header-label">Ưu đãi đặc quyền hôm nay</span>
-              <span id="detail-gift-text" class="gift-main-desc">Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến</span>
-            </div>
-          </div>
-
-          <!-- 4. ĐỘ ƯU TIÊN NÚT HÀNH ĐỘNG (CTA HIERARCHY) -->
+          <!-- 3. NÚT HÀNH ĐỘNG: MUA NGAY CHỐT ĐƠN QUA FACEBOOK -->
           <div class="detail-actions-row">
-            <!-- NÚT CHÍNH (PRIMARY CTA): MUA NGAY FULL-WIDTH, TƯƠNG PHẢN CAO NHẤT -->
-            <button type="button" class="btn-detail-buy-now" id="btn-buy-now">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              <span>MUA NGAY (GIAO HÀNG TẬN NƠI)</span>
-            </button>
-
-            <!-- NÚT PHỤ: THÊM VÀO GIỎ HÀNG -->
-            <button type="button" class="btn-detail-add-cart" id="btn-add-cart">
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-              <span>Thêm vào giỏ hàng</span>
-            </button>
+            <!-- NÚT CHÍNH: MUA NGAY (CHỐT ĐƠN QUA FACEBOOK) -->
+            <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-detail-buy-now" id="btn-buy-now" title="Nhắn tin đặt hàng và chốt đơn qua Facebook">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+              </svg>
+              <span>MUA NGAY (CHỐT ĐƠN QUA FACEBOOK)</span>
+            </a>
 
             <!-- TÙY CHỌN TƯ VẤN PHỤ DƯỚI CÙNG QUA MESSENGER -->
             <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-detail-inbox" id="btn-messenger-order">
@@ -1622,12 +1611,12 @@
         </div>
       </div>
       <div class="sticky-actions">
-        <button type="button" class="btn-sticky-cart" id="btn-sticky-cart" aria-label="Thêm vào giỏ hàng" title="Thêm vào giỏ hàng">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-        </button>
-        <button type="button" class="btn-sticky-buy" id="btn-sticky-buy">
-          <span>Mua ngay</span>
-        </button>
+        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-sticky-buy" id="btn-sticky-buy" title="Chốt đơn qua Facebook">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px;">
+            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+          </svg>
+          <span>Chốt đơn Facebook</span>
+        </a>
       </div>
     </div>
   </aside>
@@ -1778,40 +1767,61 @@
         }
       });
 
-      // 5. Nút Thêm vào giỏ & Mua ngay (Hero)
-      document.getElementById("btn-add-cart").addEventListener("click", () => {
-        addToCart(productId, currentQuantity, true, currentSelectedSize);
-        showToast(`Đã thêm ${currentQuantity}x "${p.name}" vào giỏ hàng!`);
-      });
+      // 5. Nút Mua ngay (Chốt đơn qua Facebook)
+      const handleBuyNowFacebook = () => {
+        const sizeCfg = PRODUCT_SIZES_CONFIG[currentSelectedSize] || PRODUCT_SIZES_CONFIG["sp02"];
+        const variantText = sizeCfg ? sizeCfg.label : "Nến 100g";
+        const priceText = sizeCfg ? sizeCfg.priceFormatted : p.price;
+        const totalEstimate = sizeCfg ? formatVND(sizeCfg.price * currentQuantity) : "";
 
-      document.getElementById("btn-buy-now").addEventListener("click", () => {
-        addToCart(productId, currentQuantity, false, currentSelectedSize);
-        window.location.href = "thanh-toan.html";
-      });
+        const message = `Chào ScentPod! Mình muốn chốt đơn đặt mua sản phẩm:
+• Tên: ${p.code}: ${p.name} (${p.posterTitle || p.scentName || ''})
+• Phân loại: ${variantText}
+• Số lượng: ${currentQuantity}
+• Giá tạm tính: ${totalEstimate || priceText}
+Nhờ shop xác nhận đơn và ship hàng giúp mình nhé!`;
 
-      // 6. Nút Inbox Messenger
-      document.getElementById("btn-messenger-order").addEventListener("click", (e) => {
-        e.preventDefault();
-        handleInboxOrder(productId, currentSelectedSize);
-      });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(message).then(() => {
+            showToast(`💬 Đã lưu thông tin đơn (${currentQuantity}x ${p.name})! Đang mở Facebook để chốt đơn...`, 4000);
+          }).catch(() => {
+            showToast(`💬 Đang mở Facebook để chốt đơn cho bạn...`, 3000);
+          });
+        } else {
+          showToast(`💬 Đang mở Facebook để chốt đơn cho bạn...`, 3000);
+        }
+
+        setTimeout(() => {
+          window.open(FB_LINK, "_blank", "noopener,noreferrer");
+        }, 350);
+      };
+
+      const btnBuyNow = document.getElementById("btn-buy-now");
+      if (btnBuyNow) {
+        btnBuyNow.addEventListener("click", (e) => {
+          e.preventDefault();
+          handleBuyNowFacebook();
+        });
+      }
+
+      // 6. Nút Inbox Messenger tư vấn
+      const btnMessengerOrder = document.getElementById("btn-messenger-order");
+      if (btnMessengerOrder) {
+        btnMessengerOrder.addEventListener("click", (e) => {
+          e.preventDefault();
+          handleInboxOrder(productId, currentSelectedSize);
+        });
+      }
 
       // 7. Đồng bộ sự kiện cho Mobile Sticky Bar
       const mobileStickyBar = document.getElementById("mobile-sticky-bar");
       const heroActionsRow = document.querySelector(".detail-actions-row");
-      const btnStickyCart = document.getElementById("btn-sticky-cart");
       const btnStickyBuy = document.getElementById("btn-sticky-buy");
 
-      if (btnStickyCart) {
-        btnStickyCart.addEventListener("click", () => {
-          addToCart(productId, currentQuantity, true, currentSelectedSize);
-          showToast(`Đã thêm ${currentQuantity}x "${p.name}" vào giỏ hàng!`);
-        });
-      }
-
       if (btnStickyBuy) {
-        btnStickyBuy.addEventListener("click", () => {
-          addToCart(productId, currentQuantity, false, currentSelectedSize);
-          window.location.href = "thanh-toan.html";
+        btnStickyBuy.addEventListener("click", (e) => {
+          e.preventDefault();
+          handleBuyNowFacebook();
         });
       }
 
