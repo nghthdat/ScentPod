@@ -1031,8 +1031,13 @@ PRODUCT_SIZES_CONFIG["10g"] = {
   shortLabel: "10g Mini",
   listPrice: 45000,
   listPriceFormatted: "45.000đ",
+  originalPrice: 45000,
+  originalPriceFormatted: "45.000đ",
   price: 39000,
-  priceFormatted: "39.000đ"
+  priceFormatted: "39.000đ",
+  savings: 6000,
+  savingsFormatted: "6.000đ",
+  gift: "Kèm thiệp cảm ơn mini + giấy thử mùi trải nghiệm"
 };
 
 /**

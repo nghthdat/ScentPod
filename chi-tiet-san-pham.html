@@ -213,23 +213,41 @@
       margin-bottom: 1.2rem;
     }
 
+    /* KHỐI GIÁ SẢN PHẨM & ƯU ĐÃI NỔI BẬT */
     .detail-price-box {
+      background: linear-gradient(135deg, rgba(201, 162, 107, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
+      border: 1px solid rgba(201, 162, 107, 0.2);
+      border-radius: 14px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1.6rem;
+    }
+
+    .detail-price-main {
       display: flex;
       align-items: baseline;
-      gap: 14px;
-      margin-bottom: 1.4rem;
-      padding-bottom: 1.2rem;
-      border-bottom: 1px solid var(--border-subtle);
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 6px;
     }
 
     .detail-price-current {
-      font-size: 2rem;
-      font-weight: 700;
+      font-family: var(--font-heading);
+      font-size: 2.6rem;
+      font-weight: 800;
       color: var(--accent-gold);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 2px 16px rgba(201, 162, 107, 0.25);
+    }
+
+    .detail-price-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .detail-price-original {
-      font-size: 1.15rem;
+      font-size: 1.2rem;
       color: var(--text-muted);
       text-decoration: line-through;
     }
@@ -237,11 +255,26 @@
     .detail-savings-badge {
       background: rgba(239, 68, 68, 0.15);
       color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.3);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      font-size: 0.84rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .detail-price-subtext {
       font-size: 0.82rem;
-      font-weight: 600;
-      padding: 3px 8px;
-      border-radius: 4px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-price-subtext::before {
+      content: "✓";
+      color: #4ade80;
+      font-weight: bold;
     }
 
     .detail-vibe-box {
@@ -260,138 +293,347 @@
       font-style: italic;
     }
 
-    /* Bộ chọn phân loại size */
+    /* 1. TRỰC QUAN HÓA PHÂN LOẠI (VARIANT CARDS) */
     .detail-section-title {
-      font-size: 0.9rem;
-      font-weight: 600;
+      font-size: 0.88rem;
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.08em;
       color: var(--text-primary);
-      margin-bottom: 0.8rem;
-      display: block;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .detail-section-title small {
+      font-size: 0.78rem;
+      color: var(--accent-gold);
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 500;
     }
 
     .detail-sizes-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 10px;
-      margin-bottom: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 1.8rem;
     }
 
-    .detail-size-btn {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 10px;
-      padding: 10px 14px;
-      text-align: left;
+    @media (max-width: 540px) {
+      .detail-sizes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .detail-size-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 14px 12px;
       cursor: pointer;
-      transition: all 0.25s ease;
-      color: var(--text-primary);
+      text-align: left;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 104px;
+      outline: none;
     }
 
-    .detail-size-btn:hover {
-      border-color: var(--accent-gold);
+    .detail-size-card:hover {
+      border-color: rgba(201, 162, 107, 0.5);
       background: rgba(201, 162, 107, 0.08);
+      transform: translateY(-2px);
     }
 
-    .detail-size-btn.is-active {
+    .detail-size-card.is-active {
       border-color: var(--accent-gold);
-      background: rgba(201, 162, 107, 0.15);
-      box-shadow: 0 0 16px rgba(201, 162, 107, 0.25);
+      background: linear-gradient(145deg, rgba(201, 162, 107, 0.18) 0%, rgba(26, 20, 16, 0.95) 100%);
+      box-shadow: 0 6px 20px rgba(201, 162, 107, 0.25);
     }
 
-    .detail-size-name {
-      display: block;
-      font-weight: 600;
-      font-size: 0.88rem;
+    .size-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
       margin-bottom: 4px;
     }
 
-    .detail-size-price {
-      display: block;
-      font-size: 0.84rem;
-      color: var(--accent-gold);
+    .size-card-title {
+      font-size: 0.92rem;
       font-weight: 700;
+      color: var(--text-primary);
     }
 
-    /* Chọn số lượng */
+    .size-card-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .size-card-badge.is-best {
+      background: rgba(201, 162, 107, 0.25);
+      color: #ffd700;
+      border: 1px solid rgba(201, 162, 107, 0.4);
+    }
+
+    .size-card-spec {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .size-card-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-top: auto;
+    }
+
+    .size-card-price {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--accent-gold);
+    }
+
+    .size-card-original {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+
+    .size-card-check {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #0d0b0a;
+      transition: all 0.2s ease;
+    }
+
+    .detail-size-card.is-active .size-card-check {
+      background: var(--accent-gold);
+      border-color: var(--accent-gold);
+      color: #0d0b0a;
+    }
+
+    .detail-size-card.is-active .size-card-title {
+      color: #fff;
+    }
+
+    /* 2. CHỌN SỐ LƯỢNG VỚI WHITESPACE THOÁNG ĐÃNG */
     .detail-qty-row {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       gap: 15px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.8rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .qty-control-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
     .qty-picker {
       display: inline-flex;
       align-items: center;
-      border: 1px solid var(--border-subtle);
-      border-radius: 8px;
-      background: #181412;
+      border: 1.5px solid rgba(201, 162, 107, 0.3);
+      border-radius: 10px;
+      background: #171310;
       overflow: hidden;
     }
 
     .qty-btn {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       background: transparent;
       border: none;
       color: var(--text-primary);
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       cursor: pointer;
       transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .qty-btn:hover {
       background: rgba(201, 162, 107, 0.2);
+      color: var(--accent-gold);
     }
 
     .qty-input {
-      width: 50px;
+      width: 48px;
       text-align: center;
       background: transparent;
       border: none;
-      color: var(--text-primary);
-      font-size: 1rem;
-      font-weight: 600;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 700;
     }
 
-    /* Quà tặng banner */
+    .stock-badge-tag {
+      font-size: 0.82rem;
+      color: #4ade80;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      padding: 5px 12px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* 3. KHUNG QUÀ TẶNG DẠNG THẺ GRADIENT CAO CẤP */
+    @keyframes giftPulse {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+      }
+      25% {
+        transform: scale(1.12) rotate(-6deg);
+      }
+      50% {
+        transform: scale(1.05) rotate(4deg);
+      }
+      75% {
+        transform: scale(1.1) rotate(-3deg);
+      }
+    }
+
     .detail-gift-box {
-      background: rgba(245, 158, 11, 0.1);
-      border: 1px dashed rgba(245, 158, 11, 0.4);
-      color: #fbbf24;
-      font-size: 0.88rem;
-      padding: 10px 14px;
-      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(201, 162, 107, 0.16) 0%, rgba(245, 158, 11, 0.08) 100%);
+      border: 1px solid rgba(201, 162, 107, 0.35);
+      border-radius: 12px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin-bottom: 1.8rem;
+      gap: 14px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(201, 162, 107, 0.05);
+      position: relative;
+      overflow: hidden;
     }
 
-    /* Hàng nút hành động */
+    .detail-gift-box::after {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .gift-icon-bubble {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(201, 162, 107, 0.22);
+      border: 1px solid rgba(201, 162, 107, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      animation: giftPulse 2.8s infinite ease-in-out;
+    }
+
+    .gift-text-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .gift-header-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-gold);
+    }
+
+    .gift-main-desc {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #fef3c7;
+      line-height: 1.4;
+    }
+
+    /* 4. ĐỘ ƯU TIÊN NÚT CTA (ACTION BUTTONS HIERARCHY) */
     .detail-actions-row {
       display: flex;
+      flex-direction: column;
       gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
+      margin-bottom: 2.2rem;
     }
 
-    .btn-detail-add-cart {
-      flex: 1;
-      min-width: 170px;
+    /* NÚT CHÍNH (PRIMARY CTA): MUA NGAY FULL-WIDTH NỔI BẬT CAO */
+    .btn-detail-buy-now {
+      width: 100%;
+      min-height: 52px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      background: #1f1915;
-      color: var(--text-primary);
+      gap: 10px;
+      background: linear-gradient(135deg, #f5d488 0%, #d4af37 50%, #a98036 100%);
+      color: #0d0b0a;
+      border: none;
+      font-size: 1.05rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 15px 24px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.42);
+    }
+
+    .btn-detail-buy-now:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.55);
+      background: linear-gradient(135deg, #ffe096 0%, #e0bc46 50%, #b88d3e 100%);
+    }
+
+    .btn-detail-buy-now:active {
+      transform: translateY(0);
+    }
+
+    /* NÚT PHỤ: THÊM VÀO GIỎ HÀNG */
+    .btn-detail-add-cart {
+      width: 100%;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: rgba(201, 162, 107, 0.06);
+      color: var(--accent-gold);
       border: 1.5px solid var(--accent-gold);
-      font-size: 0.95rem;
-      font-weight: 600;
+      font-size: 0.96rem;
+      font-weight: 700;
       padding: 13px 20px;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       transition: all 0.25s ease;
     }
@@ -400,76 +642,242 @@
       background: var(--accent-gold);
       color: #0d0b0a;
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(201, 162, 107, 0.3);
+      box-shadow: 0 8px 20px rgba(201, 162, 107, 0.28);
     }
 
-    .btn-detail-buy-now {
-      flex: 1;
-      min-width: 170px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: linear-gradient(135deg, #d4af37 0%, #aa823a 100%);
-      color: #0d0b0a;
-      border: none;
-      font-size: 0.95rem;
-      font-weight: 700;
-      padding: 13px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
+    .btn-detail-add-cart:active {
+      transform: translateY(0);
     }
 
-    .btn-detail-buy-now:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(212, 175, 55, 0.5);
-    }
-
+    /* TÙY CHỌN TƯ VẤN PHỤ DƯỚI CÙNG (MESSENGER INBOX) */
     .btn-detail-inbox {
       width: 100%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      background: #0084ff;
-      color: #fff;
-      border: none;
-      font-size: 0.95rem;
+      gap: 8px;
+      background: rgba(0, 132, 255, 0.08);
+      border: 1px solid rgba(0, 132, 255, 0.25);
+      color: #60a5fa;
+      font-size: 0.88rem;
       font-weight: 600;
-      padding: 12px 20px;
+      padding: 11px 16px;
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.25s ease;
       text-decoration: none;
+      margin-top: 2px;
     }
 
     .btn-detail-inbox:hover {
-      background: #0073e6;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(0, 132, 255, 0.35);
+      background: rgba(0, 132, 255, 0.16);
+      border-color: rgba(0, 132, 255, 0.45);
+      color: #93c5fd;
+      transform: translateY(-1px);
     }
 
-    /* Cam kết mua hàng */
+    /* 5. BA BIỂU TƯỢNG CAM KẾT: 3 CỘT NGANG (DESKTOP) & SLIDER NHỎ (MOBILE) */
     .detail-perks-list {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
       padding-top: 1.5rem;
-      border-top: 1px solid var(--border-subtle);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .perk-item {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(201, 162, 107, 0.15);
+      border-radius: 10px;
+      padding: 12px 14px;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      transition: all 0.25s ease;
     }
 
-    .perk-item span:first-child {
-      font-size: 1.1rem;
+    .perk-item:hover {
+      border-color: rgba(201, 162, 107, 0.4);
+      background: rgba(201, 162, 107, 0.06);
+      transform: translateY(-1px);
+    }
+
+    .perk-icon {
+      font-size: 1.35rem;
+      line-height: 1;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+
+    .perk-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .perk-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .perk-desc {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 768px) {
+      .detail-perks-list {
+        display: flex;
+        overflow-x: auto;
+        gap: 10px;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .detail-perks-list::-webkit-scrollbar {
+        display: none;
+      }
+
+      .perk-item {
+        flex: 0 0 78%;
+        min-width: 210px;
+        scroll-snap-align: start;
+      }
+    }
+
+    /* 6. CỐ ĐỊNH THANH MUA HÀNG (STICKY BOTTOM BAR TRÊN MOBILE) */
+    .mobile-sticky-bar {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-sticky-bar {
+        display: block;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(18, 14, 12, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-top: 1px solid rgba(201, 162, 107, 0.35);
+        padding: 9px 14px;
+        padding-bottom: max(9px, env(safe-area-inset-bottom));
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
+        z-index: 1200;
+        transform: translateY(115%);
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .mobile-sticky-bar.is-visible {
+        transform: translateY(0);
+      }
+
+      .sticky-bar-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .sticky-product-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 0;
+        flex: 1;
+      }
+
+      .sticky-thumb {
+        width: 44px;
+        height: 44px;
+        border-radius: 8px;
+        object-fit: cover;
+        background: #171310;
+        border: 1px solid rgba(201, 162, 107, 0.3);
+        flex-shrink: 0;
+      }
+
+      .sticky-text-wrap {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .sticky-prod-name {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .sticky-meta-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .sticky-price {
+        font-size: 1rem;
+        font-weight: 800;
+        color: var(--accent-gold);
+      }
+
+      .sticky-size-pill {
+        font-size: 0.72rem;
+        padding: 1px 6px;
+        border-radius: 4px;
+        background: rgba(201, 162, 107, 0.15);
+        color: var(--accent-gold);
+        border: 1px solid rgba(201, 162, 107, 0.25);
+        white-space: nowrap;
+      }
+
+      .sticky-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .btn-sticky-cart {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: rgba(201, 162, 107, 0.12);
+        border: 1.5px solid var(--accent-gold);
+        color: var(--accent-gold);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .btn-sticky-buy {
+        height: 42px;
+        padding: 0 18px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #f5d488 0%, #d4af37 50%, #a98036 100%);
+        color: #0d0b0a;
+        border: none;
+        font-size: 0.92rem;
+        font-weight: 800;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+        box-shadow: 0 4px 14px rgba(212, 175, 55, 0.38);
+      }
     }
 
     /* ==========================================================================
@@ -843,9 +1251,14 @@
           <div class="detail-subtitle" id="detail-scent-name">Cedarwood &amp; Warm Amber</div>
 
           <div class="detail-price-box">
-            <span class="detail-price-current" id="detail-price">85.000đ</span>
-            <span class="detail-price-original" id="detail-original-price">95.000đ</span>
-            <span class="detail-savings-badge" id="detail-savings">Tiết kiệm 10.000đ</span>
+            <div class="detail-price-main">
+              <span class="detail-price-current" id="detail-price">85.000đ</span>
+              <div class="detail-price-meta">
+                <span class="detail-price-original" id="detail-original-price">95.000đ</span>
+                <span class="detail-savings-badge" id="detail-savings">Tiết kiệm 10.000đ</span>
+              </div>
+            </div>
+            <div class="detail-price-subtext">Đã bao gồm VAT • 100% sáp thực vật tự nhiên không khói độc hại</div>
           </div>
 
           <!-- Đoạn trích dẫn cảm xúc / câu chuyện thơ mộng -->
@@ -853,70 +1266,125 @@
             <p id="detail-vibe">Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya.</p>
           </div>
 
-          <!-- Bộ chọn phân loại size -->
-          <span class="detail-section-title">Chọn phân loại sản phẩm:</span>
+          <!-- 1. BỘ CHỌN PHÂN LOẠI DẠNG CARD TRỰC QUAN -->
+          <div class="detail-section-title">
+            <span>Chọn phân loại sản phẩm:</span>
+            <small>Đầy đủ tem niêm phong</small>
+          </div>
           <div class="detail-sizes-grid" id="detail-sizes-list">
-            <button type="button" class="detail-size-btn" data-size="sp01">
-              <span class="detail-size-name">Sáp bỏ túi 50g</span>
-              <span class="detail-size-price">49.000đ</span>
+            <button type="button" class="detail-size-card" data-size="sp01" aria-label="Sáp bỏ túi 50g">
+              <div class="size-card-header">
+                <span class="size-card-title">Sáp bỏ túi</span>
+                <span class="size-card-badge">Tiết kiệm 6K</span>
+              </div>
+              <div class="size-card-spec">Hũ nhôm tiện lợi 50g</div>
+              <div class="size-card-price-row">
+                <span class="size-card-price">49.000đ</span>
+                <span class="size-card-original">55.000đ</span>
+              </div>
+              <div class="size-card-check">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
             </button>
-            <button type="button" class="detail-size-btn is-active" data-size="sp02">
-              <span class="detail-size-name">Nến thơm 100g</span>
-              <span class="detail-size-price">85.000đ</span>
+
+            <button type="button" class="detail-size-card is-active" data-size="sp02" aria-label="Nến thơm 100g">
+              <div class="size-card-header">
+                <span class="size-card-title">Nến thơm</span>
+                <span class="size-card-badge is-best">🔥 Bán chạy</span>
+              </div>
+              <div class="size-card-spec">Hũ thủy tinh cao cấp 100g</div>
+              <div class="size-card-price-row">
+                <span class="size-card-price">85.000đ</span>
+                <span class="size-card-original">95.000đ</span>
+              </div>
+              <div class="size-card-check">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
             </button>
-            <button type="button" class="detail-size-btn" data-size="10g">
-              <span class="detail-size-name">Mini dùng thử</span>
-              <span class="detail-size-price">39.000đ</span>
+
+            <button type="button" class="detail-size-card" data-size="10g" aria-label="Mini dùng thử 10g">
+              <div class="size-card-header">
+                <span class="size-card-title">Mini dùng thử</span>
+                <span class="size-card-badge">Trải nghiệm</span>
+              </div>
+              <div class="size-card-spec">Hũ nhôm nhỏ gọn 10g</div>
+              <div class="size-card-price-row">
+                <span class="size-card-price">39.000đ</span>
+                <span class="size-card-original">45.000đ</span>
+              </div>
+              <div class="size-card-check">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
             </button>
           </div>
 
-          <!-- Chọn số lượng -->
+          <!-- 2. CHỌN SỐ LƯỢNG VỚI WHITESPACE THOÁNG ĐÃNG -->
           <div class="detail-qty-row">
-            <span class="detail-section-title" style="margin-bottom: 0;">Số lượng:</span>
-            <div class="qty-picker">
-              <button type="button" class="qty-btn" id="btn-qty-minus" aria-label="Giảm số lượng">-</button>
-              <input type="number" id="detail-qty-input" class="qty-input" value="1" min="1" max="99" readonly>
-              <button type="button" class="qty-btn" id="btn-qty-plus" aria-label="Tăng số lượng">+</button>
+            <div class="qty-control-group">
+              <span class="detail-section-title" style="margin-bottom: 0;">Số lượng:</span>
+              <div class="qty-picker">
+                <button type="button" class="qty-btn" id="btn-qty-minus" aria-label="Giảm số lượng">−</button>
+                <input type="number" id="detail-qty-input" class="qty-input" value="1" min="1" max="99" readonly>
+                <button type="button" class="qty-btn" id="btn-qty-plus" aria-label="Tăng số lượng">+</button>
+              </div>
+            </div>
+            <span class="stock-badge-tag">✓ Sẵn hàng giao hỏa tốc</span>
+          </div>
+
+          <!-- 3. QUÀ TẶNG KÈM DẠNG THẺ GRADIENT CAO CẤP -->
+          <div class="detail-gift-box" id="detail-gift-banner">
+            <div class="gift-icon-bubble">🎁</div>
+            <div class="gift-text-wrap">
+              <span class="gift-header-label">Ưu đãi đặc quyền hôm nay</span>
+              <span id="detail-gift-text" class="gift-main-desc">Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến</span>
             </div>
           </div>
 
-          <!-- Quà tặng kèm theo phân loại -->
-          <div class="detail-gift-box" id="detail-gift-banner">
-            <span class="tag-icon">🎁</span>
-            <span id="detail-gift-text">Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến</span>
-          </div>
-
-          <!-- Nút hành động mua sắm -->
+          <!-- 4. ĐỘ ƯU TIÊN NÚT HÀNH ĐỘNG (CTA HIERARCHY) -->
           <div class="detail-actions-row">
+            <!-- NÚT CHÍNH (PRIMARY CTA): MUA NGAY FULL-WIDTH, TƯƠNG PHẢN CAO NHẤT -->
+            <button type="button" class="btn-detail-buy-now" id="btn-buy-now">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+              <span>MUA NGAY (GIAO HÀNG TẬN NƠI)</span>
+            </button>
+
+            <!-- NÚT PHỤ: THÊM VÀO GIỎ HÀNG -->
             <button type="button" class="btn-detail-add-cart" id="btn-add-cart">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
               <span>Thêm vào giỏ hàng</span>
             </button>
-            <button type="button" class="btn-detail-buy-now" id="btn-buy-now">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-              <span>Mua ngay</span>
-            </button>
+
+            <!-- TÙY CHỌN TƯ VẤN PHỤ DƯỚI CÙNG QUA MESSENGER -->
             <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-detail-inbox" id="btn-messenger-order">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
               </svg>
-              <span>Nhắn tin tư vấn &amp; Đặt qua Messenger</span>
+              <span>Bạn phân vân chọn mùi? <strong>Nhắn tin tư vấn qua Messenger &rarr;</strong></span>
             </a>
           </div>
 
-          <!-- Các cam kết dịch vụ của ScentPod -->
+          <!-- 5. BA CAM KẾT DỊCH VỤ: 3 CỘT (DESKTOP) & SLIDER NHỎ (MOBILE) -->
           <div class="detail-perks-list">
             <div class="perk-item">
-              <span>🚚</span>
-              <span><strong>Freeship toàn quốc:</strong> Miễn phí vận chuyển cho đơn hàng từ 199.000đ.</span>
+              <span class="perk-icon">🚚</span>
+              <div class="perk-content">
+                <span class="perk-title">Freeship toàn quốc</span>
+                <span class="perk-desc">Đơn từ 199.000đ, đóng gói chống vỡ 3 lớp an tâm</span>
+              </div>
             </div>
             <div class="perk-item">
-              <span>🔄</span>
-              <span><strong>Cam kết 1 đổi 1:</strong> Đổi mới ngay lập tức nếu nến nứt vỡ trong quá trình vận chuyển.</span>
+              <span class="perk-icon">🔄</span>
+              <div class="perk-content">
+                <span class="perk-title">Cam kết 1 đổi 1</span>
+                <span class="perk-desc">Đổi mới tức thì nếu nứt vỡ trong quá trình vận chuyển</span>
+              </div>
             </div>
             <div class="perk-item">
-              <span>💌</span>
-              <span><strong>Tặng thiệp viết tay:</strong> Hỗ trợ ghi lời nhắn nhủ yêu thương cho bạn bè, người thương.</span>
+              <span class="perk-icon">💌</span>
+              <div class="perk-content">
+                <span class="perk-title">Tặng thiệp viết tay</span>
+                <span class="perk-desc">Hỗ trợ ghi lời nhắn nhủ yêu thương cho người thương</span>
+              </div>
             </div>
           </div>
 
@@ -1110,6 +1578,32 @@
   </main>
 
   <!-- ========================================================================
+       CỐ ĐỊNH THANH MUA HÀNG (STICKY BOTTOM BAR CHO THIẾT BỊ DI ĐỘNG)
+       ======================================================================== -->
+  <aside class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Thanh mua hàng nhanh trên điện thoại">
+    <div class="sticky-bar-container">
+      <div class="sticky-product-info">
+        <img id="sticky-bar-img" src="images/nen-thu-gian.jpg" alt="Ảnh thu nhỏ sản phẩm" class="sticky-thumb">
+        <div class="sticky-text-wrap">
+          <span class="sticky-prod-name" id="sticky-prod-name">Late Night</span>
+          <div class="sticky-meta-row">
+            <span class="sticky-price" id="sticky-price">85.000đ</span>
+            <span class="sticky-size-pill" id="sticky-size-pill">100g</span>
+          </div>
+        </div>
+      </div>
+      <div class="sticky-actions">
+        <button type="button" class="btn-sticky-cart" id="btn-sticky-cart" aria-label="Thêm vào giỏ hàng" title="Thêm vào giỏ hàng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+        </button>
+        <button type="button" class="btn-sticky-buy" id="btn-sticky-buy">
+          <span>Mua ngay</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================
        MODAL LIGHTBOX PHÓNG TO ẢNH GỐC
        ======================================================================== -->
   <div class="lightbox-backdrop" id="image-lightbox" role="dialog" aria-modal="true" aria-label="Phóng to ảnh">
@@ -1191,36 +1685,54 @@
       if (p.burnTime) document.getElementById("table-spec-burn").textContent = p.burnTime;
       if (p.scentRadius) document.getElementById("table-spec-radius").textContent = p.scentRadius;
 
-      // 3. Xử lý bộ chọn Size
-      const sizeBtns = document.querySelectorAll(".detail-size-btn");
+      // 3. Xử lý bộ chọn Size & Đồng bộ giá
+      const sizeCards = document.querySelectorAll(".detail-size-card");
       const priceEl = document.getElementById("detail-price");
       const originalPriceEl = document.getElementById("detail-original-price");
       const savingsEl = document.getElementById("detail-savings");
       const giftEl = document.getElementById("detail-gift-text");
 
+      // Elements trong Mobile Sticky Bar
+      const stickyThumb = document.getElementById("sticky-bar-img");
+      const stickyName = document.getElementById("sticky-prod-name");
+      const stickyPrice = document.getElementById("sticky-price");
+      const stickySizePill = document.getElementById("sticky-size-pill");
+
+      if (stickyThumb) stickyThumb.src = p.defaultSrc;
+      if (stickyName) stickyName.textContent = p.name;
+
       function updateSize(sizeCode) {
         currentSelectedSize = sizeCode;
-        sizeBtns.forEach(btn => btn.classList.toggle("is-active", btn.getAttribute("data-size") === sizeCode));
+        sizeCards.forEach(card => card.classList.toggle("is-active", card.getAttribute("data-size") === sizeCode));
         const cfg = PRODUCT_SIZES_CONFIG[sizeCode] || PRODUCT_SIZES_CONFIG["sp02"];
         if (cfg) {
-          priceEl.textContent = cfg.priceFormatted;
-          originalPriceEl.textContent = cfg.originalPriceFormatted;
+          if (priceEl) priceEl.textContent = cfg.priceFormatted;
+          if (originalPriceEl) originalPriceEl.textContent = cfg.originalPriceFormatted;
           const diff = cfg.originalPrice - cfg.price;
-          if (diff > 0) {
-            savingsEl.textContent = `Tiết kiệm ${formatVND(diff)}`;
-            savingsEl.style.display = "inline-block";
-          } else {
-            savingsEl.style.display = "none";
+          if (savingsEl) {
+            if (diff > 0) {
+              savingsEl.textContent = `Tiết kiệm ${formatVND(diff)}`;
+              savingsEl.style.display = "inline-block";
+            } else {
+              savingsEl.style.display = "none";
+            }
           }
-          if (cfg.gift) giftEl.textContent = cfg.gift;
+          if (giftEl && cfg.gift) giftEl.textContent = cfg.gift;
+
+          // Cập nhật lên Mobile Sticky Bar
+          if (stickyPrice) stickyPrice.textContent = cfg.priceFormatted;
+          if (stickySizePill) stickySizePill.textContent = cfg.shortLabel || cfg.size || "100g";
         }
       }
 
-      sizeBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          updateSize(btn.getAttribute("data-size"));
+      sizeCards.forEach(card => {
+        card.addEventListener("click", () => {
+          updateSize(card.getAttribute("data-size"));
         });
       });
+
+      // Khởi tạo size mặc định
+      updateSize("sp02");
 
       // 4. Bộ chọn số lượng
       const qtyInput = document.getElementById("detail-qty-input");
@@ -1237,7 +1749,7 @@
         }
       });
 
-      // 5. Nút Thêm vào giỏ & Mua ngay
+      // 5. Nút Thêm vào giỏ & Mua ngay (Hero)
       document.getElementById("btn-add-cart").addEventListener("click", () => {
         addToCart(productId, currentQuantity, true, currentSelectedSize);
         showToast(`Đã thêm ${currentQuantity}x "${p.name}" vào giỏ hàng!`);
@@ -1254,7 +1766,45 @@
         handleInboxOrder(productId, currentSelectedSize);
       });
 
-      // 7. Chuyển Tab thông tin sâu (Giới thiệu, HDSD, Bảo quản)
+      // 7. Đồng bộ sự kiện cho Mobile Sticky Bar
+      const mobileStickyBar = document.getElementById("mobile-sticky-bar");
+      const heroActionsRow = document.querySelector(".detail-actions-row");
+      const btnStickyCart = document.getElementById("btn-sticky-cart");
+      const btnStickyBuy = document.getElementById("btn-sticky-buy");
+
+      if (btnStickyCart) {
+        btnStickyCart.addEventListener("click", () => {
+          addToCart(productId, currentQuantity, true, currentSelectedSize);
+          showToast(`Đã thêm ${currentQuantity}x "${p.name}" vào giỏ hàng!`);
+        });
+      }
+
+      if (btnStickyBuy) {
+        btnStickyBuy.addEventListener("click", () => {
+          addToCart(productId, currentQuantity, false, currentSelectedSize);
+          window.location.href = "thanh-toan.html";
+        });
+      }
+
+      // Observer / Scroll listener hiện Sticky Bar khi cuộn qua cụm CTA chính
+      if (mobileStickyBar && heroActionsRow) {
+        let isStickyVisible = false;
+        const checkStickyVisibility = () => {
+          const rect = heroActionsRow.getBoundingClientRect();
+          // Khi cụm nút chính cuộn lên trên đỉnh viewport
+          const shouldShow = rect.bottom < 80;
+          if (shouldShow !== isStickyVisible) {
+            isStickyVisible = shouldShow;
+            mobileStickyBar.classList.toggle("is-visible", isStickyVisible);
+          }
+        };
+
+        window.addEventListener("scroll", checkStickyVisibility, { passive: true });
+        window.addEventListener("resize", checkStickyVisibility, { passive: true });
+        checkStickyVisibility();
+      }
+
+      // 8. Chuyển Tab thông tin sâu (Giới thiệu, HDSD, Bảo quản)
       const tabBtns = document.querySelectorAll(".detail-tab-btn");
       const tabPanes = document.querySelectorAll(".detail-tab-pane");
 
@@ -1270,7 +1820,7 @@
         });
       });
 
-      // 8. Lightbox xem ảnh gốc
+      // 9. Lightbox xem ảnh gốc
       const lightbox = document.getElementById("image-lightbox");
       const lightboxImg = document.getElementById("lightbox-img");
       const openLightbox = () => {
@@ -1293,7 +1843,7 @@
         if (e.target === lightbox) closeLightbox();
       });
 
-      // 9. Hiển thị danh sách sản phẩm liên quan
+      // 10. Hiển thị danh sách sản phẩm liên quan
       const relatedContainer = document.getElementById("related-products-grid");
       if (relatedContainer) {
         relatedContainer.innerHTML = "";
