@@ -1193,27 +1193,27 @@
 <body>
 
   <!-- ========================================================================
-       THANH ĐIỀU HƯỚNG CHÍNH (HEADER)
+       THANH ĐIỀU HƯỚNG CHÍNH (HEADER - DÙNG CHUNG CẢ WEBSITE)
        ======================================================================== -->
-  <header class="site-header scrolled" id="main-header">
-    <div class="header-container">
-      
-      <!-- Logo Thương hiệu -->
-      <a href="index.html" class="brand-logo" aria-label="ScentPod - Về trang chủ">
+  <header class="site-header" id="main-header">
+    <div class="nav-container">
+      <!-- 1. Tên Thương hiệu -->
+      <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
         <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
-        <span class="brand-text">Scent<span class="accent">Pod</span></span>
+        <span>Scent<span class="accent">Pod</span></span>
       </a>
 
-      <!-- Menu Điều Hướng -->
-      <nav class="main-nav" aria-label="Điều hướng chính">
-        <ul class="nav-list">
+      <!-- 2, 3, 4, 5. Menu điều hướng: Trang chủ - Sản phẩm - Combo - Về chúng tôi -->
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-menu">
           <li><a href="index.html" class="nav-link">Trang chủ</a></li>
-          <li><a href="san-pham.html" class="nav-link is-active">Sản phẩm</a></li>
+          <li><a href="san-pham.html" class="nav-link active">Sản phẩm</a></li>
+          <li><a href="san-pham.html#combo" class="nav-link">Combo</a></li>
           <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
         </ul>
       </nav>
 
-      <!-- Nút tư vấn Facebook & Giỏ hàng -->
+      <!-- Nút tư vấn & đặt hàng nhanh qua Facebook Messenger -->
       <div class="nav-actions">
         <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="header-fb-btn" title="Nhắn tin với ScentPod qua Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -1224,7 +1224,7 @@
       </div>
 
       <!-- Nút Hamburger Mobile -->
-      <button class="menu-toggle" type="button" aria-label="Mở menu" aria-expanded="false">
+      <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
