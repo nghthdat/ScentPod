@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KZ96S61CF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KZ96S61CF');
+  </script>
+
+  <title>Trắc Nghiệm Kiến Thức | ScentPod &amp; n8n AI</title>
+  <meta name="description" content="Trang trắc nghiệm kiến thức tương tác tự động tạo câu hỏi qua n8n AI Webhook cho nền tảng thương mại điện tử ScentPod.">
+  
+  <!-- Favicon ScentPod chính thức -->
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+
+  <!-- CSS dùng chung -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .quiz-section {
+      padding: 3rem 0;
+      min-height: 70vh;
+    }
+    .quiz-panel {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 2.2rem;
+      border: 1px solid #ede3d8;
+      box-shadow: 0 10px 30px rgba(104, 72, 42, 0.06);
+    }
+    .quiz-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .quiz-header .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #fdf5ec;
+      color: #8C6239;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border: 1px solid #e8d7c4;
+    }
+    .quiz-config-box {
+      background: #faf7f4;
+      border: 1px solid #e8ded4;
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+      margin-bottom: 1.8rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 13.5px;
+      color: #443224;
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid #d9ccbe;
+      font-size: 14px;
+      background: #ffffff;
+      color: #333;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: #8C6239;
+      box-shadow: 0 0 0 3px rgba(140, 98, 57, 0.15);
+    }
+    .quiz-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.2rem;
+    }
+    .btn-quiz {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-quiz-primary {
+      background: #68482A;
+      color: #ffffff;
+    }
+    .btn-quiz-primary:hover {
+      background: #523820;
+    }
+    .btn-quiz-secondary {
+      background: #f1e9e0;
+      color: #5c4127;
+    }
+    .btn-quiz-secondary:hover {
+      background: #e4d7ca;
+    }
+    .btn-quiz:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+    .question-card {
+      background: #ffffff;
+      border: 1px solid #e8ded4;
+      border-radius: 12px;
+      padding: 1.4rem;
+      margin-bottom: 1.2rem;
+      transition: border-color 0.2s;
+    }
+    .question-card.highlight {
+      border-left: 4px solid #8C6239;
+    }
+    .question-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #2b1f15;
+      margin: 0 0 14px 0;
+      line-height: 1.45;
+    }
+    .option-row {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border: 1px solid #ebd9c8;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #faf7f4;
+      transition: all 0.15s ease;
+      font-size: 14.5px;
+    }
+    .option-row:hover {
+      background: #f4ecdf;
+      border-color: #8C6239;
+    }
+    .option-row input[type="radio"] {
+      margin-right: 12px;
+      accent-color: #68482A;
+      width: 17px;
+      height: 17px;
+    }
+    .option-row.correct-ans {
+      background: #e8f5e9 !important;
+      border-color: #4caf50 !important;
+      color: #1b5e20 !important;
+      font-weight: 600;
+    }
+    .option-row.wrong-ans {
+      background: #ffebee !important;
+      border-color: #ef5350 !important;
+      color: #b71c1c !important;
+    }
+    .explanation-box {
+      margin-top: 12px;
+      padding: 10px 14px;
+      background: #fff8e8;
+      border-left: 3px solid #ffb300;
+      border-radius: 6px;
+      font-size: 13.5px;
+      color: #6d4c00;
+      display: none;
+    }
+    .score-banner {
+      background: linear-gradient(135deg, #fdf5ec, #f5e8d8);
+      border: 2px dashed #8C6239;
+      border-radius: 12px;
+      padding: 1.6rem;
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+    .score-banner h3 {
+      color: #68482A;
+      font-size: 24px;
+      margin: 0 0 6px 0;
+    }
+    .status-msg {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-size: 14px;
+      display: none;
+    }
+    .status-msg.error {
+      display: block;
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #ffcdd2;
+    }
+    .status-msg.info {
+      display: block;
+      background: #e3f2fd;
+      color: #1565c0;
+      border: 1px solid #bbdefb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       THANH ĐIỀU HƯỚNG CHÍNH (HEADER)
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
+        <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
+        <span>Scent<span class="accent">Pod</span></span>
+      </a>
+
+      <nav aria-label="Điều hướng chính">
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
+          <li><a href="san-pham.html" class="nav-link">Sản phẩm</a></li>
+          <li><a href="san-pham.html#combo" class="nav-link">Combo</a></li>
+          <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
+          <li><a href="trac-nghiem.html" class="nav-link active">Trắc nghiệm AI</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="nav-cart-label">Giỏ hàng</span>
+          <span class="cart-badge" id="header-cart-badge">0</span>
+        </button>
+
+        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="header-fb-btn" title="Nhắn tin với ScentPod qua Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
+          </svg>
+          <span class="header-fb-label">Tư vấn Messenger</span>
+        </a>
+      </div>
+
+      <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       PHẦN NỘI DUNG CHÍNH: TRẮC NGHIỆM AI N8N
+       ======================================================================== -->
+  <main class="quiz-section">
+    <div class="container">
+      <div class="quiz-panel">
+        
+        <div class="quiz-header">
+          <span class="badge">n8n Automation &amp; AI Workflow</span>
+          <h1 style="color: #68482A; margin: 0 0 8px 0; font-size: 26px;">Bộ Câu Hỏi Trắc Nghiệm ScentPod</h1>
+          <p style="color: #666; margin: 0; font-size: 15px;">Kết nối trực tiếp tới n8n Webhook để tự động tạo bộ 5 câu hỏi trắc nghiệm tương tác.</p>
+        </div>
+
+        <!-- Cấu hình Webhook & Chủ đề -->
+        <div class="quiz-config-box">
+          <div class="form-group">
+            <label for="webhookUrl">🔗 Đường dẫn Webhook n8n (Test hoặc Production URL):</label>
+            <input type="url" id="webhookUrl" class="form-control" value="https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi" placeholder="https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi">
+          </div>
+
+          <div class="form-group">
+            <label for="chuDe">💡 Chủ đề trắc nghiệm:</label>
+            <input type="text" id="chuDe" class="form-control" value="Nền tảng thương mại điện tử ScentPod">
+          </div>
+
+          <div class="quiz-actions">
+            <button type="button" id="btnGoiN8n" class="btn-quiz btn-quiz-primary" onclick="guiYeuCauTaoCauHoi()">
+              🚀 Gửi yêu cầu sang n8n
+            </button>
+            <button type="button" class="btn-quiz btn-quiz-secondary" onclick="taiDuLieuMau()">
+              🧪 Chạy thử dữ liệu mẫu (Demo Mock)
+            </button>
+          </div>
+
+          <div id="statusMsg" class="status-msg"></div>
+        </div>
+
+        <!-- Vùng hiển thị câu hỏi và nộp bài -->
+        <div id="quizContent"></div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- ========================================================================
+       CHÂN TRANG (FOOTER)
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div class="brand-logo footer-logo">
+          <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
+          <span>Scent<span class="accent">Pod</span></span>
+        </div>
+        <ul class="footer-nav">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="san-pham.html">Sản phẩm</a></li>
+          <li><a href="ve-chung-toi.html">Về chúng tôi</a></li>
+          <li><a href="trac-nghiem.html">Trắc nghiệm</a></li>
+          <li><a href="#" data-fb>Facebook</a></li>
+        </ul>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 ScentPod. Made with love by sinh viên.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Tệp JS xử lý sự kiện website -->
+  <script src="js/main.js"></script>
+
+  <!-- SCRIPT XỬ LÝ N8N & QUIZ -->
+  <script>
+    // Tự động khôi phục URL Webhook đã lưu trong LocalStorage nếu có
+    const savedUrl = localStorage.getItem("scentpod_n8n_url");
+    if (savedUrl) {
+      document.getElementById("webhookUrl").value = savedUrl;
+    }
+
+    let questionsData = [];
+
+    function setStatus(text, type = "info") {
+      const box = document.getElementById("statusMsg");
+      if (!text) {
+        box.style.display = "none";
+        return;
+      }
+      box.className = `status-msg ${type}`;
+      box.innerHTML = text;
+      box.style.display = "block";
+    }
+
+    async function guiYeuCauTaoCauHoi() {
+      const webhookUrlInput = document.getElementById("webhookUrl");
+      const chuDeInput = document.getElementById("chuDe");
+      const btn = document.getElementById("btnGoiN8n");
+      const quizContent = document.getElementById("quizContent");
+
+      const webhookUrl = webhookUrlInput.value.trim();
+      const chuDe = chuDeInput.value.trim() || "Nền tảng thương mại điện tử ScentPod";
+
+      if (!webhookUrl) {
+        setStatus("⚠️ Vui lòng dán link Webhook n8n của bạn vào ô trên, hoặc bấm 'Chạy thử dữ liệu mẫu' để xem trước!", "error");
+        webhookUrlInput.focus();
+        return;
+      }
+
+      // Lưu lại URL để lần sau không cần nhập lại
+      localStorage.setItem("scentpod_n8n_url", webhookUrl);
+
+      const payload = {
+        chuDe: chuDe,
+        yeuCau: "Tạo bộ 5 câu hỏi trắc nghiệm",
+        time: new Date().toISOString()
+      };
+
+      btn.disabled = true;
+      btn.innerText = "⏳ Đang kết nối n8n & chờ AI tạo câu hỏi...";
+      setStatus("🔄 Đang gửi request sang n8n... Vui lòng đợi trong giây lát...", "info");
+      quizContent.innerHTML = "";
+
+      try {
+        const response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+        }
+
+        const rawText = await response.text();
+        let result;
+        try {
+          result = JSON.parse(rawText);
+        } catch {
+          result = rawText;
+        }
+
+        console.log("n8n đã phản hồi:", result);
+        setStatus("✅ n8n đã phản hồi thành công!", "info");
+
+        // Parse danh sách câu hỏi
+        let list = [];
+        if (Array.isArray(result)) {
+          list = result;
+        } else if (result.questions && Array.isArray(result.questions)) {
+          list = result.questions;
+        } else if (result.cauHoi && Array.isArray(result.cauHoi)) {
+          list = result.cauHoi;
+        } else if (typeof result === "string") {
+          // Thử parse nếu n8n trả về chuỗi JSON
+          try {
+            const parsed = JSON.parse(result.replace(/```json/gi, '').replace(/```/g, '').trim());
+            list = Array.isArray(parsed) ? parsed : (parsed.questions || []);
+          } catch (e) {
+            console.warn("Không parse được chuỗi thành JSON questions");
+          }
+        }
+
+        if (list.length > 0) {
+          questionsData = list;
+          renderQuiz(questionsData);
+        } else {
+          quizContent.innerHTML = `
+            <div style="background: #faf7f4; padding: 20px; border-radius: 10px; border: 1px solid #ebd9c8;">
+              <h4 style="margin: 0 0 10px; color: #68482A;">Phản hồi từ n8n (chưa đúng định dạng mảng câu hỏi):</h4>
+              <pre style="white-space: pre-wrap; font-size: 13px; color: #333; background: #fff; padding: 12px; border-radius: 6px;">${typeof result === 'object' ? JSON.stringify(result, null, 2) : result}</pre>
+              <p style="font-size: 13px; color: #777; margin: 10px 0 0;">💡 Mẹo: Đảm bảo node cuối cùng trong n8n là <strong>Respond to Webhook</strong> trả về mảng 5 câu hỏi JSON.</p>
+            </div>
+          `;
+        }
+
+      } catch (error) {
+        console.error("Lỗi kết nối tới n8n:", error);
+        setStatus(`❌ Lỗi kết nối tới n8n: <strong>${error.message}</strong>.<br><small>Nếu chạy trên trình duyệt khác domain, hãy đảm bảo node Webhook n8n đã bật <em>Allowed Origins: *</em> trong mục Options.</small>`, "error");
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "🚀 Gửi yêu cầu sang n8n";
+      }
+    }
+
+    // Bộ câu hỏi mẫu để test giao diện ngay lập tức
+    function taiDuLieuMau() {
+      setStatus("🧪 Đang hiển thị bộ 5 câu hỏi mẫu về thương hiệu ScentPod!", "info");
+      questionsData = [
+        {
+          id: 1,
+          question: "Thương hiệu ScentPod chuyên cung cấp dòng sản phẩm cốt lõi nào?",
+          options: [
+            "Nước hoa cao cấp nhập khẩu từ Pháp",
+            "Nến thơm handmade sáp đậu nành & sáp thơm bỏ túi cho sinh viên",
+            "Máy khuếch tán tinh dầu công nghiệp công suất lớn",
+            "Mỹ phẩm dưỡng da thiên nhiên"
+          ],
+          correct: 1,
+          explanation: "ScentPod định vị là thương hiệu nến thơm handmade từ sáp đậu nành lành tính và sáp thơm bỏ túi nhỏ gọn với giá thành sinh viên."
+        },
+        {
+          id: 2,
+          question: "Thành phần sáp chính được ScentPod ưu tiên sử dụng trong các sản phẩm nến là gì?",
+          options: [
+            "Sáp Paraffin công nghiệp tạo khói đen",
+            "Sáp ong nguyên chất chưa tinh chế",
+            "Sáp đậu nành thiên nhiên an toàn, sạch khói",
+            "Sáp tổng hợp hoá học"
+          ],
+          correct: 2,
+          explanation: "ScentPod sử dụng sáp đậu nành tự nhiên giúp nến cháy đều, sạch khói và an toàn cho không gian phòng trọ sinh viên."
+        },
+        {
+          id: 3,
+          question: "Bộ sưu tập 'Sáp thơm bỏ túi' của ScentPod phù hợp nhất với nhu cầu nào?",
+          options: [
+            "Khuếch tán thơm phòng hội nghị 100m²",
+            "Treo tủ quần áo, đặt góc bàn học, túi xách nhỏ gọn tiện lợi",
+            "Dùng thay thế nến thắp sáng ban đêm",
+            "Làm chất tẩy rửa phòng ốc"
+          ],
+          correct: 1,
+          explanation: "Sáp thơm bỏ túi của ScentPod thiết kế nhỏ gọn, thích hợp treo tủ quần áo, để trong balo hoặc góc bàn học mà không cần đốt lửa."
+        },
+        {
+          id: 4,
+          question: "Thông điệp và sứ mệnh cốt lõi của dự án sinh viên ScentPod là gì?",
+          options: [
+            "Độc quyền sản phẩm xa xỉ cho giới thượng lưu",
+            "Thắp một mùi hương, giữ trọn một góc bình yên cho căn phòng trọ sinh viên",
+            "Cung cấp thiết bị điện gia dụng thông minh",
+            "Dịch vụ spa và trị liệu cao cấp"
+          ],
+          correct: 1,
+          explanation: "Sứ mệnh của ScentPod là mang lại những phút giây thư giãn, bình yên sau giờ học tập, làm việc căng thẳng với mức giá cực kỳ dễ tiếp cận."
+        },
+        {
+          id: 5,
+          question: "Khi mua hàng tại ScentPod, khách hàng có thể nhận tư vấn mùi hương nhanh nhất qua kênh nào?",
+          options: [
+            "Gửi thư tay qua đường bưu điện",
+            "Đến trực tiếp trụ sở nước ngoài",
+            "Nhắn tin trực tiếp qua Fanpage Facebook / Messenger",
+            "Gọi điện đến tổng đài quốc tế có tính phí cao"
+          ],
+          correct: 2,
+          explanation: "ScentPod tích hợp nút tư vấn Messenger trực tiếp trên toàn bộ website để hỗ trợ sinh viên nhanh chóng và tiện lợi 24/7."
+        }
+      ];
+
+      renderQuiz(questionsData);
+    }
+
+    function renderQuiz(list) {
+      const container = document.getElementById("quizContent");
+      let html = `<div style="margin-top: 2rem;"><form id="quizForm">`;
+
+      list.forEach((q, idx) => {
+        html += `
+          <div class="question-card highlight" id="card_${idx}">
+            <div class="question-title">Câu ${idx + 1}: ${q.question}</div>
+            <div>
+              ${q.options.map((opt, optIdx) => `
+                <label class="option-row" id="label_${idx}_${optIdx}">
+                  <input type="radio" name="cau_${idx}" value="${optIdx}">
+                  <span>${opt}</span>
+                </label>
+              `).join('')}
+            </div>
+            <div class="explanation-box" id="exp_${idx}"></div>
+          </div>
+        `;
+      });
+
+      html += `
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <button type="button" class="btn-quiz btn-quiz-primary" onclick="chamDiem()">
+            📝 Nộp bài &amp; Xem kết quả
+          </button>
+        </div>
+      </form></div>`;
+
+      container.innerHTML = html;
+      container.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function chamDiem() {
+      let score = 0;
+      let total = questionsData.length;
+      let unselected = 0;
+
+      questionsData.forEach((q, idx) => {
+        const selected = document.querySelector(`input[name="cau_${idx}"]:checked`);
+        const expBox = document.getElementById(`exp_${idx}`);
+
+        // Reset màu cũ
+        q.options.forEach((_, optIdx) => {
+          const lbl = document.getElementById(`label_${idx}_${optIdx}`);
+          if (lbl) {
+            lbl.classList.remove("correct-ans", "wrong-ans");
+          }
+        });
+
+        if (selected) {
+          const userAns = parseInt(selected.value, 10);
+          if (userAns === q.correct) {
+            score++;
+            document.getElementById(`label_${idx}_${userAns}`).classList.add("correct-ans");
+          } else {
+            document.getElementById(`label_${idx}_${userAns}`).classList.add("wrong-ans");
+            if (document.getElementById(`label_${idx}_${q.correct}`)) {
+              document.getElementById(`label_${idx}_${q.correct}`).classList.add("correct-ans");
+            }
+          }
+        } else {
+          unselected++;
+          if (document.getElementById(`label_${idx}_${q.correct}`)) {
+            document.getElementById(`label_${idx}_${q.correct}`).classList.add("correct-ans");
+          }
+        }
+
+        if (q.explanation && expBox) {
+          expBox.style.display = "block";
+          expBox.innerHTML = `💡 <strong>Giải thích:</strong> ${q.explanation}`;
+        }
+      });
+
+      // Tạo banner kết quả
+      const existingBanner = document.getElementById("scoreResultBanner");
+      if (existingBanner) existingBanner.remove();
+
+      const banner = document.createElement("div");
+      banner.id = "scoreResultBanner";
+      banner.className = "score-banner";
+      
+      let message = "Cảm ơn bạn đã tham gia làm trắc nghiệm cùng ScentPod!";
+      if (score === total) {
+        message = "🌟 Xuất sắc! Bạn đạt điểm tuyệt đối 100% kiến thức về ScentPod!";
+      } else if (score >= total * 0.6) {
+        message = "👏 Khá lắm! Bạn hiểu rất rõ về tinh thần và sản phẩm ScentPod.";
+      } else {
+        message = "✨ Hãy xem lại các đáp án được tô xanh và phần giải thích chi tiết bên dưới nhé!";
+      }
+
+      banner.innerHTML = `
+        <h3>🎉 Kết Quả: ${score}/${total} Câu Đúng</h3>
+        <p style="margin: 0; color: #555; font-size: 15px;">${message}</p>
+        ${unselected > 0 ? `<small style="color: #c62828; display: block; margin-top: 6px;">(Lưu ý: Có ${unselected} câu bạn chưa chọn đáp án)</small>` : ''}
+      `;
+
+      const form = document.getElementById("quizForm");
+      form.insertBefore(banner, form.firstChild);
+      banner.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  </script>
+</body>
+</html>
