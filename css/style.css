@@ -6050,3 +6050,208 @@ input:focus-visible {
   color: var(--text-primary);
   font-size: 0.85rem;
 }
+
+
+/* ==========================================================================
+   TỐI ƯU HÓA ĐỢT 2: ĐỒNG BỘ MÀU VÀNG ẤM, CĂN ĐÁY THẺ, POPUP STICKY & HERO 2 CỘT
+   ========================================================================== */
+
+/* 1. Hero 2 cột cân đối: Chữ bên trái, Ảnh sản phẩm nổi bật bên phải */
+.hero-layout-2col {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 3.5rem;
+  align-items: center;
+  text-align: left;
+}
+
+@media (max-width: 992px) {
+  .hero-layout-2col {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
+  }
+  .hero-layout-2col .hero-actions {
+    justify-content: center;
+  }
+}
+
+.hero-showcase-box {
+  position: relative;
+  border-radius: 18px;
+  padding: 12px;
+  background: radial-gradient(circle at 50% 50%, rgba(201, 162, 107, 0.15) 0%, rgba(18, 14, 12, 0.95) 75%);
+  border: 1px solid rgba(201, 162, 107, 0.35);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(201, 162, 107, 0.18);
+}
+
+.hero-showcase-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.hero-showcase-tag {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  background: rgba(13, 11, 10, 0.9);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+}
+
+/* 2. Căn đáy thẻ sản phẩm & Nút Hỏi mua Facebook toàn chiều rộng */
+.product-grid {
+  align-items: stretch;
+}
+
+.product-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.product-info {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-grow: 1 !important;
+}
+
+.product-actions-column {
+  margin-top: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  width: 100% !important;
+  padding-top: 12px;
+  border-top: 1px solid rgba(201, 162, 107, 0.12);
+}
+
+.btn-open-detail-full {
+  width: 100% !important;
+  padding: 8px 14px !important;
+  font-size: 0.84rem !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.04) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-secondary) !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  min-height: 40px !important;
+}
+
+.btn-open-detail-full:hover {
+  background: rgba(201, 162, 107, 0.12) !important;
+  border-color: var(--accent-gold) !important;
+  color: var(--accent-gold) !important;
+}
+
+/* 3. Thống nhất toàn bộ nút Mua / Hỏi mua sang màu Vàng ấm sang trọng (loại bỏ màu xanh lệch tone) */
+.btn-buy-fb,
+.btn-inbox-order,
+.btn-detail-buy-now {
+  width: 100% !important;
+  background: linear-gradient(135deg, #d4a762 0%, #b8863b 100%) !important;
+  color: #120e0c !important;
+  font-weight: 700 !important;
+  border: 1px solid rgba(229, 169, 59, 0.6) !important;
+  box-shadow: 0 4px 15px rgba(201, 162, 107, 0.25) !important;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 10px 16px !important;
+  border-radius: 8px !important;
+  font-size: 0.88rem !important;
+  transition: all 0.25s ease !important;
+  min-height: 44px !important;
+  cursor: pointer !important;
+}
+
+.btn-buy-fb svg,
+.btn-inbox-order svg,
+.btn-detail-buy-now svg {
+  fill: currentColor !important;
+  flex-shrink: 0;
+}
+
+.btn-buy-fb:hover,
+.btn-inbox-order:hover,
+.btn-detail-buy-now:hover {
+  background: linear-gradient(135deg, #e5b974 0%, #c9974c 100%) !important;
+  color: #0d0a08 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(201, 162, 107, 0.42) !important;
+}
+
+/* 4. Cải tiến Popup Modal: Nút đóng cố định, Nút mua ngay dưới giá & thanh sticky đáy */
+.scent-modal-container {
+  position: relative;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.scent-modal-close {
+  position: absolute !important;
+  top: 14px !important;
+  right: 16px !important;
+  z-index: 100 !important;
+  background: rgba(18, 14, 12, 0.85) !important;
+  border: 1px solid var(--accent-gold) !important;
+  color: var(--accent-gold) !important;
+  width: 38px !important;
+  height: 38px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5) !important;
+}
+
+.scent-modal-close:hover {
+  background: var(--accent-gold) !important;
+  color: #120e0c !important;
+}
+
+.modal-cta-immediate {
+  margin: 1rem 0 1.4rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-sticky-bar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(19, 15, 12, 0.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-gold);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 50;
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  .modal-sticky-bar {
+    flex-direction: column;
+    padding: 10px 14px;
+    gap: 8px;
+  }
+}
