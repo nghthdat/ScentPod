@@ -10,12 +10,11 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-1KZ96S61CF');
   </script>
 
-  <title>Về Chúng Tôi | ScentPod - Câu Chuyện Nhóm Sinh Viên</title>
-  <meta name="description" content="Tìm hiểu câu chuyện của ScentPod - Dự án nến thơm và sáp thơm handmade của nhóm sinh viên khởi nguồn từ những góc trọ nhỏ, mang hương thơm bình yên và giá thành dễ tiếp cận.">
+  <title>Về ScentPod | Câu Chuyện Dự Án Nến Thơm Người Trẻ</title>
+  <meta name="description" content="Tìm hiểu câu chuyện của ScentPod - Dự án nến thơm 50g thủ công từ sáp đậu nành thiên nhiên của nhóm bạn trẻ, mang hương thơm bình yên và mức giá dễ tiếp cận.">
   
   <!-- Favicon ScentPod chính thức -->
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
@@ -23,7 +22,7 @@
   <!-- CSS dùng chung -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Vercel Web Analytics (Tương đương thẻ <Analytics/> cho mã nguồn HTML) -->
+  <!-- Vercel Web Analytics -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
@@ -32,49 +31,36 @@
 <body>
 
   <!-- ========================================================================
-       THANH ĐIỀU HƯỚNG CHÍNH (HEADER - DÙNG CHUNG CẢ 3 TRANG)
+       THANH ĐIỀU HƯỚNG CHÍNH (HEADER)
        ======================================================================== -->
   <header class="site-header">
     <div class="nav-container">
-      <!-- 1. Tên Thương hiệu -->
+      <!-- 1. Logo ScentPod -->
       <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
         <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
         <span>Scent<span class="accent">Pod</span></span>
       </a>
 
-      <!-- 2, 3, 4, 5. Menu điều hướng: Trang chủ - Sản phẩm - Combo - Về chúng tôi -->
+      <!-- 2. Menu điều hướng: Về ScentPod - Mùi hương - Cách đặt hàng -->
       <nav aria-label="Điều hướng chính">
         <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
-          <li><a href="san-pham.html" class="nav-link">Sản phẩm</a></li>
-          <li><a href="san-pham.html#combo" class="nav-link">Combo</a></li>
-          <li><a href="ve-chung-toi.html" class="nav-link active">Về chúng tôi</a></li>
+          <li><a href="ve-chung-toi.html" class="nav-link active">Về ScentPod</a></li>
+          <li><a href="san-pham.html" class="nav-link">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang" class="nav-link">Cách đặt hàng</a></li>
         </ul>
       </nav>
 
-      <!-- 6, 7. Cụm nút hành động góc phải: Giỏ hàng (kèm số lượng) và Nút Tư vấn Messenger / Hỗ trợ -->
+      <!-- 3. Nút hành động góc phải: Nhắn Facebook -->
       <div class="nav-actions">
-        <!-- Biểu tượng Giỏ hàng (kèm số lượng) -->
-        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-          <span class="nav-cart-label">Giỏ hàng</span>
-          <span class="cart-badge" id="header-cart-badge">0</span>
-        </button>
-
-        <!-- Nút Tư vấn Messenger / Hỗ trợ -->
-        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="header-fb-btn" title="Nhắn tin với ScentPod qua Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="header-fb-btn" data-fb-cta="header" title="Nhắn tin với ScentPod qua Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
           </svg>
-          <span class="header-fb-label">Tư vấn Messenger</span>
+          <span class="header-fb-label">Nhắn Facebook</span>
         </a>
       </div>
 
-      <!-- Nút Hamburger Mobile -->
+      <!-- 4. Nút Hamburger Mobile -->
       <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -84,15 +70,16 @@
   </header>
 
   <!-- ========================================================================
-       NỘI DUNG CHÍNH (MAIN CONTENT)
+       NỘI DUNG CHÍNH (MAIN)
        ======================================================================== -->
-  <main class="section-padding" style="padding-top: calc(var(--header-height) + 3.5rem);">
+  <main class="section-padding" style="padding-top: calc(var(--header-height) + 3.5rem); padding-bottom: 5rem;">
     <div class="container">
 
       <!-- ====================================================================
-           CÂU CHUYỆN CỦA SCENTPOD (STORY)
+           CÂU CHUYỆN CỦA SCENTPOD
            ==================================================================== -->
       <div style="text-align: center; margin-bottom: 2.5rem;">
+        <span class="product-category-tag reveal-on-scroll">Hành Trình Khởi Nghiệp</span>
         <h1 class="section-title reveal-on-scroll">Câu chuyện của ScentPod</h1>
       </div>
 
@@ -101,16 +88,16 @@
         <div class="story-grid">
           <div class="story-content-col">
             <p class="story-lead">
-              “Có những mùi hương không chỉ ở lại trong căn phòng nơi nó được thắp lên. Nó theo ta ra khỏi cửa, bám vào tà áo, len vào trí nhớ, và có khi chỉ một thoáng thôi cũng đủ khiến ta nhớ về một buổi tối yên ả nào đó, khi ngoài kia trời mưa còn trong này ánh nến vẫn dịu dàng cháy.”
+              “Có những mùi hương không chỉ ở lại trong căn phòng nơi nó được thắp lên. Nó theo ta ra khỏi cửa, bám vào tà áo, len vào trí nhớ, và có khi chỉ một thoáng thôi cũng đủ khiến ta nhớ về một buổi tối yên ả nào đó bên trang sách.”
             </p>
             <p class="story-text">
-              ScentPod bắt đầu từ chính những buổi tối như thế. Tụi mình là nhóm sinh viên, cũng từng xa nhà, cũng từng ngồi trong một căn phòng trọ nhỏ, nơi chiếc áo còn vương mùi đồ nướng trước giờ vào lớp, nơi góc học tập ẩm ẩm sau những ngày mưa kéo dài. Và tụi mình nhận ra rằng, đôi khi điều ta cần không phải một căn phòng rộng hơn, mà chỉ là một mùi hương dễ chịu để căn phòng ấy thật sự trở thành nhà.
+              ScentPod bắt đầu từ chính những buổi tối như thế. Tụi mình là nhóm những người trẻ, cũng từng xa nhà, cũng từng ngồi trong một căn phòng trọ nhỏ sau giờ học, nơi góc học tập đôi khi mang cảm giác ẩm lạnh sau những ngày mưa kéo dài. Và tụi mình nhận ra rằng, đôi khi điều ta cần không phải một căn phòng rộng hơn, mà chỉ là một mùi hương dễ chịu để góc học bài ấy thật sự trở nên ấm áp và bình yên.
             </p>
             <p class="story-text">
-              Từ đó, tụi mình bắt tay vào làm. Từng công thức được thử đi thử lại, từng loại sáp đậu nành, sáp ong và tinh dầu được chọn lựa kỹ càng, để mỗi cây nến thơm mini và mỗi hũ sáp thơm bỏ túi đều mang một tính cách riêng: có mùi tươi mát cho buổi sáng đến lớp, có mùi ngọt dịu cho ngày hẹn hò, có mùi ấm trầm cho những đêm thức khuya bên trang sách. Tất cả đều nhỏ gọn, thủ công, và có mức giá vừa với túi tiền sinh viên, bởi tụi mình tin rằng sự dễ chịu không nên là điều xa xỉ.
+              Từ đó, tụi mình bắt tay vào làm nến. Từng mẻ sáp đậu nành thiên nhiên được chọn lựa kỹ lưỡng, từng sợi bấc cotton được căn chỉnh chuẩn xác để ngọn lửa cháy êm dịu, cho ra đời dòng nến thơm 50g với 4 nốt hương đặc trưng: có mùi thanh mát cho buổi sáng tập trung, có mùi ngọt dịu cho những phút giây thư thái, có nốt hương khoáng biển tự do và mùi gỗ ấm trầm cho những đêm thức khuya học bài.
             </p>
             <p class="story-text">
-              Tụi mình mong rằng mỗi hũ sáp được mở ra, mỗi ngọn nến được thắp lên sẽ không chỉ làm thơm một góc phòng. Mong mùi hương ấy theo bạn đến giảng đường, đến những buổi hẹn, đến những ngày mệt mỏi xa nhà, để bạn thấy mình được vỗ về một chút. Và mong rằng khi bạn chia sẻ nó cho một người bạn, một người thân, hay một ai đó đang cần chút bình yên, mùi hương ấy sẽ lại tiếp tục lan đi, từ căn phòng này sang căn phòng khác, từ trái tim này sang trái tim khác.
+              Tụi mình mong rằng mỗi ngọn nến ScentPod thắp lên sẽ vỗ về tâm trí bạn sau những giờ học tập và làm việc mệt mỏi. Bởi tụi mình tin rằng, sự dễ chịu và một góc bình yên trong tâm hồn không bao giờ nên là điều xa xỉ đối với người trẻ.
             </p>
           </div>
           <div class="story-image-col">
@@ -128,7 +115,7 @@
         <!-- Biểu tượng Thương hiệu Chính Thức ScentPod -->
         <div class="brand-identity-card" style="margin-top: 3rem; background: linear-gradient(135deg, rgba(22, 25, 34, 0.95), rgba(12, 14, 20, 0.95)); border: 1px solid rgba(229, 169, 59, 0.25); border-radius: 16px; padding: 2.2rem; display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap; box-shadow: 0 12px 40px rgba(0,0,0,0.5);">
           <div style="flex-shrink: 0; text-align: center;">
-            <img src="images/scentpod-logo-badge.png" alt="ScentPod Brand Seal Badge" style="width: 140px; height: 140px; object-fit: cover; border-radius: 50%; box-shadow: 0 8px 30px rgba(229, 169, 59, 0.35); border: 2px solid rgba(229, 169, 59, 0.4); display: block;">
+            <img src="images/scentpod-logo-badge.png" alt="ScentPod Brand Seal Badge" style="width: 130px; height: 130px; object-fit: cover; border-radius: 50%; box-shadow: 0 8px 30px rgba(229, 169, 59, 0.35); border: 2px solid rgba(229, 169, 59, 0.4); display: block;">
             <span style="display: block; margin-top: 0.6rem; font-size: 0.78rem; color: var(--accent-gold); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600;">Dấu Ấn Thủ Công</span>
           </div>
           <div style="max-width: 520px;">
@@ -142,11 +129,12 @@
       </div>
 
       <!-- ====================================================================
-           GIÁ TRỊ CỦA TỤI MÌNH (CORE VALUES)
+           GIÁ TRỊ CỦA TỤI MÌNH
            ==================================================================== -->
       <div style="text-align: center; margin: 4.5rem 0 2rem 0;">
+        <span class="product-category-tag reveal-on-scroll">Triết Lý Sản Phẩm</span>
         <h2 class="section-title reveal-on-scroll">Giá Trị Của Tụi Mình</h2>
-        <p class="section-subtitle reveal-on-scroll">Ba nguyên tắc đơn giản mà ScentPod luôn gìn giữ trong từng mẻ sáp.</p>
+        <p class="section-subtitle reveal-on-scroll">Ba nguyên tắc đơn giản mà ScentPod luôn gìn giữ trong từng mẻ nến.</p>
       </div>
 
       <div class="values-grid">
@@ -154,35 +142,35 @@
         <div class="value-item reveal-on-scroll">
           <div class="value-number">01</div>
           <h3>Handmade</h3>
-          <p>Từng hũ nến được đúc tay tỉ mỉ, chăm chút từ khâu đo nhiệt độ sáp đến cắt tỉa từng sợi bấc bọc cotton.</p>
+          <p>Từng hũ nến được đúc tay tỉ mỉ, chăm chút từ khâu đo nhiệt độ sáp đậu nành đến cắt tỉa từng sợi bấc cotton sạch.</p>
         </div>
 
         <!-- Giá trị 2: Nguyên liệu an toàn -->
         <div class="value-item reveal-on-scroll">
           <div class="value-number">02</div>
           <h3>Nguyên liệu an toàn</h3>
-          <p>Chỉ dùng sáp thực vật tự nhiên lành tính, không pha paraffin, không khói đen độc hại, an toàn tuyệt đối cho phòng kín.</p>
+          <p>Sáp đậu nành thiên nhiên lành tính và tinh dầu thực vật an toàn, bấc cotton sạch, mang lại hương thơm dễ chịu cho không gian học tập.</p>
         </div>
 
         <!-- Giá trị 3: Giá sinh viên -->
         <div class="value-item reveal-on-scroll">
           <div class="value-number">03</div>
           <h3>Giá sinh viên</h3>
-          <p>Tối giản tối đa chi phí bao bì cầu kỳ để tập trung vào chất lượng hương thơm, giữ mức giá êm ái nhất cho người trẻ.</p>
+          <p>Tối giản chi phí bao bì cầu kỳ để tập trung vào chất lượng hương thơm, giữ mức giá 85.000đ/hũ vừa vặn nhất cho học sinh, sinh viên.</p>
         </div>
       </div>
 
       <!-- ====================================================================
-           THÀNH VIÊN NHÓM (TEAM MEMBERS)
+           THÀNH VIÊN NHÓM
            ==================================================================== -->
       <div style="text-align: center; margin: 4.5rem 0 2.5rem 0;">
+        <span class="product-category-tag reveal-on-scroll">Đội Ngũ ScentPod</span>
         <h2 class="section-title reveal-on-scroll">Thành Viên Nhóm</h2>
         <p class="section-subtitle reveal-on-scroll">Những người bạn cùng thắp lên ngọn lửa nhỏ ScentPod.</p>
       </div>
 
       <div class="team-grid">
         <!-- Thành viên 1: Nghiêm Thành Đạt -->
-        <!-- CHÚ THÍCH: Bạn có thể thay images/avatar-1.svg bằng ảnh chân dung thật bất cứ lúc nào -->
         <div class="team-card reveal-on-scroll">
           <div class="team-avatar">
             <img src="images/avatar-1.svg" alt="Nghiêm Thành Đạt - Trưởng Nhóm &amp; Thiết Kế" loading="lazy">
@@ -192,7 +180,6 @@
         </div>
 
         <!-- Thành viên 2: Khổng Đức Hiếu -->
-        <!-- CHÚ THÍCH: Bạn có thể thay images/avatar-2.svg bằng ảnh chân dung thật bất cứ lúc nào -->
         <div class="team-card reveal-on-scroll">
           <div class="team-avatar">
             <img src="images/avatar-2.svg" alt="Khổng Đức Hiếu - Nghiên Cứu &amp; Pha Chế Mùi Hương" loading="lazy">
@@ -202,7 +189,6 @@
         </div>
 
         <!-- Thành viên 3: Trương Quỳnh Anh -->
-        <!-- CHÚ THÍCH: Bạn có thể thay images/avatar-3.svg bằng ảnh chân dung thật bất cứ lúc nào -->
         <div class="team-card reveal-on-scroll">
           <div class="team-avatar">
             <img src="images/avatar-3.svg" alt="Trương Quỳnh Anh - Truyền Thông &amp; CSKH" loading="lazy">
@@ -212,7 +198,6 @@
         </div>
 
         <!-- Thành viên 4: Trần Thanh Lâm -->
-        <!-- CHÚ THÍCH: Bạn có thể thay images/avatar-4.svg bằng ảnh chân dung thật bất cứ lúc nào -->
         <div class="team-card reveal-on-scroll">
           <div class="team-avatar">
             <img src="images/avatar-4.svg" alt="Trần Thanh Lâm - Vận Hành &amp; Sản Xuất" loading="lazy">
@@ -223,32 +208,32 @@
       </div>
 
       <!-- ====================================================================
-           KHU VỰC LIÊN HỆ (CONTACT)
+           KHU VỰC LIÊN HỆ
            ==================================================================== -->
-      <div style="margin-top: 4rem;">
-        <div class="contact-card reveal-on-scroll">
-          <h2>Kết Nối Với Tụi Mình</h2>
-          <p style="margin-top: 0.5rem;">Bạn có thắc mắc về mùi hương hay muốn gửi lời nhắn tới nhóm? Tụi mình luôn ở đây sẵn sàng trò chuyện cùng bạn!</p>
+      <div style="margin-top: 4.5rem;">
+        <div class="contact-card reveal-on-scroll" style="text-align: center; max-width: 720px; margin: 0 auto; background: var(--bg-card); border: 1px solid var(--border-gold); border-radius: 16px; padding: 2.8rem 2rem;">
+          <h2 style="color: var(--text-primary); font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.6rem;">Kết Nối Với Tụi Mình</h2>
+          <p style="color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.8rem;">
+            Bạn có thắc mắc về mùi hương nến hay muốn gửi lời nhắn tới nhóm? Tụi mình luôn ở đây sẵn sàng trò chuyện cùng bạn!
+          </p>
 
-          <!-- CHÚ THÍCH: Bạn có thể sửa Email và Số điện thoại tại đây -->
-          <ul class="contact-info-list">
-            <li class="contact-info-item">
+          <ul class="contact-info-list" style="list-style: none; padding: 0; margin: 0 auto 2rem; max-width: 480px; text-align: left; display: flex; flex-direction: column; gap: 10px; font-size: 0.92rem; color: var(--text-secondary);">
+            <li class="contact-info-item" style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid var(--border-subtle);">
               <strong>Facebook:</strong> Nhắn tin trực tiếp qua Fanpage ScentPod
             </li>
-            <li class="contact-info-item">
+            <li class="contact-info-item" style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid var(--border-subtle);">
               <strong>Email:</strong> scentpod.candle@gmail.com
             </li>
-            <li class="contact-info-item">
-              <strong>Hotline / Zalo:</strong> 0987.654.321 (Hỗ trợ sinh viên 24/7)
+            <li class="contact-info-item" style="padding: 10px 14px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border: 1px solid var(--border-subtle);">
+              <strong>Hotline / Zalo:</strong> 0987.654.321 (Hỗ trợ người trẻ 24/7)
             </li>
           </ul>
 
-          <!-- Nút Facebook nhận link tập trung từ js/main.js -->
-          <a href="#" data-fb class="btn btn-primary btn-large">
+          <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="about_contact" class="btn btn-primary btn-large">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
             </svg>
-            Tư vấn qua Facebook
+            Nhắn Facebook tư vấn ngay
           </a>
         </div>
       </div>
@@ -259,11 +244,11 @@
   <!-- ========================================================================
        NÚT FACEBOOK NỔI CỐ ĐỊNH GÓC DƯỚI PHẢI
        ======================================================================== -->
-  <a href="#" data-fb class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
+  <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="floating" class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
     <svg viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
     </svg>
-    <span class="fb-text">Tư vấn ngay</span>
+    <span class="fb-text">Nhắn Facebook</span>
   </a>
 
   <!-- ========================================================================
@@ -277,14 +262,14 @@
           <span>Scent<span class="accent">Pod</span></span>
         </div>
         <ul class="footer-nav">
-          <li><a href="index.html">Trang chủ</a></li>
-          <li><a href="san-pham.html">Sản phẩm</a></li>
-          <li><a href="ve-chung-toi.html">Về chúng tôi</a></li>
-          <li><a href="#" data-fb>Facebook</a></li>
+          <li><a href="ve-chung-toi.html">Về ScentPod</a></li>
+          <li><a href="san-pham.html">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang">Cách đặt hàng</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="footer">Facebook</a></li>
         </ul>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 ScentPod. Made with love by sinh viên.</p>
+        <p>© 2026 ScentPod. Dự án nến thơm dành cho người trẻ.</p>
       </div>
     </div>
   </footer>

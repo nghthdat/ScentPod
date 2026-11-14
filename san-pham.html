@@ -10,12 +10,11 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-1KZ96S61CF');
   </script>
 
-  <title>Sản Phẩm | ScentPod - Nến Thơm &amp; Sáp Thơm Handmade</title>
-  <meta name="description" content="Danh mục sản phẩm nến thơm mini sáp đậu nành và sáp thơm bỏ túi ScentPod. Thủ công, lành tính, nhỏ gọn và giá sinh viên cho căn phòng trọ của bạn.">
+  <title>Mùi Hương Nến Thơm 50g | ScentPod</title>
+  <meta name="description" content="Danh mục 4 mùi hương nến thơm 50g ScentPod: First Class, Blind Date, Campus Breeze và Late Night. Đúc tay từ sáp đậu nành thiên nhiên, an toàn và giá ưu đãi HSSV.">
   
   <!-- Favicon ScentPod chính thức -->
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
@@ -23,7 +22,7 @@
   <!-- CSS dùng chung -->
   <link rel="stylesheet" href="css/style.css">
 
-  <!-- Vercel Web Analytics (Tương đương thẻ <Analytics/> cho mã nguồn HTML) -->
+  <!-- Vercel Web Analytics -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
@@ -32,49 +31,36 @@
 <body>
 
   <!-- ========================================================================
-       THANH ĐIỀU HƯỚNG CHÍNH (HEADER - DÙNG CHUNG CẢ 3 TRANG)
+       THANH ĐIỀU HƯỚNG CHÍNH (HEADER)
        ======================================================================== -->
   <header class="site-header">
     <div class="nav-container">
-      <!-- 1. Tên Thương hiệu -->
+      <!-- 1. Logo ScentPod -->
       <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
         <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
         <span>Scent<span class="accent">Pod</span></span>
       </a>
 
-      <!-- 2, 3, 4, 5. Menu điều hướng: Trang chủ - Sản phẩm - Combo - Về chúng tôi -->
+      <!-- 2. Menu điều hướng: Về ScentPod - Mùi hương - Cách đặt hàng -->
       <nav aria-label="Điều hướng chính">
         <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
-          <li><a href="san-pham.html" class="nav-link active">Sản phẩm</a></li>
-          <li><a href="#combo" class="nav-link">Combo</a></li>
-          <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
+          <li><a href="ve-chung-toi.html" class="nav-link">Về ScentPod</a></li>
+          <li><a href="san-pham.html" class="nav-link active">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang" class="nav-link">Cách đặt hàng</a></li>
         </ul>
       </nav>
 
-      <!-- 6, 7. Cụm nút hành động góc phải: Giỏ hàng (kèm số lượng) và Nút Tư vấn Messenger / Hỗ trợ -->
+      <!-- 3. Nút hành động góc phải: Nhắn Facebook -->
       <div class="nav-actions">
-        <!-- Biểu tượng Giỏ hàng (kèm số lượng) -->
-        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-          <span class="nav-cart-label">Giỏ hàng</span>
-          <span class="cart-badge" id="header-cart-badge">0</span>
-        </button>
-
-        <!-- Nút Tư vấn Messenger / Hỗ trợ -->
-        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="header-fb-btn" title="Nhắn tin với ScentPod qua Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="header-fb-btn" data-fb-cta="header" title="Nhắn tin với ScentPod qua Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
           </svg>
-          <span class="header-fb-label">Tư vấn Messenger</span>
+          <span class="header-fb-label">Nhắn Facebook</span>
         </a>
       </div>
 
-      <!-- Nút Hamburger Mobile -->
+      <!-- 4. Nút Hamburger Mobile -->
       <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -84,635 +70,200 @@
   </header>
 
   <!-- ========================================================================
-       TIÊU ĐỀ TRANG & DẪN NHẬP
+       NỘI DUNG CHÍNH (MAIN)
        ======================================================================== -->
-  <main class="section-padding" style="padding-top: calc(var(--header-height) + 3.5rem);">
+  <main class="section-padding" style="padding-top: calc(var(--header-height) + 3.5rem); padding-bottom: 5rem;">
     <div class="container">
       
-      <!-- Tiêu đề & Dẫn nhập theo yêu cầu -->
+      <!-- Tiêu đề & Dẫn nhập ngắn gọn -->
       <div style="text-align: center; margin-bottom: 3.5rem;">
-        <h1 class="section-title reveal-on-scroll">Sản phẩm của ScentPod</h1>
-        <p class="section-subtitle reveal-on-scroll">
-          Những hũ nến nhỏ và sáp thơm bỏ túi đúc tay từ sáp thực vật tự nhiên, mang hương thơm ấm êm đồng hành cùng bạn qua từng trang sách.
+        <span class="product-category-tag reveal-on-scroll">Danh Mục Nến 50g</span>
+        <h1 class="section-title reveal-on-scroll">Nến Thơm ScentPod 50g</h1>
+        <p class="section-subtitle reveal-on-scroll" style="max-width: 680px; margin: 0.5rem auto 0;">
+          Bộ sưu tập 4 mùi hương thủ công đúc từ sáp đậu nành tự nhiên, mang hương thơm ấm êm đồng hành cùng góc học tập và những khoảng nghỉ của bạn.
         </p>
       </div>
 
-      <!-- ====================================================================
-           KHU VỰC TÌM KIẾM THÔNG MINH AI & BỘ LỌC ĐA TIÊU CHÍ (LUXURY CONTROL CENTER)
-           ==================================================================== -->
-      <section class="ai-search-filter-section reveal-on-scroll" id="ai-search-filter-section" aria-label="Tìm kiếm thông minh AI và bộ lọc sản phẩm ScentPod">
+      <!-- LƯỚI 4 MÙI HƯƠNG HIỂN THỊ TRỰC TIẾP -->
+      <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.8rem;">
         
-        <!-- Header điều khiển & Tabs danh mục phân loại sang trọng -->
-        <div class="ai-control-header">
-          <div class="ai-control-title-box">
-            <span class="ai-control-tag"><span class="tag-icon">✨</span>SCENTPOD AI CONCIERGE</span>
-            <h2 class="ai-control-heading">Tìm Kiếm Thông Minh &amp; Trợ Lý Mùi Hương</h2>
-          </div>
-          <div class="category-filter-nav ai-control-tabs">
-            <button type="button" class="category-filter-btn is-active" data-filter="all"><span class="tag-icon">✨</span>Tất cả (7)</button>
-            <button type="button" class="category-filter-btn" data-filter="single"><span class="tag-icon">🕯️</span>Nến &amp; Sáp lẻ (4)</button>
-            <button type="button" class="category-filter-btn" data-filter="combo"><span class="tag-icon">🎁</span>Combo chiến lược (3)</button>
-          </div>
-        </div>
-
-        <!-- Thanh tìm kiếm thông minh AI -->
-        <div class="search-input-wrapper">
-          <div class="search-icon-box">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </div>
-          <input 
-            type="text" 
-            id="ai-product-search-input" 
-            class="ai-search-input" 
-            placeholder="Tìm theo tâm trạng (học bài, thức khuya, khử mùi), mùi hương (đào, trà, gỗ, muối biển), mã SP..." 
-            autocomplete="off"
-            aria-label="Tìm kiếm sản phẩm thông minh bằng AI"
-          />
-          <button type="button" id="clear-search-btn" class="clear-search-btn" title="Xóa từ khóa tìm kiếm" aria-label="Xóa từ khóa" style="display: none;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-          <div class="ai-search-badge">
-            <span class="ai-sparkle">✨</span>
-            <span>AI Search</span>
-          </div>
-
-          <!-- Dropdown Gợi Ý Trực Tiếp AI (Suggestions Popover) -->
-          <div class="ai-search-suggestions-popover" id="ai-search-suggestions" style="display: none;">
-            <div class="suggestions-header">
-              <span><span class="tag-icon">💡</span>Gợi ý tìm kiếm AI phổ biến:</span>
-              <span class="close-sugg-hint">Nhấn Esc để đóng</span>
-            </div>
-            <div class="suggestions-tags-row">
-              <span class="sugg-tag-item" data-query="tập trung học bài"><span class="tag-icon">📚</span>Tập trung học bài</span>
-              <span class="sugg-tag-item" data-query="thức khuya ôn thi"><span class="tag-icon">🌙</span>Thức khuya ôn thi</span>
-              <span class="sugg-tag-item" data-query="khử mùi phòng trọ"><span class="tag-icon">🌿</span>Khử mùi phòng trọ</span>
-              <span class="sugg-tag-item" data-query="ngọt ngào hẹn hò"><span class="tag-icon">🍑</span>Ngọt ngào hẹn hò</span>
-              <span class="sugg-tag-item" data-query="đồng giá ship 15k"><span class="tag-icon">🚚</span>Đồng giá ship 15k</span>
-              <span class="sugg-tag-item" data-query="dưới 50k"><span class="tag-icon">💰</span>Dưới 50k sinh viên</span>
-            </div>
-            <div class="suggestions-products-list" id="sugg-products-list"></div>
-          </div>
-        </div>
-
-        <!-- Hàng Từ khóa AI gợi ý thông minh (Dạng thanh cuộn ngang 1 dòng mượt mà / Vuốt chạm trên Mobile) -->
-        <div class="ai-keywords-cloud" id="ai-keywords-cloud">
-          <div class="ai-keywords-cloud-top">
-            <span class="ai-cloud-legend"><span class="tag-icon">✨</span>Gợi ý tìm kiếm nhanh theo ngữ cảnh:</span>
-            <button type="button" class="btn-toggle-chips-view" id="btn-toggle-chips-view" title="Chuyển chế độ cuộn ngang 1 dòng / bung toàn bộ tag">
-              <span class="toggle-icon">+</span>
-              <span class="toggle-text">Xem tất cả</span>
-            </button>
-          </div>
-
-          <div class="ai-chips-group">
-            <span class="ai-keywords-label"><span class="tag-icon">🎯</span>Tâm trạng:</span>
-            <div class="ai-chips-scroll-container">
-              <div class="ai-chips-list" id="ai-quick-chips">
-                <button type="button" class="ai-chip-btn" data-chip="học bài"><span class="tag-icon">📚</span>Học bài &amp; Tỉnh táo</button>
-                <button type="button" class="ai-chip-btn" data-chip="thức khuya"><span class="tag-icon">🌙</span>Thức khuya ôn thi</button>
-                <button type="button" class="ai-chip-btn" data-chip="khử mùi"><span class="tag-icon">🌿</span>Khử mùi phòng trọ</button>
-                <button type="button" class="ai-chip-btn" data-chip="ngọt ngào"><span class="tag-icon">🍑</span>Ngọt ngào thư thái</button>
-                <button type="button" class="ai-chip-btn" data-chip="biển"><span class="tag-icon">🌊</span>Tươi mát gió biển</button>
-              </div>
-            </div>
-          </div>
-
-          <div class="ai-chips-group">
-            <span class="ai-keywords-label"><span class="tag-icon">⚡</span>Ưu đãi:</span>
-            <div class="ai-chips-scroll-container">
-              <div class="ai-chips-list">
-                <button type="button" class="ai-chip-btn" data-chip="combo"><span class="tag-icon">🎁</span>Combo tiết kiệm</button>
-                <button type="button" class="ai-chip-btn" data-chip="ship 15k"><span class="tag-icon">🚚</span>Đồng giá ship 15k</button>
-                <button type="button" class="ai-chip-btn" data-chip="dưới 50k"><span class="tag-icon">💰</span>Dưới 50k (SP01)</button>
-                <button type="button" class="ai-chip-btn" data-chip="tealight"><span class="tag-icon">🕯️</span>Tặng tealight 0đ</button>
-                <button type="button" class="ai-chip-btn" data-chip="thiệp"><span class="tag-icon">✉️</span>Kèm thiệp tay</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Thanh bộ lọc mở rộng chính xác: Định dạng, Giá, Mục đích, Ưu đãi, Mùi hương, Sắp xếp -->
-        <div class="advanced-filter-bar">
-          
-          <!-- 1. Lọc Định dạng / Phân loại -->
-          <div class="filter-group">
-            <label for="filter-type-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-              <span>Phân loại</span>
-            </label>
-            <select id="filter-type-select" class="filter-select">
-              <option value="all">Tất cả phân loại</option>
-              <option value="sp01">🥫 Sáp bỏ túi 50g (SP01 - 49k)</option>
-              <option value="sp02">🕯️ Nến thư giãn 100g (SP02 - 85k)</option>
-              <option value="combo">🎁 Combo chiến lược (CB01 - CB03)</option>
-              <option value="mini">🧪 Hũ mini dùng thử 10g (39k)</option>
-            </select>
-          </div>
-
-          <!-- 2. Lọc Mức Giá -->
-          <div class="filter-group">
-            <label for="filter-price-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
-              <span>Mức giá</span>
-            </label>
-            <select id="filter-price-select" class="filter-select">
-              <option value="all">Tất cả mức giá</option>
-              <option value="under-50">Dưới 50.000đ (SP01, Mini)</option>
-              <option value="50-90">50.000đ – 90.000đ (SP02, CB01)</option>
-              <option value="above-90">Trên 90.000đ (CB02, CB03)</option>
-            </select>
-          </div>
-
-          <!-- 3. Lọc Mục Đích & Không Gian AI -->
-          <div class="filter-group">
-            <label for="filter-purpose-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m4.93 4.93 4.24 4.24"></path><path d="m14.83 9.17 4.24-4.24"></path><path d="m14.83 14.83 4.24 4.24"></path><path d="m9.17 14.83-4.24 4.24"></path><circle cx="12" cy="12" r="4"></circle></svg>
-              <span>Mục đích AI</span>
-            </label>
-            <select id="filter-purpose-select" class="filter-select">
-              <option value="all">Tất cả mục đích</option>
-              <option value="study">📚 Tập trung học bài &amp; Ôn thi</option>
-              <option value="deodorize">🌿 Khử mùi phòng trọ, balo, tủ đồ</option>
-              <option value="relax">🌙 Thức khuya &amp; Thư giãn dễ ngủ</option>
-              <option value="dating">🍑 Hẹn hò &amp; Ngọt ngào lãng mạn</option>
-              <option value="fresh">🌊 Tươi mát, phóng khoáng gió biển</option>
-              <option value="gift">🎁 Quà tặng bạn thân / người yêu</option>
-            </select>
-          </div>
-
-          <!-- 4. Lọc Ưu Đãi & Quà Tặng -->
-          <div class="filter-group">
-            <label for="filter-deal-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <span>Ưu đãi &amp; Quà</span>
-            </label>
-            <select id="filter-deal-select" class="filter-select">
-              <option value="all">Tất cả ưu đãi</option>
-              <option value="ship15k">🚚 Đồng giá ship 15k (Combo)</option>
-              <option value="gift-tealight">🕯️ Tặng nến tealight mini 0đ</option>
-              <option value="gift-card">✉️ Kèm thiệp viết tay / diêm dài</option>
-              <option value="savings">⚡ Tiết kiệm từ 20k - 36k</option>
-              <option value="inbox">💬 Giá chốt Inbox Fanpage</option>
-            </select>
-          </div>
-
-          <!-- 5. Lọc Nhóm Hương -->
-          <div class="filter-group">
-            <label for="filter-scent-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8"></path><path d="m4.93 10.93 5.66-5.66"></path><path d="M2 18h8"></path><path d="M20 18h2"></path><path d="m19.07 10.93-5.66-5.66"></path></svg>
-              <span>Nhóm hương</span>
-            </label>
-            <select id="filter-scent-select" class="filter-select">
-              <option value="all">Tất cả nhóm hương</option>
-              <option value="tea-herbal">Trà &amp; Thảo mộc tươi (First Class)</option>
-              <option value="fruity-sweet">Trái cây ngọt &amp; Đào (Blind Date)</option>
-              <option value="ocean-fresh">Khoáng biển &amp; Sage (Campus Breeze)</option>
-              <option value="woody-warm">Gỗ tuyết tùng &amp; Hổ phách (Late Night)</option>
-            </select>
-          </div>
-
-          <!-- 6. Sắp Xếp -->
-          <div class="filter-group">
-            <label for="filter-sort-select" class="filter-label">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="4"></line><polyline points="15 7 18 4 21 7"></polyline><line x1="6" y1="4" x2="6" y2="20"></line><polyline points="9 17 6 20 3 17"></polyline></svg>
-              <span>Sắp xếp</span>
-            </label>
-            <select id="filter-sort-select" class="filter-select">
-              <option value="default">Đề xuất phổ biến</option>
-              <option value="price-asc">Giá: Thấp đến Cao</option>
-              <option value="price-desc">Giá: Cao đến Thấp</option>
-              <option value="savings-desc">Mức tiết kiệm nhiều nhất</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Trạng thái kết quả tìm kiếm & Thanh Active Tags & Nút Đặt lại -->
-        <div class="filter-results-status" id="filter-results-status">
-          <div class="results-count-box">
-            <span class="live-dot"></span>
-            <span>Hiển thị <strong id="matching-count">7</strong> sản phẩm &amp; combo</span>
-          </div>
-          <div class="active-filter-tags-wrapper">
-            <div class="active-filter-tags" id="active-filter-tags"></div>
-            <button type="button" class="clear-all-tags-btn" id="clear-all-tags-btn" style="display: none;">Xóa tất cả</button>
-            <button type="button" id="reset-filters-btn" class="reset-filter-btn" title="Đặt lại toàn bộ tìm kiếm &amp; bộ lọc">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-              <span>Đặt lại</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- Hộp thông báo khi không tìm thấy kết quả -->
-        <div id="no-products-found" class="no-products-found" style="display: none;">
-          <div class="no-products-icon">🔍</div>
-          <h3 class="no-products-title">Không tìm thấy sản phẩm phù hợp</h3>
-          <p class="no-products-desc">
-            Không có sản phẩm nào khớp chính xác với tiêu chí bạn chọn. Hãy thử tìm kiếm nhanh với các từ khóa gợi ý AI bên dưới:
-          </p>
-          <div class="no-products-chips-row">
-            <button type="button" class="ai-chip-btn" data-chip="học bài"><span class="tag-icon">📚</span>Học bài</button>
-            <button type="button" class="ai-chip-btn" data-chip="khử mùi"><span class="tag-icon">🌿</span>Khử mùi</button>
-            <button type="button" class="ai-chip-btn" data-chip="combo"><span class="tag-icon">🎁</span>Combo tiết kiệm</button>
-            <button type="button" class="btn btn-outline" id="no-results-reset-btn" style="padding: 6px 14px; font-size: 0.8rem;">Xem tất cả sản phẩm</button>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- ====================================================================
-           LƯỚI NẾN THƠM & SÁP THƠM ĐƠN (CÓ CHỌN SP01 SÁP 50G & SP02 NẾN 100G)
-           ==================================================================== -->
-      <div class="product-grid" id="single-candles-grid">
-
         <!-- MÙI 01: FIRST CLASS -->
-        <article class="product-card reveal-on-scroll" 
-          data-scent-id="first-class" 
-          data-product-type="single"
-          data-subtypes="single,sp01,sp02,mini"
-          data-purposes="study,deodorize,focus"
-          data-title="First Class"
-          data-family="tea-herbal"
-          data-price-min="39000"
-          data-price-max="85000"
-          data-price-default="85000"
-          data-savings="10000"
-          data-perks="gift,inbox,gift-card"
-          data-ai-keywords="tập trung học bài tỉnh táo buổi sáng trà trắng non hoa linh lan thảo mộc quýt bạc hà sen nước khử mùi học sinh sinh viên hssv first class sp01 sp02 10g 49k 85k 39k 45k 79k quà tặng thiệp diêm bàn học ktx"
-          data-selected-size="sp02">
-          <div class="product-img-wrapper" data-product-id="first-class">
+        <article class="product-card reveal-on-scroll" data-scent-id="first-class">
+          <div class="product-img-wrapper" data-open-scent="first-class" title="Bấm để xem chi tiết mùi First Class">
             <span class="product-badge">Mùi 01</span>
-            <img src="images/sap-thom-bo-ba.jpg" alt="Mùi 01: First Class - White Tea &amp; Morning Dew" loading="lazy" onerror="this.onerror=null; this.src='images/sap-thom-bo-ba.svg';">
+            <img src="images/sap-thom-bo-ba.jpg" alt="Nến thơm ScentPod 50g - First Class" loading="lazy" onerror="this.onerror=null; this.src='images/sap-thom-bo-ba.svg';">
             <div class="product-card-overlay-hint">
-              <span>🔍 Xem chi tiết sản phẩm</span>
+              <span>🔍 Xem chi tiết</span>
             </div>
           </div>
           <div class="product-info">
             <span class="product-category-tag">Trà xanh &amp; Thảo mộc tươi</span>
-            <h2 class="product-title">First Class</h2>
-            <p class="product-subtitle">White Tea &amp; Morning Dew</p>
-
-            <!-- Bộ chọn phân loại SP01 Sáp 50g & SP02 Nến 100g -->
-            <div class="product-size-wrapper">
-              <span class="product-size-label">Phân loại:</span>
-              <div class="product-size-btns">
-                <button type="button" class="size-pill-btn" data-size="sp01" data-code="SP01" data-price="49000" data-price-text="49.000đ" data-original-price="55000" data-original-price-text="55.000đ" data-inbox="45000" data-inbox-text="45.000đ" data-gift-text="Kèm thiệp cảm ơn viết tay + giấy thử mùi mới" title="SP01: Sáp thơm bỏ túi 50g">Sáp 50g</button>
-                <button type="button" class="size-pill-btn is-active" data-size="sp02" data-code="SP02" data-price="85000" data-price-text="85.000đ" data-original-price="95000" data-original-price-text="95.000đ" data-inbox="79000" data-inbox-text="79.000đ" data-gift-text="Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến" title="SP02: Nến thơm thư giãn 100g">Nến 100g</button>
-                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" data-original-price="45000" data-original-price-text="45.000đ" title="Mini dùng thử 10g">10g Mini</button>
-              </div>
+            <h2 class="product-title" style="font-size: 1.35rem;">First Class</h2>
+            <span class="product-spec-tag">Nến thơm 50g</span>
+            <p class="product-one-sentence">Thanh mát, trong lành từ trà trắng non và thảo mộc tươi, đánh thức cảm hứng học tập.</p>
+            
+            <div class="product-price-box">
+              <span class="price-val">85.000đ</span>
+              <span class="price-badge">Giá ưu đãi HSSV</span>
             </div>
 
-            <!-- Banner quà tặng -->
-            <div class="product-gift-banner"><span class="tag-icon">🎁</span>Tặng diêm dài chuyên dụng + HDSD nến</div>
-
-            <div class="product-footer">
-              <div class="product-price">85.000đ <small class="price-original-striked">95.000đ</small></div>
-              <div class="product-actions-group">
-                <button type="button" class="btn btn-outline btn-scent-detail" data-open-scent="first-class" title="Bấm để xem mô tả 3 tầng hương chi tiết">
-                  <span>Tầng hương</span>
-                </button>
-                <button type="button" class="btn btn-inbox-order" data-inbox-order="first-class" title="Nhắn tin đặt hàng qua Facebook">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                  <span>Inbox</span>
-                </button>
-              </div>
+            <div class="product-actions-row">
+              <button type="button" class="btn-open-detail" data-open-scent="first-class" title="Xem 3 tầng hương &amp; hướng dẫn">
+                <span>Xem chi tiết</span>
+              </button>
+              <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="btn-buy-fb" data-fb-cta="product_card" data-product="First Class" title="Hỏi mua mùi First Class qua Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
+                <span>Hỏi mua qua Facebook</span>
+              </a>
             </div>
           </div>
         </article>
 
         <!-- MÙI 02: BLIND DATE -->
-        <article class="product-card reveal-on-scroll" 
-          data-scent-id="blind-date" 
-          data-product-type="single"
-          data-subtypes="single,sp01,sp02,mini"
-          data-purposes="dating,relax,gift"
-          data-title="Blind Date"
-          data-family="fruity-sweet"
-          data-price-min="39000"
-          data-price-max="85000"
-          data-price-default="85000"
-          data-savings="10000"
-          data-perks="gift,inbox,gift-card"
-          data-ai-keywords="hẹn hò lãng mạn ngọt ngào thư thái quả đào chín peach quả lê vani sữa phấn hoa kẹo bông dễ thương thư giãn quà tặng người yêu bạn gái crush blind date sp01 sp02 10g 49k 85k 39k 45k 79k quà tặng thiệp diêm"
-          data-selected-size="sp02">
-          <div class="product-img-wrapper" data-product-id="blind-date">
+        <article class="product-card reveal-on-scroll" data-scent-id="blind-date">
+          <div class="product-img-wrapper" data-open-scent="blind-date" title="Bấm để xem chi tiết mùi Blind Date">
             <span class="product-badge">Mùi 02</span>
-            <img src="images/nen-thom-mini.jpg" alt="Mùi 02: Blind Date - Sweet Peach &amp; Vanilla Cloud" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thom-mini.svg';">
+            <img src="images/nen-thom-mini.jpg" alt="Nến thơm ScentPod 50g - Blind Date" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thom-mini.svg';">
             <div class="product-card-overlay-hint">
-              <span>🔍 Xem chi tiết sản phẩm</span>
+              <span>🔍 Xem chi tiết</span>
             </div>
           </div>
           <div class="product-info">
             <span class="product-category-tag">Trái cây ngọt dịu &amp; Phấn hoa</span>
-            <h2 class="product-title">Blind Date</h2>
-            <p class="product-subtitle">Sweet Peach &amp; Vanilla Cloud</p>
+            <h2 class="product-title" style="font-size: 1.35rem;">Blind Date</h2>
+            <span class="product-spec-tag">Nến thơm 50g</span>
+            <p class="product-one-sentence">Ngọt ngào, e ấp từ hoa hồng và trái cây mọng nước quyện vani sữa ấm, mang lại cảm giác dễ chịu.</p>
 
-            <!-- Bộ chọn phân loại SP01 Sáp 50g & SP02 Nến 100g -->
-            <div class="product-size-wrapper">
-              <span class="product-size-label">Phân loại:</span>
-              <div class="product-size-btns">
-                <button type="button" class="size-pill-btn" data-size="sp01" data-code="SP01" data-price="49000" data-price-text="49.000đ" data-original-price="55000" data-original-price-text="55.000đ" data-inbox="45000" data-inbox-text="45.000đ" data-gift-text="Kèm thiệp cảm ơn viết tay + giấy thử mùi mới" title="SP01: Sáp thơm bỏ túi 50g">Sáp 50g</button>
-                <button type="button" class="size-pill-btn is-active" data-size="sp02" data-code="SP02" data-price="85000" data-price-text="85.000đ" data-original-price="95000" data-original-price-text="95.000đ" data-inbox="79000" data-inbox-text="79.000đ" data-gift-text="Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến" title="SP02: Nến thơm thư giãn 100g">Nến 100g</button>
-                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" data-original-price="45000" data-original-price-text="45.000đ" title="Mini dùng thử 10g">10g Mini</button>
-              </div>
+            <div class="product-price-box">
+              <span class="price-val">85.000đ</span>
+              <span class="price-badge">Giá ưu đãi HSSV</span>
             </div>
 
-            <!-- Banner quà tặng -->
-            <div class="product-gift-banner"><span class="tag-icon">🎁</span>Tặng diêm dài chuyên dụng + HDSD nến</div>
-
-            <div class="product-footer">
-              <div class="product-price">85.000đ <small class="price-original-striked">95.000đ</small></div>
-              <div class="product-actions-group">
-                <button type="button" class="btn btn-outline btn-scent-detail" data-open-scent="blind-date" title="Bấm để xem mô tả 3 tầng hương chi tiết">
-                  <span>Tầng hương</span>
-                </button>
-                <button type="button" class="btn btn-inbox-order" data-inbox-order="blind-date" title="Nhắn tin đặt hàng qua Facebook">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                  <span>Inbox</span>
-                </button>
-              </div>
+            <div class="product-actions-row">
+              <button type="button" class="btn-open-detail" data-open-scent="blind-date" title="Xem 3 tầng hương &amp; hướng dẫn">
+                <span>Xem chi tiết</span>
+              </button>
+              <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="btn-buy-fb" data-fb-cta="product_card" data-product="Blind Date" title="Hỏi mua mùi Blind Date qua Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
+                <span>Hỏi mua qua Facebook</span>
+              </a>
             </div>
           </div>
         </article>
 
         <!-- MÙI 03: CAMPUS BREEZE -->
-        <article class="product-card reveal-on-scroll" 
-          data-scent-id="campus-breeze" 
-          data-product-type="single"
-          data-subtypes="single,sp01,sp02,mini"
-          data-purposes="fresh,focus,deodorize"
-          data-title="Campus Breeze"
-          data-family="ocean-fresh"
-          data-price-min="39000"
-          data-price-max="85000"
-          data-price-default="85000"
-          data-savings="10000"
-          data-perks="gift,inbox,gift-card"
-          data-ai-keywords="sân trường góc hành lang khoáng biển muối biển cây xô thơm sage bưởi hồng tươi mát xả stress năng lượng giải tỏa biển campus breeze sp01 sp02 10g 49k 85k 39k 45k 79k quà tặng thiệp diêm"
-          data-selected-size="sp02">
-          <div class="product-img-wrapper" data-product-id="campus-breeze">
+        <article class="product-card reveal-on-scroll" data-scent-id="campus-breeze">
+          <div class="product-img-wrapper" data-open-scent="campus-breeze" title="Bấm để xem chi tiết mùi Campus Breeze">
             <span class="product-badge">Mùi 03</span>
-            <img src="images/campus-breeze.jpg" alt="Mùi 03: Campus Breeze - Sea Salt &amp; Sage" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
+            <img src="images/campus-breeze.jpg" alt="Nến thơm ScentPod 50g - Campus Breeze" loading="lazy" onerror="this.onerror=null; this.src='images/combo-nen-sap.svg';">
             <div class="product-card-overlay-hint">
-              <span>🔍 Xem chi tiết sản phẩm</span>
+              <span>🔍 Xem chi tiết</span>
             </div>
           </div>
           <div class="product-info">
             <span class="product-category-tag">Khoáng biển &amp; Thảo mộc</span>
-            <h2 class="product-title">Campus Breeze</h2>
-            <p class="product-subtitle">Sea Salt &amp; Sage</p>
+            <h2 class="product-title" style="font-size: 1.35rem;">Campus Breeze</h2>
+            <span class="product-spec-tag">Nến thơm 50g</span>
+            <p class="product-one-sentence">Phóng khoáng, tự do như làn gió biển tươi mát kết hợp muối khoáng và xô thơm clary sage.</p>
 
-            <!-- Bộ chọn phân loại SP01 Sáp 50g & SP02 Nến 100g -->
-            <div class="product-size-wrapper">
-              <span class="product-size-label">Phân loại:</span>
-              <div class="product-size-btns">
-                <button type="button" class="size-pill-btn" data-size="sp01" data-code="SP01" data-price="49000" data-price-text="49.000đ" data-original-price="55000" data-original-price-text="55.000đ" data-inbox="45000" data-inbox-text="45.000đ" data-gift-text="Kèm thiệp cảm ơn viết tay + giấy thử mùi mới" title="SP01: Sáp thơm bỏ túi 50g">Sáp 50g</button>
-                <button type="button" class="size-pill-btn is-active" data-size="sp02" data-code="SP02" data-price="85000" data-price-text="85.000đ" data-original-price="95000" data-original-price-text="95.000đ" data-inbox="79000" data-inbox-text="79.000đ" data-gift-text="Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến" title="SP02: Nến thơm thư giãn 100g">Nến 100g</button>
-                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" data-original-price="45000" data-original-price-text="45.000đ" title="Mini dùng thử 10g">10g Mini</button>
-              </div>
+            <div class="product-price-box">
+              <span class="price-val">85.000đ</span>
+              <span class="price-badge">Giá ưu đãi HSSV</span>
             </div>
 
-            <!-- Banner quà tặng -->
-            <div class="product-gift-banner"><span class="tag-icon">🎁</span>Tặng diêm dài chuyên dụng + HDSD nến</div>
-
-            <div class="product-footer">
-              <div class="product-price">85.000đ <small class="price-original-striked">95.000đ</small></div>
-              <div class="product-actions-group">
-                <button type="button" class="btn btn-outline btn-scent-detail" data-open-scent="campus-breeze" title="Bấm để xem mô tả 3 tầng hương chi tiết">
-                  <span>Tầng hương</span>
-                </button>
-                <button type="button" class="btn btn-inbox-order" data-inbox-order="campus-breeze" title="Nhắn tin đặt hàng qua Facebook">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                  <span>Inbox</span>
-                </button>
-              </div>
+            <div class="product-actions-row">
+              <button type="button" class="btn-open-detail" data-open-scent="campus-breeze" title="Xem 3 tầng hương &amp; hướng dẫn">
+                <span>Xem chi tiết</span>
+              </button>
+              <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="btn-buy-fb" data-fb-cta="product_card" data-product="Campus Breeze" title="Hỏi mua mùi Campus Breeze qua Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
+                <span>Hỏi mua qua Facebook</span>
+              </a>
             </div>
           </div>
         </article>
 
         <!-- MÙI 04: LATE NIGHT -->
-        <article class="product-card reveal-on-scroll" 
-          data-scent-id="late-night" 
-          data-product-type="single"
-          data-subtypes="single,sp01,sp02,mini"
-          data-purposes="study,relax,sleep"
-          data-title="Late Night"
-          data-family="woody-warm"
-          data-price-min="39000"
-          data-price-max="85000"
-          data-price-default="85000"
-          data-savings="10000"
-          data-perks="gift,inbox,gift-card"
-          data-ai-keywords="thức khuya ôn thi học bài deadline đêm khuya ngủ ngon an thần gỗ thông tuyết tùng cedarwood hổ phách oải hương lavender yên tĩnh ấm áp chữa lành vỗ về late night sp01 sp02 10g 49k 85k 39k 45k 79k quà tặng thiệp diêm"
-          data-selected-size="sp02">
-          <div class="product-img-wrapper" data-product-id="late-night">
+        <article class="product-card reveal-on-scroll" data-scent-id="late-night">
+          <div class="product-img-wrapper" data-open-scent="late-night" title="Bấm để xem chi tiết mùi Late Night">
             <span class="product-badge">Mùi 04</span>
-            <img src="images/nen-thu-gian.jpg" alt="Mùi 04: Late Night - Cedarwood &amp; Warm Amber" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thu-gian.svg';">
+            <img src="images/nen-thu-gian.jpg" alt="Nến thơm ScentPod 50g - Late Night" loading="lazy" onerror="this.onerror=null; this.src='images/nen-thu-gian.svg';">
             <div class="product-card-overlay-hint">
-              <span>🔍 Xem chi tiết sản phẩm</span>
+              <span>🔍 Xem chi tiết</span>
             </div>
           </div>
           <div class="product-info">
             <span class="product-category-tag">Hương gỗ ấm &amp; Thư giãn</span>
-            <h2 class="product-title">Late Night</h2>
-            <p class="product-subtitle">Cedarwood &amp; Warm Amber</p>
+            <h2 class="product-title" style="font-size: 1.35rem;">Late Night</h2>
+            <span class="product-spec-tag">Nến thơm 50g</span>
+            <p class="product-one-sentence">Trầm ấm, tĩnh lặng từ hạt cà phê rang và gỗ tuyết tùng, vỗ về tâm trí sau những giờ học bài khuya.</p>
 
-            <!-- Bộ chọn phân loại SP01 Sáp 50g & SP02 Nến 100g -->
-            <div class="product-size-wrapper">
-              <span class="product-size-label">Phân loại:</span>
-              <div class="product-size-btns">
-                <button type="button" class="size-pill-btn" data-size="sp01" data-code="SP01" data-price="49000" data-price-text="49.000đ" data-original-price="55000" data-original-price-text="55.000đ" data-inbox="45000" data-inbox-text="45.000đ" data-gift-text="Kèm thiệp cảm ơn viết tay + giấy thử mùi mới" title="SP01: Sáp thơm bỏ túi 50g">Sáp 50g</button>
-                <button type="button" class="size-pill-btn is-active" data-size="sp02" data-code="SP02" data-price="85000" data-price-text="85.000đ" data-original-price="95000" data-original-price-text="95.000đ" data-inbox="79000" data-inbox-text="79.000đ" data-gift-text="Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến" title="SP02: Nến thơm thư giãn 100g">Nến 100g</button>
-                <button type="button" class="size-pill-btn" data-size="10g" data-price="39000" data-price-text="39.000đ" data-original-price="45000" data-original-price-text="45.000đ" title="Mini dùng thử 10g">10g Mini</button>
-              </div>
+            <div class="product-price-box">
+              <span class="price-val">85.000đ</span>
+              <span class="price-badge">Giá ưu đãi HSSV</span>
             </div>
 
-            <!-- Banner quà tặng -->
-            <div class="product-gift-banner"><span class="tag-icon">🎁</span>Tặng diêm dài chuyên dụng + HDSD nến</div>
-
-            <div class="product-footer">
-              <div class="product-price">85.000đ <small class="price-original-striked">95.000đ</small></div>
-              <div class="product-actions-group">
-                <button type="button" class="btn btn-outline btn-scent-detail" data-open-scent="late-night" title="Bấm để xem mô tả 3 tầng hương chi tiết">
-                  <span>Tầng hương</span>
-                </button>
-                <button type="button" class="btn btn-inbox-order" data-inbox-order="late-night" title="Nhắn tin đặt hàng qua Facebook">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                  <span>Inbox</span>
-                </button>
-              </div>
+            <div class="product-actions-row">
+              <button type="button" class="btn-open-detail" data-open-scent="late-night" title="Xem 3 tầng hương &amp; hướng dẫn">
+                <span>Xem chi tiết</span>
+              </button>
+              <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="btn-buy-fb" data-fb-cta="product_card" data-product="Late Night" title="Hỏi mua mùi Late Night qua Facebook">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
+                <span>Hỏi mua qua Facebook</span>
+              </a>
             </div>
           </div>
         </article>
 
       </div>
 
-      <!-- ====================================================================
-           KHU VỰC CÁC GÓI COMBO TIẾT KIỆM (CB01, CB02, CB03)
-           ==================================================================== -->
-      <section id="combo" style="margin-top: 5rem; padding-top: 2.5rem; border-top: 1px dashed rgba(229,169,59,0.25);">
-        <div style="text-align: center; margin-bottom: 2.5rem;">
-          <h2 class="section-title reveal-on-scroll" style="font-size: 2rem;">Combo ScentPod Tiết Kiệm Tối Đa</h2>
-          <p class="section-subtitle reveal-on-scroll">
-            Tối ưu giá trị giỏ hàng với mức tiết kiệm lên đến 36.000đ, đồng giá ship 15k toàn quốc và tặng kèm tealight &amp; thiệp tay.
-          </p>
-        </div>
-
-        <div class="product-grid" id="combo-grid" style="margin-bottom: 2rem;">
-          <!-- COMBO 01: CB01 - COMBO HƯƠNG SINH VIÊN -->
-          <article class="product-card combo-card reveal-on-scroll" 
-            data-scent-id="cb01"
-            data-product-type="combo"
-            data-subtypes="combo,cb01,sp01"
-            data-purposes="deodorize,study,focus"
-            data-title="Combo Hương Sinh Viên"
-            data-family="combo"
-            data-price-min="89000"
-            data-price-max="89000"
-            data-price-default="89000"
-            data-savings="21000"
-            data-perks="ship15k,gift,savings,gift-card"
-            data-ai-keywords="combo sinh viên hương sinh viên 2 hũ sáp bỏ túi tự chọn mùi 50g sáp khử mùi balo tủ đồ phòng trọ tiết kiệm 21k đồng giá ship 15k giấy thơm trải nghiệm dưới 100k 89k cb01 cb-01 combo 1 thiệp">
-            <div class="product-img-wrapper" data-product-id="cb01">
-              <img src="images/combo-cb01-huong-sinh-vien.jpg" alt="Combo Hương Sinh Viên CB01 ScentPod" loading="lazy">
+      <!-- DẢI THÔNG TIN MUA HÀNG GỌN -->
+      <div class="purchase-perks-strip reveal-on-scroll">
+        <div class="perks-grid">
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
             </div>
-            <div class="product-info">
-              <h3 class="product-title">Combo Hương Sinh Viên</h3>
-              <p class="product-subtitle">2 Hũ sáp bỏ túi tự chọn mùi (2 x 50g khử mùi tiện lợi)</p>
-              
-              <div class="combo-spec-box">
-                <span class="combo-spec-label">Quy cách:</span>
-                <span class="combo-spec-value">2 Hũ Sáp Bỏ Túi 50g</span>
-              </div>
-
-              <!-- Chính sách ưu đãi & vận chuyển -->
-              <div class="combo-perk-box">
-                <span><span class="tag-icon">🚚</span>Đồng giá ship 15k &bull; <span class="tag-icon" style="margin-left: 4px;">🎁</span>Tặng giấy thơm trải nghiệm</span>
-              </div>
-
-              <div class="product-footer">
-                <div class="product-price">89.000đ <small class="price-original-striked">110.000đ</small></div>
-                <div class="product-actions-group">
-                  <button type="button" class="btn btn-inbox-order combo-inbox-btn" data-inbox-order="cb01" title="Nhắn tin đặt combo qua Facebook" style="width: 100%;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                    <span>Inbox đặt combo</span>
-                  </button>
-                </div>
-              </div>
+            <div>
+              <div class="perk-title">Nến thơm 50g</div>
+              <p class="perk-desc">Sáp đậu nành thiên nhiên, an toàn và dễ chịu cho không gian học tập.</p>
             </div>
-          </article>
+          </div>
 
-          <!-- COMBO 02: CB02 - COMBO TRỌN VẸN CHILL -->
-          <article class="product-card combo-card reveal-on-scroll" 
-            data-scent-id="cb02"
-            data-product-type="combo"
-            data-subtypes="combo,cb02,sp01,sp02"
-            data-purposes="relax,study,gift"
-            data-title="Combo Trọn Vẹn Chill"
-            data-family="combo"
-            data-price-min="119000"
-            data-price-max="119000"
-            data-price-default="119000"
-            data-savings="31000"
-            data-perks="ship15k,gift,savings,gift-tealight"
-            data-ai-keywords="combo trọn vẹn chill chill thư giãn 1 sáp 50g 1 nến thơm 100g tặng 1 viên tealight mini 0đ tealight 0đ đồng giá ship 15k tiết kiệm 31k bán chạy cb02 cb-02 combo 2 trên 100k 119k quà tặng">
-            <div class="product-img-wrapper" data-product-id="cb02">
-              <img src="images/combo-cb02-tron-ven-chill.jpg" alt="Combo Trọn Vẹn Chill CB02 ScentPod" loading="lazy">
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
             </div>
-            <div class="product-info">
-              <h3 class="product-title">Combo Trọn Vẹn Chill</h3>
-              <p class="product-subtitle">1 Hũ sáp bỏ túi 50g + 1 Hũ nến thơm 100g</p>
-              
-              <div class="combo-spec-box">
-                <span class="combo-spec-label">Quy cách:</span>
-                <span class="combo-spec-value">1 Sáp 50g + 1 Nến 100g</span>
-              </div>
-
-              <!-- Chính sách ưu đãi & vận chuyển -->
-              <div class="combo-perk-box">
-                <span><span class="tag-icon">🚚</span>Đồng giá ship 15k &bull; <span class="tag-icon" style="margin-left: 4px;">🕯️</span>Tặng 1 viên tealight mini 0đ</span>
-              </div>
-
-              <div class="product-footer">
-                <div class="product-price">119.000đ <small class="price-original-striked">150.000đ</small></div>
-                <div class="product-actions-group">
-                  <button type="button" class="btn btn-inbox-order combo-inbox-btn" data-inbox-order="cb02" title="Nhắn tin đặt combo qua Facebook" style="width: 100%;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                    <span>Inbox đặt combo</span>
-                  </button>
-                </div>
-              </div>
+            <div>
+              <div class="perk-title">Kèm que diêm dài &amp; thiệp HDSD</div>
+              <p class="perk-desc">Đầy đủ phụ kiện để bạn thắp sáng góc phòng ngay khi mở hộp.</p>
             </div>
-          </article>
+          </div>
 
-          <!-- COMBO 03: CB03 - COMBO TRẢI NGHIỆM ĐA TẦNG -->
-          <article class="product-card combo-card reveal-on-scroll" 
-            data-scent-id="cb03"
-            data-product-type="combo"
-            data-subtypes="combo,cb03,sp01"
-            data-purposes="deodorize,gift,fresh,dating,study"
-            data-title="Combo Trải Nghiệm Đa Tầng"
-            data-family="combo"
-            data-price-min="129000"
-            data-price-max="129000"
-            data-price-default="129000"
-            data-savings="36000"
-            data-perks="ship15k,gift,savings,gift-tealight,gift-card"
-            data-ai-keywords="combo trải nghiệm đa tầng đa tầng 3 hũ sáp bỏ túi 50g sáp đủ 3 mùi tặng tealight mini thiệp viết tay đồng giá ship 15k tiết kiệm 36k cb03 cb-03 combo 3 quà tặng trên 100k 129k thiệp tay">
-            <div class="product-img-wrapper" data-product-id="cb03">
-              <img src="images/combo-cb03-trai-nghiem-da-tang.jpg" alt="Combo Trải Nghiệm Đa Tầng CB03 ScentPod" loading="lazy">
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
             </div>
-            <div class="product-info">
-              <h3 class="product-title">Combo Trải Nghiệm Đa Tầng</h3>
-              <p class="product-subtitle">3 Hũ sáp bỏ túi đủ 3 mùi (3 x 50g)</p>
-              
-              <div class="combo-spec-box">
-                <span class="combo-spec-label">Quy cách:</span>
-                <span class="combo-spec-value">3 Hũ Sáp Bỏ Túi 50g</span>
-              </div>
-
-              <!-- Chính sách ưu đãi & vận chuyển -->
-              <div class="combo-perk-box">
-                <span><span class="tag-icon">🚚</span>Đồng giá ship 15k &bull; <span class="tag-icon" style="margin-left: 4px;">🎁</span>Tặng tealight mini + thiệp viết tay</span>
-              </div>
-
-              <div class="product-footer">
-                <div class="product-price">129.000đ <small class="price-original-striked">165.000đ</small></div>
-                <div class="product-actions-group">
-                  <button type="button" class="btn btn-inbox-order combo-inbox-btn" data-inbox-order="cb03" title="Nhắn tin đặt combo qua Facebook" style="width: 100%;">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                    <span>Inbox đặt combo</span>
-                  </button>
-                </div>
-              </div>
+            <div>
+              <div class="perk-title">Ship 15.000đ khi mua từ 2 hũ</div>
+              <p class="perk-desc">Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn.</p>
             </div>
-          </article>
-        </div>
-      </section>
-
-      <!-- ====================================================================
-           DÒNG LƯU Ý AN TOÀN DƯỚI LƯỚI
-           ==================================================================== -->
-      <div class="safety-box reveal-on-scroll">
-        <span class="safety-icon" role="img" aria-label="Ngọn lửa cảnh báo">🔥</span>
-        <div class="safety-content">
-          <strong>Lưu ý an toàn từ ScentPod:</strong>
-          <p>Nến có lửa: không để gần vật dễ cháy, không để trẻ em tiếp cận, không bỏ mặc khi đang đốt.</p>
+          </div>
         </div>
       </div>
 
-      <!-- ====================================================================
-           CUỐI TRANG: NÚT LỚN "NHẮN TIN TƯ VẤN TRÊN FACEBOOK"
-           ==================================================================== -->
-      <div style="text-align: center; margin-top: 4.5rem;" class="reveal-on-scroll">
-        <a href="#" data-fb class="btn btn-primary btn-large" style="min-width: 240px; padding: 1.05rem 2.4rem;">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
-          </svg>
-          Tư vấn qua Facebook
-        </a>
+      <!-- BANNER ĐIỀU HƯỚNG TƯ VẤN CUỐI TRANG -->
+      <div style="margin-top: 4.5rem;">
+        <div class="cta-banner reveal-on-scroll">
+          <h2>Chưa biết chọn mùi nào?</h2>
+          <p>Nhắn ngay cho ScentPod qua Facebook để tụi mình lắng nghe gu mùi hương và tư vấn nốt hương hợp nhất với bạn nhé!</p>
+          <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="product_page_bottom" class="btn btn-primary btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
+            </svg>
+            Nhờ tư vấn chọn mùi
+          </a>
+        </div>
       </div>
 
     </div>
@@ -721,11 +272,11 @@
   <!-- ========================================================================
        NÚT FACEBOOK NỔI CỐ ĐỊNH GÓC DƯỚI PHẢI
        ======================================================================== -->
-  <a href="#" data-fb class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
+  <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="floating" class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
     <svg viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
     </svg>
-    <span class="fb-text">Tư vấn ngay</span>
+    <span class="fb-text">Nhắn Facebook</span>
   </a>
 
   <!-- ========================================================================
@@ -739,14 +290,14 @@
           <span>Scent<span class="accent">Pod</span></span>
         </div>
         <ul class="footer-nav">
-          <li><a href="index.html">Trang chủ</a></li>
-          <li><a href="san-pham.html">Sản phẩm</a></li>
-          <li><a href="ve-chung-toi.html">Về chúng tôi</a></li>
-          <li><a href="#" data-fb>Facebook</a></li>
+          <li><a href="ve-chung-toi.html">Về ScentPod</a></li>
+          <li><a href="san-pham.html">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang">Cách đặt hàng</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="footer">Facebook</a></li>
         </ul>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 ScentPod. Made with love by sinh viên.</p>
+        <p>© 2026 ScentPod. Dự án nến thơm dành cho người trẻ.</p>
       </div>
     </div>
   </footer>

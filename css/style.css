@@ -5630,3 +5630,423 @@ p { color: var(--text-muted); font-size: 1rem; }
 
 
 
+
+
+/* ==========================================================================
+   SCENTPOD 2026 REFACTOR: 4 SCENTS 50G, ORDERING STEPS, PERKS, FAQ & ACCESSIBILITY
+   ========================================================================== */
+
+/* Prevent page scroll when modal is open and hide floating button */
+body.modal-open {
+  overflow: hidden !important;
+}
+body.modal-open .fb-floating-btn {
+  display: none !important;
+}
+
+/* Accessibility: Focus visible styling */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--accent-gold) !important;
+  outline-offset: 3px !important;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+  }
+}
+
+/* Dải thông tin mua hàng gọn */
+.purchase-perks-strip {
+  background: linear-gradient(135deg, rgba(26, 21, 18, 0.95) 0%, rgba(18, 14, 12, 0.98) 100%);
+  border: 1px solid rgba(201, 162, 107, 0.35);
+  border-radius: 14px;
+  padding: 1.6rem 2rem;
+  margin: 3.5rem auto 0;
+  max-width: 1040px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .perks-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .purchase-perks-strip {
+    padding: 1.3rem 1.4rem;
+    margin-top: 2.5rem;
+  }
+}
+
+.perk-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.perk-icon-wrap {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: rgba(201, 162, 107, 0.12);
+  border: 1px solid rgba(201, 162, 107, 0.35);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.perk-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.perk-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Quy trình 3 bước đặt hàng */
+.order-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 860px) {
+  .order-steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+}
+
+.step-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 14px;
+  padding: 2rem 1.6rem;
+  position: relative;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+}
+
+.step-card:hover {
+  border-color: var(--border-gold);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+.step-number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(201, 162, 107, 0.15);
+  border: 1px solid var(--accent-gold);
+  color: var(--accent-gold);
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+.step-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.6rem;
+  line-height: 1.35;
+}
+
+.step-desc {
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Câu hỏi thường gặp FAQ Accordion */
+.faq-section {
+  padding: 4.5rem 0;
+  background: var(--bg-secondary);
+}
+
+.faq-accordion {
+  max-width: 820px;
+  margin: 2.5rem auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.faq-item:hover,
+.faq-item.is-open {
+  border-color: var(--border-gold);
+}
+
+.faq-item.is-open {
+  background: #1a1613;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 1.25rem 1.45rem;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  min-height: 48px;
+}
+
+.faq-question:hover {
+  color: var(--accent-gold);
+}
+
+.faq-toggle-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(201, 162, 107, 0.12);
+  border: 1px solid rgba(201, 162, 107, 0.3);
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.faq-item.is-open .faq-toggle-icon {
+  transform: rotate(180deg);
+  background: var(--accent-gold);
+  color: #12100e;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), padding 0.35s ease;
+  padding: 0 1.45rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.faq-item.is-open .faq-answer {
+  max-height: 300px;
+  padding: 0 1.45rem 1.35rem 1.45rem;
+}
+
+/* Thẻ sản phẩm 4 mùi nến 50g */
+.product-spec-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  background: rgba(201, 162, 107, 0.12);
+  border: 1px solid rgba(201, 162, 107, 0.28);
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  align-self: flex-start;
+}
+
+.product-one-sentence {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 1rem;
+  min-height: 44px;
+}
+
+.product-price-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.1rem;
+  flex-wrap: wrap;
+}
+
+.product-price-box .price-val {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--accent-gold);
+  line-height: 1;
+}
+
+.product-price-box .price-badge {
+  font-size: 0.74rem;
+  color: #fff;
+  background: rgba(201, 162, 107, 0.22);
+  border: 1px solid var(--accent-gold);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.product-actions-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  margin-top: auto;
+}
+
+@media (max-width: 440px) {
+  .product-actions-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-open-detail {
+  padding: 9px 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 44px;
+}
+
+.btn-open-detail:hover {
+  background: rgba(201, 162, 107, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.btn-buy-fb {
+  padding: 9px 12px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #0084ff 0%, #0066cc 100%);
+  border: none;
+  color: #fff !important;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-height: 44px;
+}
+
+.btn-buy-fb:hover {
+  background: linear-gradient(135deg, #1890ff 0%, #0077e6 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(0, 132, 255, 0.4);
+  color: #fff !important;
+}
+
+/* Modal Popup Refinements */
+.btn-copy-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.btn-copy-info:hover {
+  background: rgba(201, 162, 107, 0.15);
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+}
+
+.modal-actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 1.5rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.copy-toast-msg {
+  display: block;
+  font-size: 0.84rem;
+  color: #8be4af;
+  margin-top: 8px;
+  padding: 6px 10px;
+  background: rgba(46, 125, 50, 0.18);
+  border: 1px solid rgba(76, 175, 80, 0.4);
+  border-radius: 6px;
+}
+
+.manual-copy-box {
+  margin-top: 10px;
+  width: 100%;
+}
+.manual-copy-input {
+  width: 100%;
+  padding: 8px 10px;
+  background: #110e0c;
+  border: 1px solid var(--border-gold);
+  border-radius: 6px;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+}

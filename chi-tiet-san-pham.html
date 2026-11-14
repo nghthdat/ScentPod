@@ -10,131 +10,22 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'G-1KZ96S61CF');
   </script>
 
-  <title id="page-head-title">Chi Tiết Sản Phẩm | ScentPod - Nến Thơm & Sáp Thơm Sinh Viên</title>
-  <meta name="description" content="Khám phá chi tiết mùi hương, thành phần tự nhiên, hướng dẫn sử dụng và bảo quản nến thơm, sáp thơm bỏ túi ScentPod.">
+  <title id="page-head-title">Chi Tiết Nến Thơm 50g | ScentPod</title>
+  <meta name="description" content="Khám phá chi tiết mùi hương nến thơm 50g ScentPod: thành phần sáp đậu nành thiên nhiên, 3 tầng hương, quà tặng và hướng dẫn sử dụng an toàn.">
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 
   <!-- Stylesheet chính -->
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    /* ==========================================================================
-       STYLES CHO TRANG CHI TIẾT SẢN PHẨM (CHI-TIET-SAN-PHAM.HTML)
-       ========================================================================== */
-    /* Header layout: Luôn dàn hàng ngang chuẩn */
-    .site-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      background-color: rgba(14, 13, 11, 0.95);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(201, 162, 107, 0.2);
-    }
-
-    @media (min-width: 769px) {
-      .site-header .nav-container {
-        display: grid !important;
-        grid-template-columns: 1fr auto 1fr !important;
-        align-items: center !important;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 1.5rem;
-        height: var(--header-height, 72px);
-      }
-      .site-header .brand-logo {
-        grid-column: 1;
-        justify-self: start;
-      }
-      .site-header nav {
-        grid-column: 2;
-        justify-self: center;
-        display: flex !important;
-        align-items: center !important;
-      }
-      .site-header .nav-actions {
-        grid-column: 3;
-        justify-self: end;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: flex-end !important;
-        gap: 12px !important;
-      }
-    }
-
-    .nav-menu, ul.nav-menu {
-      display: flex !important;
-      flex-direction: row !important;
-      align-items: center !important;
-      gap: 2.2rem !important;
-      list-style: none !important;
-      padding-left: 0 !important;
-      margin: 0 !important;
-    }
-
-    .nav-menu li {
-      list-style: none !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    .nav-link {
-      color: #ede8df;
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 6px 0;
-      white-space: nowrap;
-      transition: color 0.2s ease;
-    }
-
-    .nav-link:hover,
-    .nav-link.active {
-      color: var(--accent-gold, #c9a26b) !important;
-    }
-
-    .nav-actions {
-      display: flex !important;
-      align-items: center !important;
-      gap: 1rem !important;
-    }
-
-    .header-fb-btn {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      background: rgba(201, 162, 107, 0.15) !important;
-      border: 1px solid #c9a26b !important;
-      color: #c9a26b !important;
-      padding: 8px 16px !important;
-      border-radius: 999px !important;
-      text-decoration: none !important;
-      font-size: 0.88rem !important;
-      font-weight: 600 !important;
-      white-space: nowrap !important;
-    }
-
-    .header-fb-btn:hover {
-      background: #c9a26b !important;
-      color: #0d0b0a !important;
-    }
-
     .product-detail-page {
-      padding-top: calc(var(--header-height) + 2rem);
+      padding-top: calc(var(--header-height) + 2.5rem);
       padding-bottom: 5rem;
-      overflow-x: hidden;
-      max-width: 100vw;
     }
 
-    /* Breadcrumbs */
     .detail-breadcrumb {
       display: flex;
       align-items: center;
@@ -144,85 +35,62 @@
       margin-bottom: 2rem;
       flex-wrap: wrap;
     }
-
     .detail-breadcrumb a {
       color: var(--text-muted);
       text-decoration: none;
       transition: color 0.2s ease;
     }
-
     .detail-breadcrumb a:hover {
       color: var(--accent-gold);
     }
-
     .detail-breadcrumb .separator {
       color: rgba(201, 162, 107, 0.4);
     }
-
     .detail-breadcrumb .current {
       color: var(--accent-gold);
       font-weight: 500;
     }
 
-    /* Layout 2 cột Hero */
     .detail-hero-grid {
       display: grid;
       grid-template-columns: 1fr 1.15fr;
-      gap: 3.5rem;
+      gap: 3rem;
       align-items: start;
-      margin-bottom: 4.5rem;
-      min-width: 0;
-      max-width: 100%;
+      margin-bottom: 3.5rem;
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 900px) {
       .detail-hero-grid {
-        grid-template-columns: 100%;
-        gap: 2.5rem;
-        min-width: 0;
-        max-width: 100%;
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
     }
 
-    /* Cột hình ảnh */
     .detail-image-card {
-      position: sticky;
-      top: calc(var(--header-height) + 1.5rem);
       background: radial-gradient(circle at 50% 40%, #201a16 0%, #120e0c 100%);
       border: 1px solid var(--border-gold);
       border-radius: 16px;
       padding: 1.5rem;
-      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(201, 162, 107, 0.12);
       text-align: center;
-      max-width: 100%;
-      box-sizing: border-box;
+      box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6);
     }
 
     .detail-image-viewport {
       position: relative;
       width: 100%;
-      aspect-ratio: 3 / 4;
-      max-height: 620px;
+      aspect-ratio: 4 / 5;
       border-radius: 12px;
       overflow: hidden;
       background: #171310;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.2rem;
-      cursor: zoom-in;
     }
 
     .detail-image-viewport img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
-      object-position: center;
-      transition: transform 0.4s ease;
-    }
-
-    .detail-image-viewport:hover img {
-      transform: scale(1.03);
+      object-fit: cover;
     }
 
     .detail-badge-top {
@@ -242,1115 +110,100 @@
       z-index: 2;
     }
 
-    .detail-zoom-btn {
-      position: absolute;
-      bottom: 14px;
-      right: 14px;
-      background: rgba(18, 14, 12, 0.85);
-      border: 1px solid rgba(201, 162, 107, 0.4);
-      color: #fff;
-      font-size: 0.8rem;
-      padding: 6px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      backdrop-filter: blur(8px);
-      transition: all 0.25s ease;
-      z-index: 2;
-    }
-
-    .detail-zoom-btn:hover {
-      background: var(--accent-gold);
-      color: #0d0b0a;
-      border-color: var(--accent-gold);
-    }
-
-    .detail-pills-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .detail-pill-tag {
-      font-size: 0.78rem;
-      padding: 5px 12px;
-      border-radius: 20px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-secondary);
-    }
-
-    /* Cột thông tin sản phẩm */
     .detail-info-col {
       display: flex;
       flex-direction: column;
-      min-width: 0;
-      max-width: 100%;
-    }
-
-    .detail-header-badge-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
     }
 
     .detail-category-tag {
-      font-size: 0.82rem;
-      font-weight: 600;
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--accent-gold);
-      background: rgba(201, 162, 107, 0.12);
-      border: 1px solid rgba(201, 162, 107, 0.3);
-      padding: 4px 12px;
-      border-radius: 4px;
-    }
-
-    .detail-poster-tag {
-      font-size: 0.82rem;
-      color: #4ade80;
-      background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.25);
-      padding: 4px 12px;
-      border-radius: 4px;
-    }
-
-    .detail-title {
-      font-family: var(--font-heading);
-      font-size: 2.4rem;
-      color: var(--text-primary);
-      margin: 0 0 0.5rem 0;
-      line-height: 1.15;
-    }
-
-    .detail-subtitle {
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 1.25rem;
-      color: var(--text-muted);
-      margin-bottom: 1.2rem;
-    }
-
-    /* KHỐI GIÁ SẢN PHẨM & ƯU ĐÃI NỔI BẬT */
-    .detail-price-box {
-      background: linear-gradient(135deg, rgba(201, 162, 107, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-      border: 1px solid rgba(201, 162, 107, 0.2);
-      border-radius: 14px;
-      padding: 1.25rem 1.4rem;
-      margin-bottom: 1.6rem;
-    }
-
-    .detail-price-main {
-      display: flex;
-      align-items: baseline;
-      gap: 16px;
-      flex-wrap: wrap;
+      font-weight: 600;
       margin-bottom: 6px;
     }
 
-    .detail-price-current {
-      font-family: var(--font-heading);
-      font-size: 2.6rem;
-      font-weight: 800;
-      color: var(--accent-gold);
-      line-height: 1;
-      letter-spacing: -0.02em;
-      text-shadow: 0 2px 16px rgba(201, 162, 107, 0.25);
-    }
-
-    .detail-price-meta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .detail-price-original {
-      font-size: 1.2rem;
-      color: var(--text-muted);
-      text-decoration: line-through;
-    }
-
-    .detail-savings-badge {
-      background: rgba(239, 68, 68, 0.15);
-      color: #f87171;
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      font-size: 0.84rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 6px;
-      letter-spacing: 0.02em;
-    }
-
-    .detail-price-subtext {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .detail-price-subtext::before {
-      content: "✓";
-      color: #4ade80;
-      font-weight: bold;
-    }
-
-    .detail-vibe-box {
-      background: rgba(201, 162, 107, 0.06);
-      border-left: 3px solid var(--accent-gold);
-      padding: 1rem 1.25rem;
-      border-radius: 0 8px 8px 0;
-      margin-bottom: 1.8rem;
-    }
-
-    .detail-vibe-box p {
-      font-size: 0.95rem;
-      line-height: 1.65;
-      color: var(--text-secondary);
-      margin: 0;
-      font-style: italic;
-    }
-
-    /* 1. TRỰC QUAN HÓA PHÂN LOẠI (VARIANT CARDS) */
-    .detail-section-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+    .detail-title {
+      font-family: var(--font-serif);
+      font-size: 2.2rem;
       color: var(--text-primary);
-      margin-bottom: 0.85rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      margin: 0 0 4px 0;
+      line-height: 1.2;
     }
 
-    .detail-section-title small {
-      font-size: 0.78rem;
-      color: var(--accent-gold);
-      text-transform: none;
-      letter-spacing: normal;
-      font-weight: 500;
-    }
-
-    .detail-sizes-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 1.8rem;
-    }
-
-    @media (max-width: 540px) {
-      .detail-sizes-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .detail-size-card {
-      position: relative;
-      background: rgba(255, 255, 255, 0.025);
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 14px 12px;
-      cursor: pointer;
-      text-align: left;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 104px;
-      outline: none;
-    }
-
-    .detail-size-card:hover {
-      border-color: rgba(201, 162, 107, 0.5);
-      background: rgba(201, 162, 107, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .detail-size-card.is-active {
-      border-color: var(--accent-gold);
-      background: linear-gradient(145deg, rgba(201, 162, 107, 0.18) 0%, rgba(26, 20, 16, 0.95) 100%);
-      box-shadow: 0 6px 20px rgba(201, 162, 107, 0.25);
-    }
-
-    .size-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      margin-bottom: 4px;
-    }
-
-    .size-card-title {
-      font-size: 0.92rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .size-card-badge {
-      font-size: 0.68rem;
-      font-weight: 700;
-      padding: 2px 6px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.08);
-      color: var(--text-muted);
-      letter-spacing: 0.02em;
-      white-space: nowrap;
-    }
-
-    .size-card-badge.is-best {
-      background: rgba(201, 162, 107, 0.25);
-      color: #ffd700;
-      border: 1px solid rgba(201, 162, 107, 0.4);
-    }
-
-    .size-card-spec {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .size-card-price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      margin-top: auto;
-    }
-
-    .size-card-price {
-      font-size: 1.05rem;
-      font-weight: 800;
-      color: var(--accent-gold);
-    }
-
-    .size-card-original {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      text-decoration: line-through;
-    }
-
-    .size-card-check {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0d0b0a;
-      transition: all 0.2s ease;
-    }
-
-    .detail-size-card.is-active .size-card-check {
-      background: var(--accent-gold);
-      border-color: var(--accent-gold);
-      color: #0d0b0a;
-    }
-
-    .detail-size-card.is-active .size-card-title {
-      color: #fff;
-    }
-
-    /* 2. CHỌN SỐ LƯỢNG VỚI WHITESPACE THOÁNG ĐÃNG */
-    .detail-qty-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 1.8rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .qty-control-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .qty-picker {
-      display: inline-flex;
-      align-items: center;
-      border: 1.5px solid rgba(201, 162, 107, 0.3);
-      border-radius: 10px;
-      background: #171310;
-      overflow: hidden;
-    }
-
-    .qty-btn {
-      width: 40px;
-      height: 40px;
-      background: transparent;
-      border: none;
-      color: var(--text-primary);
-      font-size: 1.2rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .qty-btn:hover {
-      background: rgba(201, 162, 107, 0.2);
-      color: var(--accent-gold);
-    }
-
-    .qty-input {
-      width: 48px;
-      text-align: center;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 1.05rem;
-      font-weight: 700;
-    }
-
-    .stock-badge-tag {
-      font-size: 0.82rem;
-      color: #4ade80;
-      background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.25);
-      padding: 5px 12px;
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* 3. KHUNG QUÀ TẶNG DẠNG THẺ GRADIENT CAO CẤP */
-    @keyframes giftPulse {
-      0%, 100% {
-        transform: scale(1) rotate(0deg);
-      }
-      25% {
-        transform: scale(1.12) rotate(-6deg);
-      }
-      50% {
-        transform: scale(1.05) rotate(4deg);
-      }
-      75% {
-        transform: scale(1.1) rotate(-3deg);
-      }
-    }
-
-    .detail-gift-box {
-      background: linear-gradient(135deg, rgba(201, 162, 107, 0.16) 0%, rgba(245, 158, 11, 0.08) 100%);
-      border: 1px solid rgba(201, 162, 107, 0.35);
-      border-radius: 12px;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 2rem;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), inset 0 0 15px rgba(201, 162, 107, 0.05);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .detail-gift-box::after {
-      content: "";
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(60deg, transparent 40%, rgba(255, 255, 255, 0.05) 50%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .gift-icon-bubble {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(201, 162, 107, 0.22);
-      border: 1px solid rgba(201, 162, 107, 0.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-      animation: giftPulse 2.8s infinite ease-in-out;
-    }
-
-    .gift-text-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .gift-header-label {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent-gold);
-    }
-
-    .gift-main-desc {
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: #fef3c7;
-      line-height: 1.4;
-    }
-
-    /* 4. ĐỘ ƯU TIÊN NÚT CTA (ACTION BUTTONS HIERARCHY) */
-    .detail-actions-row {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 2.2rem;
-    }
-
-    /* NÚT CHÍNH (PRIMARY CTA): MUA NGAY FULL-WIDTH NỔI BẬT CAO */
-    .btn-detail-buy-now {
-      width: 100%;
-      min-height: 52px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: linear-gradient(135deg, #f5d488 0%, #d4af37 50%, #a98036 100%);
-      color: #0d0b0a;
-      border: none;
-      font-size: 1.05rem;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 15px 24px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 8px 25px rgba(212, 175, 55, 0.42);
-    }
-
-    .btn-detail-buy-now:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(212, 175, 55, 0.55);
-      background: linear-gradient(135deg, #ffe096 0%, #e0bc46 50%, #b88d3e 100%);
-    }
-
-    .btn-detail-buy-now:active {
-      transform: translateY(0);
-    }
-
-    /* NÚT PHỤ: THÊM VÀO GIỎ HÀNG */
-    .btn-detail-add-cart {
-      width: 100%;
-      min-height: 48px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: rgba(201, 162, 107, 0.06);
-      color: var(--accent-gold);
-      border: 1.5px solid var(--accent-gold);
-      font-size: 0.96rem;
-      font-weight: 700;
-      padding: 13px 20px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .btn-detail-add-cart:hover {
-      background: var(--accent-gold);
-      color: #0d0b0a;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(201, 162, 107, 0.28);
-    }
-
-    .btn-detail-add-cart:active {
-      transform: translateY(0);
-    }
-
-    /* TÙY CHỌN TƯ VẤN PHỤ DƯỚI CÙNG (MESSENGER INBOX) */
-    .btn-detail-inbox {
-      width: 100%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: rgba(0, 132, 255, 0.08);
-      border: 1px solid rgba(0, 132, 255, 0.25);
-      color: #60a5fa;
-      font-size: 0.88rem;
-      font-weight: 600;
-      padding: 11px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      text-decoration: none;
-      margin-top: 2px;
-    }
-
-    .btn-detail-inbox:hover {
-      background: rgba(0, 132, 255, 0.16);
-      border-color: rgba(0, 132, 255, 0.45);
-      color: #93c5fd;
-      transform: translateY(-1px);
-    }
-
-    /* 5. BA BIỂU TƯỢNG CAM KẾT: 3 CỘT NGANG (DESKTOP) & SLIDER NHỎ (MOBILE) */
-    .detail-perks-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .perk-item {
-      background: rgba(255, 255, 255, 0.025);
-      border: 1px solid rgba(201, 162, 107, 0.15);
-      border-radius: 10px;
-      padding: 12px 14px;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      transition: all 0.25s ease;
-    }
-
-    .perk-item:hover {
-      border-color: rgba(201, 162, 107, 0.4);
-      background: rgba(201, 162, 107, 0.06);
-      transform: translateY(-1px);
-    }
-
-    .perk-icon {
-      font-size: 1.35rem;
-      line-height: 1;
-      flex-shrink: 0;
-      padding-top: 1px;
-    }
-
-    .perk-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .perk-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-primary);
-    }
-
-    .perk-desc {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-
-    @media (max-width: 768px) {
-      .detail-perks-list {
-        display: flex;
-        overflow-x: auto;
-        gap: 10px;
-        scroll-snap-type: x mandatory;
-        padding-bottom: 8px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        max-width: 100%;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      .detail-perks-list::-webkit-scrollbar {
-        display: none;
-      }
-
-      .perk-item {
-        flex: 0 0 78%;
-        min-width: 200px;
-        max-width: 270px;
-        scroll-snap-align: start;
-        box-sizing: border-box;
-      }
-    }
-
-    /* 6. CỐ ĐỊNH THANH MUA HÀNG (STICKY BOTTOM BAR TRÊN MOBILE) */
-    .mobile-sticky-bar {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .mobile-sticky-bar {
-        display: block;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        background: rgba(18, 14, 12, 0.96);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border-top: 1px solid rgba(201, 162, 107, 0.35);
-        padding: 9px 14px;
-        padding-bottom: max(9px, env(safe-area-inset-bottom));
-        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.6);
-        z-index: 1200;
-        transform: translateY(115%);
-        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .mobile-sticky-bar.is-visible {
-        transform: translateY(0);
-      }
-
-      .sticky-bar-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        max-width: 600px;
-        margin: 0 auto;
-      }
-
-      .sticky-product-info {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        min-width: 0;
-        flex: 1;
-        overflow: hidden;
-      }
-
-      .sticky-thumb {
-        width: 42px;
-        height: 42px;
-        border-radius: 8px;
-        object-fit: cover;
-        background: #171310;
-        border: 1px solid rgba(201, 162, 107, 0.3);
-        flex-shrink: 0;
-      }
-
-      .sticky-text-wrap {
-        display: flex;
-        flex-direction: column;
-        min-width: 0;
-        overflow: hidden;
-      }
-
-      .sticky-prod-name {
-        font-size: 0.86rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-
-      .sticky-meta-row {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        white-space: nowrap;
-      }
-
-      .sticky-price {
-        font-size: 0.98rem;
-        font-weight: 800;
-        color: var(--accent-gold);
-        line-height: 1;
-      }
-
-      .sticky-size-pill {
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 1px 6px;
-        border-radius: 4px;
-        background: rgba(201, 162, 107, 0.15);
-        color: var(--accent-gold);
-        border: 1px solid rgba(201, 162, 107, 0.3);
-        white-space: nowrap;
-      }
-
-      .sticky-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-shrink: 0;
-      }
-
-      .btn-sticky-cart {
-        width: 38px;
-        height: 38px;
-        border-radius: 8px;
-        background: rgba(201, 162, 107, 0.12);
-        border: 1.5px solid var(--accent-gold);
-        color: var(--accent-gold);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        flex-shrink: 0;
-        transition: background 0.2s;
-      }
-
-      .btn-sticky-buy {
-        height: 38px;
-        padding: 0 18px;
-        border-radius: 8px;
-        background: linear-gradient(135deg, #f5d488 0%, #d4af37 50%, #a98036 100%);
-        color: #0d0b0a;
-        border: none;
-        font-size: 0.88rem;
-        font-weight: 800;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        white-space: nowrap;
-        text-decoration: none;
-        flex-shrink: 0;
-        box-shadow: 0 4px 14px rgba(212, 175, 55, 0.38);
-      }
-
-      .fb-floating-btn {
-        bottom: 80px !important;
-      }
-    }
-
-    /* ==========================================================================
-       KHU VỰC TABS THÔNG TIN CHI TIẾT SÂU
-       ========================================================================== */
-    .detail-tabs-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 16px;
-      padding: 2.5rem;
-      margin-bottom: 4.5rem;
-    }
-
-    @media (max-width: 768px) {
-      .detail-tabs-section {
-        padding: 1.5rem;
-      }
-    }
-
-    .detail-tabs-nav {
-      display: flex;
-      gap: 10px;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 1rem;
-      margin-bottom: 2rem;
-      overflow-x: auto;
-    }
-
-    .detail-tab-btn {
-      background: transparent;
-      border: 1px solid transparent;
-      color: var(--text-muted);
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.25s ease;
-      white-space: nowrap;
-    }
-
-    .detail-tab-btn:hover {
-      color: var(--text-primary);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .detail-tab-btn.is-active {
-      color: var(--accent-gold);
-      background: rgba(201, 162, 107, 0.12);
-      border-color: rgba(201, 162, 107, 0.35);
-    }
-
-    .detail-tab-pane {
-      display: none;
-    }
-
-    .detail-tab-pane.is-active {
-      display: block;
-      animation: fadeInTab 0.3s ease;
-    }
-
-    @keyframes fadeInTab {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Tab 1: Giới thiệu */
-    .tab-content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-    }
-
-    @media (max-width: 860px) {
-      .tab-content-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .tab-text-block h3 {
-      font-family: var(--font-heading);
-      font-size: 1.45rem;
-      color: var(--accent-gold);
-      margin-bottom: 1rem;
-    }
-
-    .tab-text-block p {
-      font-size: 0.95rem;
-      line-height: 1.7;
-      color: var(--text-secondary);
-      margin-bottom: 1.2rem;
-    }
-
-    .specs-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-      margin-top: 1rem;
-    }
-
-    .specs-table td {
-      padding: 10px 14px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .specs-table td:first-child {
-      color: var(--text-muted);
-      width: 40%;
-      font-weight: 500;
-    }
-
-    .specs-table td:last-child {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    /* Tab 2: Hướng dẫn sử dụng */
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .step-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 1.5rem;
-      position: relative;
-    }
-
-    .step-number {
-      position: absolute;
-      top: -12px;
-      left: 16px;
-      background: var(--accent-gold);
-      color: #0d0b0a;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-    }
-
-    .step-card h4 {
-      font-size: 1.05rem;
-      color: var(--text-primary);
-      margin: 0.5rem 0 0.6rem 0;
-    }
-
-    .step-card p {
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-      margin: 0;
-    }
-
-    .pocket-wax-guide {
-      background: rgba(74, 222, 128, 0.06);
-      border: 1px solid rgba(74, 222, 128, 0.2);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      display: flex;
-      gap: 15px;
-      align-items: flex-start;
-    }
-
-    .pocket-wax-guide .icon {
-      font-size: 1.6rem;
-    }
-
-    .pocket-wax-guide h4 {
-      color: #4ade80;
-      margin: 0 0 0.3rem 0;
+    .detail-subtitle {
       font-size: 1rem;
-    }
-
-    .pocket-wax-guide p {
-      color: var(--text-secondary);
-      font-size: 0.88rem;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    /* Tab 3: Bảo quản & An toàn */
-    .storage-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .storage-card {
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--border-subtle);
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
-
-    .storage-card-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      color: var(--text-muted);
       margin-bottom: 0.8rem;
     }
 
-    .storage-card-header .icon {
-      font-size: 1.35rem;
-    }
-
-    .storage-card-header h4 {
-      margin: 0;
-      font-size: 1.05rem;
-      color: var(--text-primary);
-    }
-
-    .storage-card p {
-      font-size: 0.88rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-      margin: 0;
-    }
-
-    /* Sản phẩm liên quan */
-    .related-title {
-      font-family: var(--font-heading);
-      font-size: 1.85rem;
-      color: var(--text-primary);
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    /* Lightbox phóng to ảnh */
-    .lightbox-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.92);
-      backdrop-filter: blur(10px);
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-
-    .lightbox-backdrop.is-open {
+    .detail-price-box {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.2rem;
+      padding-bottom: 1.2rem;
+      border-bottom: 1px solid var(--border-subtle);
     }
 
-    .lightbox-content {
-      position: relative;
-      max-width: 90vw;
-      max-height: 90vh;
-      text-align: center;
+    .detail-price-main {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      line-height: 1;
     }
 
-    .lightbox-content img {
-      max-width: 100%;
-      max-height: 85vh;
-      object-fit: contain;
-      border-radius: 8px;
-      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.8);
+    .detail-vibe-box {
+      font-size: 0.95rem;
+      line-height: 1.68;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
     }
 
-    .lightbox-close-btn {
-      position: absolute;
-      top: -40px;
-      right: 0;
-      background: transparent;
-      border: none;
-      color: #fff;
-      font-size: 2rem;
-      cursor: pointer;
+    .detail-actions-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 1.8rem;
+      margin-bottom: 1.5rem;
     }
   </style>
 </head>
 <body>
 
   <!-- ========================================================================
-       THANH ĐIỀU HƯỚNG CHÍNH (HEADER - DÙNG CHUNG CẢ WEBSITE)
+       THANH ĐIỀU HƯỚNG CHÍNH (HEADER)
        ======================================================================== -->
-  <header class="site-header" id="main-header">
+  <header class="site-header">
     <div class="nav-container">
-      <!-- 1. Tên Thương hiệu (Bên trái) -->
+      <!-- 1. Logo ScentPod -->
       <a href="index.html" class="brand-logo" title="ScentPod - Về trang chủ">
         <img src="images/scentpod-logo-gold.png" alt="ScentPod Logo" class="brand-logo-img">
         <span>Scent<span class="accent">Pod</span></span>
       </a>
 
-      <!-- 2, 3, 4, 5. Menu điều hướng chính: Trang chủ - Sản phẩm - Combo - Về chúng tôi (Khu vực trung tâm) -->
+      <!-- 2. Menu điều hướng: Về ScentPod - Mùi hương - Cách đặt hàng -->
       <nav aria-label="Điều hướng chính">
         <ul class="nav-menu">
-          <li><a href="index.html" class="nav-link">Trang chủ</a></li>
-          <li><a href="san-pham.html" class="nav-link active">Sản phẩm</a></li>
-          <li><a href="san-pham.html#combo" class="nav-link">Combo</a></li>
-          <li><a href="ve-chung-toi.html" class="nav-link">Về chúng tôi</a></li>
+          <li><a href="ve-chung-toi.html" class="nav-link">Về ScentPod</a></li>
+          <li><a href="san-pham.html" class="nav-link">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang" class="nav-link">Cách đặt hàng</a></li>
         </ul>
       </nav>
 
-      <!-- 6, 7. Cụm nút hành động góc phải: Giỏ hàng (kèm số lượng) và Nút Tư vấn Messenger / Hỗ trợ -->
+      <!-- 3. Nút hành động góc phải: Nhắn Facebook -->
       <div class="nav-actions">
-        <!-- Biểu tượng Giỏ hàng (kèm số lượng) -->
-        <button type="button" class="nav-cart-btn" id="open-cart-btn" aria-label="Xem giỏ hàng" title="Giỏ hàng">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="9" cy="21" r="1"></circle>
-            <circle cx="20" cy="21" r="1"></circle>
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-          </svg>
-          <span class="nav-cart-label">Giỏ hàng</span>
-          <span class="cart-badge" id="header-cart-badge">0</span>
-        </button>
-
-        <!-- Nút Tư vấn Messenger / Hỗ trợ -->
-        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="header-fb-btn" title="Nhắn tin với ScentPod qua Facebook">
+        <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="header-fb-btn" data-fb-cta="header" title="Nhắn tin với ScentPod qua Facebook">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
           </svg>
-          <span class="header-fb-label">Tư vấn Messenger</span>
+          <span class="header-fb-label">Nhắn Facebook</span>
         </a>
       </div>
 
-      <!-- Nút Hamburger Mobile -->
+      <!-- 4. Nút Hamburger Mobile -->
       <button class="menu-toggle" type="button" aria-label="Mở menu chuyển trang" aria-expanded="false">
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
@@ -1369,399 +222,150 @@
       <nav class="detail-breadcrumb" aria-label="Đường dẫn trang">
         <a href="index.html">Trang chủ</a>
         <span class="separator">/</span>
-        <a href="san-pham.html">Sản phẩm</a>
+        <a href="san-pham.html">Mùi hương</a>
         <span class="separator">/</span>
-        <span class="current" id="bc-product-name">Late Night</span>
+        <span class="current" id="bc-product-name">First Class</span>
       </nav>
 
       <!-- HERO SHOWCASE 2 CỘT -->
       <section class="detail-hero-grid" aria-labelledby="product-title-heading">
         
-        <!-- Cột trái: Ảnh sản phẩm nguyên bản đầy đủ (không cắt xén) -->
+        <!-- Cột trái: Ảnh sản phẩm -->
         <div class="detail-image-col">
           <div class="detail-image-card">
-            <div class="detail-image-viewport" id="detail-image-container" title="Bấm để phóng to xem chi tiết">
-              <span class="detail-badge-top" id="detail-code-badge">Mùi 04</span>
-              <img id="detail-main-img" src="images/nen-thu-gian.jpg" alt="ScentPod Fragrance">
-              <button type="button" class="detail-zoom-btn" id="btn-zoom-image" aria-label="Phóng to ảnh">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                Phóng to ảnh gốc
-              </button>
-            </div>
-            <div class="detail-pills-row">
-              <span class="detail-pill-tag">🌱 100% Sáp thực vật</span>
-              <span class="detail-pill-tag">🔥 Bấc cotton không khói</span>
-              <span class="detail-pill-tag">📦 Đóng gói chống vỡ 3 lớp</span>
+            <div class="detail-image-viewport">
+              <span class="detail-badge-top" id="detail-code-badge">Mùi 01</span>
+              <img id="detail-main-img" src="images/sap-thom-bo-ba.jpg" alt="Nến thơm ScentPod 50g">
             </div>
           </div>
         </div>
 
-        <!-- Cột phải: Thông tin, chọn phân loại & Mua sắm -->
+        <!-- Cột phải: Thông tin sản phẩm & CTA Facebook -->
         <div class="detail-info-col">
-          <div class="detail-header-badge-row">
-            <span class="detail-category-tag" id="detail-category">Hương gỗ ấm &amp; Thư giãn</span>
-            <span class="detail-poster-tag" id="detail-poster-name">Coffee Holic</span>
-          </div>
-
-          <h1 class="detail-title" id="product-title-heading">Late Night</h1>
-          <div class="detail-subtitle" id="detail-scent-name">Cedarwood &amp; Warm Amber</div>
+          <span class="detail-category-tag" id="detail-category">Trà xanh &amp; Thảo mộc tươi</span>
+          <h1 class="detail-title" id="product-title-heading">First Class</h1>
+          <div class="detail-subtitle" id="detail-scent-name">White Tea &amp; Morning Dew</div>
+          <span class="product-spec-tag">Nến thơm 50g</span>
 
           <div class="detail-price-box">
-            <div class="detail-price-main">
-              <span class="detail-price-current" id="detail-price">85.000đ</span>
-              <div class="detail-price-meta">
-                <span class="detail-price-original" id="detail-original-price">95.000đ</span>
-                <span class="detail-savings-badge" id="detail-savings">Tiết kiệm 10.000đ</span>
-              </div>
-            </div>
-            <div class="detail-price-subtext">Đã bao gồm VAT • 100% sáp thực vật tự nhiên không khói độc hại</div>
+            <span class="detail-price-main">85.000đ</span>
+            <span class="price-badge" style="background: rgba(201, 162, 107, 0.22); border: 1px solid var(--accent-gold); color: #fff; padding: 3px 10px; border-radius: 12px; font-size: 0.82rem; font-weight: 500;">Giá ưu đãi HSSV</span>
           </div>
 
-          <!-- Đoạn trích dẫn cảm xúc / câu chuyện thơ mộng -->
+          <!-- Mô tả ngắn gọn -->
           <div class="detail-vibe-box">
-            <p id="detail-vibe">Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya.</p>
+            <p id="detail-vibe">Thanh mát, trong lành từ trà trắng non và thảo mộc tươi, đánh thức cảm hứng học tập.</p>
           </div>
 
-          <!-- 1. BỘ CHỌN PHÂN LOẠI DẠNG CARD TRỰC QUAN -->
-          <div class="detail-section-title">
-            <span>Chọn phân loại sản phẩm:</span>
-            <small>Đầy đủ tem niêm phong</small>
-          </div>
-          <div class="detail-sizes-grid" id="detail-sizes-list">
-            <button type="button" class="detail-size-card" data-size="sp01" aria-label="Sáp bỏ túi 50g">
-              <div class="size-card-header">
-                <span class="size-card-title">Sáp bỏ túi</span>
-                <span class="size-card-badge">Tiết kiệm 6K</span>
-              </div>
-              <div class="size-card-spec">Hũ nhôm tiện lợi 50g • Tỏa hương 15 - 20 ngày</div>
-              <div class="size-card-price-row">
-                <span class="size-card-price">49.000đ</span>
-                <span class="size-card-original">55.000đ</span>
-              </div>
-              <div class="size-card-check">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-            </button>
-
-            <button type="button" class="detail-size-card is-active" data-size="sp02" aria-label="Nến thơm 100g">
-              <div class="size-card-header">
-                <span class="size-card-title">Nến thơm</span>
-                <span class="size-card-badge is-best">🔥 Bán chạy</span>
-              </div>
-              <div class="size-card-spec">Hũ thủy tinh cao cấp 100g • Cháy 15 - 18 giờ</div>
-              <div class="size-card-price-row">
-                <span class="size-card-price">85.000đ</span>
-                <span class="size-card-original">95.000đ</span>
-              </div>
-              <div class="size-card-check">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-            </button>
-
-            <button type="button" class="detail-size-card" data-size="10g" aria-label="Mini dùng thử 10g">
-              <div class="size-card-header">
-                <span class="size-card-title">Mini dùng thử</span>
-                <span class="size-card-badge">Trải nghiệm</span>
-              </div>
-              <div class="size-card-spec">Hũ nhôm nhỏ gọn 10g • Cháy 2 - 3 giờ</div>
-              <div class="size-card-price-row">
-                <span class="size-card-price">39.000đ</span>
-                <span class="size-card-original">45.000đ</span>
-              </div>
-              <div class="size-card-check">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-            </button>
-          </div>
-
-          <!-- 2. CHỌN SỐ LƯỢNG VỚI WHITESPACE THOÁNG ĐÃNG -->
-          <div class="detail-qty-row">
-            <div class="qty-control-group">
-              <span class="detail-section-title" style="margin-bottom: 0;">Số lượng:</span>
-              <div class="qty-picker">
-                <button type="button" class="qty-btn" id="btn-qty-minus" aria-label="Giảm số lượng">−</button>
-                <input type="number" id="detail-qty-input" class="qty-input" value="1" min="1" max="99" readonly>
-                <button type="button" class="qty-btn" id="btn-qty-plus" aria-label="Tăng số lượng">+</button>
-              </div>
+          <!-- Cấu trúc 3 tầng hương -->
+          <div class="scent-pyramid-card" style="margin-bottom: 1.5rem;">
+            <div class="scent-pyramid-header">✨ Cấu trúc 3 tầng hương</div>
+            <div class="scent-tier">
+              <span class="tier-dot"></span>
+              <span class="tier-label">Hương đầu:</span>
+              <div class="tier-notes" id="detail-tier-top">Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.</div>
             </div>
-            <span class="stock-badge-tag">✓ Sẵn hàng giao hỏa tốc</span>
+            <div class="scent-tier">
+              <span class="tier-dot"></span>
+              <span class="tier-label">Hương giữa:</span>
+              <div class="tier-notes" id="detail-tier-heart">Trà trắng non, Hoa linh lan, Hoa sen nước.</div>
+            </div>
+            <div class="scent-tier">
+              <span class="tier-dot"></span>
+              <span class="tier-label">Hương cuối:</span>
+              <div class="tier-notes" id="detail-tier-base">Gỗ tuyết tùng nhạt, Xạ hương sạch.</div>
+            </div>
           </div>
 
-          <!-- 3. NÚT HÀNH ĐỘNG: MUA NGAY CHỐT ĐƠN QUA FACEBOOK -->
-          <div class="detail-actions-row">
-            <!-- NÚT CHÍNH: MUA NGAY (CHỐT ĐƠN QUA FACEBOOK) -->
-            <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-detail-buy-now" id="btn-buy-now" title="Nhắn tin đặt hàng và chốt đơn qua Facebook">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-              </svg>
-              <span>MUA NGAY (CHỐT ĐƠN QUA FACEBOOK)</span>
-            </a>
+          <!-- Quà kèm & Chính sách rõ ràng -->
+          <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 14px 16px; font-size: 0.88rem; line-height: 1.65; color: var(--text-secondary); margin-bottom: 1.2rem;">
+            <div style="margin-bottom: 6px;">🎁 <strong>Quà kèm:</strong> Que diêm dài chuyên dụng &amp; thiệp hướng dẫn sử dụng nến.</div>
+            <div style="margin-bottom: 6px;">🕯️ <strong>Hướng dẫn dùng nến ngắn:</strong> Cắt ngắn bấc còn khoảng 0.5cm trước khi đốt. Lần đầu thắp nên để sáp tan chảy đều tới mép hũ (khoảng 1–2 giờ).</div>
+            <div style="margin-bottom: 6px; color: #f5c87a;">⚠️ <strong>Lưu ý an toàn:</strong> Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.</div>
+            <div style="color: var(--accent-gold);">🚚 <strong>Chính sách ship:</strong> Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn).</div>
+          </div>
 
-            <!-- TÙY CHỌN TƯ VẤN PHỤ DƯỚI CÙNG QUA MESSENGER -->
-            <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-detail-inbox" id="btn-messenger-order">
+          <!-- Nút hành động chính: Facebook & Sao chép -->
+          <div class="detail-actions-row">
+            <button type="button" class="btn btn-primary" id="detail-buy-fb-btn" style="flex: 1; min-height: 48px; border-radius: 8px;">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
               </svg>
-              <span>Bạn phân vân chọn mùi? <strong>Nhắn tin tư vấn qua Messenger &rarr;</strong></span>
-            </a>
+              <span>Hỏi mua qua Facebook</span>
+            </button>
+            <button type="button" class="btn-copy-info" id="detail-copy-info-btn">
+              📋 <span>Sao chép thông tin</span>
+            </button>
           </div>
 
-          <!-- 5. BA CAM KẾT DỊCH VỤ: 3 CỘT (DESKTOP) & SLIDER NHỎ (MOBILE) -->
-          <div class="detail-perks-list">
-            <div class="perk-item">
-              <span class="perk-icon">🚚</span>
-              <div class="perk-content">
-                <span class="perk-title">Freeship toàn quốc</span>
-                <span class="perk-desc">Đơn từ 199.000đ, đóng gói chống vỡ 3 lớp an tâm</span>
-              </div>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">🔄</span>
-              <div class="perk-content">
-                <span class="perk-title">Cam kết 1 đổi 1</span>
-                <span class="perk-desc">Đổi mới tức thì nếu nứt vỡ trong quá trình vận chuyển</span>
-              </div>
-            </div>
-            <div class="perk-item">
-              <span class="perk-icon">💌</span>
-              <div class="perk-content">
-                <span class="perk-title">Tặng thiệp viết tay</span>
-                <span class="perk-desc">Hỗ trợ ghi lời nhắn nhủ yêu thương cho người thương</span>
-              </div>
-            </div>
+          <div id="scent-modal-copy-toast" class="copy-toast-msg" style="display: none;"></div>
+          <div id="scent-modal-manual-copy" class="manual-copy-box" style="display: none;">
+            <input type="text" id="scent-modal-manual-input" class="manual-copy-input" readonly>
           </div>
 
         </div>
       </section>
 
-      <!-- ====================================================================
-           KHU VỰC TABS THÔNG TIN SÂU (GIỚI THIỆU, HDSD, BẢO QUẢN)
-           ==================================================================== -->
-      <section class="detail-tabs-section" aria-label="Thông tin chi tiết chuyên sâu">
-        <div class="detail-tabs-nav">
-          <button type="button" class="detail-tab-btn is-active" data-tab="intro">
-            <span>🌿</span> Giới Thiệu &amp; Tầng Hương
-          </button>
-          <button type="button" class="detail-tab-btn" data-tab="usage">
-            <span>🕯️</span> Hướng Dẫn Sử Dụng
-          </button>
-          <button type="button" class="detail-tab-btn" data-tab="storage">
-            <span>🛡️</span> Hướng Dẫn Bảo Quản &amp; An Toàn
-          </button>
-        </div>
-
-        <!-- TAB 1: GIỚI THIỆU & TẦNG HƯƠNG -->
-        <div class="detail-tab-pane is-active" id="tab-intro">
-          <div class="tab-content-grid">
-            <div class="tab-text-block">
-              <h3>Câu Chuyện Mùi Hương</h3>
-              <p id="detail-story-text">
-                Cà phê và gỗ — trầm ấm như góc quán quen thuở cũ, mùi cà phê rang đậm đà quyện vào nền gỗ ấm áp sâu lắng, kéo tâm trí chìm vào khoảnh khắc chậm rãi, thư thái và đầy dễ chịu.
-              </p>
-              
-              <h3 style="margin-top: 1.5rem;">Cấu Trúc 3 Tầng Hương Tinh Tế</h3>
-              <div class="scent-pyramid-card" style="margin-top: 1rem;">
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương đầu (Top Notes):</span>
-                  <div class="tier-notes" id="detail-top-notes">Hạt cà phê rang mộc thơm lừng, Cam Bergamot thoang thoảng.</div>
-                </div>
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương giữa (Heart Notes):</span>
-                  <div class="tier-notes" id="detail-heart-notes">Hương cà phê sữa ấm, Hoa oải hương nhẹ, Nhục đậu khấu.</div>
-                </div>
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương cuối (Base Notes):</span>
-                  <div class="tier-notes" id="detail-base-notes">Gỗ thông tuyết tùng (Cedarwood), Hổ phách vàng ấm.</div>
-                </div>
-              </div>
+      <!-- DẢI THÔNG TIN MUA HÀNG GỌN -->
+      <div class="purchase-perks-strip reveal-on-scroll">
+        <div class="perks-grid">
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
             </div>
-
-            <div class="tab-text-block">
-              <h3>Thông Số &amp; Thành Phần Chuẩn</h3>
-              <p id="detail-ingredients-text">
-                100% Sáp thực vật tự nhiên (sáp đậu nành &amp; sáp dừa), bấc cotton sạch không chì không sinh khói độc, tinh dầu nhập khẩu cao cấp an toàn tuyệt đối.
-              </p>
-              <table class="specs-table">
-                <tbody>
-                  <tr>
-                    <td>Mã sản phẩm:</td>
-                    <td id="table-spec-code">SP02 - Nến 100g / SP01 - Sáp 50g / Mini 10g</td>
-                  </tr>
-                  <tr>
-                    <td>Thời gian cháy:</td>
-                    <td id="table-spec-burn">15 - 18 giờ đốt (Nến 100g) / 15 - 20 ngày tỏa hương (Sáp 50g) / 2 - 3 giờ đốt (Mini 10g)</td>
-                  </tr>
-                  <tr>
-                    <td>Diện tích tỏa hương:</td>
-                    <td id="table-spec-radius">15 - 20 m² (bàn học, phòng ngủ, phòng làm việc)</td>
-                  </tr>
-                  <tr>
-                    <td>Chất liệu hũ:</td>
-                    <td>Thủy tinh cao cấp chịu nhiệt (Nến 100g) / Hũ nhôm nắp xoay (Sáp 50g &amp; Mini 10g)</td>
-                  </tr>
-                  <tr>
-                    <td>Xuất xứ:</td>
-                    <td>ScentPod Handcrafted Vietnam (Sinh viên khởi nghiệp)</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-
-        <!-- TAB 2: HƯỚNG DẪN SỬ DỤNG CHUẨN CHUYÊN GIA -->
-        <div class="detail-tab-pane" id="tab-usage">
-          <h3 style="font-family: var(--font-heading); color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 1.5rem;">
-            4 Bước Thắp Nến Thơm Chuẩn Để Nến Cháy Đẹp &amp; Thơm Lâu
-          </h3>
-
-          <div class="steps-grid">
-            <div class="step-card">
-              <span class="step-number">1</span>
-              <h4>Cắt ngắn bấc (tim nến)</h4>
-              <p>Luôn cắt bấc còn khoảng <strong>3 - 5mm</strong> trước khi thắp. Bấc ngắn giúp ngọn lửa cháy nhỏ gọn, đều đẹp, không sinh khói đen và tiết kiệm sáp tối đa.</p>
-            </div>
-
-            <div class="step-card">
-              <span class="step-number">2</span>
-              <h4>Tạo "trí nhớ sáp" lần đầu</h4>
-              <p>Trong lần thắp đầu tiên, hãy đốt liên tục từ <strong>1 - 1.5 giờ</strong> (với hũ mini 10g chỉ cần <strong>30 - 45 phút</strong>) cho đến khi toàn bộ bề mặt sáp tan chảy đều đến tận mép cốc, tránh hiện tượng lõm tim (tunneling).</p>
-            </div>
-
-            <div class="step-card">
-              <span class="step-number">3</span>
-              <h4>Thời gian đốt hợp lý</h4>
-              <p>Mỗi lần thắp nên duy trì từ <strong>1 - 2 giờ</strong> (hũ 100g đạt tổng <strong>15 - 18 giờ</strong> đốt, hũ mini 10g dùng thử đạt <strong>2 - 3 giờ</strong>). Không nên đốt quá 3 giờ liên tục để tránh cốc quá nóng và làm hao hụt tinh dầu quá nhanh.</p>
-            </div>
-
-            <div class="step-card">
-              <span class="step-number">4</span>
-              <h4>Tắt nến không sinh khói</h4>
-              <p>Dùng nắp đậy cốc nến hoặc dùng dụng cụ dìm tim nến vào sáp lỏng rồi dựng thẳng lại. <strong>Tránh thổi trực tiếp</strong> để không bắn sáp và không để lại mùi khét.</p>
-            </div>
-          </div>
-
-          <!-- Hướng dẫn dùng sáp thơm bỏ túi -->
-          <div class="pocket-wax-guide">
-            <span class="icon">📦</span>
             <div>
-              <h4>Đối Với Sáp Thơm Bỏ Túi (Hũ nhôm SP01 50g &amp; Mini 10g):</h4>
-              <p>
-                Chỉ cần mở hé hoặc mở hẳn nắp hũ sáp, đặt ở góc bàn học, bàn làm việc, tủ quần áo, ngăn kéo balo hoặc để trong ô tô. Sáp sẽ tự khuếch tán hương thơm dịu nhẹ, kháng khuẩn và khử mùi ẩm mốc liên tục suốt <strong>15 - 20 ngày</strong> đối với hũ 50g (hũ mini 10g tỏa hương <strong>5 - 7 ngày</strong>) mà không cần đốt lửa, cực kỳ an toàn và tiện lợi mang theo mọi nơi!
-              </p>
+              <div class="perk-title">Nến thơm 50g</div>
+              <p class="perk-desc">Sáp đậu nành thiên nhiên, an toàn và dễ chịu cho không gian học tập.</p>
+            </div>
+          </div>
+
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12a2 2 0 0 0 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg>
+            </div>
+            <div>
+              <div class="perk-title">Kèm que diêm dài &amp; thiệp HDSD</div>
+              <p class="perk-desc">Đầy đủ phụ kiện để bạn thắp sáng góc phòng ngay khi mở hộp.</p>
+            </div>
+          </div>
+
+          <div class="perk-item">
+            <div class="perk-icon-wrap" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <div>
+              <div class="perk-title">Ship 15.000đ khi mua từ 2 hũ</div>
+              <p class="perk-desc">Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn.</p>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- TAB 3: HƯỚNG DẪN BẢO QUẢN & AN TOÀN -->
-        <div class="detail-tab-pane" id="tab-storage">
-          <h3 style="font-family: var(--font-heading); color: var(--accent-gold); font-size: 1.5rem; margin-bottom: 1.5rem;">
-            Quy Tắc Bảo Quản &amp; An Toàn Phòng Ngừa Cháy Nổ
-          </h3>
-
-          <div class="storage-grid">
-            <div class="storage-card">
-              <div class="storage-card-header">
-                <span class="icon">🌡️</span>
-                <h4>Nhiệt độ &amp; Ánh sáng</h4>
-              </div>
-              <p>
-                Bảo quản nến và sáp ở nơi khô ráo, thoáng mát (dưới <strong>30°C</strong>). Tuyệt đối tránh ánh nắng mặt trời trực tiếp hoặc nơi gần nguồn nhiệt cao (bếp, cốp xe) để sáp không bị mềm chảy hoặc bay hơi tinh dầu.
-              </p>
-            </div>
-
-            <div class="storage-card">
-              <div class="storage-card-header">
-                <span class="icon">🔒</span>
-                <h4>Đậy kín nắp sau khi dùng</h4>
-              </div>
-              <p>
-                Sau khi tắt nến và đợi sáp đông nguội hoàn toàn, luôn đậy nắp cốc lại. Việc này ngăn chặn bụi bẩn rơi vào mặt sáp, giữ cho bấc luôn sạch và lưu giữ trọn vẹn hương thơm tự nhiên cho lần sử dụng tiếp theo.
-              </p>
-            </div>
-
-            <div class="storage-card">
-              <div class="storage-card-header">
-                <span class="icon">🔥</span>
-                <h4>Bề mặt cách nhiệt an toàn</h4>
-              </div>
-              <p>
-                Luôn đặt nến trên mặt phẳng vững chắc, chịu nhiệt tốt (khay gỗ, đĩa sứ). Không di chuyển nến khi sáp đang nóng lỏng. Để xa các vật liệu dễ bén lửa như sách vở, tài liệu, rèm cửa, quần áo.
-              </p>
-            </div>
-
-            <div class="storage-card">
-              <div class="storage-card-header">
-                <span class="icon">👶</span>
-                <h4>Tránh xa trẻ nhỏ &amp; thú cưng</h4>
-              </div>
-              <p>
-                Đặt nến ở vị trí ngoài tầm với của trẻ em và thú cưng. Không bao giờ để nến thắp mà không có người quan sát. Luôn dập tắt nến hoàn toàn trước khi đi ngủ hoặc rời khỏi phòng.
-              </p>
-            </div>
-          </div>
+      <!-- BANNER ĐIỀU HƯỚNG TƯ VẤN CUỐI TRANG -->
+      <div style="margin-top: 4rem;">
+        <div class="cta-banner reveal-on-scroll">
+          <h2>Chưa biết chọn mùi nào?</h2>
+          <p>Nhắn ngay cho ScentPod qua Facebook để tụi mình lắng nghe gu mùi hương và tư vấn nốt hương hợp nhất với bạn nhé!</p>
+          <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="detail_page_bottom" class="btn btn-primary btn-large">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.06 12.16l-2.556-2.727-4.99 2.727 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
+            </svg>
+            Nhờ tư vấn chọn mùi
+          </a>
         </div>
-
-      </section>
-
-      <!-- ====================================================================
-           SẢN PHẨM KHÁC TRONG BỘ SƯU TẬP (RELATED PRODUCTS)
-           ==================================================================== -->
-      <section class="related-section" aria-label="Các mùi hương khác">
-        <h2 class="related-title">Khám Phá Các Mùi Hương Khác Của ScentPod</h2>
-        <div class="product-grid" id="related-products-grid">
-          <!-- Render tự động bằng JavaScript -->
-        </div>
-      </section>
+      </div>
 
     </div>
   </main>
 
   <!-- ========================================================================
-       CỐ ĐỊNH THANH MUA HÀNG (STICKY BOTTOM BAR CHO THIẾT BỊ DI ĐỘNG)
+       NÚT FACEBOOK NỔI CỐ ĐỊNH GÓC DƯỚI PHẢI
        ======================================================================== -->
-  <aside class="mobile-sticky-bar" id="mobile-sticky-bar" aria-label="Thanh mua hàng nhanh trên điện thoại">
-    <div class="sticky-bar-container">
-      <div class="sticky-product-info">
-        <img id="sticky-bar-img" src="images/nen-thu-gian.jpg" alt="Ảnh thu nhỏ sản phẩm" class="sticky-thumb">
-        <div class="sticky-text-wrap">
-          <span class="sticky-prod-name" id="sticky-prod-name">Late Night</span>
-          <div class="sticky-meta-row">
-            <span class="sticky-price" id="sticky-price">85.000đ</span>
-            <span class="sticky-size-pill" id="sticky-size-pill">100g</span>
-          </div>
-        </div>
-      </div>
-      <div class="sticky-actions">
-        <a href="https://www.facebook.com/profile.php?id=61594607444699" data-fb target="_blank" rel="noopener noreferrer" class="btn-sticky-buy" id="btn-sticky-buy" title="Chốt đơn qua Facebook">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 6px;">
-            <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-          </svg>
-          <span>Chốt đơn Facebook</span>
-        </a>
-      </div>
-    </div>
-  </aside>
-
-  <!-- ========================================================================
-       MODAL LIGHTBOX PHÓNG TO ẢNH GỐC
-       ======================================================================== -->
-  <div class="lightbox-backdrop" id="image-lightbox" role="dialog" aria-modal="true" aria-label="Phóng to ảnh">
-    <div class="lightbox-content">
-      <button type="button" class="lightbox-close-btn" id="btn-close-lightbox" aria-label="Đóng">&times;</button>
-      <img id="lightbox-img" src="" alt="Ảnh phóng to">
-    </div>
-  </div>
-
-  <!-- Nút Messenger nổi -->
-  <a href="#" data-fb class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
+  <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="floating" class="fb-floating-btn" title="Nhắn tin với ScentPod qua Facebook">
     <svg viewBox="0 0 24 24">
-      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.58-2.75-5.04 2.75 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
+      <path d="M12 2C6.48 2 2 6.03 2 11c0 2.87 1.48 5.43 3.8 7.04V22l3.81-2.09c.77.21 1.58.33 2.39.33 5.52 0 10-4.03 10-9s-4.48-9-10-9zm1.06 12.16l-2.556-2.727-4.99 2.727 5.54-5.89 2.64 2.75 4.98-2.75-5.54 5.89z"/>
     </svg>
-    <span class="fb-text">Tư vấn ngay</span>
+    <span class="fb-text">Nhắn Facebook</span>
   </a>
 
   <!-- ========================================================================
@@ -1775,288 +379,19 @@
           <span>Scent<span class="accent">Pod</span></span>
         </div>
         <ul class="footer-nav">
-          <li><a href="index.html">Trang chủ</a></li>
-          <li><a href="san-pham.html">Sản phẩm</a></li>
-          <li><a href="ve-chung-toi.html">Về chúng tôi</a></li>
-          <li><a href="#" data-fb>Facebook</a></li>
+          <li><a href="ve-chung-toi.html">Về ScentPod</a></li>
+          <li><a href="san-pham.html">Mùi hương</a></li>
+          <li><a href="index.html#cach-dat-hang">Cách đặt hàng</a></li>
+          <li><a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" data-fb-cta="footer">Facebook</a></li>
         </ul>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 ScentPod. Made with love by sinh viên.</p>
+        <p>© 2026 ScentPod. Dự án nến thơm dành cho người trẻ.</p>
       </div>
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Tệp JS xử lý sự kiện -->
   <script src="js/main.js"></script>
-  <script>
-    // Logic khởi tạo trang chi tiết sản phẩm chi-tiet-san-pham.html
-    document.addEventListener("DOMContentLoaded", () => {
-      // 1. Đọc tham số URL ?id=...
-      const urlParams = new URLSearchParams(window.location.search);
-      let productId = urlParams.get("id") || "late-night";
-      
-      // Fallback nếu id không tồn tại
-      if (!PRODUCTS_CONFIG[productId]) {
-        productId = "late-night";
-      }
-
-      const p = PRODUCTS_CONFIG[productId];
-      let currentSelectedSize = "sp02";
-      let currentQuantity = 1;
-
-      // 2. Điền thông tin vào DOM
-      document.getElementById("page-head-title").textContent = `${p.name} (${p.posterTitle || ''}) | ScentPod Chi Tiết Sản Phẩm`;
-      document.getElementById("bc-product-name").textContent = `${p.name} - ${p.posterTitle || ''}`;
-      document.getElementById("detail-code-badge").textContent = p.code;
-      document.getElementById("detail-category").textContent = p.category;
-      document.getElementById("detail-poster-name").textContent = p.posterTitle || p.name;
-      document.getElementById("product-title-heading").textContent = `${p.name} (${p.posterTitle || ''})`;
-      document.getElementById("detail-scent-name").textContent = `${p.scentName} • ${p.tagline || ''}`;
-      document.getElementById("detail-vibe").textContent = p.vibe;
-
-      const mainImg = document.getElementById("detail-main-img");
-      mainImg.src = p.defaultSrc;
-      mainImg.alt = `${p.name} - ${p.posterTitle || ''}`;
-
-      // Tab 1
-      document.getElementById("detail-story-text").textContent = p.story || p.vibe;
-      document.getElementById("detail-top-notes").textContent = p.topNotes;
-      document.getElementById("detail-heart-notes").textContent = p.heartNotes;
-      document.getElementById("detail-base-notes").textContent = p.baseNotes;
-      document.getElementById("detail-ingredients-text").textContent = p.ingredients || "100% Sáp thực vật tự nhiên (đậu nành & dừa), bấc cotton sạch không khói.";
-      if (p.burnTime) document.getElementById("table-spec-burn").textContent = p.burnTime;
-      if (p.scentRadius) document.getElementById("table-spec-radius").textContent = p.scentRadius;
-
-      // 3. Xử lý bộ chọn Size & Đồng bộ giá
-      const sizeCards = document.querySelectorAll(".detail-size-card");
-      const priceEl = document.getElementById("detail-price");
-      const originalPriceEl = document.getElementById("detail-original-price");
-      const savingsEl = document.getElementById("detail-savings");
-      const giftEl = document.getElementById("detail-gift-text");
-
-      // Elements trong Mobile Sticky Bar
-      const stickyThumb = document.getElementById("sticky-bar-img");
-      const stickyName = document.getElementById("sticky-prod-name");
-      const stickyPrice = document.getElementById("sticky-price");
-      const stickySizePill = document.getElementById("sticky-size-pill");
-
-      if (stickyThumb) stickyThumb.src = p.defaultSrc;
-      if (stickyName) stickyName.textContent = p.name;
-
-      function updateSize(sizeCode) {
-        currentSelectedSize = sizeCode;
-        sizeCards.forEach(card => card.classList.toggle("is-active", card.getAttribute("data-size") === sizeCode));
-        const cfg = PRODUCT_SIZES_CONFIG[sizeCode] || PRODUCT_SIZES_CONFIG["sp02"];
-        if (cfg) {
-          if (priceEl) priceEl.textContent = cfg.priceFormatted;
-          if (originalPriceEl) originalPriceEl.textContent = cfg.originalPriceFormatted;
-          const diff = cfg.originalPrice - cfg.price;
-          if (savingsEl) {
-            if (diff > 0) {
-              savingsEl.textContent = `Tiết kiệm ${formatVND(diff)}`;
-              savingsEl.style.display = "inline-block";
-            } else {
-              savingsEl.style.display = "none";
-            }
-          }
-          if (giftEl && cfg.gift) giftEl.textContent = cfg.gift;
-
-          // Cập nhật lên Mobile Sticky Bar
-          if (stickyPrice) stickyPrice.textContent = cfg.priceFormatted;
-          if (stickySizePill) stickySizePill.textContent = cfg.size || "100g";
-
-          // Cập nhật thông số chi tiết của size đang chọn trong bảng Thông số
-          const specCodeEl = document.getElementById("table-spec-code");
-          const specBurnEl = document.getElementById("table-spec-burn");
-          if (specCodeEl) {
-            specCodeEl.innerHTML = `<strong>${cfg.code}</strong> (${cfg.typeName || cfg.label}) — ${cfg.spec || cfg.size}`;
-          }
-          if (specBurnEl) {
-            let burnTimeDesc = "";
-            if (sizeCode === "10g") {
-              burnTimeDesc = `<strong>2 - 3 giờ đốt liên tục</strong> (Hũ mini dùng thử 10g) / Tự tỏa hương 5 - 7 ngày`;
-            } else if (sizeCode === "sp01" || sizeCode === "50g") {
-              burnTimeDesc = `<strong>15 - 20 ngày tự tỏa hương</strong> (Hũ sáp nhôm 50g) / ~10 - 12 giờ đốt`;
-            } else {
-              burnTimeDesc = `<strong>15 - 18 giờ đốt liên tục</strong> (Hũ nến thủy tinh 100g)`;
-            }
-            specBurnEl.innerHTML = `${burnTimeDesc} <span style="display: block; font-size: 0.82rem; color: var(--text-muted); margin-top: 2px;">(Chuẩn thực tế: Nến 100g ~15-18h | Sáp 50g ~15-20 ngày | Mini 10g ~2-3h)</span>`;
-          }
-        }
-      }
-
-      sizeCards.forEach(card => {
-        card.addEventListener("click", () => {
-          updateSize(card.getAttribute("data-size"));
-        });
-      });
-
-      // Khởi tạo size mặc định
-      updateSize("sp02");
-
-      // 4. Bộ chọn số lượng
-      const qtyInput = document.getElementById("detail-qty-input");
-      document.getElementById("btn-qty-minus").addEventListener("click", () => {
-        if (currentQuantity > 1) {
-          currentQuantity--;
-          qtyInput.value = currentQuantity;
-        }
-      });
-      document.getElementById("btn-qty-plus").addEventListener("click", () => {
-        if (currentQuantity < 99) {
-          currentQuantity++;
-          qtyInput.value = currentQuantity;
-        }
-      });
-
-      // 5. Nút Mua ngay (Chốt đơn qua Facebook)
-      const handleBuyNowFacebook = () => {
-        const sizeCfg = PRODUCT_SIZES_CONFIG[currentSelectedSize] || PRODUCT_SIZES_CONFIG["sp02"];
-        const variantText = sizeCfg ? sizeCfg.label : "Nến 100g";
-        const priceText = sizeCfg ? sizeCfg.priceFormatted : p.price;
-        const totalEstimate = sizeCfg ? formatVND(sizeCfg.price * currentQuantity) : "";
-
-        const message = `Chào ScentPod! Mình muốn chốt đơn đặt mua sản phẩm:
-• Tên: ${p.code}: ${p.name} (${p.posterTitle || p.scentName || ''})
-• Phân loại: ${variantText}
-• Số lượng: ${currentQuantity}
-• Giá tạm tính: ${totalEstimate || priceText}
-Nhờ shop xác nhận đơn và ship hàng giúp mình nhé!`;
-
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(message).then(() => {
-            showToast(`💬 Đã lưu thông tin đơn (${currentQuantity}x ${p.name})! Đang mở Facebook để chốt đơn...`, 4000);
-          }).catch(() => {
-            showToast(`💬 Đang mở Facebook để chốt đơn cho bạn...`, 3000);
-          });
-        } else {
-          showToast(`💬 Đang mở Facebook để chốt đơn cho bạn...`, 3000);
-        }
-
-        setTimeout(() => {
-          window.open(FB_LINK, "_blank", "noopener,noreferrer");
-        }, 350);
-      };
-
-      const btnBuyNow = document.getElementById("btn-buy-now");
-      if (btnBuyNow) {
-        btnBuyNow.addEventListener("click", (e) => {
-          e.preventDefault();
-          handleBuyNowFacebook();
-        });
-      }
-
-      // 6. Nút Inbox Messenger tư vấn
-      const btnMessengerOrder = document.getElementById("btn-messenger-order");
-      if (btnMessengerOrder) {
-        btnMessengerOrder.addEventListener("click", (e) => {
-          e.preventDefault();
-          handleInboxOrder(productId, currentSelectedSize);
-        });
-      }
-
-      // 7. Đồng bộ sự kiện cho Mobile Sticky Bar
-      const mobileStickyBar = document.getElementById("mobile-sticky-bar");
-      const heroActionsRow = document.querySelector(".detail-actions-row");
-      const btnStickyBuy = document.getElementById("btn-sticky-buy");
-
-      if (btnStickyBuy) {
-        btnStickyBuy.addEventListener("click", (e) => {
-          e.preventDefault();
-          handleBuyNowFacebook();
-        });
-      }
-
-      // Observer / Scroll listener hiện Sticky Bar khi cuộn qua cụm CTA chính
-      if (mobileStickyBar && heroActionsRow) {
-        let isStickyVisible = false;
-        const checkStickyVisibility = () => {
-          const rect = heroActionsRow.getBoundingClientRect();
-          // Khi cụm nút chính cuộn lên trên đỉnh viewport
-          const shouldShow = rect.bottom < 80;
-          if (shouldShow !== isStickyVisible) {
-            isStickyVisible = shouldShow;
-            mobileStickyBar.classList.toggle("is-visible", isStickyVisible);
-          }
-        };
-
-        window.addEventListener("scroll", checkStickyVisibility, { passive: true });
-        window.addEventListener("resize", checkStickyVisibility, { passive: true });
-        checkStickyVisibility();
-      }
-
-      // 8. Chuyển Tab thông tin sâu (Giới thiệu, HDSD, Bảo quản)
-      const tabBtns = document.querySelectorAll(".detail-tab-btn");
-      const tabPanes = document.querySelectorAll(".detail-tab-pane");
-
-      tabBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const tabId = btn.getAttribute("data-tab");
-          tabBtns.forEach(b => b.classList.remove("is-active"));
-          tabPanes.forEach(pane => pane.classList.remove("is-active"));
-
-          btn.classList.add("is-active");
-          const target = document.getElementById(`tab-${tabId}`);
-          if (target) target.classList.add("is-active");
-        });
-      });
-
-      // 9. Lightbox xem ảnh gốc
-      const lightbox = document.getElementById("image-lightbox");
-      const lightboxImg = document.getElementById("lightbox-img");
-      const openLightbox = () => {
-        lightboxImg.src = p.defaultSrc;
-        lightbox.classList.add("is-open");
-        document.body.style.overflow = "hidden";
-      };
-      const closeLightbox = () => {
-        lightbox.classList.remove("is-open");
-        document.body.style.overflow = "";
-      };
-
-      document.getElementById("btn-zoom-image").addEventListener("click", (e) => {
-        e.stopPropagation();
-        openLightbox();
-      });
-      document.getElementById("detail-image-container").addEventListener("click", openLightbox);
-      document.getElementById("btn-close-lightbox").addEventListener("click", closeLightbox);
-      lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) closeLightbox();
-      });
-
-      // 10. Hiển thị danh sách sản phẩm liên quan
-      const relatedContainer = document.getElementById("related-products-grid");
-      if (relatedContainer) {
-        relatedContainer.innerHTML = "";
-        Object.keys(PRODUCTS_CONFIG)
-          .filter(id => id !== productId)
-          .slice(0, 3)
-          .forEach(otherId => {
-            const op = PRODUCTS_CONFIG[otherId];
-            const col = document.createElement("article");
-            col.className = "product-card";
-            col.innerHTML = `
-              <div class="product-img-wrapper">
-                <span class="product-badge">${op.code}</span>
-                <img src="${op.defaultSrc}" alt="${op.name}">
-              </div>
-              <div class="product-info">
-                <span class="product-category-tag">${op.category}</span>
-                <h3 class="product-title">${op.name} (${op.posterTitle || ''})</h3>
-                <p class="product-subtitle">${op.scentName}</p>
-                <div class="product-footer">
-                  <div class="product-price">${op.price} <small class="price-original-striked">${op.listPrice}</small></div>
-                  <a href="chi-tiet-san-pham.html?id=${op.id}" class="btn btn-outline" style="padding: 7px 14px; font-size: 0.85rem;">
-                    Xem chi tiết →
-                  </a>
-                </div>
-              </div>
-            `;
-            relatedContainer.appendChild(col);
-          });
-      }
-    });
-  </script>
 </body>
 </html>

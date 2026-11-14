@@ -1,79 +1,205 @@
 /**
  * ==========================================================================
- * SCENTPOD - JAVASCRIPT CHÍNH (DÙNG CHUNG CHO CẢ 3 TRANG)
+ * SCENTPOD - JAVASCRIPT CHÍNH (CHUẨN HÓA NẾN 50G & FACEBOOK CTAs)
  * ==========================================================================
  */
 
 // --------------------------------------------------------------------------
-// 1. CẤU HÌNH LINK FACEBOOK DUY NHẤT (BẠN CHỈ CẦN THAY LINK TẠI ĐÂY)
+// 1. CẤU HÌNH LIÊN KẾT FACEBOOK CHÍNH THỨC DÙNG CHUNG
 // --------------------------------------------------------------------------
-// Link Fanpage / Facebook chính thức của ScentPod
 const FB_LINK = "https://www.facebook.com/profile.php?id=61594607444699";
 
 // --------------------------------------------------------------------------
-// 2. KHỞI CHẠY KHI TẢI XONG TRANG
+// 2. DỮ LIỆU CHUẨN 4 MÙI HƯƠNG NẾN THƠM 50G
+// --------------------------------------------------------------------------
+const PRODUCTS_CONFIG = {
+  "first-class": {
+    id: "first-class",
+    code: "Mùi 01",
+    name: "First Class",
+    posterTitle: "Another Sunday",
+    tagline: "Trà trắng non & Thảo mộc tươi",
+    scentName: "White Tea & Morning Dew (Another Sunday)",
+    category: "Trà xanh & Thảo mộc tươi",
+    weight: "50g",
+    weightLabel: "Nến thơm 50g",
+    price: "85.000đ",
+    priceLabel: "85.000đ/hũ",
+    priceBadge: "Giá ưu đãi HSSV",
+    filename: "sap-thom-bo-ba.jpg",
+    defaultSrc: "images/sap-thom-bo-ba.jpg",
+    fallbackSrc: "images/sap-thom-bo-ba.svg",
+    shortDesc: "Thanh mát, trong lành từ trà trắng non và thảo mộc tươi, đánh thức cảm hứng học tập.",
+    topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
+    heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
+    baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
+    vibe: "Thanh mát, trong trẻo như làn gió sớm mai, giúp không gian học tập luôn thoáng đãng và ngập tràn cảm hứng.",
+    story: "Lấy cảm hứng từ những buổi sáng Chủ nhật yên ả, First Class mang hương vị trà trắng dịu mát đan xen chút thơm sảng khoái của bạc hà và hoa cỏ thiên nhiên.",
+    ingredients: "Sáp đậu nành thiên nhiên, bấc cotton sạch, tinh dầu thực vật lành tính.",
+    gifts: "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+    usage: "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ) để ngọn lửa cháy êm và đều.",
+    safety: "Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.",
+    shipPolicy: "Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn)."
+  },
+  "blind-date": {
+    id: "blind-date",
+    code: "Mùi 02",
+    name: "Blind Date",
+    posterTitle: "Beloved Summer",
+    tagline: "Hoa hồng & Trái cây ngọt dịu",
+    scentName: "Sweet Peach & Vanilla Cloud (Beloved Summer)",
+    category: "Trái cây ngọt dịu & Phấn hoa",
+    weight: "50g",
+    weightLabel: "Nến thơm 50g",
+    price: "85.000đ",
+    priceLabel: "85.000đ/hũ",
+    priceBadge: "Giá ưu đãi HSSV",
+    filename: "nen-thom-mini.jpg",
+    defaultSrc: "images/nen-thom-mini.jpg",
+    fallbackSrc: "images/nen-thom-mini.svg",
+    shortDesc: "Ngọt ngào, e ấp từ hoa hồng và trái cây mọng nước quyện vani sữa ấm, mang lại cảm giác dễ chịu.",
+    topNotes: "Quả đào chín mọng, Quả lê tươi, Hoa hồng tháng Năm.",
+    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ, Cánh hồng tươi thắm.",
+    baseNotes: "Xạ hương bí ẩn, Vani sữa ấm, Hổ phách dịu.",
+    vibe: "Ngọt ngào, ấm êm và e ấp như rung động của buổi hẹn hò đầu tiên, vỗ về cảm xúc sau ngày dài học tập.",
+    story: "Blind Date tái hiện những khoảnh khắc lãng mạn nhẹ nhàng qua nốt hương hoa quả thanh ngọt và hậu vị vani kem sữa bồng bềnh.",
+    ingredients: "Sáp đậu nành thiên nhiên, bấc cotton sạch, tinh dầu thực vật lành tính.",
+    gifts: "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+    usage: "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ) để ngọn lửa cháy êm và đều.",
+    safety: "Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.",
+    shipPolicy: "Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn)."
+  },
+  "campus-breeze": {
+    id: "campus-breeze",
+    code: "Mùi 03",
+    name: "Campus Breeze",
+    posterTitle: "Tidal Bloom",
+    tagline: "Muối khoáng & Xô thơm clary sage",
+    scentName: "Sea Salt & Sage (Tidal Bloom)",
+    category: "Khoáng biển & Thảo mộc",
+    weight: "50g",
+    weightLabel: "Nến thơm 50g",
+    price: "85.000đ",
+    priceLabel: "85.000đ/hũ",
+    priceBadge: "Giá ưu đãi HSSV",
+    filename: "campus-breeze.jpg",
+    defaultSrc: "images/campus-breeze.jpg",
+    fallbackSrc: "images/combo-nen-sap.svg",
+    shortDesc: "Phóng khoáng, tự do như làn gió biển tươi mát kết hợp muối khoáng và xô thơm clary sage.",
+    topNotes: "Muối biển khoáng, Hạt bưởi hồng, Xô thơm Clary Sage.",
+    heartNotes: "Hoa lily tinh khôi, Tảo biển xanh mát, Thảo mộc tươi.",
+    baseNotes: "Gỗ lũa mục, Xạ hương trắng, Gió biển dịu mát.",
+    vibe: "Tươi mới, phóng khoáng và tự do, tựa như làn gió biển trong lành thổi qua góc hành lang giảng đường.",
+    story: "Hơi thở của gió biển mặn mòi quyện hòa cùng thảo mộc xanh mướt mang đến sự giải tỏa và cảm giác thảnh thơi tuyệt đối.",
+    ingredients: "Sáp đậu nành thiên nhiên, bấc cotton sạch, tinh dầu thực vật lành tính.",
+    gifts: "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+    usage: "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ) để ngọn lửa cháy êm và đều.",
+    safety: "Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.",
+    shipPolicy: "Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn)."
+  },
+  "late-night": {
+    id: "late-night",
+    code: "Mùi 04",
+    name: "Late Night",
+    posterTitle: "Coffee Holic",
+    tagline: "Cà phê rang & Gỗ tuyết tùng trầm",
+    scentName: "Cedarwood & Warm Amber (Coffee Holic)",
+    category: "Hương gỗ ấm & Thư giãn",
+    weight: "50g",
+    weightLabel: "Nến thơm 50g",
+    price: "85.000đ",
+    priceLabel: "85.000đ/hũ",
+    priceBadge: "Giá ưu đãi HSSV",
+    filename: "nen-thu-gian.jpg",
+    defaultSrc: "images/nen-thu-gian.jpg",
+    fallbackSrc: "images/nen-thu-gian.svg",
+    shortDesc: "Trầm ấm, tĩnh lặng từ hạt cà phê rang và gỗ tuyết tùng, vỗ về tâm trí sau những giờ học bài khuya.",
+    topNotes: "Hạt cà phê rang mộc thơm lừng, Cam Bergamot thoang thoảng.",
+    heartNotes: "Hương cà phê sữa ấm, Hoa oải hương nhẹ, Nhục đậu khấu.",
+    baseNotes: "Gỗ thông tuyết tùng (Cedarwood), Hổ phách vàng ấm, Nền gỗ mộc.",
+    vibe: "Trầm lắng, sâu lắng và ấm cúng như góc quán quen tĩnh lặng giữa đêm, đồng hành cùng bạn bên từng trang sách.",
+    story: "Mùi cà phê rang mộc nồng ấm kết hợp lớp gỗ tuyết tùng vững chãi, tạo điểm tựa bình yên cho những đêm thức khuya học bài hay đọc sách.",
+    ingredients: "Sáp đậu nành thiên nhiên, bấc cotton sạch, tinh dầu thực vật lành tính.",
+    gifts: "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+    usage: "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ) để ngọn lửa cháy êm và đều.",
+    safety: "Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.",
+    shipPolicy: "Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn)."
+  }
+};
+
+// --------------------------------------------------------------------------
+// 3. ĐO LƯỜNG LƯỢT BẤM CTA FACEBOOK (GA4 EVENT)
+// --------------------------------------------------------------------------
+/**
+ * Ghi nhận sự kiện GA4 facebook_cta_click an toàn
+ * Tham số:
+ * - placement: header, hero, product_card, product_modal, floating, footer
+ * - product_name: tên mùi (nếu nút gắn với sản phẩm)
+ * - product_weight: '50g' (nếu áp dụng)
+ */
+function trackFacebookClick({ placement = "general", productName = "" }) {
+  try {
+    if (typeof window.gtag === "function") {
+      window.gtag("event", "facebook_cta_click", {
+        placement: placement || "general",
+        product_name: productName || undefined,
+        product_weight: productName ? "50g" : undefined
+      });
+    }
+  } catch (err) {
+    console.warn("Analytics notice:", err);
+  }
+}
+
+/**
+ * Mở Facebook kèm ghi nhận tracking
+ */
+function openFacebookCta(placement = "general", productName = "") {
+  trackFacebookClick({ placement, productName });
+  window.open(FB_LINK, "_blank", "noopener,noreferrer");
+}
+
+// --------------------------------------------------------------------------
+// 4. KHỞI CHẠY KHI TẢI XONG TRANG
 // --------------------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
   initFacebookLinks();
   initMobileMenu();
   initHeaderScroll();
   initScrollAnimations();
-  initProductImageManager();
   initScentDetailModal();
-  initCartSystem();
-  initHeaderAuth();
-  initCategoryFilter();
+  initFaqAccordion();
   initFloatingChatOptimization();
+  initProductDetailPage();
 });
 
-/**
- * Tối ưu hiển thị nút chat nổi "Tư vấn ngay" (.fb-floating-btn):
- * - Tự động thu gọn thành nút tròn Messenger tinh tế (48px) khi cuộn vào khu vực bộ lọc/sản phẩm
- * - Ngăn chặn triệt để lỗi Overlap (đè lên các tag chip bộ lọc như "Kèm thiệp tay" hoặc các dropdown)
- * - Tự động mở rộng hiển thị chữ "Tư vấn ngay" khi người dùng hover vào nút hoặc ở đầu trang
- */
-function initFloatingChatOptimization() {
-  const fbBtn = document.querySelector(".fb-floating-btn");
-  if (!fbBtn) return;
-
-  const updateChatState = () => {
-    const scrollY = window.scrollY || window.pageYOffset;
-    const filterSection = document.getElementById("ai-search-filter-section");
-    
-    // Nếu ở đầu trang hero (scrollY < 120), mở rộng hiển thị đầy đủ
-    // Khi cuộn xuống vùng nội dung / bộ lọc, tự động thu gọn để nhường không gian thao tác
-    if (scrollY > 120) {
-      fbBtn.classList.add("is-compact");
-    } else {
-      if (filterSection && scrollY > 60) {
-        fbBtn.classList.add("is-compact");
-      } else if (!filterSection) {
-        fbBtn.classList.remove("is-compact");
-      }
-    }
-  };
-
-  window.addEventListener("scroll", updateChatState, { passive: true });
-  updateChatState();
-}
+// --------------------------------------------------------------------------
+// 5. CÁC HÀM XỬ LÝ GIAO DIỆN & TƯƠNG TÁC
+// --------------------------------------------------------------------------
 
 /**
- * Tự động gán link Facebook vào tất cả phần tử có thuộc tính [data-fb]
- * Đồng thời tự động thêm target="_blank" và rel="noopener noreferrer" để mở tab mới an toàn
+ * Gán link Facebook và bắt sự kiện tracking cho tất cả CTA Facebook
  */
 function initFacebookLinks() {
-  const fbElements = document.querySelectorAll("[data-fb]");
+  // 1. Các thẻ có data-fb hoặc data-fb-cta
+  const fbElements = document.querySelectorAll("[data-fb], [data-fb-cta], .btn-inbox-order, .btn-buy-fb, .header-fb-btn");
+  
   fbElements.forEach((el) => {
-    // Nếu là thẻ <a>, gán href
+    // Xác định placement và product_name
+    const placement = el.getAttribute("data-fb-cta") || el.getAttribute("data-placement") || (el.classList.contains("header-fb-btn") ? "header" : "general");
+    const productName = el.getAttribute("data-product") || el.getAttribute("data-product-name") || "";
+
     if (el.tagName.toLowerCase() === "a") {
       el.setAttribute("href", FB_LINK);
       el.setAttribute("target", "_blank");
       el.setAttribute("rel", "noopener noreferrer");
+      el.addEventListener("click", () => {
+        trackFacebookClick({ placement, productName });
+      });
     } else {
-      // Nếu là nút hoặc thẻ khác, thêm sự kiện click mở tab mới
       el.addEventListener("click", (e) => {
         e.preventDefault();
-        window.open(FB_LINK, "_blank", "noopener,noreferrer");
+        openFacebookCta(placement, productName);
       });
       el.style.cursor = "pointer";
     }
@@ -82,6 +208,8 @@ function initFacebookLinks() {
 
 /**
  * Xử lý menu Mobile (Hamburger Toggle)
+ * - Tự động đóng khi bấm vào link chuyển trang hoặc bấm ra ngoài
+ * - Hỗ trợ phím Escape
  */
 function initMobileMenu() {
   const toggleBtn = document.querySelector(".menu-toggle");
@@ -90,32 +218,47 @@ function initMobileMenu() {
 
   if (!toggleBtn || !navMenu) return;
 
-  // Click nút toggle
-  toggleBtn.addEventListener("click", () => {
-    const isActive = toggleBtn.classList.toggle("is-active");
-    navMenu.classList.toggle("is-open", isActive);
-    toggleBtn.setAttribute("aria-expanded", isActive ? "true" : "false");
+  const closeMenu = () => {
+    toggleBtn.classList.remove("is-active");
+    navMenu.classList.remove("is-open");
+    toggleBtn.setAttribute("aria-expanded", "false");
+  };
+
+  const openMenu = () => {
+    toggleBtn.classList.add("is-active");
+    navMenu.classList.add("is-open");
+    toggleBtn.setAttribute("aria-expanded", "true");
+  };
+
+  toggleBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    const isOpen = navMenu.classList.contains("is-open");
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
   });
 
   // Tự động đóng menu khi bấm vào link chuyển trang
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      toggleBtn.classList.remove("is-active");
-      navMenu.classList.remove("is-open");
-      toggleBtn.setAttribute("aria-expanded", "false");
+      closeMenu();
     });
   });
 
   // Đóng khi click bên ngoài menu
   document.addEventListener("click", (e) => {
-    if (
-      navMenu.classList.contains("is-open") &&
-      !navMenu.contains(e.target) &&
-      !toggleBtn.contains(e.target)
-    ) {
-      toggleBtn.classList.remove("is-active");
-      navMenu.classList.remove("is-open");
-      toggleBtn.setAttribute("aria-expanded", "false");
+    if (navMenu.classList.contains("is-open") && !navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Đóng khi nhấn phím Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && navMenu.classList.contains("is-open")) {
+      closeMenu();
+      toggleBtn.focus();
     }
   });
 }
@@ -128,7 +271,7 @@ function initHeaderScroll() {
   if (!header) return;
 
   const handleScroll = () => {
-    if (window.scrollY > 30) {
+    if (window.scrollY > 20) {
       header.classList.add("scrolled");
     } else {
       header.classList.remove("scrolled");
@@ -136,15 +279,23 @@ function initHeaderScroll() {
   };
 
   window.addEventListener("scroll", handleScroll, { passive: true });
-  handleScroll(); // Chạy kiểm tra ngay lúc mở trang
+  handleScroll();
 }
 
 /**
  * Hiệu ứng hiện dần khi cuộn trang (Intersection Observer)
+ * - Tôn trọng prefers-reduced-motion
+ * - Fallback hẹn giờ để nội dung chính KHÔNG BAO GIỜ bị ẩn nếu lỗi JS hoặc chưa cuộn tới
  */
 function initScrollAnimations() {
   const elements = document.querySelectorAll(".reveal-on-scroll");
   if (!elements.length) return;
+
+  // Nếu người dùng bật giảm chuyển động (prefers-reduced-motion)
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    elements.forEach((el) => el.classList.add("is-visible"));
+    return;
+  }
 
   // Nếu trình duyệt hỗ trợ IntersectionObserver
   if ("IntersectionObserver" in window) {
@@ -153,3389 +304,399 @@ function initScrollAnimations() {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("is-visible");
-            // Sau khi đã hiện thì không cần theo dõi nữa để tối ưu hiệu năng
             observer.unobserve(entry.target);
           }
         });
       },
       {
-        threshold: 0.12,
-        rootMargin: "0px 0px -40px 0px",
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px"
       }
     );
 
     elements.forEach((el) => observer.observe(el));
+
+    // Fallback bảo vệ: Đảm bảo toàn bộ section hiển thị sau tối đa 1.5 giây
+    setTimeout(() => {
+      elements.forEach((el) => el.classList.add("is-visible"));
+    }, 1500);
   } else {
-    // Fallback nếu trình duyệt cũ không hỗ trợ IntersectionObserver
+    // Trình duyệt cũ: hiển thị ngay lập tức
     elements.forEach((el) => el.classList.add("is-visible"));
   }
 }
 
 /**
- * Chuẩn hóa chuỗi tiếng Việt (bỏ dấu, chuyển chữ thường) để tìm kiếm AI thông minh
+ * Câu hỏi thường gặp FAQ Accordion
  */
-function normalizeVietnamese(str) {
-  if (!str) return "";
-  return String(str)
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/Đ/g, "d")
-    .trim();
-}
+function initFaqAccordion() {
+  const faqItems = document.querySelectorAll(".faq-item");
+  if (!faqItems.length) return;
 
-/**
- * ==========================================================================
- * BỘ LỌC ĐA TIÊU CHÍ & TÌM KIẾM THÔNG MINH BẰNG TỪ KHÓA AI
- * Hỗ trợ tìm kiếm theo:
- * - Tâm trạng / Công dụng AI: "học bài", "thức khuya", "khử mùi", "ngủ ngon"...
- * - Tầng hương: "trà", "đào", "muối biển", "gỗ tuyết tùng", "hổ phách"...
- * - Mức giá: Dưới 50k, 50k - 100k, Trên 100k
- * - Ưu đãi: Đồng giá ship 15k, Quà tặng kèm, Tiết kiệm 20k+, Chốt Inbox
- * - Sắp xếp: Mặc định, Giá tăng, Giá giảm, Tiết kiệm nhiều nhất
- * ==========================================================================
- */
-function initProductSearchAndFilter() {
-  const searchInput = document.getElementById("ai-product-search-input");
-  const clearSearchBtn = document.getElementById("clear-search-btn");
-  const suggestionsPopover = document.getElementById("ai-search-suggestions");
-  const suggProductsList = document.getElementById("sugg-products-list");
+  faqItems.forEach((item) => {
+    const questionBtn = item.querySelector(".faq-question");
+    if (!questionBtn) return;
 
-  const typeSelect = document.getElementById("filter-type-select");
-  const priceSelect = document.getElementById("filter-price-select");
-  const purposeSelect = document.getElementById("filter-purpose-select");
-  const dealSelect = document.getElementById("filter-deal-select");
-  const scentSelect = document.getElementById("filter-scent-select");
-  const sortSelect = document.getElementById("filter-sort-select");
+    questionBtn.addEventListener("click", () => {
+      const isOpen = item.classList.contains("is-open");
 
-  const resetBtn = document.getElementById("reset-filters-btn");
-  const noResultsResetBtn = document.getElementById("no-results-reset-btn");
-  const matchingCountEl = document.getElementById("matching-count");
-  const activeTagsEl = document.getElementById("active-filter-tags");
-  const clearAllTagsBtn = document.getElementById("clear-all-tags-btn");
-  const noProductsBox = document.getElementById("no-products-found");
-  const chipBtns = document.querySelectorAll(".ai-chip-btn");
-  const filterBtns = document.querySelectorAll(".category-filter-btn");
-
-  const singleGrid = document.getElementById("single-candles-grid");
-  const comboGrid = document.getElementById("combo-grid");
-  const comboSection = document.getElementById("combo");
-
-  // Nếu không ở trang san-pham.html, bỏ qua an toàn
-  if (!singleGrid && !comboGrid) return;
-
-  const allCards = Array.from(document.querySelectorAll("#single-candles-grid .product-card, #combo-grid .product-card"));
-  if (allCards.length === 0) return;
-
-  // Lưu trữ thứ tự DOM ban đầu để khôi phục khi sắp xếp mặc định
-  const initialSingleCards = Array.from(singleGrid ? singleGrid.querySelectorAll(".product-card") : []);
-  const initialComboCards = Array.from(comboGrid ? comboGrid.querySelectorAll(".product-card") : []);
-
-  let currentCategory = "all"; // 'all' | 'single' | 'combo'
-
-  // Hàm chuyển đổi size pill trên thẻ nến lẻ để khớp với lựa chọn lọc
-  function syncCardSizePill(card, targetSize) {
-    if (!card) return;
-    const btn = card.querySelector(`.size-pill-btn[data-size="${targetSize}"]`);
-    if (btn && !btn.classList.contains("is-active")) {
-      btn.click();
-    }
-  }
-
-  function applyFiltersAndSearch() {
-    const rawQuery = searchInput ? searchInput.value.trim() : "";
-    const normQuery = normalizeVietnamese(rawQuery);
-    const queryWords = normQuery.split(/\s+/).filter(Boolean);
-
-    // Hiển thị / ẩn nút xóa tìm kiếm
-    if (clearSearchBtn) {
-      clearSearchBtn.style.display = rawQuery ? "flex" : "none";
-    }
-
-    const selectedType = typeSelect ? typeSelect.value : "all";
-    const selectedPrice = priceSelect ? priceSelect.value : "all";
-    const selectedPurpose = purposeSelect ? purposeSelect.value : "all";
-    const selectedDeal = dealSelect ? dealSelect.value : "all";
-    const selectedScent = scentSelect ? scentSelect.value : "all";
-    const selectedSort = sortSelect ? sortSelect.value : "default";
-
-    let visibleCount = 0;
-    let visibleSingleCount = 0;
-    let visibleComboCount = 0;
-
-    allCards.forEach((card) => {
-      const type = card.getAttribute("data-product-type") || "single";
-      const subtypes = (card.getAttribute("data-subtypes") || type).split(",").map((s) => s.trim());
-      const purposes = (card.getAttribute("data-purposes") || "").split(",").map((s) => s.trim());
-      const family = card.getAttribute("data-family") || "";
-      const perks = (card.getAttribute("data-perks") || "").split(",").map((s) => s.trim());
-      const priceMin = parseInt(card.getAttribute("data-price-min") || "0", 10);
-      const priceDefault = parseInt(card.getAttribute("data-price-default") || "0", 10);
-      const savings = parseInt(card.getAttribute("data-savings") || "0", 10);
-      const aiKeywords = card.getAttribute("data-ai-keywords") || "";
-      const cardTitle = card.getAttribute("data-title") || "";
-      const cardText = card.innerText || "";
-
-      // 1. Lọc theo Phân Loại Tabs (Tất cả / Nến lẻ / Combo)
-      if (currentCategory !== "all" && type !== currentCategory) {
-        card.style.display = "none";
-        return;
-      }
-
-      // 2. Lọc theo Định Dạng / Phân Loại Sản Phẩm (Subtypes)
-      if (selectedType !== "all") {
-        if (!subtypes.includes(selectedType)) {
-          card.style.display = "none";
-          return;
+      // Đóng các câu hỏi khác để giữ giao diện gọn gàng
+      faqItems.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove("is-open");
+          const otherBtn = other.querySelector(".faq-question");
+          if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
         }
-        // Nếu chọn SP01 hoặc SP02 trên thẻ nến lẻ, tự động chọn size tương ứng
-        if (type === "single") {
-          if (selectedType === "sp01") syncCardSizePill(card, "sp01");
-          else if (selectedType === "sp02") syncCardSizePill(card, "sp02");
-          else if (selectedType === "mini") syncCardSizePill(card, "10g");
-        }
-      }
+      });
 
-      // 3. Lọc theo Mức Giá
-      if (selectedPrice === "under-50") {
-        // Dưới 50k: Thẻ đơn có size 10g hoặc SP01 (<= 50k)
-        if (priceMin > 50000) {
-          card.style.display = "none";
-          return;
-        }
-        if (type === "single") {
-          syncCardSizePill(card, "sp01");
-        }
-      } else if (selectedPrice === "50-90") {
-        // 50k – 90k: SP02 (85k), CB01 (89k)
-        if (priceDefault < 50000 || priceDefault > 90000) {
-          card.style.display = "none";
-          return;
-        }
-        if (type === "single") {
-          syncCardSizePill(card, "sp02");
-        }
-      } else if (selectedPrice === "above-90") {
-        // Trên 90k: CB02 (119k), CB03 (129k)
-        if (priceDefault <= 90000) {
-          card.style.display = "none";
-          return;
-        }
-      }
-
-      // 4. Lọc theo Mục Đích & Tâm Trạng AI
-      if (selectedPurpose !== "all") {
-        if (!purposes.includes(selectedPurpose)) {
-          // Kiểm tra thêm từ khóa nếu purposes chưa có
-          const purposeKeywords = {
-            study: "hoc bai tap trung on thi tinh tao",
-            deodorize: "khu mui phong tro balo tu do",
-            relax: "thu gian ngu ngon de ngu chill",
-            dating: "hen ho ngot ngao lang man",
-            fresh: "tuoi mat gio bien phong khoang",
-            gift: "qua tang nguoi yeu ban than thiep"
-          };
-          const targetKey = purposeKeywords[selectedPurpose] || selectedPurpose;
-          const searchNorm = normalizeVietnamese([cardTitle, aiKeywords, cardText].join(" "));
-          const hasMatch = targetKey.split(/\s+/).some((k) => searchNorm.includes(k));
-          if (!hasMatch) {
-            card.style.display = "none";
-            return;
-          }
-        }
-      }
-
-      // 5. Lọc theo Ưu Đãi & Quà Tặng
-      if (selectedDeal === "ship15k" && !perks.includes("ship15k")) {
-        card.style.display = "none";
-        return;
-      }
-      if (selectedDeal === "gift-tealight" && !perks.includes("gift-tealight")) {
-        card.style.display = "none";
-        return;
-      }
-      if (selectedDeal === "gift-card" && !perks.includes("gift-card")) {
-        card.style.display = "none";
-        return;
-      }
-      if (selectedDeal === "savings" && savings < 20000) {
-        card.style.display = "none";
-        return;
-      }
-      if (selectedDeal === "inbox" && !perks.includes("inbox")) {
-        card.style.display = "none";
-        return;
-      }
-
-      // 6. Lọc theo Nhóm Hương
-      if (selectedScent !== "all" && family !== selectedScent) {
-        card.style.display = "none";
-        return;
-      }
-
-      // 7. Tìm kiếm AI theo Từ Khóa (Tên mùi, tầng hương, tâm trạng, công dụng, mã...)
-      if (queryWords.length > 0) {
-        const searchableRaw = [cardTitle, cardText, aiKeywords, family, subtypes.join(" "), purposes.join(" ")].join(" ");
-        const searchableNorm = normalizeVietnamese(searchableRaw);
-
-        // Kiểm tra xem tất cả các từ trong query có xuất hiện không
-        const matchesAll = queryWords.every((w) => searchableNorm.includes(w));
-        if (!matchesAll) {
-          card.style.display = "none";
-          return;
-        }
-      }
-
-      // Khớp tất cả điều kiện!
-      card.style.display = "";
-      visibleCount++;
-      if (type === "single") visibleSingleCount++;
-      if (type === "combo") visibleComboCount++;
-    });
-
-    // 8. Xử lý sắp xếp (Sorting)
-    if (selectedSort !== "default") {
-      const sortFn = (a, b) => {
-        const priceA = parseInt(a.getAttribute("data-price-default") || "0", 10);
-        const priceB = parseInt(b.getAttribute("data-price-default") || "0", 10);
-        const savingsA = parseInt(a.getAttribute("data-savings") || "0", 10);
-        const savingsB = parseInt(b.getAttribute("data-savings") || "0", 10);
-
-        if (selectedSort === "price-asc") return priceA - priceB;
-        if (selectedSort === "price-desc") return priceB - priceA;
-        if (selectedSort === "savings-desc") return savingsB - savingsA;
-        return 0;
-      };
-
-      if (singleGrid) {
-        const singleList = Array.from(singleGrid.querySelectorAll(".product-card"));
-        singleList.sort(sortFn).forEach((el) => singleGrid.appendChild(el));
-      }
-      if (comboGrid) {
-        const comboList = Array.from(comboGrid.querySelectorAll(".product-card"));
-        comboList.sort(sortFn).forEach((el) => comboGrid.appendChild(el));
-      }
-    } else {
-      // Khôi phục thứ tự ban đầu
-      if (singleGrid) {
-        initialSingleCards.forEach((el) => singleGrid.appendChild(el));
-      }
-      if (comboGrid) {
-        initialComboCards.forEach((el) => comboGrid.appendChild(el));
-      }
-    }
-
-    // 9. Cập nhật hiển thị các khối Section mượt mà (không để lại khoảng trống thừa)
-    if (singleGrid) {
-      singleGrid.style.display = visibleSingleCount > 0 ? "grid" : "none";
-    }
-    if (comboSection) {
-      comboSection.style.display = visibleComboCount > 0 ? "block" : "none";
-      if (visibleSingleCount === 0 && visibleComboCount > 0) {
-        comboSection.style.marginTop = "1.5rem";
-        comboSection.style.paddingTop = "1rem";
-        comboSection.style.borderTop = "none";
+      // Mở hoặc đóng câu hỏi hiện tại
+      if (isOpen) {
+        item.classList.remove("is-open");
+        questionBtn.setAttribute("aria-expanded", "false");
       } else {
-        comboSection.style.marginTop = "5rem";
-        comboSection.style.paddingTop = "2.5rem";
-        comboSection.style.borderTop = "1px dashed rgba(229,169,59,0.25)";
+        item.classList.add("is-open");
+        questionBtn.setAttribute("aria-expanded", "true");
       }
-    }
+    });
+  });
+}
 
-    // 10. Hiển thị Trạng thái Rỗng (No products found)
-    if (noProductsBox) {
-      noProductsBox.style.display = visibleCount === 0 ? "block" : "none";
-    }
+/**
+ * Tối ưu nút Facebook nổi (.fb-floating-btn)
+ * - Tự động thu gọn khi cuộn xuống để không che nội dung
+ * - Tự ẩn hoàn toàn khi popup mở
+ */
+function initFloatingChatOptimization() {
+  const fbBtn = document.querySelector(".fb-floating-btn");
+  if (!fbBtn) return;
 
-    // 11. Cập nhật Số lượng & Thẻ lọc đang hoạt động (Active Tags)
-    if (matchingCountEl) {
-      matchingCountEl.textContent = visibleCount;
-    }
-    updateActiveFilterTags(rawQuery, selectedType, selectedPrice, selectedPurpose, selectedDeal, selectedScent, selectedSort);
-  }
-
-  function updateActiveFilterTags(query, type, price, purpose, deal, scent, sort) {
-    if (!activeTagsEl) return;
-    activeTagsEl.innerHTML = "";
-
-    let tagCount = 0;
-
-    const addTag = (icon, text, onRemove) => {
-      tagCount++;
-      const tag = document.createElement("span");
-      tag.className = "active-tag-chip";
-      tag.innerHTML = `<span><span class="tag-icon">${icon}</span>${text}</span> <span class="remove-tag" role="button" title="Gỡ bộ lọc này">&times;</span>`;
-      tag.querySelector(".remove-tag").addEventListener("click", onRemove);
-      activeTagsEl.appendChild(tag);
-    };
-
-    if (query) {
-      addTag("🔍", `"${query}"`, () => {
-        if (searchInput) searchInput.value = "";
-        chipBtns.forEach((c) => c.classList.remove("is-active"));
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (currentCategory !== "all") {
-      const label = currentCategory === "single" ? "Nến & Sáp lẻ" : "Combo chiến lược";
-      addTag("🏷️", label, () => {
-        currentCategory = "all";
-        filterBtns.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-filter") === "all"));
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (type !== "all") {
-      const typeLabels = {
-        sp01: "Sáp bỏ túi 50g (SP01)",
-        sp02: "Nến 100g (SP02)",
-        combo: "Combo chiến lược",
-        mini: "Mini 10g"
-      };
-      addTag("🥫", typeLabels[type] || type, () => {
-        if (typeSelect) typeSelect.value = "all";
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (price !== "all") {
-      const priceLabels = {
-        "under-50": "Dưới 50k",
-        "50-90": "50k – 90k",
-        "above-90": "Trên 90k"
-      };
-      addTag("💰", priceLabels[price] || price, () => {
-        if (priceSelect) priceSelect.value = "all";
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (purpose !== "all") {
-      const purposeLabels = {
-        study: "Học bài & Ôn thi",
-        deodorize: "Khử mùi phòng trọ",
-        relax: "Thư giãn & Dễ ngủ",
-        dating: "Hẹn hò ngọt ngào",
-        fresh: "Gió biển tươi mát",
-        gift: "Quà tặng tinh tế"
-      };
-      addTag("🎯", purposeLabels[purpose] || purpose, () => {
-        if (purposeSelect) purposeSelect.value = "all";
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (deal !== "all") {
-      const dealLabels = {
-        ship15k: "Đồng giá ship 15k",
-        "gift-tealight": "Tặng tealight 0đ",
-        "gift-card": "Kèm thiệp & diêm dài",
-        savings: "Tiết kiệm 20k - 36k",
-        inbox: "Giá chốt Inbox"
-      };
-      addTag("🎁", dealLabels[deal] || deal, () => {
-        if (dealSelect) dealSelect.value = "all";
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (scent !== "all") {
-      const scentLabels = {
-        "tea-herbal": "Trà & Thảo mộc",
-        "fruity-sweet": "Trái cây & Đào",
-        "ocean-fresh": "Khoáng biển & Sage",
-        "woody-warm": "Gỗ tuyết tùng"
-      };
-      addTag("🌿", scentLabels[scent] || scent, () => {
-        if (scentSelect) scentSelect.value = "all";
-        applyFiltersAndSearch();
-      });
-    }
-
-    if (sort !== "default") {
-      const sortLabels = {
-        "price-asc": "Giá: Thấp -> Cao",
-        "price-desc": "Giá: Cao -> Thấp",
-        "savings-desc": "Tiết kiệm nhiều nhất"
-      };
-      addTag("⚡", sortLabels[sort] || sort, () => {
-        if (sortSelect) sortSelect.value = "default";
-        applyFiltersAndSearch();
-      });
-    }
-
-    // Hiển thị nút "Xóa tất cả" khi có ít nhất 1 bộ lọc
-    if (clearAllTagsBtn) {
-      clearAllTagsBtn.style.display = tagCount > 0 ? "inline-block" : "none";
-    }
-  }
-
-  function resetAllFilters() {
-    if (searchInput) searchInput.value = "";
-    if (typeSelect) typeSelect.value = "all";
-    if (priceSelect) priceSelect.value = "all";
-    if (purposeSelect) purposeSelect.value = "all";
-    if (dealSelect) dealSelect.value = "all";
-    if (scentSelect) scentSelect.value = "all";
-    if (sortSelect) sortSelect.value = "default";
-    currentCategory = "all";
-
-    filterBtns.forEach((b) => b.classList.toggle("is-active", b.getAttribute("data-filter") === "all"));
-    chipBtns.forEach((c) => c.classList.remove("is-active"));
-
-    if (suggestionsPopover) suggestionsPopover.style.display = "none";
-
-    applyFiltersAndSearch();
-  }
-
-  // Cập nhật và render live suggestions popover
-  function renderLiveSuggestions(val) {
-    if (!suggestionsPopover) return;
-    const query = normalizeVietnamese(val.trim());
-
-    if (!suggProductsList) return;
-    suggProductsList.innerHTML = "";
-
-    // Tìm kiếm các sản phẩm khớp với query để hiển thị xem trước
-    const matched = allCards.filter((card) => {
-      const title = card.getAttribute("data-title") || "";
-      const aiKeywords = card.getAttribute("data-ai-keywords") || "";
-      const text = card.innerText || "";
-      const norm = normalizeVietnamese([title, aiKeywords, text].join(" "));
-      return !query || norm.includes(query);
-    }).slice(0, 3);
-
-    if (matched.length > 0) {
-      matched.forEach((card) => {
-        const title = card.getAttribute("data-title") || "";
-        const price = card.querySelector(".product-price") ? card.querySelector(".product-price").innerText.split(" ")[0] : "";
-        const img = card.querySelector("img") ? card.querySelector("img").src : "images/sap-thom-bo-ba.jpg";
-        const type = card.getAttribute("data-product-type") === "combo" ? "🎁 Combo" : "🕯️ Nến & Sáp lẻ";
-
-        const item = document.createElement("div");
-        item.className = "sugg-product-item";
-        item.innerHTML = `
-          <img src="${img}" alt="${title}" class="sugg-product-thumb" />
-          <div class="sugg-product-info">
-            <span class="sugg-product-name">${title}</span>
-            <span class="sugg-product-sub">${type}</span>
-          </div>
-          <span class="sugg-product-price">${price}</span>
-        `;
-        item.addEventListener("click", () => {
-          if (searchInput) searchInput.value = title;
-          suggestionsPopover.style.display = "none";
-          applyFiltersAndSearch();
-          card.scrollIntoView({ behavior: "smooth", block: "center" });
-        });
-        suggProductsList.appendChild(item);
-      });
-      suggProductsList.style.display = "flex";
+  const updateChatState = () => {
+    const scrollY = window.scrollY || window.pageYOffset;
+    if (scrollY > 150) {
+      fbBtn.classList.add("is-compact");
     } else {
-      suggProductsList.style.display = "none";
+      fbBtn.classList.remove("is-compact");
     }
-  }
-
-  // Lắng nghe sự kiện gõ tìm kiếm với debounce nhẹ
-  let searchDebounceTimer = null;
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(() => {
-        const val = searchInput.value;
-        const normVal = normalizeVietnamese(val);
-
-        chipBtns.forEach((btn) => {
-          const chipVal = normalizeVietnamese(btn.getAttribute("data-chip") || "");
-          btn.classList.toggle("is-active", Boolean(normVal && chipVal && normVal.includes(chipVal)));
-        });
-
-        if (suggestionsPopover) {
-          renderLiveSuggestions(val);
-          suggestionsPopover.style.display = "block";
-        }
-
-        applyFiltersAndSearch();
-      }, 150);
-    });
-
-    searchInput.addEventListener("focus", () => {
-      if (suggestionsPopover) {
-        renderLiveSuggestions(searchInput.value);
-        suggestionsPopover.style.display = "block";
-      }
-    });
-
-    searchInput.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        if (suggestionsPopover) suggestionsPopover.style.display = "none";
-        searchInput.value = "";
-        chipBtns.forEach((c) => c.classList.remove("is-active"));
-        applyFiltersAndSearch();
-      }
-    });
-
-    // Bấm các tag gợi ý trong Popover
-    document.querySelectorAll(".sugg-tag-item").forEach((item) => {
-      item.addEventListener("click", () => {
-        const q = item.getAttribute("data-query") || item.textContent;
-        searchInput.value = q;
-        if (suggestionsPopover) suggestionsPopover.style.display = "none";
-        applyFiltersAndSearch();
-      });
-    });
-
-    // Ẩn popover khi click ngoài
-    document.addEventListener("click", (e) => {
-      if (suggestionsPopover && !e.target.closest(".search-input-wrapper")) {
-        suggestionsPopover.style.display = "none";
-      }
-    });
-  }
-
-  if (clearSearchBtn) {
-    clearSearchBtn.addEventListener("click", () => {
-      if (searchInput) {
-        searchInput.value = "";
-        searchInput.focus();
-      }
-      if (suggestionsPopover) suggestionsPopover.style.display = "none";
-      chipBtns.forEach((c) => c.classList.remove("is-active"));
-      applyFiltersAndSearch();
-    });
-  }
-
-  const aiSearchBadge = document.querySelector(".ai-search-badge");
-  if (aiSearchBadge && searchInput) {
-    aiSearchBadge.addEventListener("click", () => {
-      searchInput.focus();
-      applyFiltersAndSearch();
-    });
-  }
-
-  // Click vào các chip từ khóa gợi ý AI
-  chipBtns.forEach((chip) => {
-    chip.addEventListener("click", (e) => {
-      e.preventDefault();
-      const chipKeyword = chip.getAttribute("data-chip") || "";
-      const isActive = chip.classList.contains("is-active");
-
-      chipBtns.forEach((c) => c.classList.remove("is-active"));
-
-      if (isActive) {
-        if (searchInput) searchInput.value = "";
-      } else {
-        chip.classList.add("is-active");
-        if (searchInput) searchInput.value = chipKeyword;
-      }
-      if (suggestionsPopover) suggestionsPopover.style.display = "none";
-      applyFiltersAndSearch();
-    });
-  });
-
-  // Nút chuyển đổi chế độ xem tag: Cuộn ngang 1 dòng <-> Mở rộng toàn bộ
-  const toggleChipsBtn = document.getElementById("btn-toggle-chips-view");
-  const keywordsCloud = document.getElementById("ai-keywords-cloud");
-  if (toggleChipsBtn && keywordsCloud) {
-    toggleChipsBtn.addEventListener("click", () => {
-      const isExpanded = keywordsCloud.classList.toggle("is-expanded");
-      toggleChipsBtn.innerHTML = isExpanded
-        ? `<span class="toggle-icon">−</span><span class="toggle-text">Thu gọn</span>`
-        : `<span class="toggle-icon">+</span><span class="toggle-text">Xem tất cả</span>`;
-    });
-  }
-
-  // Hỗ trợ cuộn chuột ngang và kéo chuột mượt mà cho các thanh cuộn tag
-  const chipLists = document.querySelectorAll(".ai-chips-list");
-  chipLists.forEach((list) => {
-    // Chuyển cuộn dọc của con lăn chuột thành cuộn ngang
-    list.addEventListener("wheel", (e) => {
-      if (!keywordsCloud || !keywordsCloud.classList.contains("is-expanded")) {
-        if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
-          e.preventDefault();
-          list.scrollLeft += e.deltaY;
-        }
-      }
-    }, { passive: false });
-
-    // Drag-to-scroll tiện lợi trên máy tính
-    let isDown = false;
-    let startX = 0;
-    let scrollLeft = 0;
-    let hasMoved = false;
-
-    list.addEventListener("mousedown", (e) => {
-      isDown = true;
-      hasMoved = false;
-      startX = e.pageX - list.offsetLeft;
-      scrollLeft = list.scrollLeft;
-    });
-
-    window.addEventListener("mouseup", () => {
-      isDown = false;
-    });
-
-    list.addEventListener("mousemove", (e) => {
-      if (!isDown) return;
-      const x = e.pageX - list.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      if (Math.abs(walk) > 4) {
-        hasMoved = true;
-        e.preventDefault();
-        list.scrollLeft = scrollLeft - walk;
-      }
-    });
-
-    // Ngăn chặn vô tình kích hoạt click chip khi người dùng đang vuốt kéo
-    list.querySelectorAll(".ai-chip-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        if (hasMoved) {
-          e.stopImmediatePropagation();
-          e.preventDefault();
-          hasMoved = false;
-        }
-      }, true);
-    });
-  });
-
-  // Sự kiện thay đổi bộ lọc
-  [typeSelect, priceSelect, purposeSelect, dealSelect, scentSelect, sortSelect].forEach((el) => {
-    if (el) el.addEventListener("change", applyFiltersAndSearch);
-  });
-
-  // Nút Đặt lại bộ lọc & Xóa tất cả tags
-  if (resetBtn) resetBtn.addEventListener("click", resetAllFilters);
-  if (noResultsResetBtn) noResultsResetBtn.addEventListener("click", resetAllFilters);
-  if (clearAllTagsBtn) clearAllTagsBtn.addEventListener("click", resetAllFilters);
-
-  // Bộ lọc phân loại danh mục Tabs
-  filterBtns.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const filter = btn.getAttribute("data-filter");
-      if (!filter) return;
-      e.preventDefault();
-      currentCategory = filter;
-      filterBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
-      applyFiltersAndSearch();
-
-      if (filter === "combo" && comboSection) {
-        comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else if (filter === "single" && singleGrid) {
-        singleGrid.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    });
-  });
-
-  // Hỗ trợ tìm kiếm từ URL Query Params: ?search=... hoặc ?q=...
-  try {
-    if (typeof window !== "undefined" && window.location && window.location.search) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const initialQuery = urlParams.get("search") || urlParams.get("q");
-      if (initialQuery && searchInput) {
-        searchInput.value = initialQuery;
-      }
-    }
-  } catch (e) {}
-
-  // Tự động cuộn đến #combo nếu có hash
-  if (typeof window !== "undefined" && window.location && window.location.hash === "#combo" && comboSection) {
-    setTimeout(() => {
-      comboSection.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 250);
-  }
-
-  // Kích hoạt lọc lần đầu
-  applyFiltersAndSearch();
-}
-
-// Bí danh tương thích ngược
-const initCategoryFilter = initProductSearchAndFilter;
-if (typeof window !== "undefined") {
-  window.initProductSearchAndFilter = initProductSearchAndFilter;
-  window.initCategoryFilter = initProductSearchAndFilter;
-  window.normalizeVietnamese = normalizeVietnamese;
-}
-
-/**
- * ==========================================================================
- * TÍNH NĂNG TẢI & QUẢN LÝ ẢNH SẢN PHẨM TRỰC TIẾP TỪ MÁY TÍNH / THƯ VIỆN
- * ==========================================================================
- */
-
-const PRODUCTS_CONFIG = {
-  "first-class": {
-    id: "first-class",
-    code: "Mùi 01",
-    name: "First Class",
-    posterTitle: "Another Sunday",
-    tagline: "Chanh, đào & bạc hà",
-    scentName: "White Tea & Morning Dew (Another Sunday)",
-    category: "Trà xanh & Thảo mộc tươi",
-    filename: "sap-thom-bo-ba.jpg",
-    defaultSrc: "images/sap-thom-bo-ba.jpg",
-    fallbackSrc: "images/sap-thom-bo-ba.svg",
-    price: "85.000đ",
-    listPrice: "95.000đ",
-    topNotes: "Quýt non, Chanh vàng Ý, Lá bạc hà thanh mát.",
-    heartNotes: "Trà trắng non, Hoa linh lan, Hoa sen nước.",
-    baseNotes: "Gỗ tuyết tùng nhạt, Xạ hương sạch.",
-    vibe: "Thanh mát, trong lành và đánh thức sự tập trung cho một ngày mới ngập tràn cảm hứng học tập.",
-    story: "Chanh, đào & bạc hà — bộ ba sống động tràn đầy năng lượng, vị chanh chua tươi bật lên rộn ràng, đào chín ngọt mọng tiếp nối, rồi bạc hà mát lạnh khép lại như làn gió mùa hè thật sảng khoái.",
-    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu nhập khẩu cao cấp an toàn tuyệt đối.",
-    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
-    scentRadius: "15 - 20 m² (bàn học, phòng ngủ, phòng làm việc)"
-  },
-  "blind-date": {
-    id: "blind-date",
-    code: "Mùi 02",
-    name: "Blind Date",
-    posterTitle: "Beloved Summer",
-    tagline: "Xạ hương & hoa hồng",
-    scentName: "Sweet Peach & Vanilla Cloud (Beloved Summer)",
-    category: "Trái cây ngọt dịu & Phấn hoa",
-    filename: "nen-thom-mini.jpg",
-    defaultSrc: "images/nen-thom-mini.jpg",
-    fallbackSrc: "images/nen-thom-mini.svg",
-    price: "85.000đ",
-    listPrice: "95.000đ",
-    topNotes: "Quả đào chín mọng, Quả lê tươi, Hoa hồng tháng Năm.",
-    heartNotes: "Hoa lan nam phi trắng, Kẹo bông nhẹ, Cánh hồng tươi thắm.",
-    baseNotes: "Xạ hương bí ẩn, Vani sữa ấm, Hổ phách dịu.",
-    vibe: "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến, ấm áp của buổi hẹn hò đầu tiên.",
-    story: "Hương xạ hương hoa hồng — ngọt ngào mà quyến rũ, cánh hồng tươi thắm hòa cùng nét ấm nồng bí ẩn của xạ hương, gợi lên sự lãng mạn sâu lắng, sang trọng và đầy mê hoặc.",
-    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu hoa hồng & xạ hương nhập khẩu cao cấp.",
-    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
-    scentRadius: "15 - 20 m² (góc học tập, phòng ngủ, không gian chill)"
-  },
-  "campus-breeze": {
-    id: "campus-breeze",
-    code: "Mùi 03",
-    name: "Campus Breeze",
-    posterTitle: "Tidal Bloom",
-    tagline: "Xô thơm, muối biển & lily",
-    scentName: "Sea Salt & Sage (Tidal Bloom)",
-    category: "Hương khoáng biển & Thảo mộc",
-    filename: "campus-breeze.jpg",
-    defaultSrc: "images/campus-breeze.jpg",
-    fallbackSrc: "images/combo-nen-sap.svg",
-    price: "85.000đ",
-    listPrice: "95.000đ",
-    topNotes: "Muối biển khoáng, Hạt bưởi hồng, Xô thơm Clary Sage.",
-    heartNotes: "Hoa lily tinh khôi, Tảo biển xanh mát, Thảo mộc tươi.",
-    baseNotes: "Gỗ lũa mục, Xạ hương trắng, Gió biển mặn mòi.",
-    vibe: "Phóng khoáng, tự do và mát lành như làn gió biển thổi qua hành lang góc sân trường.",
-    story: "Xô thơm, muối biển & lily — ba thanh âm tươi mát cộng hưởng thành một bản nhạc thiên nhiên khoáng đạt, nơi thảo mộc xanh tươi gặp gió biển mặn mòi, rồi bừng sáng bởi lily tinh khôi rực rỡ.",
-    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu khoáng biển & thảo mộc xô thơm.",
-    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
-    scentRadius: "15 - 20 m² (phòng học, bàn làm việc, góc thư giãn)"
-  },
-  "late-night": {
-    id: "late-night",
-    code: "Mùi 04",
-    name: "Late Night",
-    posterTitle: "Coffee Holic",
-    tagline: "Cà phê & gỗ",
-    scentName: "Cedarwood & Warm Amber (Coffee Holic)",
-    category: "Hương gỗ ấm & Thư giãn",
-    filename: "nen-thu-gian.jpg",
-    defaultSrc: "images/nen-thu-gian.jpg",
-    fallbackSrc: "images/nen-thu-gian.svg",
-    price: "85.000đ",
-    listPrice: "95.000đ",
-    topNotes: "Hạt cà phê rang mộc thơm lừng, Cam Bergamot thoang thoảng.",
-    heartNotes: "Hương cà phê sữa ấm, Hoa oải hương nhẹ, Nhục đậu khấu.",
-    baseNotes: "Gỗ thông tuyết tùng (Cedarwood), Hổ phách vàng ấm, Nền gỗ mộc.",
-    vibe: "Trầm ấm, tĩnh lặng và vỗ về tâm hồn giải tỏa căng thẳng sau những giờ học bài đêm khuya.",
-    story: "Cà phê và gỗ — trầm ấm như góc quán quen thuở cũ, mùi cà phê rang đậm đà quyện vào nền gỗ ấm áp sâu lắng, kéo tâm trí chìm vào khoảnh khắc chậm rãi, thư thái và đầy dễ chịu.",
-    ingredients: "100% Sáp thực vật tự nhiên (sáp đậu nành & sáp dừa), bấc cotton sạch không khói, tinh dầu cà phê rang & gỗ tuyết tùng nguyên chất.",
-    burnTime: "15 - 18 giờ đốt (Nến 100g) | 15 - 20 ngày tỏa hương (Sáp 50g) | 2 - 3 giờ (Hũ mini 10g)",
-    scentRadius: "15 - 20 m² (bàn học đêm, góc đọc sách, phòng ngủ)"
-  }
-};
-
-/**
- * ==========================================================================
- * BẢNG I: DANH MỤC SẢN PHẨM BÁN LẺ (MỤC TIÊU AOV THÁNG 1: 50.000 – 70.000 VNĐ)
- * - SP01: Sáp thơm bỏ túi khử mùi (Hũ nhôm tiện lợi 50g)
- *   Giá niêm yết: 55.000 VNĐ | Ưu đãi HSSV: 49.000 VNĐ | Chốt Inbox: 45.000 VNĐ
- *   KPI: Tiếp cận HSSV, kéo traffic về Web/Fanpage
- *   Quà: Kèm thiệp cảm ơn viết tay + giấy thử mùi mới
- * - SP02: Nến thơm thư giãn học bài (Hũ thủy tinh cao cấp 100g)
- *   Giá niêm yết: 95.000 VNĐ | Ưu đãi HSSV: 85.000 VNĐ | Chốt Inbox: 79.000 VNĐ
- *   KPI: Tăng giá trị giỏ hàng (AOV) đơn lẻ
- *   Quà: Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến
- * ==========================================================================
- */
-const PRODUCT_SIZES_CONFIG = {
-  "sp01": {
-    code: "SP01",
-    id: "sp01",
-    size: "50g",
-    typeName: "Sáp thơm bỏ túi khử mùi",
-    spec: "Hũ nhôm tiện lợi 50g",
-    label: "SP01: Sáp bỏ túi 50g (Hũ nhôm)",
-    shortLabel: "Sáp 50g (SP01)",
-    burnTime: "15 - 20 ngày tự tỏa hương (để hé nắp) / ~10 - 12 giờ đốt",
-    listPrice: 55000,
-    originalPrice: 55000,
-    listPriceFormatted: "55.000đ",
-    originalPriceFormatted: "55.000đ",
-    price: 49000,
-    priceFormatted: "49.000đ",
-    inboxPrice: 45000,
-    inboxPriceFormatted: "45.000đ",
-    savings: 6000,
-    savingsFormatted: "6.000đ",
-    giftNote: "Kèm thiệp cảm ơn viết tay + giấy thử mùi mới",
-    gift: "Kèm thiệp cảm ơn viết tay + giấy thử mùi mới",
-    kpiTarget: "Tháng 1: Tiếp cận HSSV, kéo traffic về Web/Fanpage",
-    isDefault: false
-  },
-  "sp02": {
-    code: "SP02",
-    id: "sp02",
-    size: "100g",
-    typeName: "Nến thơm thư giãn học bài",
-    spec: "Hũ thủy tinh cao cấp 100g",
-    label: "SP02: Nến thơm 100g (Hũ thủy tinh)",
-    shortLabel: "Nến 100g (SP02)",
-    burnTime: "15 - 18 giờ đốt liên tục (chuẩn an toàn 1.5 - 2h/lần)",
-    listPrice: 95000,
-    originalPrice: 95000,
-    listPriceFormatted: "95.000đ",
-    originalPriceFormatted: "95.000đ",
-    price: 85000,
-    priceFormatted: "85.000đ",
-    inboxPrice: 79000,
-    inboxPriceFormatted: "79.000đ",
-    savings: 10000,
-    savingsFormatted: "10.000đ",
-    giftNote: "Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến",
-    gift: "Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến",
-    kpiTarget: "Tháng 1 & 2: Tăng giá trị giỏ hàng (AOV) đơn lẻ",
-    isDefault: true
-  }
-};
-
-// Aliases tương thích ngược để không bị lỗi bất kỳ đoạn mã hay dữ liệu cũ nào
-PRODUCT_SIZES_CONFIG["50g"] = PRODUCT_SIZES_CONFIG["sp01"];
-PRODUCT_SIZES_CONFIG["100g"] = PRODUCT_SIZES_CONFIG["sp02"];
-PRODUCT_SIZES_CONFIG["70g"] = PRODUCT_SIZES_CONFIG["sp02"];
-PRODUCT_SIZES_CONFIG["10g"] = {
-  ...PRODUCT_SIZES_CONFIG["sp01"],
-  code: "SP01-Mini",
-  size: "10g",
-  typeName: "Sáp thơm mini bỏ túi",
-  spec: "Hũ mini 10g",
-  label: "10g: Mini dùng thử bỏ túi",
-  shortLabel: "10g Mini",
-  burnTime: "2 - 3 giờ đốt liên tục / Tỏa hương 5 - 7 ngày",
-  listPrice: 45000,
-  listPriceFormatted: "45.000đ",
-  originalPrice: 45000,
-  originalPriceFormatted: "45.000đ",
-  price: 39000,
-  priceFormatted: "39.000đ",
-  savings: 6000,
-  savingsFormatted: "6.000đ",
-  gift: "Kèm thiệp cảm ơn mini + giấy thử mùi trải nghiệm"
-};
-
-/**
- * ==========================================================================
- * BẢNG II: CÁC GÓI COMBO BÁN HÀNG CHIẾN LƯỢC
- * (TỐI ƯU AOV THÁNG 2 & 3: 90.000 – 110.000+ VNĐ | TỶ LỆ COMBO ≥ 45%)
- * - CB01: Combo Hương Sinh Viên (2 Hũ sáp bỏ túi tự chọn mùi)
- *   Tổng giá gốc: 110.000 VNĐ | Giá bán: 89.000 VNĐ | Tiết kiệm: 21.000 VNĐ
- *   KPI: Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ
- *   Chính sách: Đồng giá ship 15k + tặng giấy thơm trải nghiệm
- * - CB02: Combo Trọn Vẹn Chill (1 Hũ sáp bỏ túi + 1 Hũ nến thơm)
- *   Tổng giá gốc: 150.000 VNĐ | Giá bán: 119.000 VNĐ | Tiết kiệm: 31.000 VNĐ
- *   KPI: Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ
- *   Chính sách: Đồng giá ship 15k + tặng 1 viên tealight mini 0đ
- * - CB03: Combo Trải Nghiệm Đa Tầng (3 Hũ sáp bỏ túi đủ 3 mùi)
- *   Tổng giá gốc: 165.000 VNĐ | Giá bán: 129.000 VNĐ | Tiết kiệm: 36.000 VNĐ
- *   KPI: Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%
- *   Chính sách: Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay
- * ==========================================================================
- */
-const COMBOS_CONFIG = {
-  "cb01": {
-    id: "cb01",
-    code: "CB01",
-    name: "Combo Hương Sinh Viên",
-    components: "2 Hũ sáp bỏ túi tự chọn mùi",
-    scentName: "2 Hũ sáp bỏ túi khử mùi 50g tự chọn mùi",
-    category: "Combo Bán Hàng Chiến Lược",
-    originalPrice: 110000,
-    originalPriceFormatted: "110.000đ",
-    price: "89.000đ",
-    priceNumber: 89000,
-    salePrice: 89000,
-    savings: 21000,
-    savingsFormatted: "21.000đ",
-    discountPercent: "19%",
-    shippingPolicy: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
-    shippingPerk: "Đồng giá ship 15k",
-    shippingFee: 15000,
-    gift: "Đồng giá ship 15k + tặng giấy thơm trải nghiệm",
-    gifts: "Tặng giấy thơm trải nghiệm + Đồng giá ship 15k",
-    kpiTarget: "Tháng 1 & 2: Đạt mốc AOV 90.000 VNĐ",
-    filename: "combo-cb01-huong-sinh-vien.jpg",
-    defaultSrc: "images/combo-cb01-huong-sinh-vien.jpg",
-    fallbackSrc: "images/sap-thom-bo-ba.svg",
-    vibe: "Tối ưu ngân sách sinh viên: Tự do chọn 2 mùi sáp thơm bỏ túi 50g khử mùi tủ đồ, balo. Tiết kiệm ngay 21.000đ so với giá gốc."
-  },
-  "cb02": {
-    id: "cb02",
-    code: "CB02",
-    name: "Combo Trọn Vẹn Chill",
-    components: "1 Hũ sáp bỏ túi + 1 Hũ nến thơm",
-    scentName: "1 Sáp bỏ túi 50g + 1 Nến thơm thư giãn 100g",
-    category: "Combo Tối Ưu AOV",
-    originalPrice: 150000,
-    originalPriceFormatted: "150.000đ",
-    price: "119.000đ",
-    priceNumber: 119000,
-    salePrice: 119000,
-    savings: 31000,
-    savingsFormatted: "31.000đ",
-    discountPercent: "21%",
-    shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
-    shippingPerk: "Đồng giá ship 15k",
-    shippingFee: 15000,
-    gift: "Đồng giá ship 15k + tặng 1 viên tealight mini 0đ",
-    gifts: "Tặng 1 viên tealight mini 0đ + Đồng giá ship 15k",
-    kpiTarget: "Tháng 2 & 3: Đạt mốc AOV 110.000 VNĐ",
-    filename: "combo-cb02-tron-ven-chill.jpg",
-    defaultSrc: "images/combo-cb02-tron-ven-chill.jpg",
-    fallbackSrc: "images/combo-nen-sap.svg",
-    vibe: "Combo trọn vẹn nhất: Vừa thắp nến 100g học bài tập trung, vừa mang sáp 50g khử mùi bên mình. Tiết kiệm 31.000đ."
-  },
-  "cb03": {
-    id: "cb03",
-    code: "CB03",
-    name: "Combo Trải Nghiệm Đa Tầng",
-    components: "3 Hũ sáp bỏ túi đủ 3 mùi",
-    scentName: "3 Hũ sáp bỏ túi khử mùi 50g đủ 3 nốt hương",
-    category: "Combo Đầy Đủ Hương Sắc",
-    originalPrice: 165000,
-    originalPriceFormatted: "165.000đ",
-    price: "129.000đ",
-    priceNumber: 129000,
-    salePrice: 129000,
-    savings: 36000,
-    savingsFormatted: "36.000đ",
-    discountPercent: "22%",
-    shippingPolicy: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
-    shippingPerk: "Đồng giá ship 15k",
-    shippingFee: 15000,
-    gift: "Đồng giá ship 15k + tặng 1 viên tealight mini + thiệp viết tay",
-    gifts: "Tặng 1 viên tealight mini + thiệp viết tay + Đồng giá ship 15k",
-    kpiTarget: "Tháng 3: Thúc đẩy tỷ lệ chốt combo đạt >= 45%",
-    filename: "combo-cb03-trai-nghiem-da-tang.jpg",
-    defaultSrc: "images/combo-cb03-trai-nghiem-da-tang.jpg",
-    fallbackSrc: "images/nen-thu-gian.svg",
-    vibe: "Trọn bộ 3 mùi hương đổi mới tâm trạng mỗi ngày. Mức tiết kiệm sâu nhất 36.000đ cùng quà tặng kép tealight & thiệp viết tay."
-  }
-};
-
-// Aliases tương thích ngược
-COMBOS_CONFIG["combo-4-scents"] = COMBOS_CONFIG["cb01"];
-COMBOS_CONFIG["combo-gift-box"] = COMBOS_CONFIG["cb02"];
-COMBOS_CONFIG["combo-duo"] = COMBOS_CONFIG["cb03"];
-
-/**
- * Khởi chạy hệ thống quản lý và tải ảnh sản phẩm
- */
-function initProductImageManager() {
-  applyProductImages();
-  setupFloatingManagerAndModal();
-}
-
-/**
- * Lấy ảnh tùy chỉnh từ localStorage
- */
-function getCustomImage(productId) {
-  try {
-    return localStorage.getItem("scentpod_custom_" + productId);
-  } catch (e) {
-    return null;
-  }
-}
-
-/**
- * Lưu ảnh tùy chỉnh vào localStorage
- */
-function setCustomImage(productId, base64) {
-  try {
-    localStorage.setItem("scentpod_custom_" + productId, base64);
-  } catch (e) {
-    console.warn("Không thể lưu ảnh vào bộ nhớ trình duyệt:", e);
-  }
-}
-
-/**
- * Xóa ảnh tùy chỉnh
- */
-function removeCustomImage(productId) {
-  try {
-    localStorage.removeItem("scentpod_custom_" + productId);
-  } catch (e) {
-    console.warn(e);
-  }
-}
-
-/**
- * Hiển thị Toast thông báo trạng thái
- */
-function showToast(message) {
-  let toast = document.querySelector(".scentpod-toast");
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.className = "scentpod-toast";
-    document.body.appendChild(toast);
-  }
-  toast.textContent = message;
-  toast.classList.add("is-show");
-  clearTimeout(toast._timeout);
-  toast._timeout = setTimeout(() => {
-    toast.classList.remove("is-show");
-  }, 3200);
-}
-
-/**
- * Lấy thông tin cấu hình của Sản phẩm hoặc Combo
- */
-function getProductMeta(productId) {
-  if (PRODUCTS_CONFIG[productId]) return PRODUCTS_CONFIG[productId];
-  if (COMBOS_CONFIG && COMBOS_CONFIG[productId]) {
-    const c = COMBOS_CONFIG[productId];
-    return {
-      id: c.id,
-      code: c.code || "Combo",
-      name: c.name,
-      filename: c.filename,
-      defaultSrc: c.defaultSrc,
-      fallbackSrc: c.fallbackSrc,
-      price: c.price,
-      isCombo: true
-    };
-  }
-  return null;
-}
-
-/**
- * Cập nhật ảnh của các sản phẩm trên toàn trang và tạo nút đổi/chỉnh khung ảnh
- */
-function applyProductImages() {
-  const wrappers = document.querySelectorAll(".product-img-wrapper[data-product-id]");
-  wrappers.forEach((wrapper) => {
-    const productId = wrapper.getAttribute("data-product-id");
-    const info = getProductMeta(productId);
-    if (!info) return;
-
-    const img = wrapper.querySelector("img");
-    if (!img) return;
-
-    // Luôn hiển thị ảnh chính thức chuẩn của sản phẩm
-    img.src = info.defaultSrc;
-    img.onerror = function () {
-      if (this.src !== info.fallbackSrc) {
-        this.src = info.fallbackSrc;
-      }
-    };
-
-    // Loại bỏ hoàn toàn nhãn và thanh nút đổi/chỉnh ảnh nếu có
-    const badge = wrapper.querySelector(".custom-badge-indicator");
-    if (badge) badge.remove();
-
-    const uploadBar = wrapper.querySelector(".product-card-upload-bar");
-    if (uploadBar) uploadBar.remove();
-  });
-}
-
-/**
- * ==========================================================================
- * BỘ CÔNG CỤ CĂN CHỈNH KHUNG ẢNH CHUYÊN NGHIỆP (SCENTPOD IMAGE CROPPER)
- * ==========================================================================
- * Hỗ trợ:
- * - Khung cắt tỉ lệ chuẩn thẻ ScentPod 4:5, 1:1, 3:4
- * - Kéo rê ảnh (Pan / Drag) bằng chuột hoặc chạm vuốt cảm ứng
- * - Thu phóng (Zoom) mượt mà bằng thanh trượt, nút +/-, hoặc con lăn chuột
- * - Xoay 90° hai chiều và Lật ngang
- * - Live Preview trực tiếp mô phỏng thẻ sản phẩm
- * - Xuất Canvas JPEG độ phân giải cao sắc nét
- */
-const CROP_RATIO_CONFIG = {
-  "4:5": { ratio: 0.8, boxW: 280, boxH: 350, label: "4:5", name: "Chuẩn Thẻ ScentPod" },
-  "1:1": { ratio: 1.0, boxW: 320, boxH: 320, label: "1:1", name: "Khung Vuông" },
-  "3:4": { ratio: 0.75, boxW: 270, boxH: 360, label: "3:4", name: "Khung Đứng" }
-};
-
-let cropperState = {
-  productId: null,
-  sourceImg: null,
-  rawSrc: null,
-  ratioKey: "4:5",
-  ratio: 0.8,
-  ratioLabel: "4:5",
-  zoom: 1.0,
-  panX: 0,
-  panY: 0,
-  rotation: 0,
-  flipH: 1,
-  boxW: 280,
-  boxH: 350,
-  baseW: 0,
-  baseH: 0,
-  isDragging: false,
-  startX: 0,
-  startY: 0
-};
-
-let cropperBackdropEl = null;
-
-/**
- * Khởi tạo DOM của Cropper Modal (Singleton)
- */
-function getOrCreateCropperModal() {
-  if (cropperBackdropEl) return cropperBackdropEl;
-
-  cropperBackdropEl = document.createElement("div");
-  cropperBackdropEl.className = "scentpod-cropper-backdrop";
-  cropperBackdropEl.innerHTML = `
-    <div class="scentpod-cropper-modal" role="dialog" aria-modal="true" aria-labelledby="cropper-title">
-      
-      <!-- Header -->
-      <div class="cropper-header">
-        <div class="cropper-title-box">
-          <h3 id="cropper-title">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M6 2v14a2 2 0 0 0 2 2h14"></path>
-              <path d="M18 22V8a2 2 0 0 0-2-2H2"></path>
-            </svg>
-            Chỉnh Sửa Khung Ảnh Sản Phẩm
-          </h3>
-          <span class="cropper-product-badge">ScentPod</span>
-        </div>
-        <button type="button" class="cropper-close-btn" aria-label="Đóng cửa sổ">&times;</button>
-      </div>
-
-      <!-- Body -->
-      <div class="cropper-body">
-        
-        <!-- Khu vực hiển thị khung cắt trực quan -->
-        <div class="cropper-stage-container">
-          <div class="cropper-viewport" id="cropper-viewport">
-            <!-- Lớp ảnh nguồn -->
-            <div class="cropper-image-layer" id="cropper-image-layer">
-              <img id="cropper-source-img" src="" alt="Căn chỉnh khung ảnh" draggable="false" />
-            </div>
-
-            <!-- Khung cắt (Crop Box) -->
-            <div class="cropper-crop-box" id="cropper-crop-box">
-              <span class="crop-corner top-left"></span>
-              <span class="crop-corner top-right"></span>
-              <span class="crop-corner bottom-left"></span>
-              <span class="crop-corner bottom-right"></span>
-
-              <div class="crop-grid-lines">
-                <span class="grid-line-h h1"></span>
-                <span class="grid-line-h h2"></span>
-                <span class="grid-line-v v1"></span>
-                <span class="grid-line-v v2"></span>
-              </div>
-
-              <div class="crop-ratio-badge">4:5 • Chuẩn Thẻ ScentPod</div>
-            </div>
-          </div>
-
-          <div class="cropper-stage-hint">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            <span>Nhấn giữ để <strong>kéo ảnh</strong> • Cuộn chuột hoặc dùng thanh trượt để <strong>thu phóng</strong></span>
-          </div>
-        </div>
-
-        <!-- Bảng điều khiển công cụ -->
-        <div class="cropper-sidebar">
-          
-          <!-- 1. Tỉ lệ khung ảnh -->
-          <div class="cropper-control-group">
-            <label class="control-label">Tỉ lệ khung hình:</label>
-            <div class="ratio-button-group">
-              <button type="button" class="btn-ratio active" data-ratio="4:5">4:5 (Thẻ Pod)</button>
-              <button type="button" class="btn-ratio" data-ratio="1:1">1:1 (Vuông)</button>
-              <button type="button" class="btn-ratio" data-ratio="3:4">3:4 (Đứng)</button>
-            </div>
-          </div>
-
-          <!-- 2. Thu phóng Zoom -->
-          <div class="cropper-control-group">
-            <div class="control-label-row">
-              <label class="control-label">Thu phóng (Zoom):</label>
-              <span class="zoom-percent-val" id="cropper-zoom-val">100%</span>
-            </div>
-            <div class="zoom-slider-wrap">
-              <button type="button" class="btn-zoom-step" id="cropper-zoom-out" title="Thu nhỏ">-</button>
-              <input type="range" id="cropper-zoom-slider" min="1" max="3" step="0.02" value="1" />
-              <button type="button" class="btn-zoom-step" id="cropper-zoom-in" title="Phóng to">+</button>
-            </div>
-          </div>
-
-          <!-- 3. Xoay & Lật -->
-          <div class="cropper-control-group">
-            <label class="control-label">Xoay &amp; Căn chỉnh:</label>
-            <div class="cropper-tool-grid">
-              <button type="button" class="btn-tool-action" id="cropper-rot-left" title="Xoay trái 90°">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
-                <span>Xoay trái</span>
-              </button>
-              <button type="button" class="btn-tool-action" id="cropper-rot-right" title="Xoay phải 90°">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
-                <span>Xoay phải</span>
-              </button>
-              <button type="button" class="btn-tool-action" id="cropper-flip" title="Lật ngang">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"></path></svg>
-                <span>Lật ảnh</span>
-              </button>
-              <button type="button" class="btn-tool-action" id="cropper-center" title="Đưa ảnh về giữa">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line></svg>
-                <span>Căn giữa</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- 4. Xem trước thực tế trên thẻ -->
-          <div class="cropper-preview-box">
-            <div class="preview-header">
-              <span>Mô phỏng trên thẻ sản phẩm</span>
-              <span class="preview-badge">Live</span>
-            </div>
-            <div class="preview-card-mockup">
-              <div class="preview-img-frame">
-                <canvas id="cropper-preview-canvas" width="120" height="150"></canvas>
-              </div>
-              <div class="preview-mock-info">
-                <span class="mock-title">ScentPod</span>
-                <span class="mock-price">85.000đ</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="cropper-footer">
-        <div class="footer-left">
-          <label class="btn-choose-other">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-            <span>Chọn ảnh khác...</span>
-            <input type="file" id="cropper-file-replacer" accept="image/*" style="display: none;" />
-          </label>
-        </div>
-        <div class="footer-right">
-          <button type="button" class="btn-cropper-cancel">Hủy</button>
-          <button type="button" class="btn-cropper-apply">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-            <span>Cắt &amp; Áp dụng</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-  `;
-  document.body.appendChild(cropperBackdropEl);
-
-  // Gắn sự kiện đóng modal
-  const closeBtn = cropperBackdropEl.querySelector(".cropper-close-btn");
-  const cancelBtn = cropperBackdropEl.querySelector(".btn-cropper-cancel");
-  closeBtn.addEventListener("click", closeCropperModal);
-  cancelBtn.addEventListener("click", closeCropperModal);
-  cropperBackdropEl.addEventListener("click", (e) => {
-    if (e.target === cropperBackdropEl) closeCropperModal();
-  });
-
-  // Tương tác kéo thả chuột (Pan/Drag)
-  const viewport = cropperBackdropEl.querySelector("#cropper-viewport");
-  viewport.addEventListener("mousedown", (e) => {
-    e.preventDefault();
-    cropperState.isDragging = true;
-    cropperState.startX = e.clientX;
-    cropperState.startY = e.clientY;
-    viewport.classList.add("is-dragging");
-  });
-
-  window.addEventListener("mousemove", (e) => {
-    if (!cropperState.isDragging) return;
-    const dx = e.clientX - cropperState.startX;
-    const dy = e.clientY - cropperState.startY;
-    cropperState.panX += dx;
-    cropperState.panY += dy;
-    cropperState.startX = e.clientX;
-    cropperState.startY = e.clientY;
-    updateCropperTransform();
-    updateCropperPreview();
-  });
-
-  window.addEventListener("mouseup", () => {
-    if (cropperState.isDragging) {
-      cropperState.isDragging = false;
-      const vp = document.querySelector("#cropper-viewport");
-      if (vp) vp.classList.remove("is-dragging");
-    }
-  });
-
-  // Cảm ứng vuốt chạm trên thiết bị di động
-  viewport.addEventListener("touchstart", (e) => {
-    if (e.touches && e.touches[0]) {
-      cropperState.isDragging = true;
-      cropperState.startX = e.touches[0].clientX;
-      cropperState.startY = e.touches[0].clientY;
-      viewport.classList.add("is-dragging");
-    }
-  }, { passive: false });
-
-  window.addEventListener("touchmove", (e) => {
-    if (!cropperState.isDragging || !e.touches || !e.touches[0]) return;
-    const dx = e.touches[0].clientX - cropperState.startX;
-    const dy = e.touches[0].clientY - cropperState.startY;
-    cropperState.panX += dx;
-    cropperState.panY += dy;
-    cropperState.startX = e.touches[0].clientX;
-    cropperState.startY = e.touches[0].clientY;
-    updateCropperTransform();
-    updateCropperPreview();
-  }, { passive: false });
-
-  window.addEventListener("touchend", () => {
-    if (cropperState.isDragging) {
-      cropperState.isDragging = false;
-      const vp = document.querySelector("#cropper-viewport");
-      if (vp) vp.classList.remove("is-dragging");
-    }
-  });
-
-  // Cuộn chuột để thu phóng (Mouse Wheel Zoom)
-  viewport.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    const delta = e.deltaY < 0 ? 0.08 : -0.08;
-    setCropperZoom(cropperState.zoom + delta);
-  }, { passive: false });
-
-  // Slider Zoom
-  const zoomSlider = cropperBackdropEl.querySelector("#cropper-zoom-slider");
-  zoomSlider.addEventListener("input", (e) => {
-    setCropperZoom(parseFloat(e.target.value));
-  });
-
-  const zoomInBtn = cropperBackdropEl.querySelector("#cropper-zoom-in");
-  const zoomOutBtn = cropperBackdropEl.querySelector("#cropper-zoom-out");
-  zoomInBtn.addEventListener("click", () => setCropperZoom(cropperState.zoom + 0.1));
-  zoomOutBtn.addEventListener("click", () => setCropperZoom(cropperState.zoom - 0.1));
-
-  // Nút chuyển tỉ lệ (Aspect Ratio)
-  const ratioButtons = cropperBackdropEl.querySelectorAll(".btn-ratio");
-  ratioButtons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      ratioButtons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-      const rKey = btn.dataset.ratio || "4:5";
-      updateCropBoxDimensions(rKey);
-      updateCropperTransform();
-      updateCropperPreview();
-    });
-  });
-
-  // Nút Xoay & Lật & Căn giữa
-  const rotLeftBtn = cropperBackdropEl.querySelector("#cropper-rot-left");
-  const rotRightBtn = cropperBackdropEl.querySelector("#cropper-rot-right");
-  const flipBtn = cropperBackdropEl.querySelector("#cropper-flip");
-  const centerBtn = cropperBackdropEl.querySelector("#cropper-center");
-
-  rotLeftBtn.addEventListener("click", () => {
-    cropperState.rotation = (cropperState.rotation - 90 + 360) % 360;
-    updateCropperTransform();
-    updateCropperPreview();
-  });
-
-  rotRightBtn.addEventListener("click", () => {
-    cropperState.rotation = (cropperState.rotation + 90) % 360;
-    updateCropperTransform();
-    updateCropperPreview();
-  });
-
-  flipBtn.addEventListener("click", () => {
-    cropperState.flipH = cropperState.flipH === 1 ? -1 : 1;
-    updateCropperTransform();
-    updateCropperPreview();
-  });
-
-  centerBtn.addEventListener("click", () => {
-    cropperState.panX = 0;
-    cropperState.panY = 0;
-    setCropperZoom(1.0);
-    cropperState.rotation = 0;
-    cropperState.flipH = 1;
-    updateCropperTransform();
-    updateCropperPreview();
-  });
-
-  // Chọn ảnh khác
-  const replacerInput = cropperBackdropEl.querySelector("#cropper-file-replacer");
-  replacerInput.addEventListener("change", (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        cropperState.panX = 0;
-        cropperState.panY = 0;
-        setCropperZoom(1.0);
-        cropperState.rotation = 0;
-        cropperState.flipH = 1;
-        loadCropperImage(ev.target.result);
-      };
-      reader.readAsDataURL(file);
-      e.target.value = "";
-    }
-  });
-
-  // Nút Cắt & Áp dụng
-  const applyBtn = cropperBackdropEl.querySelector(".btn-cropper-apply");
-  applyBtn.addEventListener("click", executeCropAndSave);
-
-  return cropperBackdropEl;
-}
-
-/**
- * Đặt mức zoom cho Cropper
- */
-function setCropperZoom(val) {
-  const clamped = Math.min(3.0, Math.max(1.0, Math.round(val * 100) / 100));
-  cropperState.zoom = clamped;
-  const slider = document.querySelector("#cropper-zoom-slider");
-  if (slider) slider.value = clamped;
-  const valLabel = document.querySelector("#cropper-zoom-val");
-  if (valLabel) valLabel.textContent = `${Math.round(clamped * 100)}%`;
-  updateCropperTransform();
-  updateCropperPreview();
-}
-
-/**
- * Cập nhật kích thước khung cắt (Crop Box) theo tỉ lệ đã chọn
- */
-function updateCropBoxDimensions(key) {
-  const backdrop = getOrCreateCropperModal();
-  const cropBox = backdrop.querySelector("#cropper-crop-box");
-  const ratioBadge = backdrop.querySelector(".crop-ratio-badge");
-  if (!cropBox) return;
-
-  const targetKey = key || cropperState.ratioKey || "4:5";
-  const preset = CROP_RATIO_CONFIG[targetKey] || CROP_RATIO_CONFIG["4:5"];
-
-  cropperState.ratioKey = targetKey;
-  cropperState.ratio = preset.ratio;
-  cropperState.ratioLabel = preset.label;
-  cropperState.boxW = preset.boxW;
-  cropperState.boxH = preset.boxH;
-
-  cropBox.style.width = `${preset.boxW}px`;
-  cropBox.style.height = `${preset.boxH}px`;
-
-  if (ratioBadge) {
-    ratioBadge.textContent = `${preset.label} • ${preset.name}`;
-  }
-}
-
-/**
- * Cập nhật vị trí biến hình (Transform) của ảnh trong khung cắt
- */
-function updateCropperTransform() {
-  const backdrop = getOrCreateCropperModal();
-  const imgLayer = backdrop.querySelector("#cropper-image-layer");
-  const sourceImg = backdrop.querySelector("#cropper-source-img");
-  if (!imgLayer || !sourceImg || !cropperState.sourceImg) return;
-
-  const nw = cropperState.sourceImg.naturalWidth;
-  const nh = cropperState.sourceImg.naturalHeight;
-  if (!nw || !nh) return;
-
-  const isRotated90 = (cropperState.rotation % 180 !== 0);
-  const effW = isRotated90 ? nh : nw;
-  const effH = isRotated90 ? nw : nh;
-
-  const coverScale = Math.max(cropperState.boxW / effW, cropperState.boxH / effH);
-  cropperState.baseW = nw * coverScale;
-  cropperState.baseH = nh * coverScale;
-
-  sourceImg.style.width = `${cropperState.baseW}px`;
-  sourceImg.style.height = `${cropperState.baseH}px`;
-
-  imgLayer.style.transform = `translate(-50%, -50%) translate(${cropperState.panX}px, ${cropperState.panY}px) rotate(${cropperState.rotation}deg) scaleX(${cropperState.flipH}) scale(${cropperState.zoom})`;
-}
-
-/**
- * Cập nhật Live Mini Preview mô phỏng thẻ sản phẩm
- */
-function updateCropperPreview() {
-  const backdrop = getOrCreateCropperModal();
-  const canvas = backdrop.querySelector("#cropper-preview-canvas");
-  if (!canvas || !cropperState.sourceImg) return;
-
-  const prevW = 120;
-  const prevH = Math.round(prevW / cropperState.ratio);
-  canvas.width = prevW;
-  canvas.height = prevH;
-
-  const ctx = canvas.getContext("2d");
-  ctx.clearRect(0, 0, prevW, prevH);
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
-
-  const scaleFactor = prevW / cropperState.boxW;
-
-  ctx.save();
-  ctx.translate(prevW / 2, prevH / 2);
-  ctx.translate(cropperState.panX * scaleFactor, cropperState.panY * scaleFactor);
-  ctx.rotate((cropperState.rotation * Math.PI) / 180);
-  ctx.scale(cropperState.flipH, 1);
-  ctx.scale(cropperState.zoom, cropperState.zoom);
-
-  const drawW = cropperState.baseW * scaleFactor;
-  const drawH = cropperState.baseH * scaleFactor;
-  ctx.drawImage(cropperState.sourceImg, -drawW / 2, -drawH / 2, drawW, drawH);
-  ctx.restore();
-}
-
-/**
- * Đóng Cropper Modal
- */
-function closeCropperModal() {
-  if (cropperBackdropEl) {
-    cropperBackdropEl.classList.remove("is-open");
-    document.body.style.overflow = "";
-  }
-}
-
-/**
- * Mở Cropper Modal từ file hoặc từ đường dẫn ảnh hiện tại
- */
-function openImageCropperModal({ productId, file, imageSrc }) {
-  const info = getProductMeta(productId);
-  if (!info) return;
-
-  const backdrop = getOrCreateCropperModal();
-  cropperState.productId = productId;
-  cropperState.ratioKey = "4:5";
-  cropperState.ratio = 0.8;
-  cropperState.ratioLabel = "4:5";
-  cropperState.boxW = 280;
-  cropperState.boxH = 350;
-  cropperState.zoom = 1.0;
-  cropperState.panX = 0;
-  cropperState.panY = 0;
-  cropperState.rotation = 0;
-  cropperState.flipH = 1;
-
-  // Cập nhật thông tin tiêu đề và mockup
-  const badge = backdrop.querySelector(".cropper-product-badge");
-  if (badge) badge.textContent = `${info.name} (${info.code || 'SP'})`;
-
-  const mockTitle = backdrop.querySelector(".mock-title");
-  if (mockTitle) mockTitle.textContent = info.name;
-  const mockPrice = backdrop.querySelector(".mock-price");
-  if (mockPrice) mockPrice.textContent = info.price || "85.000đ";
-
-  // Reset nút tỉ lệ
-  backdrop.querySelectorAll(".btn-ratio").forEach((btn) => {
-    btn.classList.toggle("active", btn.dataset.ratio === "4:5");
-  });
-
-  // Reset slider zoom
-  const zoomSlider = backdrop.querySelector("#cropper-zoom-slider");
-  if (zoomSlider) zoomSlider.value = "1";
-  const zoomVal = backdrop.querySelector("#cropper-zoom-val");
-  if (zoomVal) zoomVal.textContent = "100%";
-
-  if (file) {
-    if (!file.type.startsWith("image/")) {
-      showToast("⚠️ Vui lòng chọn đúng file hình ảnh (JPG, PNG, WebP)!");
-      return;
-    }
-    showToast("Đang tải ảnh vào khung chỉnh sửa...");
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      loadCropperImage(e.target.result);
-    };
-    reader.readAsDataURL(file);
-  } else if (imageSrc) {
-    showToast("Đang mở công cụ chỉnh khung ảnh...");
-    loadCropperImage(imageSrc);
-  }
-}
-
-/**
- * Nạp ảnh vào đối tượng Image để bắt đầu căn chỉnh
- */
-function loadCropperImage(src) {
-  const backdrop = getOrCreateCropperModal();
-  const sourceImg = backdrop.querySelector("#cropper-source-img");
-  const imgObj = new Image();
-  imgObj.crossOrigin = "anonymous";
-  imgObj.onload = () => {
-    cropperState.sourceImg = imgObj;
-    cropperState.rawSrc = src;
-    sourceImg.src = src;
-    backdrop.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-    updateCropBoxDimensions();
-    updateCropperTransform();
-    updateCropperPreview();
   };
-  imgObj.onerror = () => {
-    showToast("⚠️ Không thể đọc file ảnh này để chỉnh sửa. Vui lòng thử lại với ảnh khác!");
-  };
-  imgObj.src = src;
+
+  window.addEventListener("scroll", updateChatState, { passive: true });
+  updateChatState();
 }
 
-/**
- * Xuất ảnh cắt độ phân giải cao bằng Canvas và lưu vào hệ thống
- */
-async function executeCropAndSave() {
-  if (!cropperState.productId || !cropperState.sourceImg) return;
-
-  try {
-    showToast("Đang xuất ảnh & tối ưu khung hình...");
-
-    const outW = 1200;
-    const outH = Math.round(1200 / cropperState.ratio);
-
-    const canvas = document.createElement("canvas");
-    canvas.width = outW;
-    canvas.height = outH;
-    const ctx = canvas.getContext("2d");
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-
-    const scaleFactor = outW / cropperState.boxW;
-
-    ctx.save();
-    ctx.translate(outW / 2, outH / 2);
-    ctx.translate(cropperState.panX * scaleFactor, cropperState.panY * scaleFactor);
-    ctx.rotate((cropperState.rotation * Math.PI) / 180);
-    ctx.scale(cropperState.flipH, 1);
-    ctx.scale(cropperState.zoom, cropperState.zoom);
-
-    const drawW = cropperState.baseW * scaleFactor;
-    const drawH = cropperState.baseH * scaleFactor;
-    ctx.drawImage(cropperState.sourceImg, -drawW / 2, -drawH / 2, drawW, drawH);
-    ctx.restore();
-
-    const croppedBase64 = canvas.toDataURL("image/jpeg", 0.90);
-    const productId = cropperState.productId;
-    closeCropperModal();
-
-    await saveAndApplyProductImage(productId, croppedBase64);
-  } catch (err) {
-    console.error("Lỗi khi cắt ảnh:", err);
-    showToast("⚠️ Có lỗi khi xử lý cắt ảnh. Vui lòng thử lại!");
-  }
-}
+// --------------------------------------------------------------------------
+// 6. POPUP CHI TIẾT SẢN PHẨM (SCENT DETAIL MODAL) & SAO CHÉP THÔNG TIN
+// --------------------------------------------------------------------------
+let currentModalScentId = "first-class";
+let lastActiveTriggerElement = null;
 
 /**
- * Lưu ảnh tùy chỉnh vào bộ nhớ trình duyệt và ghi ra server
+ * Sao chép thông tin mùi nến vào Clipboard
+ * Cú pháp chuẩn:
+ * "Mình muốn hỏi mua nến thơm ScentPod 50g, mùi [tên mùi]. Bạn tư vấn giúp mình nhé."
  */
-async function saveAndApplyProductImage(productId, croppedBase64) {
-  const info = getProductMeta(productId);
-  if (!info) return;
+function copyProductInfo(scentId) {
+  const p = PRODUCTS_CONFIG[scentId] || PRODUCTS_CONFIG["first-class"];
+  const textToCopy = `Mình muốn hỏi mua nến thơm ScentPod 50g, mùi ${p.name}. Bạn tư vấn giúp mình nhé.`;
+  const toastEl = document.getElementById("scent-modal-copy-toast");
+  const fallbackBox = document.getElementById("scent-modal-manual-copy");
 
-  // 1. Lưu vào trình duyệt (localStorage)
-  setCustomImage(productId, croppedBase64);
-  applyProductImages();
-  renderModalProductList();
-
-  // 2. Ghi ra thư mục images/ trên đĩa nếu local server đang chạy
-  try {
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId, imageData: croppedBase64, filename: info.filename })
-    });
-    if (res.ok) {
-      showToast(`✅ Đã lưu khung ảnh chuẩn vào images/${info.filename} và hiển thị trên web! 🎉`);
-      return;
-    }
-  } catch (netErr) {
-    // Server không bật: sử dụng lưu trữ trình duyệt hoàn toàn bình thường
-  }
-
-  showToast(`✅ Đã căn chỉnh khung ảnh thành công cho "${info.name}"! 🎉`);
-}
-
-/**
- * Hàm tương thích ngược khi tải ảnh từ máy
- */
-async function processImageUpload(productId, file) {
-  openImageCropperModal({ productId, file });
-}
-
-/**
- * Tự động thu nhỏ ảnh bằng HTML5 Canvas để tối ưu tốc độ và dung lượng
- */
-function resizeAndCompressImage(file, maxWidth = 1200, maxHeight = 1500, quality = 0.88) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onerror = reject;
-    reader.onload = (e) => {
-      const img = new Image();
-      img.onerror = reject;
-      img.onload = () => {
-        let width = img.width;
-        let height = img.height;
-
-        if (width > maxWidth || height > maxHeight) {
-          const ratio = Math.min(maxWidth / width, maxHeight / height);
-          width = Math.round(width * ratio);
-          height = Math.round(height * ratio);
-        }
-
-        const canvas = document.createElement("canvas");
-        canvas.width = width;
-        canvas.height = height;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, width, height);
-
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
-      img.src = e.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-/**
- * Tạo nút nổi Quản lý ảnh và Modal cửa sổ trung tâm
- */
-function setupFloatingManagerAndModal() {
-  // Loại bỏ nút nổi Quản lý ảnh và modal nếu có để người dùng không thể đổi ảnh
-  const fab = document.querySelector(".img-manager-fab");
-  if (fab) fab.remove();
-  const backdrop = document.querySelector(".scentpod-modal-backdrop");
-  if (backdrop) backdrop.remove();
-}
-
-/**
- * Hiển thị danh sách sản phẩm & combo trong Modal Quản lý
- */
-function renderModalProductList() {
-  const container = document.querySelector(".modal-product-list");
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  const allProductIds = [...Object.keys(PRODUCTS_CONFIG), "cb01", "cb02", "cb03"];
-
-  allProductIds.forEach((id) => {
-    const p = getProductMeta(id);
-    if (!p) return;
-
-    const customImg = getCustomImage(id);
-    const imgSrc = customImg || p.defaultSrc;
-
-    const item = document.createElement("div");
-    item.className = "modal-product-item";
-    item.innerHTML = `
-      <div class="modal-product-thumb">
-        <img src="${imgSrc}" alt="${p.name}" onerror="this.onerror=null; this.src='${p.fallbackSrc}';">
-      </div>
-      <div class="modal-product-details">
-        <h4 class="modal-product-name">${p.name}</h4>
-        <div class="modal-product-filename">images/${p.filename} &bull; ${p.price}</div>
-        <span class="modal-product-status ${customImg ? 'is-custom' : 'is-default'}">
-          ${customImg ? '✓ Đang dùng ảnh tùy chỉnh từ máy' : 'Ảnh mặc định'}
-        </span>
-      </div>
-      <div class="modal-product-actions">
-        <label class="btn-upload-file" title="Tải ảnh mới từ thiết bị và căn chỉnh khung">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-          Tải ảnh mới
-          <input type="file" accept="image/*" style="display: none;" class="modal-file-input" data-id="${id}">
-        </label>
-        <button type="button" class="btn-action-small btn-crop-single" data-id="${id}" title="Căn chỉnh khung ảnh (cắt cúp, thu phóng, xoay)">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>
-          Chỉnh khung
-        </button>
-        <button type="button" class="btn-action-small btn-dl-img" data-id="${id}" title="Tải file .jpg về máy">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-          Tải .jpg
-        </button>
-        ${customImg ? `
-          <button type="button" class="btn-action-small btn-reset-single" data-id="${id}" title="Khôi phục gốc" style="color: #f87171;">
-            ↺ Gốc
-          </button>
-        ` : ''}
-      </div>
-    `;
-
-    // Sự kiện input file -> mở Cropper
-    const fileInput = item.querySelector(".modal-file-input");
-    fileInput.addEventListener("change", (e) => {
-      if (e.target.files && e.target.files[0]) {
-        openImageCropperModal({ productId: id, file: e.target.files[0] });
-      }
-    });
-
-    // Sự kiện nút Chỉnh khung
-    const cropSingleBtn = item.querySelector(".btn-crop-single");
-    cropSingleBtn.addEventListener("click", () => {
-      openImageCropperModal({ productId: id, imageSrc: imgSrc });
-    });
-
-    // Sự kiện tải file .jpg về máy
-    const dlBtn = item.querySelector(".btn-dl-img");
-    dlBtn.addEventListener("click", () => {
-      downloadProductImage(id);
-    });
-
-    // Sự kiện khôi phục riêng từng sản phẩm
-    const singleResetBtn = item.querySelector(".btn-reset-single");
-    if (singleResetBtn) {
-      singleResetBtn.addEventListener("click", () => {
-        removeCustomImage(id);
-        applyProductImages();
-        renderModalProductList();
-        showToast(`Đã khôi phục ảnh gốc của "${p.name}"!`);
-      });
-    }
-
-    container.appendChild(item);
-  });
-}
-
-/**
- * Tải file ảnh về máy để người dùng dễ dàng lưu vào thư mục images/
- */
-function downloadProductImage(productId) {
-  const p = getProductMeta(productId);
-  if (!p) return;
-
-  const customImg = getCustomImage(productId);
-  const src = customImg || p.defaultSrc;
-
-  const a = document.createElement("a");
-  a.href = src;
-  a.download = p.filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  showToast(`Đã tải xuống file "${p.filename}" vào máy của bạn!`);
-}
-
-/**
- * ==========================================================================
- * MODAL CHI TIẾT 3 TẦNG HƯƠNG (SCENT DETAIL MODAL)
- * ==========================================================================
- * Khi người dùng bấm vào từng sản phẩm hoặc nút "Tầng hương",
- * mở modal sang trọng hiển thị đầy đủ thông tin:
- * - Tên thương mại & tên mùi
- * - Nhóm hương
- * - Cấu trúc 3 tầng hương chi tiết (Top - Heart - Base)
- * - Nút chọn số lượng & Thêm vào giỏ hàng
- * - Vibe cảm xúc & tư vấn Messenger
- */
-let currentModalScentId = null;
-let currentModalSize = "sp02";
-
-/**
- * Xử lý đặt hàng / tư vấn nhanh qua Facebook Messenger
- * Tự động tạo tin nhắn đặt hàng chuẩn, sao chép vào bộ nhớ tạm (Clipboard),
- * hiển thị thông báo Toast trang nhã và mở Messenger tới ScentPod Fanpage.
- */
-function handleInboxOrder(productId, sizeCode) {
-  let productName = "";
-  let variantText = "";
-  let priceText = "";
-
-  // 1. Kiểm tra xem có phải combo không
-  if (COMBOS_CONFIG && COMBOS_CONFIG[productId]) {
-    const cb = COMBOS_CONFIG[productId];
-    productName = `${cb.code} - ${cb.name}`;
-    variantText = cb.components || "Combo ưu đãi";
-    priceText = cb.price || `${cb.priceNumber}đ`;
-  } else if (PRODUCTS_CONFIG && PRODUCTS_CONFIG[productId]) {
-    const p = PRODUCTS_CONFIG[productId];
-    productName = `${p.code}: ${p.name} (${p.scentName})`;
-    
-    const sizeCfg = PRODUCT_SIZES_CONFIG[sizeCode || "sp02"] || PRODUCT_SIZES_CONFIG["sp02"];
-    variantText = sizeCfg ? sizeCfg.label : "Nến 100g";
-    priceText = sizeCfg ? sizeCfg.priceFormatted : p.price;
-  } else {
-    productName = productId;
-    priceText = "Liên hệ";
-  }
-
-  const message = `Chào ScentPod! Mình muốn tư vấn & đặt mua sản phẩm:
-• Tên: ${productName}
-• Phân loại: ${variantText}
-• Giá ưu đãi: ${priceText}
-Nhờ shop tư vấn mùi hương và ship hàng giúp mình nhé!`;
-
-  // Thử copy vào Clipboard để khách dán ngay vào Messenger
   if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(message).then(() => {
-      showToast(`💬 Đã lưu thông tin đơn "${productName}"! Đang mở Facebook Messenger...`, 4000);
-    }).catch(() => {
-      showToast(`💬 Đang mở Facebook Messenger để tư vấn cho bạn...`, 3000);
-    });
+    navigator.clipboard.writeText(textToCopy)
+      .then(() => {
+        if (toastEl) {
+          toastEl.textContent = "✓ Đã sao chép. Bạn có thể dán nội dung khi nhắn Facebook.";
+          toastEl.style.display = "block";
+          setTimeout(() => {
+            if (toastEl) toastEl.style.display = "none";
+          }, 4500);
+        }
+        if (fallbackBox) fallbackBox.style.display = "none";
+      })
+      .catch(() => {
+        showManualCopyFallback(textToCopy);
+      });
   } else {
-    showToast(`💬 Đang mở Facebook Messenger để tư vấn cho bạn...`, 3000);
+    showManualCopyFallback(textToCopy);
   }
-
-  // Mở Messenger sau 350ms
-  setTimeout(() => {
-    window.open(FB_LINK, "_blank", "noopener,noreferrer");
-  }, 350);
 }
 
+function showManualCopyFallback(text) {
+  const fallbackBox = document.getElementById("scent-modal-manual-copy");
+  const fallbackInput = document.getElementById("scent-modal-manual-input");
+  const toastEl = document.getElementById("scent-modal-copy-toast");
+
+  if (fallbackBox && fallbackInput) {
+    fallbackInput.value = text;
+    fallbackBox.style.display = "block";
+    fallbackInput.focus();
+    fallbackInput.select();
+    if (toastEl) {
+      toastEl.textContent = "Nhấn Ctrl+C hoặc Cmd+C để sao chép nội dung bên dưới:";
+      toastEl.style.display = "block";
+    }
+  }
+}
+
+/**
+ * Mở Popup Chi Tiết Mùi Hương
+ */
+function openScentModal(scentId) {
+  const p = PRODUCTS_CONFIG[scentId] || PRODUCTS_CONFIG["first-class"];
+  currentModalScentId = p.id;
+  lastActiveTriggerElement = document.activeElement;
+
+  let backdrop = document.getElementById("scent-detail-modal");
+  if (!backdrop) {
+    initScentDetailModal();
+    backdrop = document.getElementById("scent-detail-modal");
+  }
+
+  // Cập nhật thông tin vào Modal
+  const imgEl = document.getElementById("scent-modal-img");
+  const badgeEl = document.getElementById("scent-modal-badge");
+  const groupEl = document.getElementById("scent-modal-group");
+  const titleEl = document.getElementById("scent-modal-title");
+  const subtitleEl = document.getElementById("scent-modal-subtitle");
+  const priceEl = document.getElementById("scent-modal-price");
+  const vibeEl = document.getElementById("scent-modal-vibe");
+  const topNotesEl = document.getElementById("scent-tier-top");
+  const heartNotesEl = document.getElementById("scent-tier-heart");
+  const baseNotesEl = document.getElementById("scent-tier-base");
+  const toastEl = document.getElementById("scent-modal-copy-toast");
+  const manualBox = document.getElementById("scent-modal-manual-copy");
+
+  if (imgEl) {
+    imgEl.src = p.defaultSrc;
+    imgEl.alt = `Nến thơm ScentPod 50g - ${p.name}`;
+  }
+  if (badgeEl) badgeEl.textContent = p.code;
+  if (groupEl) groupEl.textContent = p.category;
+  if (titleEl) titleEl.textContent = p.name;
+  if (subtitleEl) subtitleEl.textContent = p.tagline;
+  if (priceEl) priceEl.innerHTML = `${p.price} <small style="font-size: 0.76rem; background: rgba(201, 162, 107, 0.22); border: 1px solid var(--accent-gold); color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: 500; margin-left: 6px; font-family: var(--font-sans);">${p.priceBadge}</small>`;
+  if (vibeEl) vibeEl.textContent = p.shortDesc;
+  if (topNotesEl) topNotesEl.textContent = p.topNotes;
+  if (heartNotesEl) heartNotesEl.textContent = p.heartNotes;
+  if (baseNotesEl) baseNotesEl.textContent = p.baseNotes;
+  if (toastEl) toastEl.style.display = "none";
+  if (manualBox) manualBox.style.display = "none";
+
+  // Mở modal & khóa cuộn trang
+  backdrop.classList.add("is-open");
+  document.body.classList.add("modal-open");
+
+  // Đặt focus vào nút đóng
+  const closeBtn = backdrop.querySelector(".scent-modal-close");
+  if (closeBtn) closeBtn.focus();
+}
+
+/**
+ * Đóng Popup Chi Tiết Mùi Hương
+ */
+function closeScentModal() {
+  const backdrop = document.getElementById("scent-detail-modal");
+  if (!backdrop) return;
+
+  backdrop.classList.remove("is-open");
+  document.body.classList.remove("modal-open");
+
+  // Trả focus về nút vừa mở
+  if (lastActiveTriggerElement && typeof lastActiveTriggerElement.focus === "function") {
+    lastActiveTriggerElement.focus();
+  }
+}
+
+/**
+ * Khởi tạo khung DOM Modal nếu chưa có
+ */
 function initScentDetailModal() {
-  // Tạo khung Modal nếu chưa có trong DOM
-  let backdrop = document.querySelector(".scent-modal-backdrop");
+  let backdrop = document.getElementById("scent-detail-modal");
   if (!backdrop) {
     backdrop = document.createElement("div");
     backdrop.className = "scent-modal-backdrop";
     backdrop.id = "scent-detail-modal";
     backdrop.innerHTML = `
       <div class="scent-modal-container" role="dialog" aria-modal="true" aria-labelledby="scent-modal-title">
-        <button type="button" class="scent-modal-close" aria-label="Đóng cửa sổ">&times;</button>
+        <button type="button" class="scent-modal-close" aria-label="Đóng cửa sổ" title="Đóng">&times;</button>
         <div class="scent-modal-layout">
           <div class="scent-modal-img-col">
             <span class="scent-modal-badge" id="scent-modal-badge">Mùi 01</span>
-            <img id="scent-modal-img" src="" alt="ScentPod Fragrance">
-            <a id="scent-modal-full-img-link" href="#" class="detail-zoom-btn" style="bottom: 14px; left: 50%; transform: translateX(-50%); position: absolute; font-size: 0.78rem; white-space: nowrap; text-decoration: none;">
-              🔍 Mở trang chi tiết đầy đủ
-            </a>
+            <img id="scent-modal-img" src="" alt="Nến thơm ScentPod 50g">
           </div>
           <div class="scent-modal-info-col">
             <span class="scent-modal-group" id="scent-modal-group">Nhóm hương</span>
             <h2 class="scent-modal-title" id="scent-modal-title">First Class</h2>
             <div class="scent-modal-subtitle" id="scent-modal-subtitle">White Tea &amp; Morning Dew</div>
+            <div class="product-spec-tag">Nến thơm 50g</div>
             <div class="scent-modal-price" id="scent-modal-price">85.000đ</div>
             <p class="scent-modal-vibe" id="scent-modal-vibe"></p>
 
-            <!-- Tabs điều hướng trong Modal -->
-            <div class="modal-tabs-nav">
-              <button type="button" class="modal-tab-btn is-active" data-modal-tab="scents">✨ 3 Tầng hương</button>
-              <button type="button" class="modal-tab-btn" data-modal-tab="usage">🕯️ Cách sử dụng</button>
-              <button type="button" class="modal-tab-btn" data-modal-tab="storage">🛡️ Bảo quản</button>
-            </div>
-
-            <!-- Tab 1: Cấu trúc 3 tầng hương -->
-            <div class="modal-tab-pane is-active" id="modal-pane-scents">
-              <div class="scent-pyramid-card">
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương đầu:</span>
-                  <div class="tier-notes" id="scent-tier-top"></div>
-                </div>
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương giữa:</span>
-                  <div class="tier-notes" id="scent-tier-heart"></div>
-                </div>
-                <div class="scent-tier">
-                  <span class="tier-dot"></span>
-                  <span class="tier-label">Hương cuối:</span>
-                  <div class="tier-notes" id="scent-tier-base"></div>
-                </div>
+            <!-- Cấu trúc 3 tầng hương -->
+            <div class="scent-pyramid-card">
+              <div class="scent-pyramid-header">✨ Cấu trúc 3 tầng hương</div>
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương đầu:</span>
+                <div class="tier-notes" id="scent-tier-top"></div>
               </div>
-
-              <div class="scent-specs">
-                <span><span class="tag-icon">🌿</span>Sáp thực vật tự nhiên</span>
-                <span><span class="tag-icon">🔥</span>Bấc cotton sạch không khói</span>
-                <span><span class="tag-icon">📦</span>Size mini bỏ túi</span>
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương giữa:</span>
+                <div class="tier-notes" id="scent-tier-heart"></div>
+              </div>
+              <div class="scent-tier">
+                <span class="tier-dot"></span>
+                <span class="tier-label">Hương cuối:</span>
+                <div class="tier-notes" id="scent-tier-base"></div>
               </div>
             </div>
 
-            <!-- Tab 2: Hướng dẫn sử dụng -->
-            <div class="modal-tab-pane" id="modal-pane-usage">
-              <div style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
-                <p style="margin: 0 0 6px 0;"><strong>1. Cắt bấc:</strong> Cắt ngắn tim nến còn 3 - 5mm trước mỗi lần thắp để lửa cháy đều và không sinh khói.</p>
-                <p style="margin: 0 0 6px 0;"><strong>2. Lần đốt đầu:</strong> Thắp 1 - 1.5 tiếng (hũ mini 10g thắp 30 - 45 phút) cho sáp tan đều đến mép cốc (tránh lõm tim nến).</p>
-                <p style="margin: 0 0 6px 0;"><strong>3. Lần đốt sau:</strong> Thắp 1 - 2 tiếng (không đốt quá 3 tiếng; nến 100g cháy 15 - 18h, hũ mini 10g cháy 2 - 3h).</p>
-                <p style="margin: 0;"><strong>4. Sáp bỏ túi (50g):</strong> Mở nắp nhẹ đặt ở góc bàn học, ba lô hoặc tủ đồ để tự tỏa hương 15 - 20 ngày (hũ mini 10g tỏa hương 5 - 7 ngày).</p>
-              </div>
+            <!-- Quà kèm & Chính sách -->
+            <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px; font-size: 0.86rem; line-height: 1.6; color: var(--text-secondary);">
+              <div style="margin-bottom: 6px;">🎁 <strong>Quà kèm:</strong> Que diêm dài chuyên dụng &amp; thiệp hướng dẫn sử dụng nến.</div>
+              <div style="margin-bottom: 6px;">🕯️ <strong>Hướng dẫn dùng ngắn:</strong> Cắt ngắn bấc còn khoảng 0.5cm trước khi đốt. Lần đầu thắp nên để sáp tan chảy đều tới mép hũ (khoảng 1–2 giờ).</div>
+              <div style="margin-bottom: 6px; color: #f5c87a;">⚠️ <strong>Lưu ý an toàn:</strong> Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.</div>
+              <div style="color: var(--accent-gold);">🚚 <strong>Chính sách ship:</strong> Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn).</div>
             </div>
 
-            <!-- Tab 3: Hướng dẫn bảo quản -->
-            <div class="modal-tab-pane" id="modal-pane-storage">
-              <div style="font-size: 0.85rem; line-height: 1.55; color: var(--text-secondary); background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
-                <p style="margin: 0 0 6px 0;"><strong>• Nhiệt độ:</strong> Để nơi khô ráo, thoáng mát dưới 30°C, tránh ánh nắng mặt trời trực tiếp.</p>
-                <p style="margin: 0 0 6px 0;"><strong>• Đậy nắp kín:</strong> Đậy nắp sau khi nến đã nguội hẳn để tránh bụi và giữ hương thơm lâu dài.</p>
-                <p style="margin: 0;"><strong>• An toàn cháy nổ:</strong> Đặt trên bề mặt cách nhiệt, xa rèm cửa, sách vở và xa tầm tay trẻ em.</p>
-              </div>
+            <!-- Các nút hành động chính của Modal -->
+            <div class="modal-actions-group">
+              <button type="button" class="btn-buy-fb" id="btn-modal-fb-buy" style="flex: 1;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
+                <span>Hỏi mua qua Facebook</span>
+              </button>
+              <button type="button" class="btn-copy-info" id="btn-modal-copy-info">
+                📋 <span>Sao chép thông tin</span>
+              </button>
             </div>
 
-            <!-- Bộ chọn phân loại trong Modal -->
-            <div class="modal-size-container">
-              <span class="modal-size-title">Chọn phân loại:</span>
-              <div class="modal-size-options" id="modal-size-options">
-                <button type="button" class="modal-size-pill" data-modal-size="sp01">
-                  <span class="size-pill-name">Sáp bỏ túi 50g</span>
-                  <span class="size-pill-price">49.000đ</span>
-                </button>
-                <button type="button" class="modal-size-pill is-active" data-modal-size="sp02">
-                  <span class="size-pill-name">Nến thơm 100g</span>
-                  <span class="size-pill-price">85.000đ</span>
-                </button>
-                <button type="button" class="modal-size-pill" data-modal-size="10g">
-                  <span class="size-pill-name">Mini dùng thử</span>
-                  <span class="size-pill-price">39.000đ</span>
-                </button>
-              </div>
+            <!-- Thông báo trạng thái sao chép -->
+            <div id="scent-modal-copy-toast" class="copy-toast-msg" style="display: none;"></div>
+            
+            <!-- Fallback ô nhập liệu nếu trình duyệt chặn Clipboard API -->
+            <div id="scent-modal-manual-copy" class="manual-copy-box" style="display: none;">
+              <input type="text" id="scent-modal-manual-input" class="manual-copy-input" readonly>
             </div>
 
-            <!-- Banner quà tặng trong Modal -->
-            <div class="modal-gift-banner" id="modal-gift-banner">
-              <span class="tag-icon">🎁</span>
-              <span id="modal-gift-text">Tặng diêm dài chuyên dụng + hướng dẫn sử dụng nến</span>
-            </div>
-
-            <!-- Nút Đặt hàng / Tư vấn qua Messenger chính -->
-            <div class="modal-inbox-action-box">
-              <div style="display: flex; gap: 8px; margin-bottom: 8px;">
-                <button type="button" class="btn btn-outline" id="btn-modal-add-cart" style="flex: 1; padding: 10px; font-size: 0.88rem; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
-                  <span>🛒 Thêm vào giỏ</span>
-                </button>
-                <button type="button" class="btn-modal-inbox" id="btn-modal-inbox" style="flex: 1.3; margin: 0; padding: 10px 14px; font-size: 0.88rem;">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-                  </svg>
-                  <span>Tư vấn Messenger</span>
-                </button>
-              </div>
-              <a href="#" class="btn-view-full-page" id="btn-modal-view-page">
-                <span>📄 Xem toàn bộ trang giới thiệu sản phẩm &rarr;</span>
-              </a>
-            </div>
           </div>
         </div>
       </div>
     `;
     document.body.appendChild(backdrop);
-  }
 
-  const closeBtn = backdrop.querySelector(".scent-modal-close");
-  const modalImg = backdrop.querySelector("#scent-modal-img");
-  const modalBadge = backdrop.querySelector("#scent-modal-badge");
-  const modalGroup = backdrop.querySelector("#scent-modal-group");
-  const modalTitle = backdrop.querySelector("#scent-modal-title");
-  const modalSubtitle = backdrop.querySelector("#scent-modal-subtitle");
-  const modalPrice = backdrop.querySelector("#scent-modal-price");
-  const modalVibe = backdrop.querySelector("#scent-modal-vibe");
-  const tierTop = backdrop.querySelector("#scent-tier-top");
-  const tierHeart = backdrop.querySelector("#scent-tier-heart");
-  const tierBase = backdrop.querySelector("#scent-tier-base");
-  const modalGiftText = backdrop.querySelector("#modal-gift-text");
-  const inboxOrderBtn = backdrop.querySelector("#btn-modal-inbox");
-  const modalAddCartBtn = backdrop.querySelector("#btn-modal-add-cart");
-  const modalViewPageBtn = backdrop.querySelector("#btn-modal-view-page");
-  const modalFullImgLink = backdrop.querySelector("#scent-modal-full-img-link");
-  const sizePills = backdrop.querySelectorAll(".modal-size-pill");
-
-  // Xử lý Tabs trong Modal
-  const modalTabBtns = backdrop.querySelectorAll(".modal-tab-btn");
-  const modalPanes = backdrop.querySelectorAll(".modal-tab-pane");
-  modalTabBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const tabName = btn.getAttribute("data-modal-tab");
-      modalTabBtns.forEach(b => b.classList.remove("is-active"));
-      modalPanes.forEach(p => p.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      const targetPane = backdrop.querySelector(`#modal-pane-${tabName}`);
-      if (targetPane) targetPane.classList.add("is-active");
-    });
-  });
-
-  function updateModalSizeUI(sizeCode) {
-    currentModalSize = sizeCode || "sp02";
-    sizePills.forEach((p) => {
-      p.classList.toggle("is-active", p.getAttribute("data-modal-size") === currentModalSize);
-    });
-
-    const sizeCfg = PRODUCT_SIZES_CONFIG[currentModalSize] || PRODUCT_SIZES_CONFIG["sp02"];
-    if (sizeCfg) {
-      modalPrice.innerHTML = `${sizeCfg.priceFormatted} <small class="price-original-striked" style="font-size: 0.95rem; font-weight: normal; color: var(--text-muted); text-decoration: line-through; margin-left: 6px;">${sizeCfg.originalPriceFormatted}</small>`;
-      if (modalGiftText && sizeCfg.gift) {
-        modalGiftText.textContent = sizeCfg.gift;
-      }
+    // Bắt sự kiện đóng
+    const closeBtn = backdrop.querySelector(".scent-modal-close");
+    if (closeBtn) {
+      closeBtn.addEventListener("click", closeScentModal);
     }
-  }
 
-  sizePills.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const s = btn.getAttribute("data-modal-size");
-      updateModalSizeUI(s);
-    });
-  });
-
-  inboxOrderBtn.addEventListener("click", () => {
-    if (currentModalScentId) {
-      handleInboxOrder(currentModalScentId, currentModalSize);
-      closeScentModal();
-    }
-  });
-
-  if (modalAddCartBtn) {
-    modalAddCartBtn.addEventListener("click", () => {
-      if (currentModalScentId) {
-        addToCart(currentModalScentId, 1, true, currentModalSize);
+    // Đóng khi click ngoài khung modal
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) {
         closeScentModal();
-        const p = PRODUCTS_CONFIG[currentModalScentId];
-        showToast(`Đã thêm "${p ? p.name : 'Sản phẩm'}" vào giỏ hàng!`);
       }
     });
-  }
 
-  function openScentModal(scentId, preferredSize = "sp02") {
-    const p = PRODUCTS_CONFIG[scentId];
-    if (!p) return;
-
-    currentModalScentId = scentId;
-    updateModalSizeUI(preferredSize);
-
-    modalBadge.textContent = p.code;
-    modalGroup.textContent = "Nhóm hương: " + p.category;
-    modalTitle.textContent = `${p.name} (${p.posterTitle || ''})`;
-    modalSubtitle.textContent = `${p.scentName} • ${p.tagline || ''}`;
-    modalVibe.textContent = p.vibe;
-
-    tierTop.textContent = p.topNotes;
-    tierHeart.textContent = p.heartNotes;
-    tierBase.textContent = p.baseNotes;
-
-    const customImg = getCustomImage(scentId);
-    modalImg.src = customImg || p.defaultSrc;
-    modalImg.alt = `${p.name} - ${p.scentName}`;
-    modalImg.onerror = function() {
-      this.onerror = null;
-      this.src = p.fallbackSrc;
-    };
-
-    if (modalViewPageBtn) {
-      modalViewPageBtn.href = `chi-tiet-san-pham.html?id=${scentId}`;
-    }
-    if (modalFullImgLink) {
-      modalFullImgLink.href = `chi-tiet-san-pham.html?id=${scentId}`;
-    }
-
-    backdrop.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-  }
-
-  function closeScentModal() {
-    backdrop.classList.remove("is-open");
-    document.body.style.overflow = "";
-  }
-
-  closeBtn.addEventListener("click", closeScentModal);
-  backdrop.addEventListener("click", (e) => {
-    if (e.target === backdrop) closeScentModal();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && backdrop.classList.contains("is-open")) {
-      closeScentModal();
-    }
-  });
-
-  // Bắt sự kiện click trên card hoặc nút "Tầng hương" hoặc nút "Inbox"
-  document.addEventListener("click", (e) => {
-    // 1. Click vào nút "Inbox đặt hàng" ([data-inbox-order])
-    const inboxBtn = e.target.closest("[data-inbox-order]");
-    if (inboxBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const pid = inboxBtn.getAttribute("data-inbox-order");
-      const card = inboxBtn.closest(".product-card, .product-item, [data-scent-id]");
-      const size = card ? card.getAttribute("data-selected-size") || "sp02" : "sp02";
-      handleInboxOrder(pid, size);
-      return;
-    }
-
-    // Bỏ qua nếu click trong modal hoặc dropdown
-    if (
-      e.target.closest(".product-card-upload-bar") ||
-      e.target.closest(".img-manager-fab") ||
-      e.target.closest(".scentpod-modal-backdrop") ||
-      e.target.closest(".scent-modal-container")
-    ) {
-      return;
-    }
-
-    // 2. Click vào nút "Tầng hương"
-    const btn = e.target.closest("[data-open-scent]");
-    if (btn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const scentId = btn.getAttribute("data-open-scent");
-      const card = btn.closest(".product-card");
-      const size = card ? card.getAttribute("data-selected-size") || "sp02" : "sp02";
-      openScentModal(scentId, size);
-      return;
-    }
-
-    // 3. Click vào thẻ sản phẩm -> Chuyển trực tiếp sang trang chi tiết đầy đủ
-    const card = e.target.closest(".product-card[data-scent-id]");
-    if (card) {
-      // Nếu click vào thẻ <a> hoặc nút bấm phân loại size / inbox, không chuyển trang
-      if (e.target.closest("a") || e.target.closest("button")) {
-        return;
-      }
-      const scentId = card.getAttribute("data-scent-id");
-      if (COMBOS_CONFIG && COMBOS_CONFIG[scentId]) {
-        handleInboxOrder(scentId);
-      } else {
-        window.location.href = `chi-tiet-san-pham.html?id=${scentId}`;
-      }
-    }
-  });
-}
-
-/**
- * ==========================================================================
- * HỆ THỐNG GIỎ HÀNG (SHOPPING CART & SLIDE-OVER DRAWER)
- * ==========================================================================
- */
-const CART_STORAGE_KEY = "scentpod_cart";
-const COUPON_STORAGE_KEY = "scentpod_coupon";
-
-function getCart() {
-  try {
-    const raw = localStorage.getItem(CART_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
-}
-
-function saveCart(cart) {
-  try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
-  } catch (e) {
-    console.error(e);
-  }
-  updateCartUI();
-}
-
-function addToCart(productId, quantity = 1, showDrawer = true, selectedSize = "sp02") {
-  // Nếu tham số thứ 3 được truyền là chuỗi kích thước (vd: "sp01", "50g")
-  if (typeof showDrawer === "string") {
-    selectedSize = showDrawer;
-    showDrawer = true;
-  }
-
-  // 1. Kiểm tra nếu là sản phẩm combo (CB01, CB02, CB03 hoặc aliases)
-  const combo = COMBOS_CONFIG[productId];
-  if (combo) {
-    const cart = getCart();
-    const existing = cart.find((item) => item.id === combo.id || item.id === productId);
-    if (existing) {
-      existing.quantity += quantity;
-    } else {
-      cart.push({
-        id: combo.id,
-        code: combo.code,
-        name: `[${combo.code}] ${combo.name}`,
-        scentName: combo.scentName,
-        components: combo.components,
-        category: combo.category,
-        size: "Combo",
-        originalPrice: combo.originalPrice,
-        price: combo.priceNumber,
-        priceFormatted: combo.price,
-        savings: combo.savings,
-        shippingPolicy: combo.shippingPolicy,
-        gifts: combo.gifts,
-        image: combo.defaultSrc,
-        fallbackSrc: combo.fallbackSrc,
-        quantity: quantity
+    // Bắt sự kiện nút Hỏi mua Facebook trong modal
+    const modalFbBtn = document.getElementById("btn-modal-fb-buy");
+    if (modalFbBtn) {
+      modalFbBtn.addEventListener("click", () => {
+        const p = PRODUCTS_CONFIG[currentModalScentId] || PRODUCTS_CONFIG["first-class"];
+        openFacebookCta("product_modal", p.name);
       });
     }
-    saveCart(cart);
-    triggerCartBump();
-    showToast(`🎁 Đã thêm ${quantity}x [${combo.code}] "${combo.name}" vào giỏ hàng!`);
-    if (showDrawer) openCartDrawer();
-    return;
-  }
 
-  // 2. Sản phẩm lẻ theo mùi (Hỗ trợ SP01 Sáp 50g & SP02 Nến 100g)
-  const p = PRODUCTS_CONFIG[productId];
-  if (!p) return;
-
-  const sizeInfo = PRODUCT_SIZES_CONFIG[selectedSize] || PRODUCT_SIZES_CONFIG["sp02"];
-  const cartItemId = `${productId}-${sizeInfo.size}`;
-  const codeBadge = sizeInfo.code ? `[${sizeInfo.code}] ` : "";
-  const typeDisplay = sizeInfo.typeName || (sizeInfo.size === "50g" ? "Sáp thơm bỏ túi 50g" : "Nến thơm thư giãn 100g");
-  const cartItemName = `${codeBadge}${p.name} - ${typeDisplay}`;
-  const itemPrice = sizeInfo.price;
-  const customImg = getCustomImage(productId);
-  const imgSrc = customImg || p.defaultSrc;
-
-  const cart = getCart();
-  const existing = cart.find((item) => item.id === cartItemId || (item.id === productId && (!item.size || item.size === sizeInfo.size)));
-
-  if (existing) {
-    existing.quantity += quantity;
-    existing.id = cartItemId;
-    existing.size = sizeInfo.size;
-  } else {
-    cart.push({
-      id: cartItemId,
-      productId: productId,
-      code: sizeInfo.code || "SP",
-      name: cartItemName,
-      baseName: p.name,
-      scentName: p.scentName,
-      category: p.category,
-      size: sizeInfo.size,
-      spec: sizeInfo.spec || sizeInfo.size,
-      originalPrice: sizeInfo.listPrice,
-      price: itemPrice,
-      priceFormatted: sizeInfo.priceFormatted,
-      giftNote: sizeInfo.giftNote,
-      image: imgSrc,
-      fallbackSrc: p.fallbackSrc,
-      quantity: quantity
-    });
-  }
-
-  saveCart(cart);
-  triggerCartBump();
-  showToast(`✅ Đã thêm ${quantity}x "${cartItemName}" vào giỏ hàng!`);
-
-  if (showDrawer) {
-    openCartDrawer();
-  }
-}
-
-function triggerCartBump() {
-  const badge = document.getElementById("header-cart-badge");
-  if (badge) {
-    badge.classList.remove("bump");
-    void badge.offsetWidth;
-    badge.classList.add("bump");
-  }
-}
-
-function updateCartQuantity(productId, delta) {
-  const cart = getCart();
-  const item = cart.find((i) => i.id === productId);
-  if (!item) return;
-
-  item.quantity += delta;
-  if (item.quantity <= 0) {
-    removeFromCart(productId);
-    return;
-  }
-  saveCart(cart);
-}
-
-function removeFromCart(productId) {
-  let cart = getCart();
-  cart = cart.filter((i) => i.id !== productId);
-  saveCart(cart);
-  showToast("Đã xóa sản phẩm khỏi giỏ hàng.");
-}
-
-function clearCart() {
-  localStorage.removeItem(CART_STORAGE_KEY);
-  localStorage.removeItem(COUPON_STORAGE_KEY);
-  updateCartUI();
-}
-
-function getActiveCoupon() {
-  try {
-    return JSON.parse(localStorage.getItem(COUPON_STORAGE_KEY)) || null;
-  } catch (e) {
-    return null;
-  }
-}
-
-function applyCoupon(code) {
-  const cleanCode = (code || "").trim().toUpperCase();
-  if (!cleanCode) return false;
-
-  if (cleanCode === "SINHVIEN") {
-    const coupon = { code: "SINHVIEN", discount: 15000, label: "Ưu đãi sinh viên (-15.000đ)" };
-    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
-    showToast("🎉 Đã áp dụng mã SINHVIEN: Giảm ngay 15.000đ!");
-    updateCartUI();
-    return true;
-  }
-  if (cleanCode === "SCENTPOD10") {
-    const coupon = { code: "SCENTPOD10", discount: 10000, label: "Mã tri ân (-10.000đ)" };
-    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
-    showToast("🎉 Đã áp dụng mã SCENTPOD10: Giảm 10.000đ!");
-    updateCartUI();
-    return true;
-  }
-  if (cleanCode === "FREESHIP") {
-    const coupon = { code: "FREESHIP", discount: 25000, label: "Miễn phí vận chuyển (-25.000đ)" };
-    localStorage.setItem(COUPON_STORAGE_KEY, JSON.stringify(coupon));
-    showToast("🎉 Đã áp dụng mã FREESHIP!");
-    updateCartUI();
-    return true;
-  }
-
-  showToast("⚠️ Mã không hợp lệ. Gợi ý: SINHVIEN hoặc SCENTPOD10");
-  return false;
-}
-
-function getCartTotals() {
-  const cart = getCart();
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  // Kiểm tra giỏ hàng có chứa sản phẩm combo nào không (để áp dụng chính sách: Đồng giá ship 15k)
-  const hasCombo = cart.some(item => 
-    (item.id && (item.id.startsWith("cb") || item.id.startsWith("combo"))) ||
-    item.size === "Combo" ||
-    COMBOS_CONFIG[item.id] ||
-    (item.productId && COMBOS_CONFIG[item.productId])
-  );
-
-  // Đạt freeship khi:
-  // 1. Tổng tiền hàng >= 150.000đ (cho mọi đơn hàng kể cả combo)
-  // 2. Hoặc đối với đơn lẻ không combo: mua từ 2 sản phẩm trở lên
-  const isFreeShip = subtotal >= 150000 || (!hasCombo && totalQty >= 2);
-  
-  // Phí ship: Nếu đơn có Combo: Đồng giá ship 15.000đ; Đơn lẻ bình thường: 25.000đ; Đạt freeship: 0đ
-  const baseShippingRate = hasCombo ? 15000 : 25000;
-  let shipping = cart.length === 0 ? 0 : (isFreeShip ? 0 : baseShippingRate);
-
-  const coupon = getActiveCoupon();
-  let discount = 0;
-  if (coupon && cart.length > 0) {
-    if (coupon.code === "FREESHIP") {
-      discount = shipping;
-      shipping = 0;
-    } else {
-      discount = Math.min(coupon.discount, subtotal);
+    // Bắt sự kiện nút Sao chép thông tin trong modal
+    const copyBtn = document.getElementById("btn-modal-copy-info");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        copyProductInfo(currentModalScentId);
+      });
     }
   }
 
-  const finalTotal = Math.max(0, subtotal + shipping - discount);
+  // Phím Escape đóng modal
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const modal = document.getElementById("scent-detail-modal");
+      if (modal && modal.classList.contains("is-open")) {
+        closeScentModal();
+      }
+    }
+  });
 
-  return {
-    subtotal,
-    totalQty,
-    shipping,
-    discount,
-    coupon,
-    finalTotal,
-    hasCombo,
-    isFreeShip,
-    isFreeShipByQty: isFreeShip
-  };
-}
-
-function formatVND(amount) {
-  return new Intl.NumberFormat("vi-VN").format(amount) + "đ";
-}
-
-/**
- * Khởi tạo giao diện Giỏ hàng (Drawer & Events)
- */
-function initCartSystem() {
-  // Bắt sự kiện click [data-add-to-cart] dự phòng chuyển sang đặt qua Facebook
+  // Bắt sự kiện click mở modal từ các nút trên trang [data-open-scent]
   document.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-add-to-cart]");
-    if (btn) {
+    const trigger = e.target.closest("[data-open-scent]");
+    if (trigger) {
       e.preventDefault();
-      e.stopPropagation();
-      const pid = btn.getAttribute("data-add-to-cart");
-      const card = btn.closest(".product-card, .product-item, [data-scent-id]");
-      let selectedSize = "sp02";
-      if (card) {
-        selectedSize = card.getAttribute("data-selected-size") || "sp02";
-      }
-      handleInboxOrder(pid, selectedSize);
-    }
-
-    // Bắt sự kiện chọn kích thước size-pill-btn
-    const sizeBtn = e.target.closest(".size-pill-btn");
-    if (sizeBtn) {
-      e.preventDefault();
-      e.stopPropagation();
-      const card = sizeBtn.closest(".product-card, .product-item, [data-scent-id]");
-      if (card) {
-        const size = sizeBtn.getAttribute("data-size");
-        const priceText = sizeBtn.getAttribute("data-price-text");
-        const originalPriceText = sizeBtn.getAttribute("data-original-price-text");
-        const inboxText = sizeBtn.getAttribute("data-inbox-text");
-        const giftText = sizeBtn.getAttribute("data-gift-text");
-        
-        card.setAttribute("data-selected-size", size);
-
-        card.querySelectorAll(".size-pill-btn").forEach((b) => b.classList.remove("is-active"));
-        sizeBtn.classList.add("is-active");
-
-        const priceEl = card.querySelector(".product-price");
-        if (priceEl && priceText) {
-          if (originalPriceText) {
-            priceEl.innerHTML = `${priceText} <small class="price-original-striked">${originalPriceText}</small>`;
-          } else {
-            priceEl.textContent = priceText;
-          }
-        }
-
-        const inboxEl = card.querySelector(".product-inbox-hint");
-        if (inboxEl && inboxText) {
-          inboxEl.innerHTML = `💬 Giá chốt Inbox: <strong>${inboxText}</strong> (nhắn Fanpage)`;
-        }
-
-        const giftEl = card.querySelector(".product-gift-banner");
-        if (giftEl && giftText) {
-          giftEl.innerHTML = `<span class="tag-icon">🎁</span>${giftText}`;
-        }
-      }
+      const scentId = trigger.getAttribute("data-open-scent");
+      openScentModal(scentId);
     }
   });
-}
-
-function ensureCartDrawerInDOM() {
-  if (document.getElementById("scent-cart-drawer-backdrop")) return;
-
-  const drawerBackdrop = document.createElement("div");
-  drawerBackdrop.className = "cart-drawer-backdrop";
-  drawerBackdrop.id = "scent-cart-drawer-backdrop";
-  drawerBackdrop.innerHTML = `
-    <aside class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title">
-      <div class="cart-header">
-        <h3 class="cart-title" id="cart-drawer-title">
-          <span>🕯️ Giỏ Hàng</span>
-          <span class="cart-count-badge" id="drawer-items-count" style="font-size: 0.82rem; color: var(--accent-gold); font-weight: 600;">(0 món)</span>
-        </h3>
-        <button type="button" class="cart-close-btn" id="btn-close-cart" aria-label="Đóng giỏ hàng">&times;</button>
-      </div>
-
-      <!-- Thanh tiến trình Freeship -->
-      <div class="cart-free-shipping-bar" id="cart-freeship-bar">
-        <div class="free-shipping-text">
-          <span id="freeship-text-label">Mua từ 2 hũ: FREESHIP toàn quốc 🚚</span>
-          <span id="freeship-percent-label">0%</span>
-        </div>
-        <div class="free-shipping-progress">
-          <div class="free-shipping-fill" id="freeship-fill" style="width: 0%;"></div>
-        </div>
-      </div>
-
-      <!-- Danh sách sản phẩm -->
-      <div class="cart-body">
-        <div class="cart-items-list" id="cart-items-container"></div>
-        <div class="cart-empty-state" id="cart-empty-state" style="display: none;">
-          <span class="cart-empty-icon">🕯️</span>
-          <h3>Giỏ hàng của bạn đang trống</h3>
-          <p>Hãy chọn những nốt hương thư thái đồng hành cùng bạn hôm nay!</p>
-          <a href="san-pham.html" class="btn btn-outline" style="padding: 8px 18px; font-size: 0.88rem;">Khám phá sản phẩm</a>
-        </div>
-
-        <!-- Ô mã giảm giá -->
-        <div class="cart-coupon-box" id="cart-coupon-section" style="display: none;">
-          <input type="text" class="cart-coupon-input" id="cart-coupon-input" placeholder="MÃ GIẢM GIÁ (VD: SINHVIEN)">
-          <button type="button" class="cart-coupon-btn" id="btn-apply-coupon">Áp dụng</button>
-        </div>
-      </div>
-
-      <!-- Tóm tắt & Nút thanh toán -->
-      <div class="cart-footer" id="cart-footer">
-        <div class="cart-summary-line">
-          <span>Tạm tính</span>
-          <span id="cart-subtotal-val">0đ</span>
-        </div>
-        <div class="cart-summary-line" id="cart-discount-row" style="display: none; color: #4ade80;">
-          <span id="cart-discount-label">Giảm giá voucher</span>
-          <span id="cart-discount-val">-0đ</span>
-        </div>
-        <div class="cart-summary-line">
-          <span>Phí vận chuyển</span>
-          <span id="cart-shipping-val">Miễn phí</span>
-        </div>
-        <div class="cart-total-line">
-          <span>Tổng thanh toán</span>
-          <span id="cart-total-val" style="color: var(--accent-gold);">0đ</span>
-        </div>
-        <a href="thanh-toan.html" class="btn btn-primary cart-checkout-btn" id="btn-go-checkout">
-          <span>Tiến Hành Thanh Toán</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </aside>
-  `;
-  document.body.appendChild(drawerBackdrop);
-
-  // Sự kiện đóng
-  drawerBackdrop.querySelector("#btn-close-cart").addEventListener("click", closeCartDrawer);
-  drawerBackdrop.addEventListener("click", (e) => {
-    if (e.target === drawerBackdrop) closeCartDrawer();
-  });
-
-  // Sự kiện áp dụng coupon
-  drawerBackdrop.querySelector("#btn-apply-coupon").addEventListener("click", () => {
-    const input = drawerBackdrop.querySelector("#cart-coupon-input");
-    applyCoupon(input.value);
-  });
-}
-
-function openCartDrawer() {
-  ensureCartDrawerInDOM();
-  updateCartUI();
-  const drawer = document.getElementById("scent-cart-drawer-backdrop");
-  if (drawer) {
-    drawer.classList.add("is-open");
-    document.body.style.overflow = "hidden";
-  }
-}
-
-function closeCartDrawer() {
-  const drawer = document.getElementById("scent-cart-drawer-backdrop");
-  if (drawer) {
-    drawer.classList.remove("is-open");
-    document.body.style.overflow = "";
-  }
-}
-
-function updateCartUI() {
-  const cart = getCart();
-  const totals = getCartTotals();
-
-  // 1. Cập nhật Badge trên Header
-  const badges = document.querySelectorAll(".cart-badge, #header-cart-badge");
-  badges.forEach((b) => {
-    b.textContent = totals.totalQty;
-    b.style.display = totals.totalQty > 0 ? "flex" : "none";
-  });
-
-  // 2. Cập nhật trong Drawer
-  const itemsContainer = document.getElementById("cart-items-container");
-  const emptyState = document.getElementById("cart-empty-state");
-  const couponSection = document.getElementById("cart-coupon-section");
-  const cartFooter = document.getElementById("cart-footer");
-  const countBadge = document.getElementById("drawer-items-count");
-  const fillBar = document.getElementById("freeship-fill");
-  const freeshipLabel = document.getElementById("freeship-text-label");
-  const freeshipPercent = document.getElementById("freeship-percent-label");
-
-  if (!itemsContainer) return;
-
-  if (countBadge) countBadge.textContent = `(${totals.totalQty} món)`;
-
-  // Thanh tiến trình freeship
-  if (fillBar && freeshipLabel && freeshipPercent) {
-    if (totals.shipping === 0 && totals.totalQty > 0) {
-      fillBar.style.width = "100%";
-      freeshipPercent.textContent = "100%";
-      freeshipLabel.textContent = "🎉 Bạn đã được MIỄN PHÍ VẬN CHUYỂN toàn quốc!";
-    } else if (totals.hasCombo) {
-      fillBar.style.width = "75%";
-      freeshipPercent.textContent = "75%";
-      freeshipLabel.textContent = "⚡ Ưu đãi Combo: Đồng giá ship 15k! (Đơn từ 150k Freeship) 🚚";
-    } else if (totals.totalQty === 1) {
-      fillBar.style.width = "50%";
-      freeshipPercent.textContent = "50%";
-      freeshipLabel.textContent = "Thêm 1 sản phẩm nữa để được FREESHIP toàn quốc 🚚";
-    } else {
-      fillBar.style.width = "0%";
-      freeshipPercent.textContent = "0%";
-      freeshipLabel.textContent = "Mua từ 2 hũ hoặc Combo: Hỗ trợ phí ship 🚚";
-    }
-  }
-
-  if (cart.length === 0) {
-    itemsContainer.innerHTML = "";
-    emptyState.style.display = "block";
-    if (couponSection) couponSection.style.display = "none";
-    if (cartFooter) cartFooter.style.display = "none";
-    return;
-  }
-
-  emptyState.style.display = "none";
-  if (couponSection) couponSection.style.display = "flex";
-  if (cartFooter) cartFooter.style.display = "block";
-
-  itemsContainer.innerHTML = cart
-    .map(
-      (item) => `
-    <div class="cart-item" data-cart-item-id="${item.id}">
-      <div class="cart-item-thumb">
-        <img src="${item.image}" alt="${item.name}" onerror="this.onerror=null; this.src='${item.fallbackSrc}';">
-      </div>
-      <div class="cart-item-info">
-        <h4 class="cart-item-name">${item.name}</h4>
-        <div class="cart-item-scent">${item.scentName}</div>
-        ${item.gifts ? `<div class="cart-item-perk">🎁 ${item.gifts}</div>` : (item.giftNote ? `<div class="cart-item-perk">🎁 ${item.giftNote}</div>` : '')}
-        <div class="cart-item-price">${formatVND(item.price)}</div>
-        <div class="cart-item-ctrl">
-          <button type="button" class="cart-qty-btn btn-cart-dec" data-id="${item.id}" aria-label="Giảm">&minus;</button>
-          <span class="cart-qty-num">${item.quantity}</span>
-          <button type="button" class="cart-qty-btn btn-cart-inc" data-id="${item.id}" aria-label="Tăng">+</button>
-          <button type="button" class="cart-item-remove btn-cart-del" data-id="${item.id}">Xóa</button>
-        </div>
-      </div>
-    </div>
-  `
-    )
-    .join("");
-
-  // Bắt sự kiện trên các nút giỏ hàng
-  itemsContainer.querySelectorAll(".btn-cart-dec").forEach((b) => {
-    b.addEventListener("click", () => updateCartQuantity(b.getAttribute("data-id"), -1));
-  });
-  itemsContainer.querySelectorAll(".btn-cart-inc").forEach((b) => {
-    b.addEventListener("click", () => updateCartQuantity(b.getAttribute("data-id"), 1));
-  });
-  itemsContainer.querySelectorAll(".btn-cart-del").forEach((b) => {
-    b.addEventListener("click", () => removeFromCart(b.getAttribute("data-id")));
-  });
-
-  // Tóm tắt tài chính
-  document.getElementById("cart-subtotal-val").textContent = formatVND(totals.subtotal);
-  const shipText = totals.shipping === 0 
-    ? "Miễn phí (Freeship)" 
-    : (totals.hasCombo ? `${formatVND(totals.shipping)} (Đồng giá Combo)` : formatVND(totals.shipping));
-  document.getElementById("cart-shipping-val").textContent = shipText;
-
-  const discountRow = document.getElementById("cart-discount-row");
-  if (totals.discount > 0) {
-    discountRow.style.display = "flex";
-    document.getElementById("cart-discount-val").textContent = "-" + formatVND(totals.discount);
-    if (totals.coupon) {
-      document.getElementById("cart-discount-label").textContent = `Voucher (${totals.coupon.code})`;
-    }
-  } else {
-    discountRow.style.display = "none";
-  }
-
-  document.getElementById("cart-total-val").textContent = formatVND(totals.finalTotal);
 }
 
 /**
- * ==========================================================================
- * HỆ THỐNG XÁC THỰC & PHÂN QUYỀN (AUTH & USER/ADMIN ROLES)
- * ==========================================================================
+ * Hỗ trợ nếu người dùng truy cập trực tiếp trang chi-tiet-san-pham.html
  */
-const USER_STORAGE_KEY = "scentpod_user";
-const ORDERS_STORAGE_KEY = "scentpod_orders";
-const INVENTORY_STORAGE_KEY = "scentpod_inventory";
+function initProductDetailPage() {
+  const isDetailPage = document.querySelector(".product-detail-page");
+  if (!isDetailPage) return;
 
-/**
- * DANH SÁCH 4 GMAIL QUẢN TRỊ VIÊN ĐƯỢC ỦY QUYỀN DUY NHẤT:
- * 1. hoaip3061@gmail.com
- * 2. khonghieu924@gmail.com
- * 3. tranlam6a@gmail.com
- * 4. datnhatquang@gmail.com
- */
-const ADMIN_EMAILS_CONFIG = {
-  "datnhatquang@gmail.com": {
-    email: "datnhatquang@gmail.com",
-    name: "Nghiêm Thành Đạt",
-    roleTitle: "Trưởng Nhóm & Admin",
-    phone: "0912 998 888",
-    avatar: "👑"
-  },
-  "khonghieu924@gmail.com": {
-    email: "khonghieu924@gmail.com",
-    name: "Khổng Đức Hiếu",
-    roleTitle: "R&D Pha Chế Mùi & Admin",
-    phone: "0987 654 321",
-    avatar: "🌿"
-  },
-  "tranlam6a@gmail.com": {
-    email: "tranlam6a@gmail.com",
-    name: "Trần Thanh Lâm",
-    roleTitle: "Quản Lý Vận Hành & Admin",
-    phone: "0934 567 890",
-    avatar: "📦"
-  },
-  "hoaip3061@gmail.com": {
-    email: "hoaip3061@gmail.com",
-    name: "Trương Quỳnh Anh",
-    roleTitle: "Truyền Thông & Admin",
-    phone: "0978 112 233",
-    avatar: "✨"
-  }
-};
+  const urlParams = new URLSearchParams(window.location.search);
+  let scentId = urlParams.get("id") || "first-class";
+  if (!PRODUCTS_CONFIG[scentId]) scentId = "first-class";
 
-const AUTHORIZED_ADMIN_EMAILS = Object.keys(ADMIN_EMAILS_CONFIG);
+  const p = PRODUCTS_CONFIG[scentId];
 
-function isAdminEmail(email) {
-  if (!email) return false;
-  return AUTHORIZED_ADMIN_EMAILS.includes(email.trim().toLowerCase());
-}
+  const headTitle = document.getElementById("page-head-title");
+  if (headTitle) headTitle.textContent = `${p.name} - Nến Thơm 50g | ScentPod`;
 
-function getCurrentUser() {
-  try {
-    return JSON.parse(localStorage.getItem(USER_STORAGE_KEY)) || null;
-  } catch (e) {
-    return null;
-  }
-}
+  const bcName = document.getElementById("bc-product-name");
+  if (bcName) bcName.textContent = p.name;
 
-function loginUser(email, password, roleHint = "customer") {
-  const cleanEmail = (email || "").trim().toLowerCase();
-  const cleanPass = (password || "").trim();
+  const codeBadge = document.getElementById("detail-code-badge");
+  if (codeBadge) codeBadge.textContent = p.code;
 
-  // 1. Nếu là 1 trong 4 Gmail của Admin: Luôn tự động chuyển thành tài khoản Quản trị viên
-  if (isAdminEmail(cleanEmail)) {
-    const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
-    const adminUser = {
-      role: "admin",
-      name: adminInfo.name,
-      email: cleanEmail,
-      title: adminInfo.roleTitle,
-      phone: adminInfo.phone,
-      avatar: adminInfo.avatar
-    };
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
-    updateHeaderAuthSlot();
-    showToast(`👑 Đăng nhập Quản Trị Viên thành công: ${adminUser.name}!`);
-    return { success: true, user: adminUser };
+  const catEl = document.getElementById("detail-category");
+  if (catEl) catEl.textContent = p.category;
+
+  const headingEl = document.getElementById("product-title-heading");
+  if (headingEl) headingEl.textContent = `${p.name} (${p.posterTitle || ''})`;
+
+  const scentNameEl = document.getElementById("detail-scent-name");
+  if (scentNameEl) scentNameEl.textContent = p.scentName;
+
+  const vibeEl = document.getElementById("detail-vibe");
+  if (vibeEl) vibeEl.textContent = p.shortDesc;
+
+  const mainImg = document.getElementById("detail-main-img");
+  if (mainImg) {
+    mainImg.src = p.defaultSrc;
+    mainImg.alt = `Nến thơm ScentPod 50g - ${p.name}`;
   }
 
-  // 2. Nếu đăng nhập ở cổng Quản Trị Viên mà KHÔNG PHẢI 1 trong 4 email trên
-  if (roleHint === "admin") {
-    showToast("⚠️ Tài khoản quản trị viên chỉ được tạo và đăng nhập bằng 4 Gmail được ủy quyền!", 4000);
-    return { success: false, error: "unauthorized_admin" };
-  }
+  // Tầng hương
+  const topNotes = document.getElementById("detail-tier-top");
+  if (topNotes) topNotes.textContent = p.topNotes;
+  const heartNotes = document.getElementById("detail-tier-heart");
+  if (heartNotes) heartNotes.textContent = p.heartNotes;
+  const baseNotes = document.getElementById("detail-tier-base");
+  if (baseNotes) baseNotes.textContent = p.baseNotes;
 
-  // 3. Khách hàng thông thường
-  const isDemoCustomer = cleanEmail === "khachhang@scentpod.vn" || !cleanEmail;
-  const customerUser = {
-    role: "customer",
-    name: isDemoCustomer ? "Nguyễn Minh Thư" : (cleanEmail.split("@")[0] || "Khách Hàng"),
-    email: cleanEmail || "khachhang@scentpod.vn",
-    phone: "0912 345 678",
-    avatar: "👤",
-    tier: "Hạng Bạc (Sinh Viên)",
-    points: 250
-  };
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(customerUser));
-  updateHeaderAuthSlot();
-  showToast(`✨ Chào mừng bạn, ${customerUser.name}!`);
-  return { success: true, user: customerUser };
-}
-
-function registerUser(name, email, phone, password) {
-  const cleanEmail = (email || "").trim().toLowerCase();
-
-  // Nếu đăng ký bằng 1 trong 4 Gmail của Admin: Tự động chuyển thành tài khoản Quản trị viên
-  if (isAdminEmail(cleanEmail)) {
-    const adminInfo = ADMIN_EMAILS_CONFIG[cleanEmail];
-    const adminUser = {
-      role: "admin",
-      name: (name || "").trim() || adminInfo.name,
-      email: cleanEmail,
-      title: adminInfo.roleTitle,
-      phone: (phone || "").trim() || adminInfo.phone,
-      avatar: adminInfo.avatar
-    };
-    localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(adminUser));
-    updateHeaderAuthSlot();
-    showToast(`👑 Đăng ký thành công! Gmail này đã được tự động kích hoạt quyền Quản Trị Viên.`);
-    return { success: true, user: adminUser };
-  }
-
-  // Khách hàng thông thường
-  const newUser = {
-    role: "customer",
-    name: (name || "").trim() || "Khách Hàng Mới",
-    email: cleanEmail,
-    phone: (phone || "").trim(),
-    avatar: "👤",
-    tier: "Thành Viên Mới",
-    points: 100
-  };
-  localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(newUser));
-  updateHeaderAuthSlot();
-  showToast(`🎉 Đăng ký tài khoản thành công! Tặng bạn 100 điểm ScentClub.`);
-  return { success: true, user: newUser };
-}
-
-function logoutUser() {
-  localStorage.removeItem(USER_STORAGE_KEY);
-  updateHeaderAuthSlot();
-  showToast("Đã đăng xuất tài khoản.");
-  if (window.location.pathname.includes("dang-nhap.html")) {
-    window.location.reload();
-  }
-}
-
-/**
- * ==========================================================================
- * HỆ THỐNG QUẢN LÝ KHO & TỒN KHO (INVENTORY & STOCK MANAGEMENT)
- * ==========================================================================
- */
-const DEFAULT_INVENTORY = {
-  "first-class": {
-    id: "first-class",
-    code: "Mùi 01",
-    name: "First Class",
-    scentName: "White Tea & Morning Dew",
-    stock: 45,
-    minThreshold: 10,
-    price: 85000,
-    location: "Kệ A1 - Khu nến trà"
-  },
-  "blind-date": {
-    id: "blind-date",
-    code: "Mùi 02",
-    name: "Blind Date",
-    scentName: "Sweet Peach & Vanilla Cloud",
-    stock: 38,
-    minThreshold: 10,
-    price: 85000,
-    location: "Kệ A2 - Khu nến hoa quả"
-  },
-  "campus-breeze": {
-    id: "campus-breeze",
-    code: "Mùi 03",
-    name: "Campus Breeze",
-    scentName: "Sea Salt & Sage",
-    stock: 52,
-    minThreshold: 10,
-    price: 85000,
-    location: "Kệ B1 - Khu hương biển"
-  },
-  "late-night": {
-    id: "late-night",
-    code: "Mùi 04",
-    name: "Late Night",
-    scentName: "Cedarwood & Warm Amber",
-    stock: 26,
-    minThreshold: 10,
-    price: 85000,
-    location: "Kệ B2 - Khu hương gỗ ấm"
-  }
-};
-
-function getInventory() {
-  try {
-    const raw = localStorage.getItem(INVENTORY_STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw);
-      if (parsed && typeof parsed === "object" && Object.keys(parsed).length > 0) {
-        return Object.assign({}, DEFAULT_INVENTORY, parsed);
-      }
-    }
-  } catch (e) {}
-  localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(DEFAULT_INVENTORY));
-  return Object.assign({}, DEFAULT_INVENTORY);
-}
-
-function saveInventory(inv) {
-  try {
-    localStorage.setItem(INVENTORY_STORAGE_KEY, JSON.stringify(inv));
-  } catch (e) {
-    console.error(e);
-  }
-}
-
-function updateProductStock(productId, newStock) {
-  const inv = getInventory();
-  if (inv[productId]) {
-    const qty = Math.max(0, parseInt(newStock, 10) || 0);
-    inv[productId].stock = qty;
-    saveInventory(inv);
-    showToast(`📦 Đã cập nhật kho [${inv[productId].name}]: ${qty} hũ.`);
-    return true;
-  }
-  return false;
-}
-
-function adjustProductStock(productId, delta) {
-  const inv = getInventory();
-  if (inv[productId]) {
-    const current = inv[productId].stock || 0;
-    const updated = Math.max(0, current + delta);
-    inv[productId].stock = updated;
-    saveInventory(inv);
-    showToast(`📦 [${inv[productId].name}] ${delta >= 0 ? '+' + delta : delta} hũ (Còn: ${updated} hũ).`);
-    return true;
-  }
-  return false;
-}
-
-/**
- * ==========================================================================
- * BÁO CÁO & THEO DÕI SỐ LƯỢNG ĐƠN TỪNG SẢN PHẨM (PRODUCT ORDER ANALYTICS)
- * ==========================================================================
- */
-function getProductOrderStats() {
-  const orders = getOrders();
-  const inv = getInventory();
-
-  const statsMap = {
-    "first-class": {
-      id: "first-class",
-      code: "Mùi 01",
-      name: "First Class",
-      scentName: "White Tea & Morning Dew",
-      price: 85000,
-      orderCount: 0,
-      totalQtySold: 0,
-      revenue: 0,
-      stock: inv["first-class"]?.stock || 0,
-      location: inv["first-class"]?.location || "Kệ A1"
-    },
-    "blind-date": {
-      id: "blind-date",
-      code: "Mùi 02",
-      name: "Blind Date",
-      scentName: "Sweet Peach & Vanilla Cloud",
-      price: 85000,
-      orderCount: 0,
-      totalQtySold: 0,
-      revenue: 0,
-      stock: inv["blind-date"]?.stock || 0,
-      location: inv["blind-date"]?.location || "Kệ A2"
-    },
-    "campus-breeze": {
-      id: "campus-breeze",
-      code: "Mùi 03",
-      name: "Campus Breeze",
-      scentName: "Sea Salt & Sage",
-      price: 85000,
-      orderCount: 0,
-      totalQtySold: 0,
-      revenue: 0,
-      stock: inv["campus-breeze"]?.stock || 0,
-      location: inv["campus-breeze"]?.location || "Kệ B1"
-    },
-    "late-night": {
-      id: "late-night",
-      code: "Mùi 04",
-      name: "Late Night",
-      scentName: "Cedarwood & Warm Amber",
-      price: 85000,
-      orderCount: 0,
-      totalQtySold: 0,
-      revenue: 0,
-      stock: inv["late-night"]?.stock || 0,
-      location: inv["late-night"]?.location || "Kệ B2"
-    }
-  };
-
-  orders.forEach(order => {
-    if (order.status === "Đã hủy") return; // Bỏ qua đơn đã hủy
-    const productsInThisOrder = new Set();
-
-    (order.items || []).forEach(item => {
-      const pId = item.productId || (item.id ? item.id.split('-')[0] : '');
-      const key = statsMap[item.id] ? item.id : (statsMap[pId] ? pId : null);
-      if (key) {
-        const qty = item.quantity || 1;
-        const price = item.price || 85000;
-        statsMap[key].totalQtySold += qty;
-        statsMap[key].revenue += (qty * price);
-        productsInThisOrder.add(key);
-      }
+  // Gán sự kiện nút hỏi mua FB
+  const detailBuyFbBtn = document.getElementById("detail-buy-fb-btn");
+  if (detailBuyFbBtn) {
+    detailBuyFbBtn.addEventListener("click", () => {
+      openFacebookCta("product_detail_page", p.name);
     });
+  }
 
-    productsInThisOrder.forEach(key => {
-      statsMap[key].orderCount += 1;
+  // Gán sự kiện nút sao chép
+  const detailCopyBtn = document.getElementById("detail-copy-info-btn");
+  if (detailCopyBtn) {
+    detailCopyBtn.addEventListener("click", () => {
+      copyProductInfo(scentId);
     });
-  });
-
-  const list = Object.values(statsMap);
-  list.sort((a, b) => b.totalQtySold - a.totalQtySold);
-  return list;
-}
-
-/**
- * Quản lý Đơn Hàng (Orders Storage)
- */
-function getOrders() {
-  try {
-    const orders = JSON.parse(localStorage.getItem(ORDERS_STORAGE_KEY));
-    if (orders && Array.isArray(orders) && orders.length > 0) return orders;
-  } catch (e) {}
-
-  // Đơn hàng mẫu ban đầu để giao diện Admin & User trực quan ngay từ đầu
-  const initialOrders = [
-    {
-      id: "SCP-9042",
-      date: "29/09/2026 16:30",
-      customer: {
-        name: "Nguyễn Minh Thư",
-        phone: "0912 345 678",
-        email: "khachhang@scentpod.vn",
-        address: "Ký túc xá Khu B, ĐHQG TP.HCM",
-        note: "Giao vào buổi chiều giúp mình nhé",
-        giftCard: "Chúc bạn học bài thật tốt và luôn thư thái cùng ScentPod!"
-      },
-      items: [
-        { id: "late-night", name: "Late Night", quantity: 1, price: 89000 },
-        { id: "first-class", name: "First Class", quantity: 1, price: 89000 }
-      ],
-      paymentMethod: "VietQR (Đã chuyển khoản)",
-      subtotal: 178000,
-      shipping: 0,
-      discount: 15000,
-      total: 163000,
-      status: "Đang giao hàng"
-    },
-    {
-      id: "SCP-8921",
-      date: "28/09/2026 10:15",
-      customer: {
-        name: "Trần Hoàng Nam",
-        phone: "0908 123 456",
-        email: "nam.tran@gmail.com",
-        address: "227 Nguyễn Văn Cừ, Phường 4, Quận 5, TP.HCM",
-        note: "Gói quà cẩn thận giúp mình nhé",
-        giftCard: "Món quà nhỏ tặng sinh nhật người thương."
-      },
-      items: [
-        { id: "blind-date", name: "Blind Date", quantity: 2, price: 89000 }
-      ],
-      paymentMethod: "COD (Thanh toán khi nhận)",
-      subtotal: 178000,
-      shipping: 0,
-      discount: 0,
-      total: 178000,
-      status: "Hoàn thành"
-    },
-    {
-      id: "SCP-8756",
-      date: "27/09/2026 14:20",
-      customer: {
-        name: "Lê Thu Uyên",
-        phone: "0982 771 882",
-        email: "uyen.le@gmail.com",
-        address: "Tòa A3 KTX Mễ Trì, Thanh Xuân, Hà Nội",
-        note: "Gọi trước khi ship",
-        giftCard: ""
-      },
-      items: [
-        { id: "campus-breeze", name: "Campus Breeze", quantity: 2, price: 89000 },
-        { id: "first-class", name: "First Class", quantity: 1, price: 89000 }
-      ],
-      paymentMethod: "VietQR (Đã chuyển khoản)",
-      subtotal: 267000,
-      shipping: 0,
-      discount: 15000,
-      total: 252000,
-      status: "Đang đóng gói"
-    }
-  ];
-  localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(initialOrders));
-  return initialOrders;
-}
-
-function saveOrders(orders) {
-  try {
-    localStorage.setItem(ORDERS_STORAGE_KEY, JSON.stringify(orders));
-  } catch (e) {
-    console.error(e);
   }
 }
-
-function addOrder(orderData) {
-  const orders = getOrders();
-  orders.unshift(orderData);
-  saveOrders(orders);
-
-  // Tự động trừ tồn kho theo từng sản phẩm
-  const inv = getInventory();
-  if (orderData.items && Array.isArray(orderData.items)) {
-    orderData.items.forEach(item => {
-      const pId = item.id;
-      if (inv[pId]) {
-        inv[pId].stock = Math.max(0, (inv[pId].stock || 0) - (item.quantity || 1));
-      }
-    });
-    saveInventory(inv);
-  }
-
-  return orderData;
-}
-
-function updateOrderStatus(orderId, newStatus) {
-  const orders = getOrders();
-  const target = orders.find((o) => o.id === orderId);
-  if (target) {
-    target.status = newStatus;
-    saveOrders(orders);
-    showToast(`✅ Đơn hàng ${orderId} đã đổi trạng thái thành: "${newStatus}"!`);
-    return true;
-  }
-  return false;
-}
-
-/**
- * Khởi tạo và đồng bộ thanh điều hướng Header:
- * Tên Thương hiệu - Trang chủ - Sản phẩm - Combo - Về chúng tôi - Nút Tư vấn Facebook Messenger
- * (Đã loại bỏ mục Tài khoản và Giỏ hàng theo yêu cầu tinh giản luồng đặt hàng trực tiếp qua Fanpage)
- */
-function initHeaderAuth() {
-  const headerContainer = document.querySelector(".header-container, .nav-container");
-  if (headerContainer) {
-    // 1. Xóa bỏ các thẻ auth cũ nếu còn tồn tại
-    headerContainer.querySelectorAll("#header-auth-left-slot, .header-auth-left, #header-auth-slot, .header-auth-slot").forEach(el => el.remove());
-
-    // 2. Đảm bảo khu vực nav-actions ở bên phải header
-    let navActions = headerContainer.querySelector(".nav-actions");
-    if (!navActions) {
-      navActions = document.createElement("div");
-      navActions.className = "nav-actions";
-      const toggleBtn = headerContainer.querySelector(".menu-toggle");
-      if (toggleBtn) {
-        headerContainer.insertBefore(navActions, toggleBtn);
-      } else {
-        headerContainer.appendChild(navActions);
-      }
-    }
-
-    // 3. Đảm bảo nút Giỏ hàng (kèm số lượng) có mặt trong nav-actions
-    let cartBtn = navActions.querySelector("#open-cart-btn, .nav-cart-btn");
-    if (!cartBtn) {
-      cartBtn = document.createElement("button");
-      cartBtn.type = "button";
-      cartBtn.className = "nav-cart-btn";
-      cartBtn.id = "open-cart-btn";
-      cartBtn.setAttribute("aria-label", "Xem giỏ hàng");
-      cartBtn.setAttribute("title", "Xem giỏ hàng");
-      cartBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="9" cy="21" r="1"></circle>
-          <circle cx="20" cy="21" r="1"></circle>
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-        </svg>
-        <span class="nav-cart-label">Giỏ hàng</span>
-        <span class="cart-badge" id="header-cart-badge">0</span>
-      `;
-      const fbBtn = navActions.querySelector(".header-fb-btn");
-      if (fbBtn) {
-        navActions.insertBefore(cartBtn, fbBtn);
-      } else {
-        navActions.appendChild(cartBtn);
-      }
-    }
-    cartBtn.onclick = (e) => {
-      e.preventDefault();
-      openCartDrawer();
-    };
-
-    // 4. Đảm bảo nút Tư vấn Facebook Messenger / Hỗ trợ có mặt trong nav-actions
-    let fbBtn = navActions.querySelector(".header-fb-btn");
-    if (!fbBtn) {
-      fbBtn = document.createElement("a");
-      fbBtn.href = FB_LINK;
-      fbBtn.setAttribute("data-fb", "");
-      fbBtn.target = "_blank";
-      fbBtn.rel = "noopener noreferrer";
-      fbBtn.className = "header-fb-btn";
-      fbBtn.title = "Nhắn tin tư vấn với ScentPod qua Facebook";
-      fbBtn.innerHTML = `
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/>
-        </svg>
-        <span class="header-fb-label">Tư vấn Messenger</span>
-      `;
-      navActions.appendChild(fbBtn);
-    }
-    
-    // Đồng bộ số lượng giỏ hàng ban đầu
-    updateCartUI();
-  }
-
-  // 4. Đồng bộ danh sách menu: Trang chủ -> Sản phẩm -> Combo -> Về chúng tôi
-  const navMenu = document.querySelector(".nav-menu");
-  if (navMenu) {
-    const authItem = navMenu.querySelector(".nav-auth-item");
-    if (authItem) authItem.remove();
-
-    const links = Array.from(navMenu.querySelectorAll("a"));
-    const hasCombo = links.some(a => a.textContent.trim().toLowerCase() === "combo");
-    if (!hasCombo) {
-      const comboLi = document.createElement("li");
-      comboLi.innerHTML = `<a href="san-pham.html#combo" class="nav-link">Combo</a>`;
-      const spLink = links.find(a => a.getAttribute("href")?.includes("san-pham"));
-      if (spLink && spLink.parentElement) {
-        navMenu.insertBefore(comboLi, spLink.parentElement.nextSibling);
-      } else {
-        navMenu.appendChild(comboLi);
-      }
-    }
-  }
-}
-
-function updateHeaderAuthSlot() {
-  const authSlot = document.getElementById("header-auth-slot") || document.querySelector(".header-auth-slot");
-  if (!authSlot) return;
-
-  const user = getCurrentUser();
-  if (user) {
-    if (user.role === "admin") {
-      authSlot.innerHTML = `
-        <a href="dang-nhap.html" class="header-auth-btn is-admin" id="header-auth-btn" title="Vào Bảng Quản Trị Hệ Thống">
-          <span class="auth-btn-icon">👑</span>
-          <span class="auth-btn-text">Tài khoản</span>
-        </a>
-      `;
-    } else {
-      authSlot.innerHTML = `
-        <a href="dang-nhap.html" class="header-auth-btn is-logged-in" id="header-auth-btn" title="Vào Trang Quản Lý Tài Khoản">
-          <span class="auth-btn-icon">👤</span>
-          <span class="auth-btn-text">Tài khoản</span>
-        </a>
-      `;
-    }
-  } else {
-    authSlot.innerHTML = `
-      <a href="dang-nhap.html" class="header-auth-btn is-logged-out" id="header-auth-btn" title="Đăng nhập / Quản lý tài khoản">
-        <span class="auth-btn-icon">👤</span>
-        <span class="auth-btn-text">Tài khoản</span>
-      </a>
-    `;
-  }
-}
-
-// Xuất các hàm ra phạm vi toàn cục để trang checkout và trang login sử dụng
-window.ScentPod = {
-  getCart,
-  saveCart,
-  addToCart,
-  removeFromCart,
-  updateCartQuantity,
-  clearCart,
-  getCartTotals,
-  openCartDrawer,
-  closeCartDrawer,
-  applyCoupon,
-  formatVND,
-  getCurrentUser,
-  loginUser,
-  registerUser,
-  logoutUser,
-  getOrders,
-  addOrder,
-  updateOrderStatus,
-  getInventory,
-  saveInventory,
-  updateProductStock,
-  adjustProductStock,
-  getProductOrderStats,
-  isAdminEmail,
-  ADMIN_EMAILS_CONFIG,
-  AUTHORIZED_ADMIN_EMAILS,
-  PRODUCT_SIZES_CONFIG,
-  COMBOS_CONFIG,
-  handleInboxOrder
-};
-
-
-
