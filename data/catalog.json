@@ -1,0 +1,156 @@
+{
+  "currency": "VND",
+  "storeName": "ScentPod",
+  "defaultShippingPolicy": {
+    "conditionalRate": 15000,
+    "conditionalThresholdItems": 2,
+    "conditionalThresholdText": "Ship 15.000đ toàn quốc khi mua từ 2 hũ nến.",
+    "singleItemNotice": "Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn (thông thường 25.000đ)."
+  },
+  "products": [
+    {
+      "id": "first-class",
+      "code": "Mùi 01",
+      "name": "Another Sunday",
+      "collection": "First Class",
+      "displayName": "Another Sunday (First Class)",
+      "category": "Trái cây tươi mát & Thảo mộc",
+      "scentGroup": "fruity_fresh",
+      "scentGroupLabel": "Trái cây tươi & Thảo mộc",
+      "labelNotes": "Chanh, đào & bạc hà",
+      "topNotes": "Chanh vàng Ý, Cam Bergamot, Lá bạc hà mát lạnh.",
+      "heartNotes": "Đào chín mọng, Hoa cam trắng, Trà xanh non.",
+      "baseNotes": "Xạ hương sạch, Gỗ tuyết tùng nhạt.",
+      "intensity": "medium_light",
+      "intensityLabel": "Thanh mát, nhẹ dịu",
+      "suitableSpace": [
+        "Bàn học",
+        "Góc làm việc nhỏ",
+        "Không gian mở"
+      ],
+      "suitableTime": [
+        "Buổi sáng",
+        "Ban ngày",
+        "Khi học bài cần tập trung"
+      ],
+      "vibe": "Thanh mát, sảng khoái và tràn đầy năng lượng tươi mới, như làn gió mát lành sáng Chủ nhật bên bàn học.",
+      "price": 85000,
+      "originalPrice": 95000,
+      "priceBadge": "Giá ưu đãi HSSV",
+      "weight": "50g",
+      "stock": 25,
+      "image": "images/sap-thom-bo-ba.jpg",
+      "shortDesc": "Hương chanh vàng thanh chua tươi mát, đào chín ngọt dịu và lá bạc hà mát lạnh, khơi dậy năng lượng và sự tập trung cho góc học tập.",
+      "gifts": "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+      "usage": "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ)."
+    },
+    {
+      "id": "blind-date",
+      "code": "Mùi 02",
+      "name": "Beloved Summer",
+      "collection": "Blind Date",
+      "displayName": "Beloved Summer (Blind Date)",
+      "category": "Hoa hồng phấn & Xạ hương ấm",
+      "scentGroup": "floral_warm",
+      "scentGroupLabel": "Hoa cỏ & Xạ hương ngọt dịu",
+      "labelNotes": "Xạ hương & hoa hồng",
+      "topNotes": "Cánh hoa hồng tươi, Quả đào chín mọng, Quả lê tươi.",
+      "heartNotes": "Hoa hồng Grasse, Hoa lan nam phi trắng, Kẹo bông nhẹ.",
+      "baseNotes": "Xạ hương ấm, Vani kem béo, Hổ phách dịu.",
+      "intensity": "medium",
+      "intensityLabel": "Ngọt ngào, dịu ấm",
+      "suitableSpace": [
+        "Phòng ngủ",
+        "Góc thư giãn cá nhân",
+        "Bàn trang điểm"
+      ],
+      "suitableTime": [
+        "Buổi tối",
+        "Cuối tuần",
+        "Khoảng thời gian nghỉ ngơi thư giãn"
+      ],
+      "vibe": "Ngọt ngào, e ấp và lãng mạn như cảm xúc xao xuyến của buổi hẹn đầu, vỗ về cảm xúc sau ngày dài học tập.",
+      "price": 85000,
+      "originalPrice": 95000,
+      "priceBadge": "Giá ưu đãi HSSV",
+      "weight": "50g",
+      "stock": 14,
+      "image": "images/nen-thom-mini.jpg",
+      "shortDesc": "Hương hoa hồng tháng Năm ngọt ngào, e ấp hòa cùng nét ấm nồng bí ẩn của xạ hương và vani sữa bồng bềnh.",
+      "gifts": "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+      "usage": "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ)."
+    },
+    {
+      "id": "campus-breeze",
+      "code": "Mùi 03",
+      "name": "Tidal Bloom",
+      "collection": "Campus Breeze",
+      "displayName": "Tidal Bloom (Campus Breeze)",
+      "category": "Khoáng biển & Thảo mộc hoa",
+      "scentGroup": "aquatic_herbal",
+      "scentGroupLabel": "Khoáng biển & Hoa lily thanh khiết",
+      "labelNotes": "Xô thơm, muối biển & lily",
+      "topNotes": "Muối khoáng biển, Vỏ bưởi hồng, Xô thơm Clary Sage.",
+      "heartNotes": "Hoa lily trắng, Tảo biển xanh mát, Thảo mộc tươi.",
+      "baseNotes": "Gỗ lũa mục, Xạ hương trắng, Gió biển dịu mát.",
+      "intensity": "light",
+      "intensityLabel": "Thoang thoảng, khoáng đạt",
+      "suitableSpace": [
+        "Phòng khách",
+        "Bàn học",
+        "Không gian thông thoáng"
+      ],
+      "suitableTime": [
+        "Cả ngày",
+        "Mùa hè",
+        "Khi cần thanh lọc không khí"
+      ],
+      "vibe": "Phóng khoáng, tự do và thoáng đãng như làn gió biển tươi mát thổi qua hành lang góc sân trường.",
+      "price": 85000,
+      "originalPrice": 95000,
+      "priceBadge": "Giá ưu đãi HSSV",
+      "weight": "50g",
+      "stock": 20,
+      "image": "images/campus-breeze.jpg",
+      "shortDesc": "Làn gió biển mặn mòi, khoáng đạt cộng hưởng cùng thảo mộc xô thơm và hoa lily tinh khôi, mang lại cảm giác tự do, thảnh thơi.",
+      "gifts": "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+      "usage": "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ)."
+    },
+    {
+      "id": "late-night",
+      "code": "Mùi 04",
+      "name": "Coffee Holic",
+      "collection": "Late Night",
+      "displayName": "Coffee Holic (Late Night)",
+      "category": "Hương cà phê rang mộc & Gỗ ấm",
+      "scentGroup": "gourmand_woody",
+      "scentGroupLabel": "Cà phê rang & Gỗ tuyết tùng trầm ấm",
+      "labelNotes": "Cà phê & gỗ",
+      "topNotes": "Hạt cà phê rang mộc thơm lừng, Cam Bergamot thoang thoảng.",
+      "heartNotes": "Cà phê sữa ấm, Hoa oải hương nhẹ, Nhục đậu khấu.",
+      "baseNotes": "Gỗ thông tuyết tùng (Cedarwood), Hổ phách vàng ấm.",
+      "intensity": "strong",
+      "intensityLabel": "Trầm ấm, đậm đà, lưu hương lâu",
+      "suitableSpace": [
+        "Góc học bài ban đêm",
+        "Phòng đọc sách",
+        "Phòng điều hòa"
+      ],
+      "suitableTime": [
+        "Đêm khuya",
+        "Mùa đông / ngày mưa se lạnh",
+        "Khi ôn thi thức khuya"
+      ],
+      "vibe": "Trầm ấm, tĩnh lặng và sâu lắng như góc quán quen tĩnh lặng giữa đêm, đồng hành cùng bạn bên từng trang sách.",
+      "price": 85000,
+      "originalPrice": 95000,
+      "priceBadge": "Giá ưu đãi HSSV",
+      "weight": "50g",
+      "stock": 15,
+      "image": "images/nen-thu-gian.jpg",
+      "shortDesc": "Hương cà phê rang mộc nồng ấm quyện vào lớp gỗ tuyết tùng trầm lắng, vỗ về tâm trí và đồng hành cùng bạn trong những đêm học bài muộn.",
+      "gifts": "Kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng nến.",
+      "usage": "Cắt ngắn bấc còn khoảng 0.5cm trước khi thắp. Lần đầu thắp nên để sáp tan chảy đều đến mép hũ (1–2 giờ)."
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+# Schema sidecar for NVIDIA Retail Shopping Assistant Catalog Retriever
+name: scentpod_candles_catalog
+version: "1.0.0"
+fields:
+  product_id:
+    type: string
+    required: true
+    primary_key: true
+  title:
+    type: string
+    required: true
+    searchable: true
+  category:
+    type: string
+    required: true
+    filterable: true
+  subcategory:
+    type: string
+    filterable: true
+  price:
+    type: float
+    required: true
+    filterable: true
+  currency:
+    type: string
+    default: "VND"
+  availability:
+    type: string
+    filterable: true
+  inventory_count:
+    type: integer
+    required: true
+  scent_notes:
+    type: string
+    searchable: true
+  intensity:
+    type: string
+    filterable: true
+  recommended_space:
+    type: string
+    searchable: true
+    filterable: true
+  description:
+    type: string
+    searchable: true
+  image_url:
+    type: string
+
