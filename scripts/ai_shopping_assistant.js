@@ -542,3 +542,29 @@ module.exports = {
   clearCart,
   checkout
 };
+
+// ------------------------------------------------------------------------------
+// 5. CLI DIRECT RUNNER CHO AI AGENT (ĐÁP ỨNG KIỂM THỬ TỰ ĐỘNG CỦA THẦY GIÁO)
+// ------------------------------------------------------------------------------
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  const userQuery = args.join(' ').trim() || 'Tìm nến thơm để bàn học tập trung ôn thi, ngân sách dưới 100k';
+
+  console.log('='.repeat(70));
+  console.log('🤖 SCENTPOD AI SHOPPING AGENT - DIRECT CLI EXECUTION');
+  console.log(`📥 Query đầu vào: "${userQuery}"`);
+  console.log('='.repeat(70));
+
+  generateAdvisorResponse({
+    message: userQuery,
+    sessionId: 'cli_agent_eval_' + Date.now()
+  }).then(result => {
+    console.log('\n📤 Kết quả phản hồi của AI Agent (JSON):');
+    console.log(JSON.stringify(result, null, 2));
+    console.log('\n✅ Thực thi thành công (Exit Code 0)');
+    process.exit(0);
+  }).catch(err => {
+    console.error('❌ Lỗi khi AI Agent thực thi:', err);
+    process.exit(1);
+  });
+}
