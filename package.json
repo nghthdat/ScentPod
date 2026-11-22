@@ -5,7 +5,8 @@
   "main": "scripts/server.js",
   "scripts": {
     "start": "node scripts/server.js",
-    "test": "node scripts/test_ai_shopping_assistant.js",
+    "test": "node scripts/test_ai_shopping_assistant.js && node scripts/test_purchase_request.js",
+    "test:purchase": "node scripts/test_purchase_request.js",
     "test:agent": "node scripts/test_ai_shopping_assistant.js",
     "agent": "node scripts/ai_shopping_assistant.js"
   },

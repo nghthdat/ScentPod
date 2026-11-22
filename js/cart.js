@@ -72,7 +72,7 @@
 
           <div style="display: flex; flex-direction: column; gap: 8px;">
             <a href="thanh-toan.html" class="btn btn-primary" id="btn-cart-checkout" style="width: 100%; text-align: center; text-decoration: none; padding: 12px; font-weight: 700; border-radius: 8px;">
-              Tiến Hành Đặt Hàng &rarr;
+              Gửi Yêu Cầu Mua Hàng &rarr;
             </a>
             <a href="https://www.facebook.com/profile.php?id=61594607444699" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: 100%; text-align: center; text-decoration: none; padding: 10px; font-size: 0.85rem; border-radius: 8px;">
               💬 Tư vấn chốt đơn qua Facebook

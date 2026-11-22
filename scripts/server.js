@@ -8,12 +8,17 @@ const {
   addToCart,
   updateCart,
   clearCart,
-  checkout
+  checkout,
+  submitPurchaseRequest
 } = require('./ai_shopping_assistant');
+const { getRecipientEmail } = require('./email_service');
 
 const PORT = process.env.PORT || 3000;
 const ROOT_DIR = path.resolve(__dirname, '..');
 const IMAGES_DIR = path.join(ROOT_DIR, 'images');
+
+// Quản lý in-flight request để chống bấm gửi liên tiếp
+const inFlightRequests = new Set();
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -266,21 +271,39 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // 8. API: Đặt hàng / Checkout (/api/checkout)
-  if (req.method === 'POST' && pathname === '/api/checkout') {
+  // 8. API: Gửi yêu cầu mua hàng (/api/purchase-request hoặc /api/checkout)
+  if (req.method === 'POST' && (pathname === '/api/purchase-request' || pathname === '/api/checkout')) {
+    const rawSession = req.headers['x-session-id'] || 'sess_default';
+
     try {
       const data = await parseJsonBody(req, res);
-      const sessionId = data.sessionId || req.headers['x-session-id'] || 'sess_default';
-      const orderInfo = data.orderInfo || {};
+      const sessionId = data.sessionId || rawSession;
+      const customerInfo = data.customerInfo || data.orderInfo || {};
 
-      const result = checkout(sessionId, orderInfo);
-      const statusCode = result.success ? 200 : 400;
-      res.writeHead(statusCode, { 'Content-Type': 'application/json; charset=utf-8' });
-      res.end(JSON.stringify(result));
+      // Chặn bấm gửi lặp trong lúc đang xử lý (In-flight concurrent lock)
+      if (inFlightRequests.has(sessionId)) {
+        res.writeHead(429, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({
+          success: false,
+          error: 'Yêu cầu của bạn đang được xử lý, vui lòng không nhấn gửi liên tiếp.'
+        }));
+        return;
+      }
+
+      inFlightRequests.add(sessionId);
+
+      try {
+        const result = await submitPurchaseRequest(sessionId, customerInfo);
+        const statusCode = result.success ? 200 : 400;
+        res.writeHead(statusCode, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify(result));
+      } finally {
+        inFlightRequests.delete(sessionId);
+      }
     } catch (err) {
       if (!res.headersSent) {
         res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-        res.end(JSON.stringify({ success: false, error: 'Lỗi server khi đặt hàng.' }));
+        res.end(JSON.stringify({ success: false, error: 'Lỗi server khi tiếp nhận yêu cầu mua hàng: ' + err.message }));
       }
     }
     return;

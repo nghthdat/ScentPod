@@ -13,6 +13,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { sendPurchaseRequestNotification } = require('./email_service');
 
 const CATALOG_PATH = path.join(__dirname, '..', 'data', 'catalog.json');
 
@@ -530,6 +531,93 @@ function checkout(sessionId, orderInfo) {
   };
 }
 
+/**
+ * ==============================================================================
+ * BIỂU MẪU GỬI YÊU CẦU MUA HÀNG (PURCHASE REQUEST) & GỬI EMAIL THÔNG BÁO
+ * ==============================================================================
+ * - Bỏ qua toàn bộ dữ liệu giá do trình duyệt tự gửi
+ * - Lấy danh sách mùi nến và số lượng strictly từ giỏ hàng phiên server
+ * - Xác thực tên và số điện thoại
+ * - Chỉ xóa giỏ hàng khi dịch vụ email chấp nhận gửi
+ * ==============================================================================
+ */
+async function submitPurchaseRequest(sessionId, customerInfo = {}) {
+  const cartData = getCart(sessionId);
+  if (!cartData.items || cartData.items.length === 0) {
+    return {
+      success: false,
+      error: 'Giỏ hàng của bạn đang trống. Vui lòng chọn ít nhất 1 hũ nến thơm trước khi gửi yêu cầu.'
+    };
+  }
+
+  const name = (customerInfo.name || '').trim();
+  if (!name || name.length < 2) {
+    return {
+      success: false,
+      error: 'Vui lòng nhập họ và tên người nhận.'
+    };
+  }
+
+  const phone = (customerInfo.phone || '').trim();
+  const cleanPhone = phone.replace(/[\s.-]/g, '');
+  if (!cleanPhone || cleanPhone.length < 9 || cleanPhone.length > 13 || !/^[0-9+]+$/.test(cleanPhone)) {
+    return {
+      success: false,
+      error: 'Vui lòng cung cấp số điện thoại hợp lệ (từ 10 chữ số) để ScentPod liên hệ xác nhận.'
+    };
+  }
+
+  const note = (customerInfo.note || '').trim();
+
+  // BỎ QUA DỮ LIỆU GIÁ DO TRÌNH DUYỆT TỰ GỬI:
+  // Lấy danh sách mùi nến và số lượng strictly từ server cart
+  const items = cartData.items.map(item => ({
+    id: item.id,
+    name: item.name,
+    subName: item.subName || 'Nến 50g',
+    quantity: item.quantity,
+    labelNotes: item.labelNotes || ''
+  }));
+
+  const requestId = 'REQ-' + Date.now().toString().slice(-6) + Math.floor(10 + Math.random() * 90);
+  const sentAt = new Date().toISOString();
+
+  // Gửi email thông báo tới email nhóm ScentPod (scentpodcontact@gmail.com)
+  try {
+    const emailResult = await sendPurchaseRequestNotification({
+      requestId,
+      sentAt,
+      customer: { name, phone, note },
+      items
+    });
+
+    if (!emailResult || !emailResult.success) {
+      return {
+        success: false,
+        error: emailResult?.error || 'Dịch vụ email từ chối gửi thông báo.'
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      error: 'Không thể gửi email thông báo tới nhóm ScentPod: ' + err.message
+    };
+  }
+
+  // CHỈ XÓA GIỎ HÀNG KHI DỊCH VỤ EMAIL ĐÃ CHẤP NHẬN GỬI
+  clearCart(sessionId);
+
+  return {
+    success: true,
+    message: 'Đã gửi yêu cầu mua hàng thành công!',
+    requestId,
+    sentAt,
+    customer: { name, phone, note },
+    items,
+    itemCount: items.reduce((sum, i) => sum + i.quantity, 0)
+  };
+}
+
 module.exports = {
   loadCatalog,
   parseUserIntent,
@@ -540,7 +628,8 @@ module.exports = {
   addToCart,
   updateCart,
   clearCart,
-  checkout
+  checkout,
+  submitPurchaseRequest
 };
 
 // ------------------------------------------------------------------------------
