@@ -567,17 +567,36 @@ async function submitPurchaseRequest(sessionId, customerInfo = {}) {
     };
   }
 
+  const address = (customerInfo.address || '').trim();
+  if (!address || address.length < 5) {
+    return {
+      success: false,
+      error: 'Vui lòng cung cấp địa chỉ giao hàng cụ thể để ScentPod giao nến cho bạn.'
+    };
+  }
+
+  let paymentMethod = (customerInfo.paymentMethod || 'COD').trim().toUpperCase();
+  if (paymentMethod !== 'VIETQR' && paymentMethod !== 'COD') {
+    paymentMethod = 'COD';
+  }
+
   const note = (customerInfo.note || '').trim();
 
-  // BỎ QUA DỮ LIỆU GIÁ DO TRÌNH DUYỆT TỰ GỬI:
-  // Lấy danh sách mùi nến và số lượng strictly từ server cart
+  // BỎ QUA TOÀN BỘ DỮ LIỆU GIÁ DO TRÌNH DUYỆT TỰ GỬI:
+  // Lấy danh sách mùi nến, số lượng và tính lại giá strictly từ server cart SSOT
   const items = cartData.items.map(item => ({
     id: item.id,
     name: item.name,
     subName: item.subName || 'Nến 50g',
     quantity: item.quantity,
+    price: item.price,
+    lineTotal: item.lineTotal,
     labelNotes: item.labelNotes || ''
   }));
+
+  const subtotal = cartData.subtotal;
+  const shippingFee = cartData.shippingFee;
+  const grandTotal = cartData.grandTotal;
 
   const requestId = 'REQ-' + Date.now().toString().slice(-6) + Math.floor(10 + Math.random() * 90);
   const sentAt = new Date().toISOString();
@@ -587,8 +606,9 @@ async function submitPurchaseRequest(sessionId, customerInfo = {}) {
     const emailResult = await sendPurchaseRequestNotification({
       requestId,
       sentAt,
-      customer: { name, phone, note },
-      items
+      customer: { name, phone, address, paymentMethod, note },
+      items,
+      totals: { subtotal, shippingFee, grandTotal }
     });
 
     if (!emailResult || !emailResult.success) {
@@ -612,8 +632,11 @@ async function submitPurchaseRequest(sessionId, customerInfo = {}) {
     message: 'Đã gửi yêu cầu mua hàng thành công!',
     requestId,
     sentAt,
-    customer: { name, phone, note },
+    customer: { name, phone, address, paymentMethod, note },
     items,
+    subtotal,
+    shippingFee,
+    grandTotal,
     itemCount: items.reduce((sum, i) => sum + i.quantity, 0)
   };
 }

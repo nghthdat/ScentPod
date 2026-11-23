@@ -209,24 +209,34 @@ async function main() {
   });
 
   runTest('Đặt hàng thành công với thông tin người nhận và trả về mã đơn SCP...', () => {
-    const sessionCheckout = 'session_checkout_' + Date.now();
-    clearCart(sessionCheckout);
-    addToCart(sessionCheckout, 'blind-date', 2);
+    const fs = require('fs');
+    const path = require('path');
+    const catPath = path.join(__dirname, '..', 'data', 'catalog.json');
+    const rawBefore = fs.readFileSync(catPath, 'utf8');
 
-    const orderRes = checkout(sessionCheckout, {
-      name: 'Trần Minh Quân',
-      phone: '0909123456',
-      address: 'Ký túc xá Đại học Bách Khoa TP.HCM',
-      paymentMethod: 'COD'
-    });
+    try {
+      const sessionCheckout = 'session_checkout_' + Date.now();
+      clearCart(sessionCheckout);
+      addToCart(sessionCheckout, 'blind-date', 2);
 
-    assert.strictEqual(orderRes.success, true);
-    assert.strictEqual(orderRes.order.orderId.startsWith('SCP'), true);
-    assert.strictEqual(orderRes.order.grandTotal, 170000 + 15000); // 185.000đ
+      const orderRes = checkout(sessionCheckout, {
+        name: 'Trần Minh Quân',
+        phone: '0909123456',
+        address: 'Ký túc xá Đại học Bách Khoa TP.HCM',
+        paymentMethod: 'COD'
+      });
 
-    // Giỏ hàng sau khi đặt phải được xóa sạch
-    const emptyCart = getCart(sessionCheckout);
-    assert.strictEqual(emptyCart.items.length, 0);
+      assert.strictEqual(orderRes.success, true);
+      assert.strictEqual(orderRes.order.orderId.startsWith('SCP'), true);
+      assert.strictEqual(orderRes.order.grandTotal, 170000 + 15000); // 185.000đ
+
+      // Giỏ hàng sau khi đặt phải được xóa sạch
+      const emptyCart = getCart(sessionCheckout);
+      assert.strictEqual(emptyCart.items.length, 0);
+    } finally {
+      // Phục hồi lại dữ liệu catalog nguyên bản sau khi kiểm thử trừ kho
+      fs.writeFileSync(catPath, rawBefore, 'utf8');
+    }
   });
 
   // ----------------------------------------------------------------------------

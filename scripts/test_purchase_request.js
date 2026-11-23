@@ -108,11 +108,32 @@ async function main() {
 
     const res = await submitPurchaseRequest(sessionBadPhone, {
       name: 'Lê Hoàng Nam',
-      phone: '12345' // Quá ngắn
+      phone: '12345', // Quá ngắn
+      address: 'KTX ĐHQG TP.HCM'
     });
 
     assert.strictEqual(res.success, false);
     assert.strictEqual(res.error.includes('số điện thoại hợp lệ'), true);
+  });
+
+  // ----------------------------------------------------------------------------
+  // CA 2.5: KIỂM THỬ THIẾU ĐỊA CHỈ GIAO HÀNG
+  // ----------------------------------------------------------------------------
+  console.log('\n▶ CA 2.5: KIỂM THỬ THIẾU ĐỊA CHỈ GIAO HÀNG');
+
+  await runAsyncTest('Chặn khi thiếu địa chỉ giao hàng cụ thể', async () => {
+    const sessionNoAddr = 'test_no_addr_' + Date.now();
+    clearCart(sessionNoAddr);
+    addToCart(sessionNoAddr, 'campus-breeze', 1);
+
+    const res = await submitPurchaseRequest(sessionNoAddr, {
+      name: 'Võ Minh Trí',
+      phone: '0933112233',
+      address: '' // Thiếu địa chỉ
+    });
+
+    assert.strictEqual(res.success, false);
+    assert.strictEqual(res.error.includes('địa chỉ giao hàng cụ thể'), true);
   });
 
   // ----------------------------------------------------------------------------
@@ -124,12 +145,14 @@ async function main() {
     const sessionSuccess = 'test_success_' + Date.now();
     clearCart(sessionSuccess);
     addToCart(sessionSuccess, 'first-class', 2);
-    addToCart(sessionSuccess, 'blind-date', 1);
+    addToCart(sessionSuccess, 'campus-breeze', 1);
 
     // Giả lập client cố ý tự gửi trường giá giả mạo (fakePrice, customTotal)
     const clientPayload = {
       name: 'Phạm Thuỳ Linh',
       phone: '0988123456',
+      address: 'Ký túc xá Khu B ĐHQG, Phường Đông Hòa, Dĩ An',
+      paymentMethod: 'VietQR',
       note: 'Giao đến cổng ký túc xá khu B',
       fakePrice: 1000,
       customTotal: 5000
@@ -141,9 +164,14 @@ async function main() {
     assert.strictEqual(res.requestId.startsWith('REQ-'), true);
     assert.strictEqual(res.customer.name, 'Phạm Thuỳ Linh');
     assert.strictEqual(res.customer.phone, '0988123456');
+    assert.strictEqual(res.customer.address, 'Ký túc xá Khu B ĐHQG, Phường Đông Hòa, Dĩ An');
+    assert.strictEqual(res.customer.paymentMethod, 'VIETQR');
     assert.strictEqual(res.customer.note, 'Giao đến cổng ký túc xá khu B');
     assert.strictEqual(res.items.length, 2);
-    assert.strictEqual(res.itemCount, 3); // 2 First Class + 1 Blind Date
+    assert.strictEqual(res.itemCount, 3); // 2 First Class + 1 Campus Breeze
+    assert.strictEqual(res.subtotal, 3 * 85000); // 255.000đ
+    assert.strictEqual(res.shippingFee, 15000); // Mua từ 2 hũ ship 15k
+    assert.strictEqual(res.grandTotal, 270000);
 
     // Bỏ qua toàn bộ dữ liệu giá từ trình duyệt
     assert.strictEqual(res.fakePrice, undefined);
@@ -154,12 +182,14 @@ async function main() {
       requestId: res.requestId,
       sentAt: res.sentAt,
       customer: res.customer,
-      items: res.items
+      items: res.items,
+      totals: { subtotal: res.subtotal, shippingFee: res.shippingFee, grandTotal: res.grandTotal }
     });
     assert.strictEqual(emailData.textBody.includes('scentpodcontact@gmail.com'), true);
     assert.strictEqual(emailData.textBody.includes('Phạm Thuỳ Linh'), true);
     assert.strictEqual(emailData.textBody.includes('0988123456'), true);
     assert.strictEqual(emailData.textBody.includes('Another Sunday'), true);
+    assert.strictEqual(emailData.textBody.includes('VietQR'), true);
 
     // Giỏ hàng được xóa sạch sau khi gửi thành công
     const cartAfter = getCart(sessionSuccess);
@@ -183,6 +213,8 @@ async function main() {
       const res = await submitPurchaseRequest(sessionErr, {
         name: 'Đặng Quốc Huy',
         phone: '0903112233',
+        address: '123 Nguyễn Thị Minh Khai, Q.1, TP.HCM',
+        paymentMethod: 'COD',
         note: 'Gọi điện trước khi đến 15 phút'
       });
 
@@ -235,7 +267,9 @@ async function main() {
 
     const payload = {
       name: 'Hoàng Minh',
-      phone: '0977889900'
+      phone: '0977889900',
+      address: '456 Lê Văn Việt, Tăng Nhơn Phú A, TP. Thủ Đức',
+      paymentMethod: 'COD'
     };
 
     // Bắn 2 request đồng thời từ cùng 1 session

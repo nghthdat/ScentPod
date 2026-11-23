@@ -274,8 +274,20 @@
         <!-- Cấu hình Webhook & Chủ đề -->
         <div class="quiz-config-box">
           <div class="form-group">
-            <label for="webhookUrl">🔗 Đường dẫn Webhook n8n (Test hoặc Production URL):</label>
-            <input type="url" id="webhookUrl" class="form-control" value="https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi" placeholder="https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi">
+            <label for="webhookEnvSelect">🌐 Chế độ kết nối n8n:</label>
+            <select id="webhookEnvSelect" class="form-control" onchange="doiCheDoWebhook()">
+              <option value="prod" selected>🟢 Production Webhook (Chính thức: /webhook/tao-cau-hoi)</option>
+              <option value="test">🟡 Test Webhook (Thử nghiệm n8n: /webhook-test/tao-cau-hoi)</option>
+              <option value="custom">⚙️ URL Tùy chỉnh (Nhập link riêng)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="webhookUrl">🔗 Đường dẫn Webhook n8n Cloud:</label>
+            <input type="url" id="webhookUrl" class="form-control" value="https://scentpods.app.n8n.cloud/webhook/tao-cau-hoi" placeholder="https://scentpods.app.n8n.cloud/webhook/tao-cau-hoi">
+            <small style="display:block; margin-top: 4px; color: #8C6239; font-size: 12.5px;">
+              * Mặc định sử dụng Production URL. Lưu ý: n8n workflow phải ở trạng thái <strong>Active</strong> trên n8n Cloud.
+            </small>
           </div>
 
           <div class="form-group">
@@ -285,7 +297,7 @@
 
           <div class="quiz-actions">
             <button type="button" id="btnGoiN8n" class="btn-quiz btn-quiz-primary" onclick="guiYeuCauTaoCauHoi()">
-              🚀 Gửi yêu cầu sang n8n
+              🚀 Gửi yêu cầu sang n8n Webhook
             </button>
             <button type="button" class="btn-quiz btn-quiz-secondary" onclick="taiDuLieuMau()">
               🧪 Chạy thử dữ liệu mẫu (Demo Mock)
@@ -335,9 +347,31 @@
     const savedUrl = localStorage.getItem("scentpod_n8n_url");
     if (savedUrl) {
       document.getElementById("webhookUrl").value = savedUrl;
+      const sel = document.getElementById("webhookEnvSelect");
+      if (savedUrl.includes('/webhook-test/')) {
+        sel.value = 'test';
+      } else if (savedUrl.includes('/webhook/')) {
+        sel.value = 'prod';
+      } else {
+        sel.value = 'custom';
+      }
+    }
+
+    function doiCheDoWebhook() {
+      const sel = document.getElementById("webhookEnvSelect").value;
+      const input = document.getElementById("webhookUrl");
+      if (sel === "prod") {
+        input.value = "https://scentpods.app.n8n.cloud/webhook/tao-cau-hoi";
+      } else if (sel === "test") {
+        input.value = "https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi";
+      } else {
+        input.value = "";
+        input.focus();
+      }
     }
 
     let questionsData = [];
+    let isMockData = false;
 
     function setStatus(text, type = "info") {
       const box = document.getElementById("statusMsg");
@@ -376,7 +410,7 @@
 
       btn.disabled = true;
       btn.innerText = "⏳ Đang kết nối n8n & chờ AI tạo câu hỏi...";
-      setStatus("🔄 Đang gửi request sang n8n... Vui lòng đợi trong giây lát...", "info");
+      setStatus("🔄 Đang gửi request sang n8n Webhook... Vui lòng đợi trong giây lát...", "info");
       quizContent.innerHTML = "";
 
       try {
@@ -401,7 +435,8 @@
         }
 
         console.log("n8n đã phản hồi:", result);
-        setStatus("✅ n8n đã phản hồi thành công!", "info");
+        isMockData = false;
+        setStatus('✅ <strong>Kết nối n8n Cloud thành công!</strong> <span style="background: #e6f4ea; color: #137333; padding: 2px 6px; border-radius: 4px; font-size: 11.5px; font-weight: bold; margin-left: 6px;">🟢 LIVE N8N RESPONSE</span>', "info");
 
         // Parse danh sách câu hỏi
         let list = [];
@@ -412,7 +447,6 @@
         } else if (result.cauHoi && Array.isArray(result.cauHoi)) {
           list = result.cauHoi;
         } else if (typeof result === "string") {
-          // Thử parse nếu n8n trả về chuỗi JSON
           try {
             const parsed = JSON.parse(result.replace(/```json/gi, '').replace(/```/g, '').trim());
             list = Array.isArray(parsed) ? parsed : (parsed.questions || []);
@@ -436,16 +470,25 @@
 
       } catch (error) {
         console.error("Lỗi kết nối tới n8n:", error);
-        setStatus(`❌ Lỗi kết nối tới n8n: <strong>${error.message}</strong>.<br><small>Nếu chạy trên trình duyệt khác domain, hãy đảm bảo node Webhook n8n đã bật <em>Allowed Origins: *</em> trong mục Options.</small>`, "error");
+        setStatus(`
+          ❌ <strong>Không thể kết nối tới Webhook n8n (${error.message}).</strong>
+          <div style="margin-top: 6px; font-size: 13px; line-height: 1.5; color: #7f1d1d;">
+            🔍 <strong>Hướng dẫn khắc phục:</strong><br>
+            • Nếu dùng <em>Production URL (/webhook/)</em>: Hãy đảm bảo workflow trên n8n Cloud đã được gạt sang trạng thái <strong>Active</strong>.<br>
+            • Nếu dùng <em>Test URL (/webhook-test/)</em>: Cần bấm nút <strong>'Test step' / 'Listen for test event'</strong> trong n8n trước khi gửi.<br>
+            • Để kiểm tra giao diện trắc nghiệm ngay: Bấm nút <strong>'🧪 Chạy thử dữ liệu mẫu (Demo Mock)'</strong> bên trên!
+          </div>
+        `, "error");
       } finally {
         btn.disabled = false;
-        btn.innerText = "🚀 Gửi yêu cầu sang n8n";
+        btn.innerText = "🚀 Gửi yêu cầu sang n8n Webhook";
       }
     }
 
     // Bộ câu hỏi mẫu để test giao diện ngay lập tức
     function taiDuLieuMau() {
-      setStatus("🧪 Đang hiển thị bộ 5 câu hỏi mẫu về thương hiệu ScentPod!", "info");
+      isMockData = true;
+      setStatus('🧪 <strong>Chế độ kiểm thử:</strong> Đang hiển thị bộ 5 câu hỏi mẫu về ScentPod! <span style="background: #fef3c7; color: #92400e; padding: 2px 6px; border-radius: 4px; font-size: 11.5px; font-weight: bold; margin-left: 6px;">🟡 DEMO MOCK DATA</span>', "info");
       questionsData = [
         {
           id: 1,

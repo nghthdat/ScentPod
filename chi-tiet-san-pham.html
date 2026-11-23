@@ -303,19 +303,25 @@
               từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn).</div>
           </div>
 
-          <!-- Nút hành động chính: Facebook & Sao chép -->
-          <div class="detail-actions-row">
-            <button type="button" class="btn btn-primary" id="detail-buy-fb-btn"
-              style="flex: 1; min-height: 48px; border-radius: 8px;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z" />
-              </svg>
-              <span>Hỏi mua qua Facebook</span>
+          <!-- Cụm nút hành động: Thêm vào giỏ hàng (Chính) & Tư vấn Facebook / Sao chép (Phụ) -->
+          <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 1.2rem;">
+            <button type="button" class="btn btn-primary" id="detail-add-cart-btn"
+              style="width: 100%; min-height: 50px; border-radius: 8px; font-weight: 700; font-size: 1.05rem; justify-content: center; box-shadow: 0 4px 15px rgba(201, 162, 107, 0.35);">
+              🛒 Thêm vào giỏ hàng (85.000đ)
             </button>
-            <button type="button" class="btn-copy-info" id="detail-copy-info-btn">
-              📋 <span>Sao chép thông tin</span>
-            </button>
+            <div class="detail-actions-row" style="margin: 0;">
+              <button type="button" class="btn btn-outline" id="detail-buy-fb-btn"
+                style="flex: 1; min-height: 44px; border-radius: 8px; font-size: 0.9rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path
+                    d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z" />
+                </svg>
+                <span>Tư vấn qua Facebook</span>
+              </button>
+              <button type="button" class="btn-copy-info" id="detail-copy-info-btn" style="min-height: 44px;">
+                📋 <span>Sao chép thông tin</span>
+              </button>
+            </div>
           </div>
 
           <div id="scent-modal-copy-toast" class="copy-toast-msg" style="display: none;"></div>

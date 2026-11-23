@@ -1,15 +1,15 @@
 // Script test webhook n8n từ terminal Node.js
-// Cách chạy: node scripts/test_webhook.js <URL_WEBHOOK>
-const url = process.argv[2] || "URL_WEBHOOK_CUA_BAN";
+// Cách chạy: node scripts/test_webhook.js [prod|test|URL]
+const defaultProdUrl = "https://scentpods.app.n8n.cloud/webhook/tao-cau-hoi";
+const defaultTestUrl = "https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi";
+
+let url = process.argv[2] || defaultProdUrl;
+if (url === "prod") url = defaultProdUrl;
+if (url === "test") url = defaultTestUrl;
 
 async function testWebhook() {
-  if (url === "URL_WEBHOOK_CUA_BAN") {
-    console.log("⚠️ Vui lòng truyền URL webhook n8n vào lệnh.");
-    console.log("Ví dụ: node scripts/test_webhook.js https://your-n8n.com/webhook-test/tao-cau-hoi");
-    return;
-  }
-
-  console.log(`🚀 Đang gửi test request tới: ${url}`);
+  console.log(`🚀 Đang gửi test request tới n8n: ${url}`);
+  console.log(`ℹ️ Loại URL: ${url.includes('/webhook-test/') ? '🟡 Test Webhook (cần bấm Test trong n8n)' : '🟢 Production Webhook (yêu cầu workflow Active)'}`);
   try {
     const startTime = Date.now();
     const response = await fetch(url, {

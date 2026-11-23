@@ -106,6 +106,13 @@
       } else {
         windowEl.classList.add('is-open');
         input.focus();
+        // GA4 tracking: chat_open
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'chat_open', {
+            event_category: 'engagement',
+            session_id: sessionId
+          });
+        }
       }
     }
 
@@ -142,6 +149,14 @@
     input.value = '';
     isSending = true;
     sendBtn.disabled = true;
+
+    // GA4 tracking: chat_message
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'chat_message', {
+        event_category: 'ai_assistant',
+        message_length: text.length
+      });
+    }
 
     // Hiển thị typing indicator
     const typingId = 'typing_' + Date.now();
@@ -181,15 +196,18 @@
         chatHistory.push({ role: 'user', content: text });
         chatHistory.push({ role: 'assistant', content: data.reply });
       } else {
-        appendMessage('bot', 'Dạ tụi mình đã ghi nhận thông tin. Bạn có thể tham khảo 4 mùi nến 50g thủ công của ScentPod nhé!');
+        appendMessage('bot', 'Dạ tụi mình đã ghi nhận thông tin. Bạn có thể tham khảo 4 mùi nến 50g thủ công của ScentPod nhé!', getClientFallbackProducts(text));
       }
     } catch (err) {
-      console.warn('[AI Chat] Lỗi kết nối /api/chat:', err);
+      console.warn('[AI Chat] Lỗi kết nối /api/chat, chuyển sang Local Client Engine:', err);
       const typingNode = document.getElementById(typingId);
       if (typingNode) typingNode.remove();
 
-      // Graceful fallback
-      appendMessage('bot', 'Chào bạn! Kết nối mạng hơi gián đoạn một chút. Nhưng ScentPod luôn sẵn sàng 4 hũ nến 50g sáp đậu nành (giá ưu đãi HSSV 85.000đ/hũ) đồng hành cùng bạn!');
+      // Graceful Local Fallback với đầy đủ 4 sản phẩm
+      const fallbackResult = generateClientLocalResponse(text);
+      appendMessage('bot', fallbackResult.reply, fallbackResult.products);
+      chatHistory.push({ role: 'user', content: text });
+      chatHistory.push({ role: 'assistant', content: fallbackResult.reply });
     } finally {
       isSending = false;
       sendBtn.disabled = false;
@@ -304,6 +322,21 @@
               window.ScentPodCart.openDrawer();
             }
 
+            // GA4 tracking: add_to_cart
+            if (typeof window.gtag === 'function') {
+              window.gtag('event', 'add_to_cart', {
+                event_category: 'ecommerce',
+                currency: 'VND',
+                value: 85000,
+                items: [{
+                  item_id: pid,
+                  item_name: pid,
+                  price: 85000,
+                  quantity: 1
+                }]
+              });
+            }
+
             setTimeout(() => {
               button.innerHTML = originalText;
               button.style.background = '';
@@ -323,6 +356,107 @@
         }
       });
     });
+  }
+
+  // 7. Client-side Local Advisor Engine (Dự phòng thông minh khi offline hoặc serverless timeout)
+  const CLIENT_CATALOG = [
+    {
+      id: "first-class",
+      name: "Another Sunday (First Class)",
+      code: "Mùi 01",
+      labelNotes: "Chanh, đào & bạc hà",
+      category: "Trái cây tươi mát & Thảo mộc",
+      price: 85000,
+      priceFormatted: "85.000đ",
+      priceBadge: "Giá ưu đãi HSSV",
+      weight: "50g",
+      stock: 25,
+      inStock: true,
+      image: "images/sap-thom-bo-ba.jpg",
+      shortDesc: "Hương chanh vàng thanh chua tươi mát, đào chín ngọt dịu và lá bạc hà mát lạnh, khơi dậy năng lượng và sự tập trung.",
+      intensity: "Thanh mát, nhẹ dịu",
+      suggestReason: "Rất hợp góc bàn học, khơi dậy năng lượng tập trung ôn thi."
+    },
+    {
+      id: "blind-date",
+      name: "Beloved Summer (Blind Date)",
+      code: "Mùi 02",
+      labelNotes: "Xạ hương & hoa hồng",
+      category: "Hoa hồng phấn & Xạ hương ấm",
+      price: 85000,
+      priceFormatted: "85.000đ",
+      priceBadge: "Giá ưu đãi HSSV",
+      weight: "50g",
+      stock: 4,
+      inStock: true,
+      image: "images/nen-thom-mini.jpg",
+      shortDesc: "Hương hoa hồng ngọt ngào, e ấp hòa cùng nét ấm nồng bí ẩn của xạ hương và vani sữa.",
+      intensity: "Ngọt ngào, dịu ấm",
+      suggestReason: "Dịu ngọt lãng mạn, vỗ về cảm xúc thư giãn trong phòng ngủ."
+    },
+    {
+      id: "campus-breeze",
+      name: "Tidal Bloom (Campus Breeze)",
+      code: "Mùi 03",
+      labelNotes: "Xô thơm, muối biển & lily",
+      category: "Khoáng biển & Thảo mộc hoa",
+      price: 85000,
+      priceFormatted: "85.000đ",
+      priceBadge: "Giá ưu đãi HSSV",
+      weight: "50g",
+      stock: 20,
+      inStock: true,
+      image: "images/campus-breeze.jpg",
+      shortDesc: "Làn gió biển mặn mòi, khoáng đạt cộng hưởng cùng thảo mộc xô thơm và hoa lily tinh khôi.",
+      intensity: "Thoang thoảng, khoáng đạt",
+      suggestReason: "Cảm giác gió biển tự do, thanh lọc không gian học tập và làm việc."
+    },
+    {
+      id: "late-night",
+      name: "Coffee Holic (Late Night)",
+      code: "Mùi 04",
+      labelNotes: "Cà phê & gỗ",
+      category: "Hương cà phê rang mộc & Gỗ ấm",
+      price: 85000,
+      priceFormatted: "85.000đ",
+      priceBadge: "Giá ưu đãi HSSV",
+      weight: "50g",
+      stock: 15,
+      inStock: true,
+      image: "images/nen-thu-gian.jpg",
+      shortDesc: "Hương cà phê rang mộc nồng ấm quyện vào lớp gỗ tuyết tùng trầm lắng, đồng hành cùng bạn đêm khuya.",
+      intensity: "Trầm ấm, thư giãn",
+      suggestReason: "Trầm ấm sâu lắng, người bạn đồng hành cho những đêm ôn thi muộn."
+    }
+  ];
+
+  function getClientFallbackProducts() {
+    return CLIENT_CATALOG.slice(0, 2);
+  }
+
+  function generateClientLocalResponse(query = '') {
+    const q = query.toLowerCase();
+    let reply = '';
+    let products = [];
+
+    if (/bàn học|học bài|tập trung|ôn thi|tỉnh táo|chanh|bạc hà/.test(q)) {
+      products = [CLIENT_CATALOG[0], CLIENT_CATALOG[2]];
+      reply = 'Góc bàn học ôn thi cần sự tỉnh táo và thông thoáng, mình gợi ý bạn hũ **Another Sunday (First Class)** và **Tidal Bloom (Campus Breeze)**. Hương chanh bạc hà và khoáng biển giúp bạn duy trì năng lượng suốt buổi học!';
+    } else if (/phòng ngủ|ngủ|thư giãn|hoa hồng|ngọt|lãng mạn/.test(q)) {
+      products = [CLIENT_CATALOG[1]];
+      reply = 'Cho không gian phòng ngủ cần sự êm dịu, **Beloved Summer (Blind Date)** với nốt hoa hồng phấn Grasse và xạ hương ấm chính là lựa chọn tuyệt vời để vỗ về giấc ngủ!';
+    } else if (/cà phê|cafe|gỗ|đêm|khuya|late|ấm/.test(q)) {
+      products = [CLIENT_CATALOG[3]];
+      reply = 'Nếu bạn thích nốt hương trầm ấm cho những đêm học khuya, **Coffee Holic (Late Night)** hương cà phê mộc và gỗ tuyết tùng sẽ mang lại không gian quán quen yên tĩnh ngay bên bàn làm việc!';
+    } else if (/giá|ngân sách|bao nhiêu|tiền|hssv|100k|rẻ/.test(q)) {
+      products = CLIENT_CATALOG;
+      reply = 'Tất cả 4 mùi nến thơm 50g của ScentPod đều có mức giá ưu đãi HSSV **85.000đ/hũ**. Đặc biệt khi mua từ 2 hũ nến, bạn được áp dụng **Ship chỉ 15.000đ toàn quốc**!';
+    } else {
+      products = CLIENT_CATALOG;
+      reply = 'Chào bạn! Mình gợi ý bạn 4 mùi nến thơm mini 50g sáp đậu nành thủ công của ScentPod (đồng giá **85.000đ/hũ**). Mua từ 2 hũ được áp dụng **Ship 15.000đ toàn quốc** nhé!';
+    }
+
+    return { reply, products };
   }
 
   // Khởi chạy khi DOM sẵn sàng

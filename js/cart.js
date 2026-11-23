@@ -223,7 +223,21 @@
     }
 
     const checkoutBtn = document.getElementById('btn-cart-checkout');
-    if (checkoutBtn) checkoutBtn.style.display = 'block';
+    if (checkoutBtn) {
+      checkoutBtn.style.display = 'block';
+      // Ghi nhận sự kiện GA4: begin_checkout khi người dùng nhấn chuyển sang bước gửi yêu cầu
+      if (!checkoutBtn.dataset.gaBound) {
+        checkoutBtn.dataset.gaBound = 'true';
+        checkoutBtn.addEventListener('click', () => {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'begin_checkout', {
+              item_count: totalQty,
+              currency: 'VND'
+            });
+          }
+        });
+      }
+    }
 
     let html = '';
     items.forEach(item => {

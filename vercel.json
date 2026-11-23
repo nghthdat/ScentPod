@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/chat", "destination": "/api/chat.js" },
+    { "source": "/api/products", "destination": "/api/products.js" },
+    { "source": "/api/cart", "destination": "/api/cart.js" },
+    { "source": "/api/cart/add", "destination": "/api/cart/add.js" },
+    { "source": "/api/cart/update", "destination": "/api/cart/update.js" },
+    { "source": "/api/cart/clear", "destination": "/api/cart/clear.js" },
+    { "source": "/api/purchase-request", "destination": "/api/purchase-request.js" }
+  ]
+}
+

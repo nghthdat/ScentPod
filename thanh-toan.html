@@ -196,8 +196,36 @@
               <label for="order-phone">Số điện thoại liên hệ *</label>
               <input type="tel" id="order-phone" class="form-control" placeholder="Ví dụ: 0912 345 678" pattern="[0-9+ \-\.]{9,15}" required>
               <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
-                Tụi mình sẽ liên hệ số điện thoại này để xác nhận mùi nến và địa chỉ giao hàng.
+                Tụi mình sẽ liên hệ số điện thoại này để xác nhận mùi nến và chi tiết đơn hàng.
               </small>
+            </div>
+
+            <div class="form-group">
+              <label for="order-address">Địa chỉ giao hàng cụ thể *</label>
+              <input type="text" id="order-address" class="form-control" placeholder="Số nhà, tên đường, KTX/phòng trọ, phường/xã, quận/huyện..." required>
+              <small style="color: var(--text-muted); font-size: 0.8rem; margin-top: 4px; display: block;">
+                Địa chỉ chi tiết để shipper có thể giao nến tới tận tay bạn.
+              </small>
+            </div>
+
+            <div class="form-group" style="margin-top: 1.2rem;">
+              <label style="margin-bottom: 8px;">Phương thức thanh toán *</label>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 12px 14px; border-radius: 8px;">
+                  <input type="radio" name="paymentMethod" value="COD" checked style="accent-color: var(--accent-gold); margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 600; color: #fff; font-size: 0.92rem;">💵 Thanh toán khi nhận hàng (COD)</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">Thanh toán tiền mặt cho shipper khi nhận và kiểm tra nến.</div>
+                  </div>
+                </label>
+                <label style="display: flex; align-items: flex-start; gap: 10px; cursor: pointer; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 12px 14px; border-radius: 8px;">
+                  <input type="radio" name="paymentMethod" value="VIETQR" style="accent-color: var(--accent-gold); margin-top: 3px;">
+                  <div>
+                    <div style="font-weight: 600; color: #fff; font-size: 0.92rem;">📱 Chuyển khoản qua mã VietQR</div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted);">ScentPod sẽ gửi mã QR chuyển khoản khi liên hệ xác nhận đơn với bạn.</div>
+                  </div>
+                </label>
+              </div>
             </div>
 
             <div class="form-group">
@@ -206,7 +234,7 @@
             </div>
 
             <div style="background: rgba(212, 167, 98, 0.08); border: 1px solid rgba(212, 167, 98, 0.25); border-radius: 8px; padding: 12px 14px; margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--accent-gold); line-height: 1.5;">
-              ✉️ Khi bấm gửi, hệ thống sẽ gửi đúng một email thông báo đến nhóm ScentPod kèm thông tin trên. Nhóm sẽ chủ động liên hệ bạn để xác nhận đơn và địa chỉ.
+              ✉️ Khi bấm gửi, hệ thống sẽ gửi đúng một email thông báo đến nhóm ScentPod kèm thông tin trên. Nhóm sẽ chủ động liên hệ bạn để xác nhận đơn.
             </div>
 
             <button type="submit" class="btn btn-primary btn-large" id="btn-submit-order" style="width: 100%; border-radius: 8px; font-size: 1.05rem;">
@@ -225,13 +253,29 @@
             <!-- Danh sách render bằng JS -->
           </div>
 
-          <div style="margin-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
+          <!-- Bảng tính tiền chi tiết theo server SSOT -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 14px; margin-top: 12px;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px; color: var(--text-secondary);">
+              <span>Tiền nến:</span>
+              <span id="summary-subtotal" style="font-weight: 600; color: #fff;">0đ</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 10px; color: var(--text-secondary);">
+              <span>Phí vận chuyển:</span>
+              <span id="summary-shipping" style="font-weight: 600; color: var(--accent-gold);">0đ</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 700; color: var(--accent-gold); padding-top: 8px; border-top: 1px dashed rgba(255,255,255,0.1); margin-bottom: 12px;">
+              <span>Tổng thanh toán dự kiến:</span>
+              <span id="summary-total">0đ</span>
+            </div>
+          </div>
+
+          <div style="margin-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem;">
             <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 12px; font-size: 0.85rem; line-height: 1.5; color: var(--text-secondary); margin-bottom: 12px;">
               🎁 <strong>Quà tặng kèm:</strong> Mỗi hũ nến 50g đều được tặng kèm que diêm dài chuyên dụng và thiệp hướng dẫn sử dụng.
             </div>
 
             <div style="font-size: 0.82rem; color: var(--accent-gold); background: rgba(201,162,107,0.1); border-left: 2px solid var(--accent-gold); padding: 8px 10px; border-radius: 0 6px 6px 0;">
-              🚚 <strong>Chính sách ship:</strong> Ưu đãi ship 15.000đ toàn quốc khi mua từ 2 hũ nến. Phí ship chi tiết sẽ được ScentPod xác nhận khi liên hệ bạn.
+              🚚 <strong>Chính sách ship:</strong> Ship 15.000đ toàn quốc khi mua từ 2 hũ nến.
             </div>
           </div>
 
@@ -272,6 +316,9 @@
         <div style="margin-bottom: 6px;">Mã yêu cầu: <strong id="succ-order-id" style="color: var(--accent-gold); font-family: monospace;"></strong></div>
         <div style="margin-bottom: 6px;">Người nhận: <strong id="succ-name" style="color: #fff;"></strong></div>
         <div style="margin-bottom: 6px;">Số điện thoại: <strong id="succ-phone" style="color: #fff;"></strong></div>
+        <div style="margin-bottom: 6px;">Địa chỉ: <strong id="succ-address" style="color: #fff;"></strong></div>
+        <div style="margin-bottom: 6px;">Thanh toán: <strong id="succ-payment" style="color: var(--accent-gold);"></strong></div>
+        <div style="margin-bottom: 6px;">Tổng thanh toán dự kiến: <strong id="succ-total" style="color: var(--accent-gold);"></strong></div>
         <div>Ghi chú: <strong id="succ-note" style="color: #f5f0eb; font-style: italic;"></strong></div>
       </div>
 
@@ -326,6 +373,13 @@
           }
 
           document.getElementById("summary-items-count").textContent = data.totalQuantity;
+          const subtotalEl = document.getElementById("summary-subtotal");
+          const shippingEl = document.getElementById("summary-shipping");
+          const totalEl = document.getElementById("summary-total");
+
+          if (subtotalEl) subtotalEl.textContent = data.subtotalFormatted || (data.subtotal.toLocaleString('vi-VN') + 'đ');
+          if (shippingEl) shippingEl.textContent = data.shippingFeeFormatted || (data.shippingFee.toLocaleString('vi-VN') + 'đ');
+          if (totalEl) totalEl.textContent = data.grandTotalFormatted || (data.grandTotal.toLocaleString('vi-VN') + 'đ');
 
           let itemsHtml = '<table class="order-items-table">';
           data.items.forEach(item => {
@@ -369,6 +423,9 @@
 
         const name = document.getElementById("order-name").value.trim();
         const phone = document.getElementById("order-phone").value.trim();
+        const address = document.getElementById("order-address").value.trim();
+        const paymentRadio = document.querySelector('input[name="paymentMethod"]:checked');
+        const paymentMethod = paymentRadio ? paymentRadio.value : 'COD';
         const note = document.getElementById("order-note").value.trim();
 
         // Kiểm tra cơ bản phía client
@@ -386,17 +443,26 @@
           return;
         }
 
+        if (!address) {
+          errorAlert.textContent = "Vui lòng cung cấp địa chỉ giao hàng cụ thể.";
+          errorAlert.style.display = "block";
+          document.getElementById("order-address").focus();
+          return;
+        }
+
         // Bật trạng thái đang xử lý và chặn bấm lặp
         isSubmitting = true;
         submitBtn.disabled = true;
         submitBtn.innerHTML = "⏳ Đang gửi yêu cầu mua hàng...";
 
-        // Bỏ qua hoàn toàn dữ liệu giá, chỉ gửi tên, sđt và ghi chú
+        // Bỏ qua hoàn toàn dữ liệu giá, chỉ gửi thông tin người nhận và phương thức thanh toán
         const payload = {
           sessionId,
           customerInfo: {
             name,
             phone,
+            address,
+            paymentMethod,
             note
           }
         };
@@ -418,15 +484,20 @@
             document.getElementById("succ-order-id").textContent = data.requestId;
             document.getElementById("succ-name").textContent = data.customer.name;
             document.getElementById("succ-phone").textContent = data.customer.phone;
+            document.getElementById("succ-address").textContent = data.customer.address || "(Chưa có)";
+            document.getElementById("succ-payment").textContent = data.customer.paymentMethod === 'VIETQR' ? 'Chuyển khoản VietQR' : 'Tiền mặt khi nhận (COD)';
+            document.getElementById("succ-total").textContent = (data.grandTotal ? data.grandTotal.toLocaleString('vi-VN') + 'đ' : 'Theo xác nhận ScentPod');
             document.getElementById("succ-note").textContent = data.customer.note || "(Không có)";
 
             document.getElementById("order-success-modal").classList.add("is-open");
 
-            // Ghi nhận sự kiện GA4: purchase_request_success (TUYỆT ĐỐI KHÔNG GỬI TÊN, SĐT HOẶC GHI CHÚ SANG GA4)
+            // Ghi nhận sự kiện GA4: purchase_request_success (TUYỆT ĐỐI KHÔNG GỬI TÊN, SĐT, ĐỊA CHỈ HOẶC GHI CHÚ SANG GA4)
             if (typeof window.gtag === "function") {
               window.gtag("event", "purchase_request_success", {
                 request_id: data.requestId,
-                item_count: data.itemCount || 1
+                item_count: data.itemCount || 1,
+                value: data.grandTotal || 0,
+                currency: "VND"
               });
             }
 
@@ -438,7 +509,7 @@
             errorAlert.innerHTML = `⚠️ <strong>Không thể gửi yêu cầu:</strong> ${errorMsg}`;
             errorAlert.style.display = "block";
             
-            // Mở khóa lại nút để khách bấm thử lại (dữ liệu input name, phone, note vẫn giữ nguyên)
+            // Mở khóa lại nút để khách bấm thử lại (dữ liệu input name, phone, address, note vẫn giữ nguyên)
             submitBtn.disabled = false;
             submitBtn.innerHTML = "Gửi Yêu Cầu Mua Hàng &rarr;";
             isSubmitting = false;

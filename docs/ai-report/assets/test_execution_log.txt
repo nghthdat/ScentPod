@@ -1,0 +1,81 @@
+
+> scentpod@1.0.0 test
+> node scripts/test_ai_shopping_assistant.js && node scripts/test_purchase_request.js
+
+
+======================================================================
+🧪 BẮT ĐẦU KIỂM THỬ TỰ ĐỘNG SCENTPOD AI SHOPPING ASSISTANT
+======================================================================
+
+▶ NHÓM 1: KIỂM THỬ GỢI Ý ĐÚNG NGÂN SÁCH
+  ✓ [PASS] Phân tích đúng ngân sách dưới 100k và không gian bàn học
+  ✓ [PASS] Gợi ý sản phẩm Another Sunday vừa vặn ngân sách 100k (giá 85.000đ)
+
+▶ NHÓM 2: KIỂM THỬ KHI KHÔNG CÓ SẢN PHẨM PHÙ HỢP
+  ✓ [PASS] Ngân sách quá thấp (40k): Giải thích giá sàn 85k và gợi ý dòng nến 50g
+  ✓ [PASS] Sản phẩm ngoài danh mục (nước hoa xịt phòng): Giải thích rõ và hướng sang nến 50g
+
+▶ NHÓM 3: KIỂM THỬ XỬ LÝ SẢN PHẨM HẾT HÀNG
+  ✓ [PASS] Code Validator đánh dấu inStock = false nếu tồn kho = 0
+  ✓ [PASS] Chặn thêm vào giỏ hàng khi sản phẩm hết hàng hoặc số lượng vượt quá kho
+
+▶ NHÓM 4: THÊM GIỎ HÀNG ĐÚNG SẢN PHẨM & PHIÊN NGƯỜI DÙNG
+  ✓ [PASS] Thêm đúng sản phẩm và tính đúng phí ship cho 1 hũ (ship 25k)
+  ✓ [PASS] Thêm 2 hũ nến: Tự động kích hoạt ưu đãi Ship 15.000đ toàn quốc
+  ✓ [PASS] Cách ly giỏ hàng hoàn toàn giữa 2 người dùng khác Session ID
+
+▶ NHÓM 5: KIỂM THỬ XỬ LÝ LỖI KẾT NỐI AI & AN TOÀN HỆ THỐNG
+  ✓ [PASS] Hệ thống hoạt động trơn tru ngay cả khi không có external API key (Local Fallback)
+  ✓ [PASS] Đặt hàng thành công với thông tin người nhận và trả về mã đơn SCP...
+
+======================================================================
+📊 TỔNG KẾT KẾT QUẢ KIỂM THỬ: 11/11 TESTS ĐẠT YÊU CẦU (100%)
+======================================================================
+
+
+======================================================================
+🧪 BẮT ĐẦU KIỂM THỬ BIỂU MẪU YÊU CẦU MUA HÀNG & DỊCH VỤ EMAIL SCENTPOD
+======================================================================
+
+  ✓ [PASS] Email nhận thông báo cố định là scentpodcontact@gmail.com
+
+▶ CA 1: KIỂM THỬ GIỎ TRỐNG
+  ✓ [PASS] Chặn gửi yêu cầu khi giỏ hàng trống và báo lỗi rõ ràng
+
+▶ CA 2: KIỂM THỬ THIẾU HOẶC SAI SỐ ĐIỆN THOẠI
+  ✓ [PASS] Chặn khi thiếu số điện thoại dù giỏ hàng đã có sản phẩm
+  ✓ [PASS] Chặn khi số điện thoại không hợp lệ (ít hơn 9 chữ số)
+
+▶ CA 3: KIỂM THỬ GỬI THÀNH CÔNG & BẢO VỆ DỮ LIỆU GIÁ
+
+======================================================================
+📧 [EMAIL SERVICE - ĐÃ GỬI THÀNH CÔNG TỚI NHÓM SCENTPOD]
+- Đến: scentpodcontact@gmail.com
+- Tiêu đề: [ScentPod] Yêu cầu mua hàng mới: #REQ-66191367 - Phạm Thuỳ Linh (0988123456)
+- Mã yêu cầu: #REQ-66191367
+- Khách hàng: Phạm Thuỳ Linh | SĐT: 0988123456
+- Số loại nến: 2 (Tổng 3 hũ)
+======================================================================
+
+  ✓ [PASS] Gửi thành công: Tạo mã REQ-..., gửi email tới nhóm và làm sạch giỏ hàng
+
+▶ CA 4: KIỂM THỬ KHI DỊCH VỤ EMAIL GẶP LỖI
+  ✓ [PASS] Khi dịch vụ email lỗi: Báo lỗi, KHÔNG xóa giỏ hàng để khách thử lại
+
+▶ CA 5: KIỂM THỬ CHẶN BẤM GỬI LẶP / CONCURRENT SUBMISSIONS
+
+======================================================================
+📧 [EMAIL SERVICE - ĐÃ GỬI THÀNH CÔNG TỚI NHÓM SCENTPOD]
+- Đến: scentpodcontact@gmail.com
+- Tiêu đề: [ScentPod] Yêu cầu mua hàng mới: #REQ-66197159 - Hoàng Minh (0977889900)
+- Mã yêu cầu: #REQ-66197159
+- Khách hàng: Hoàng Minh | SĐT: 0977889900
+- Số loại nến: 1 (Tổng 1 hũ)
+======================================================================
+
+  ✓ [PASS] Chặn request thứ 2 khi request 1 đang được xử lý cho cùng 1 phiên
+
+======================================================================
+📊 TỔNG KẾT KIỂM THỬ: 7/7 TESTS ĐẠT YÊU CẦU (100%)
+======================================================================
+

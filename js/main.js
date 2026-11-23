@@ -423,6 +423,18 @@ function openScentModal(scentId) {
   backdrop.classList.add("is-open");
   document.body.classList.add("modal-open");
 
+  // Ghi nhận sự kiện GA4: view_item khi xem chi tiết mùi trong modal
+  if (typeof window.gtag === "function") {
+    window.gtag("event", "view_item", {
+      items: [{
+        item_id: p.id,
+        item_name: p.name,
+        price: 85000,
+        currency: "VND"
+      }]
+    });
+  }
+
   const closeBtn = backdrop.querySelector(".scent-modal-close");
   if (closeBtn) closeBtn.focus();
 }
@@ -465,9 +477,12 @@ function initScentDetailModal() {
 
             <!-- CỤM CTA NGAY DƯỚI GIÁ: Khách thấy ngay không cần cuộn -->
             <div class="modal-cta-immediate">
+              <button type="button" class="btn btn-primary btn-modal-add-cart" style="width: 100%; margin-bottom: 8px; justify-content: center; font-weight: 700; padding: 12px; border-radius: 8px; font-size: 0.95rem;">
+                <span>🛒 Thêm vào giỏ hàng (85k)</span>
+              </button>
               <button type="button" class="btn-buy-fb btn-modal-fb-trigger">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-                <span>Hỏi mua qua Facebook</span>
+                <span>Tư vấn qua Facebook</span>
               </button>
               <button type="button" class="btn-copy-info btn-modal-copy-trigger" style="width: 100%;">
                 📋 <span>Sao chép thông tin mùi nến</span>
@@ -500,7 +515,7 @@ function initScentDetailModal() {
               <div style="margin-bottom: 6px;">🎁 <strong>Quà kèm:</strong> Que diêm dài chuyên dụng &amp; thiệp hướng dẫn sử dụng nến.</div>
               <div style="margin-bottom: 6px;">🕯️ <strong>Hướng dẫn dùng nến ngắn:</strong> Cắt ngắn bấc còn khoảng 0.5cm trước khi đốt. Lần đầu thắp nên để sáp tan chảy đều tới mép hũ (khoảng 1–2 giờ).</div>
               <div style="margin-bottom: 6px; color: #f5c87a;">⚠️ <strong>Lưu ý an toàn:</strong> Đặt nến trên bề mặt chịu nhiệt, tránh vật dễ cháy và không bỏ mặc khi đang đốt.</div>
-              <div style="color: var(--accent-gold);">🚚 <strong>Chính sách ship:</strong> Ship 15.000đ toàn quốc khi mua từ 2 hũ nến. (Đơn 1 hũ: Phí giao hàng được xác nhận khi tư vấn).</div>
+              <div style="color: var(--accent-gold);">🚚 <strong>Chính sách ship:</strong> Ship 15.000đ toàn quốc khi mua từ 2 hũ nến.</div>
             </div>
 
             <div id="scent-modal-manual-copy" class="manual-copy-box" style="display: none;">
@@ -515,12 +530,14 @@ function initScentDetailModal() {
           <div style="flex: 1; font-size: 0.95rem; font-weight: 700; color: var(--accent-gold);">
             85.000đ/hũ <small style="font-size: 0.75rem; color: #fff; font-weight: 500; margin-left: 4px;">(Giá ưu đãi HSSV)</small>
           </div>
+          <button type="button" class="btn btn-primary btn-modal-add-cart" style="width: auto !important; padding: 8px 14px; font-size: 0.84rem; font-weight: 700;">
+            🛒 <span>Thêm giỏ</span>
+          </button>
           <button type="button" class="btn-copy-info btn-modal-copy-trigger" style="padding: 8px 14px; font-size: 0.82rem;">
             📋 <span>Sao chép</span>
           </button>
-          <button type="button" class="btn-buy-fb btn-modal-fb-trigger" style="width: auto !important; padding: 8px 18px; font-size: 0.84rem;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.145 2 11.258c0 2.908 1.455 5.503 3.734 7.142V22l3.433-1.884c.905.251 1.86.388 2.833.388 5.523 0 10-4.145 10-9.246 0-5.113-4.477-9.258-10-9.258zm1.002 12.445l-2.556-2.727-4.99 2.727 5.488-5.824 2.618 2.727 4.928-2.727-5.488 5.824z"/></svg>
-            <span>Hỏi mua qua Facebook</span>
+          <button type="button" class="btn-buy-fb btn-modal-fb-trigger" style="width: auto !important; padding: 8px 14px; font-size: 0.84rem;">
+            <span>Tư vấn FB</span>
           </button>
         </div>
 
@@ -535,29 +552,73 @@ function initScentDetailModal() {
       if (e.target === backdrop) closeScentModal();
     });
 
-        backdrop.querySelectorAll(".btn-modal-fb-trigger").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const p = PRODUCTS_CONFIG[currentModalScentId] || PRODUCTS_CONFIG["first-class"];
-            openFacebookCta("product_modal", p.name);
+    // Bắt sự kiện Thêm vào giỏ từ Modal
+    backdrop.querySelectorAll(".btn-modal-add-cart").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const p = PRODUCTS_CONFIG[currentModalScentId] || PRODUCTS_CONFIG["first-class"];
+        try {
+          const sid = localStorage.getItem("scentpod_session_id") || "sess_default";
+          const res = await fetch("/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Session-Id": sid },
+            body: JSON.stringify({ sessionId: sid, productId: p.id, quantity: 1 })
           });
-    });
-
-          backdrop.querySelectorAll(".btn-modal-copy-trigger").forEach(btn => {
-            btn.addEventListener("click", () => {
-              copyProductInfo(currentModalScentId);
-            });
-    });
-      }
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          const modal = document.getElementById("scent-detail-modal");
-          if (modal && modal.classList.contains("is-open")) closeScentModal();
+          const data = await res.json();
+          if (data.success) {
+            // Ghi nhận sự kiện GA4: add_to_cart
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "add_to_cart", {
+                items: [{
+                  item_id: p.id,
+                  item_name: p.name,
+                  price: 85000,
+                  currency: "VND",
+                  quantity: 1
+                }]
+              });
+            }
+            closeScentModal();
+            if (window.ScentPodCart) {
+              window.ScentPodCart.refresh();
+              window.ScentPodCart.openDrawer();
+            }
+          }
+        } catch (err) {
+          console.warn("[Cart] Lỗi thêm vào giỏ từ modal:", err);
         }
       });
+    });
 
-      document.addEventListener("click", (e) => {
-        const trigger = e.target.closest("[data-open-scent]");
+    backdrop.querySelectorAll(".btn-modal-fb-trigger").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const p = PRODUCTS_CONFIG[currentModalScentId] || PRODUCTS_CONFIG["first-class"];
+        openFacebookCta("product_modal", p.name);
+      });
+    });
+
+    backdrop.querySelectorAll(".btn-modal-copy-trigger").forEach(btn => {
+      btn.addEventListener("click", () => {
+        copyProductInfo(currentModalScentId);
+      });
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      const modal = document.getElementById("scent-detail-modal");
+      if (modal && modal.classList.contains("is-open")) closeScentModal();
+    }
+  });
+
+  document.addEventListener("click", (e) => {
+    const trigger = e.target.closest("[data-open-scent]");
+    if (trigger) {
+      e.preventDefault();
+      const scentId = trigger.getAttribute("data-open-scent");
+      openScentModal(scentId);
+    }
+  });
+}
         if (trigger) {
           e.preventDefault();
           const scentId = trigger.getAttribute("data-open-scent");
@@ -610,6 +671,52 @@ function initScentDetailModal() {
       const baseNotes = document.getElementById("detail-tier-base");
       if (baseNotes) baseNotes.textContent = p.baseNotes;
 
+      const detailAddCartBtn = document.getElementById("detail-add-cart-btn");
+      if (detailAddCartBtn) {
+        detailAddCartBtn.addEventListener("click", async () => {
+          try {
+            const sid = localStorage.getItem("scentpod_session_id") || "sess_default";
+            const res = await fetch("/api/cart/add", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "X-Session-Id": sid },
+              body: JSON.stringify({ sessionId: sid, productId: scentId, quantity: 1 })
+            });
+            const data = await res.json();
+            if (data.success) {
+              if (typeof window.gtag === "function") {
+                window.gtag("event", "add_to_cart", {
+                  items: [{
+                    item_id: p.id,
+                    item_name: p.name,
+                    price: 85000,
+                    currency: "VND",
+                    quantity: 1
+                  }]
+                });
+              }
+              if (window.ScentPodCart) {
+                window.ScentPodCart.refresh();
+                window.ScentPodCart.openDrawer();
+              }
+            }
+          } catch (err) {
+            console.warn("[Cart] Lỗi thêm vào giỏ từ trang chi tiết:", err);
+          }
+        });
+      }
+
+      // Ghi nhận sự kiện GA4: view_item khi xem trang chi tiết sản phẩm
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "view_item", {
+          items: [{
+            item_id: p.id,
+            item_name: p.name,
+            price: 85000,
+            currency: "VND"
+          }]
+        });
+      }
+
       const detailBuyFbBtn = document.getElementById("detail-buy-fb-btn");
       if (detailBuyFbBtn) {
         detailBuyFbBtn.addEventListener("click", () => {
@@ -624,3 +731,41 @@ function initScentDetailModal() {
         });
       }
     }
+
+    // Lắng nghe sự kiện click nút 'Thêm vào giỏ' toàn bộ các trang (data-add-cart)
+    document.addEventListener("click", async (e) => {
+      const addBtn = e.target.closest("[data-add-cart]");
+      if (addBtn) {
+        e.preventDefault();
+        const scentId = addBtn.getAttribute("data-add-cart");
+        const p = PRODUCTS_CONFIG[scentId] || { id: scentId, name: scentId };
+        try {
+          const sid = localStorage.getItem("scentpod_session_id") || "sess_default";
+          const res = await fetch("/api/cart/add", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "X-Session-Id": sid },
+            body: JSON.stringify({ sessionId: sid, productId: scentId, quantity: 1 })
+          });
+          const data = await res.json();
+          if (data.success) {
+            if (typeof window.gtag === "function") {
+              window.gtag("event", "add_to_cart", {
+                items: [{
+                  item_id: p.id,
+                  item_name: p.name,
+                  price: 85000,
+                  currency: "VND",
+                  quantity: 1
+                }]
+              });
+            }
+            if (window.ScentPodCart) {
+              window.ScentPodCart.refresh();
+              window.ScentPodCart.openDrawer();
+            }
+          }
+        } catch (err) {
+          console.warn("[Cart] Lỗi thêm vào giỏ từ card:", err);
+        }
+      }
+    });

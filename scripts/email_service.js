@@ -43,7 +43,7 @@ function formatVietnamTime(date = new Date()) {
 /**
  * Xây dựng nội dung email (Text & HTML)
  */
-function buildEmailContent({ requestId, sentAt, customer, items }) {
+function buildEmailContent({ requestId, sentAt, customer, items, totals }) {
   const formattedTime = formatVietnamTime(new Date(sentAt));
   const recipient = getRecipientEmail();
 
@@ -58,6 +58,13 @@ function buildEmailContent({ requestId, sentAt, customer, items }) {
     </tr>
   `).join('');
 
+  const totalQty = items.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal = totals?.subtotal ?? (totalQty * 85000);
+  const shippingFee = totals?.shippingFee ?? (totalQty >= 2 ? 15000 : 25000);
+  const grandTotal = totals?.grandTotal ?? (subtotal + shippingFee);
+
+  const paymentText = customer.paymentMethod === 'VIETQR' ? 'Chuyển khoản VietQR' : 'Thanh toán tiền mặt khi nhận hàng (COD)';
+
   const textBody = `
 ======================================================================
 THÔNG BÁO YÊU CẦU MUA HÀNG MỚI - SCENTPOD
@@ -69,12 +76,18 @@ Gửi tới email nhóm: ${recipient}
 THÔNG TIN KHÁCH HÀNG:
 - Họ và tên: ${customer.name}
 - Số điện thoại: ${customer.phone}
+- Địa chỉ nhận hàng: ${customer.address || '(Chưa cung cấp)'}
+- Phương thức thanh toán: ${paymentText}
 - Ghi chú của khách: ${customer.note || '(Không có ghi chú)'}
 
 DANH SÁCH MÙI NẾN VÀ SỐ LƯỢNG:
 ${itemsText}
 
-Tổng số lượng: ${items.reduce((sum, i) => sum + i.quantity, 0)} hũ nến 50g
+Tổng số lượng: ${totalQty} hũ nến 50g
+TÍNH TOÁN GIÁ DỰ KIẾN (SERVER SSOT):
+- Tiền nến: ${subtotal.toLocaleString('vi-VN')}đ
+- Phí vận chuyển: ${shippingFee.toLocaleString('vi-VN')}đ
+- Tổng thanh toán: ${grandTotal.toLocaleString('vi-VN')}đ
 ======================================================================
 Nhóm ScentPod vui lòng sớm liên hệ với khách hàng qua số điện thoại trên để xác nhận mùi hương và địa chỉ nhận hàng!
   `.trim();
@@ -112,6 +125,14 @@ Nhóm ScentPod vui lòng sớm liên hệ với khách hàng qua số điện th
         <td style="padding: 6px 0;"><a href="tel:${customer.phone}" style="color: #d4a762; text-decoration: none; font-weight: bold; font-size: 15px;">${customer.phone}</a></td>
       </tr>
       <tr>
+        <td style="padding: 6px 0; color: #a89a8c;">Địa chỉ nhận hàng:</td>
+        <td style="padding: 6px 0; color: #fff;">${customer.address || '<span style="color: #777;">(Chưa cung cấp)</span>'}</td>
+      </tr>
+      <tr>
+        <td style="padding: 6px 0; color: #a89a8c;">Phương thức:</td>
+        <td style="padding: 6px 0; color: #d4a762; font-weight: 500;">${paymentText}</td>
+      </tr>
+      <tr>
         <td style="padding: 6px 0; color: #a89a8c;">Ghi chú:</td>
         <td style="padding: 6px 0; color: #f5f0eb; font-style: italic;">${customer.note ? customer.note : '<span style="color: #777;">(Không có ghi chú)</span>'}</td>
       </tr>
@@ -120,7 +141,7 @@ Nhóm ScentPod vui lòng sớm liên hệ với khách hàng qua số điện th
     <h3 style="color: #fff; font-size: 16px; margin: 20px 0 10px 0; border-bottom: 1px solid #2a2420; padding-bottom: 6px;">
       🕯️ Mùi Nến &amp; Số Lượng Đã Chọn
     </h3>
-    <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px;">
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
       <thead>
         <tr style="background: rgba(255,255,255,0.03); text-align: left;">
           <th style="padding: 10px; border-bottom: 2px solid #d4a762; color: #d4a762; font-size: 13px;">Mùi Nến 50g</th>
@@ -132,6 +153,22 @@ Nhóm ScentPod vui lòng sớm liên hệ với khách hàng qua số điện th
         ${itemsHtml}
       </tbody>
     </table>
+
+    <!-- Bảng tổng hợp tiền theo server SSOT -->
+    <div style="background: rgba(255,255,255,0.02); border: 1px solid #2a2420; border-radius: 8px; padding: 14px 16px; margin-bottom: 24px; font-size: 14px;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: #a89a8c;">
+        <span>Tiền nến (${totalQty} hũ):</span>
+        <span style="color: #fff; font-weight: 600;">${subtotal.toLocaleString('vi-VN')}đ</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; margin-bottom: 8px; color: #a89a8c;">
+        <span>Phí vận chuyển:</span>
+        <span style="color: #d4a762; font-weight: 600;">${shippingFee.toLocaleString('vi-VN')}đ</span>
+      </div>
+      <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px dashed rgba(212,167,98,0.3); font-size: 15px; font-weight: bold; color: #d4a762;">
+        <span>Tổng thanh toán dự kiến:</span>
+        <span>${grandTotal.toLocaleString('vi-VN')}đ</span>
+      </div>
+    </div>
 
     <div style="background: #1a1614; border: 1px dashed rgba(212, 167, 98, 0.4); border-radius: 8px; padding: 14px; text-align: center; font-size: 13px; color: #d4a762; line-height: 1.5;">
       📞 <strong>Hành động tiếp theo:</strong> Nhóm ScentPod vui lòng gọi điện hoặc nhắn tin cho khách hàng qua số <strong>${customer.phone}</strong> để xác nhận đơn và địa chỉ giao nến!
@@ -157,7 +194,7 @@ Nhóm ScentPod vui lòng sớm liên hệ với khách hàng qua số điện th
  * @param {Array} options.items Danh sách { name, subName, quantity, ... }
  * @returns {Promise<{ success: boolean, messageId?: string, error?: string }>}
  */
-async function sendPurchaseRequestNotification({ requestId, sentAt, customer, items }) {
+async function sendPurchaseRequestNotification({ requestId, sentAt, customer, items, totals }) {
   // 1. Kiểm tra cờ mô phỏng lỗi (phục vụ kiểm thử lỗi gửi mail theo yêu cầu 7)
   if (process.env.SIMULATE_EMAIL_ERROR === 'true') {
     throw new Error('Dịch vụ gửi email tạm thời gián đoạn (Simulated Email Service Error).');
@@ -165,7 +202,7 @@ async function sendPurchaseRequestNotification({ requestId, sentAt, customer, it
 
   const recipient = getRecipientEmail();
   const subject = `[ScentPod] Yêu cầu mua hàng mới: #${requestId} - ${customer.name} (${customer.phone})`;
-  const { textBody, htmlBody } = buildEmailContent({ requestId, sentAt, customer, items });
+  const { textBody, htmlBody } = buildEmailContent({ requestId, sentAt, customer, items, totals });
 
   // 2. Kiểm tra nếu có API key của Resend
   const resendApiKey = process.env.RESEND_API_KEY || process.env.EMAIL_SERVICE_API_KEY;
@@ -201,6 +238,7 @@ async function sendPurchaseRequestNotification({ requestId, sentAt, customer, it
   console.log(`- Tiêu đề: ${subject}`);
   console.log(`- Mã yêu cầu: #${requestId}`);
   console.log(`- Khách hàng: ${customer.name} | SĐT: ${customer.phone}`);
+  console.log(`- Địa chỉ: ${customer.address || '(Chưa cung cấp)'} | Phương thức: ${customer.paymentMethod || 'COD'}`);
   console.log(`- Số loại nến: ${items.length} (Tổng ${items.reduce((s, i) => s + i.quantity, 0)} hũ)`);
   console.log('='.repeat(70) + '\n');
 
