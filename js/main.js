@@ -619,15 +619,8 @@ function initScentDetailModal() {
     }
   });
 }
-        if (trigger) {
-          e.preventDefault();
-          const scentId = trigger.getAttribute("data-open-scent");
-          openScentModal(scentId);
-        }
-      });
-    }
 
-    function initProductDetailPage() {
+function initProductDetailPage() {
       const isDetailPage = document.querySelector(".product-detail-page");
       if (!isDetailPage) return;
 

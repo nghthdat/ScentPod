@@ -41,11 +41,15 @@ function getOrCreateSession(sessionId) {
       createdAt: Date.now(),
       lastActive: Date.now(),
       cart: [],
-      history: []
+      history: [],
+      lastRecommendedProductId: null
     });
   }
   const session = sessionsStore.get(sessionId);
   session.lastActive = Date.now();
+  if (session.lastRecommendedProductId === undefined) {
+    session.lastRecommendedProductId = null;
+  }
   return session;
 }
 
@@ -56,16 +60,26 @@ function parseUserIntent(message) {
   const text = (message || '').toLowerCase();
 
   // 1. Phân tích ngân sách (Budget)
+  // Xử lý chuẩn xác cả 90.000đ, 90.000, 90,000, 90k, 90 nghìn, 90 ngàn, 90000đ
   let maxBudget = null;
-  const budgetMatch1 = text.match(/(?:ngân sách|tầm|dưới|khoảng|giá|tối đa|tầm giá)\s*[:=]?\s*(\d+)(k|000|\.000)?/);
-  const budgetMatch2 = text.match(/(\d+)\s*(?:k|nghìn|ngàn|vnd|đ|đồng)/);
-  if (budgetMatch1) {
-    let num = parseInt(budgetMatch1[1], 10);
-    const unit = budgetMatch1[2];
-    if (unit === 'k' || (!unit && num < 1000)) num *= 1000;
+  const budgetDotMatch = text.match(/(\d+)[.,](\d{3})\s*(?:k|nghìn|ngàn|vnd|vnđ|đ|đồng)?/);
+  const budgetSuffixMatch = text.match(/(\d+)\s*(?:k|nghìn|ngàn)\b/);
+  const budgetPrefixMatch = text.match(/(?:ngân sách|tầm|dưới|khoảng|giá|tối đa|tầm giá)\s*[:=]?\s*(\d+)(?:\s*(k|nghìn|ngàn|000|\.000|đ|vnd|vnđ|đồng))?/);
+  const budgetCurrencyMatch = text.match(/(\d+)\s*(?:vnd|vnđ|đ|đồng)\b/);
+
+  if (budgetDotMatch) {
+    maxBudget = parseInt(budgetDotMatch[1] + budgetDotMatch[2], 10);
+  } else if (budgetSuffixMatch) {
+    maxBudget = parseInt(budgetSuffixMatch[1], 10) * 1000;
+  } else if (budgetPrefixMatch) {
+    let num = parseInt(budgetPrefixMatch[1], 10);
+    const unit = budgetPrefixMatch[2];
+    if (unit === 'k' || unit === 'nghìn' || unit === 'ngàn' || (!unit && num < 1000)) {
+      num *= 1000;
+    }
     maxBudget = num;
-  } else if (budgetMatch2) {
-    let num = parseInt(budgetMatch2[1], 10);
+  } else if (budgetCurrencyMatch) {
+    let num = parseInt(budgetCurrencyMatch[1], 10);
     if (num < 1000) num *= 1000;
     maxBudget = num;
   }
@@ -273,6 +287,99 @@ function validateAndEnforceProducts(candidateProducts, overrideCatalog = null) {
 // 3. BỘ MÁY TẠO PHẢN HỒI (AI ADVISOR GENERATOR + FALLBACK AN TOÀN)
 // ------------------------------------------------------------------------------
 async function generateAdvisorResponse({ message, sessionId, history }) {
+  const session = getOrCreateSession(sessionId);
+  const text = (message || '').trim().toLowerCase();
+  const catalog = loadCatalog();
+  const products = catalog.products || [];
+
+  // A. LỆNH THÊM HÀNG BẰNG VĂN BẢN (Text-based Add to Cart)
+  const isQuestion = /(?:có\s+.*(?:không|\?)|như thế nào|bao nhiêu|sao|chăng)/i.test(text);
+  const isAdvice = /(?:tư vấn|gợi ý|hỏi|tìm|chọn)\b/i.test(text) && !/vào giỏ|vô giỏ|giỏ hàng/i.test(text);
+  const isAddToCartCmd = !isQuestion && !isAdvice && (
+    /(?:thêm|cho|bỏ)\s+(?:vào\s+|vô\s+)?giỏ/i.test(text) ||
+    /(?:thêm|cho|bỏ)\s+.*(?:vào\s+giỏ|vô\s+giỏ|giỏ\s+hàng)/i.test(text) ||
+    /(?:đặt|mua|lấy|chốt)\s+(\d+)\s*(?:hũ|cái|cốc)/i.test(text) ||
+    /(?:mua|lấy|chốt|đặt)\s+(?:hũ|mùi|em)\s+này/i.test(text) ||
+    /(?:thêm|cho)\s+(\d+)\s*(?:hũ|cái|cốc)\b/i.test(text)
+  );
+  if (isAddToCartCmd) {
+    const qtyMatch = text.match(/(\d+)\s*(?:hũ|cái|cốc|ly)?/);
+    const qty = qtyMatch ? Math.max(1, parseInt(qtyMatch[1], 10)) : 1;
+
+    // Xác định mùi hương từ câu lệnh hoặc từ mùi vừa được tư vấn
+    let targetProduct = null;
+    if (/first|sunday|chanh|bạc hà|mùi 0?1\b/.test(text)) {
+      targetProduct = products.find(p => p.id === 'first-class');
+    } else if (/blind|date|hồng|xạ hương|mùi 0?2\b/.test(text)) {
+      targetProduct = products.find(p => p.id === 'blind-date');
+    } else if (/campus|breeze|muối biển|xô thơm|lily|mùi 0?3\b/.test(text)) {
+      targetProduct = products.find(p => p.id === 'campus-breeze');
+    } else if (/late|night|cà phê|cafe|gỗ|mùi 0?4\b/.test(text)) {
+      targetProduct = products.find(p => p.id === 'late-night');
+    } else if (session.lastRecommendedProductId) {
+      targetProduct = products.find(p => p.id === session.lastRecommendedProductId);
+    }
+
+    if (targetProduct) {
+      const addRes = addToCart(sessionId, targetProduct.id, qty);
+      if (addRes.success) {
+        session.lastRecommendedProductId = targetProduct.id;
+        const currentCart = getCart(sessionId);
+        const verifiedProduct = validateAndEnforceProducts([targetProduct]);
+        const shippingNote = currentCart.totalQuantity >= 2
+          ? ' 🚚 Đã áp dụng ưu đãi **Ship 15.000đ toàn quốc**!'
+          : ' 💡 Gợi ý: Khi mua từ 2 hũ nến, bạn sẽ nhận được ưu đãi **Ship chỉ 15.000đ toàn quốc**!';
+
+        return {
+          sessionId,
+          reply: `Dạ mình đã thêm **${qty} hũ ${targetProduct.displayName || targetProduct.name}** vào giỏ hàng của bạn rồi nhé! Hiện giỏ hàng của bạn có **${currentCart.totalQuantity} hũ nến** (Tạm tính: **${currentCart.subtotalFormatted}**).${shippingNote} Bạn có thể bấm vào biểu tượng giỏ hàng để tiến hành gửi yêu cầu mua hàng nhé!`,
+          suggestedProducts: verifiedProduct,
+          cartUpdated: true,
+          cart: currentCart
+        };
+      } else {
+        return {
+          sessionId,
+          reply: `Rất tiếc: ${addRes.error || 'Chưa thể thêm vào giỏ hàng.'}`,
+          suggestedProducts: validateAndEnforceProducts([targetProduct])
+        };
+      }
+    } else {
+      return {
+        sessionId,
+        reply: `Dạ bạn muốn thêm mùi nến nào vào giỏ ạ? ScentPod hiện có 4 mùi: **Another Sunday** (Chanh đào bạc hà), **Beloved Summer** (Hoa hồng xạ hương), **Tidal Bloom** (Muối biển xô thơm) và **Coffee Holic** (Cà phê gỗ). Bạn nhắn tên mùi hoặc bấm **Thêm vào giỏ** ngay trên thẻ sản phẩm bên dưới nhé!`,
+        suggestedProducts: validateAndEnforceProducts(products)
+      };
+    }
+  }
+
+  // B. CÂU HỎI NỐI TIẾP BÁM SÁT MÙI VỪA TƯ VẤN (Contextual Memory)
+  const isFollowUp = /(?:mùi này|hũ này|mùi đó|hũ đó|nến này|nến đó|dòng này|sản phẩm này|em này|hũ vừa rồi|mùi vừa tư vấn|dùng khi nào|thời điểm|đốt được bao lâu|cháy được bao lâu|thành phần|tầng hương|có ngọt không|độ tỏa|không gian nào|hợp phòng nào|bao nhiêu tiền|giá bao nhiêu)/i.test(text);
+  if (isFollowUp && session.lastRecommendedProductId) {
+    const lastProduct = products.find(p => p.id === session.lastRecommendedProductId);
+    if (lastProduct) {
+      let followUpReply = '';
+      if (/dùng khi nào|thời điểm|lúc nào|khi học|phòng nào|không gian/.test(text)) {
+        followUpReply = `Hũ **${lastProduct.displayName || lastProduct.name}** (${lastProduct.labelNotes}) rất thích hợp dùng vào: **${(lastProduct.suitableTime || []).join(', ')}**. Đặc biệt phù hợp cho không gian: **${(lastProduct.suitableSpace || []).join(', ')}**. ${lastProduct.vibe || ''}`;
+      } else if (/đốt được bao lâu|cháy được bao lâu|bao lâu|khối lượng|size|nặng/.test(text)) {
+        followUpReply = `Hũ nến 50g của dòng **${lastProduct.displayName || lastProduct.name}** được đúc thủ công từ 100% sáp đậu nành thiên nhiên, thời gian đốt liên tục khoảng **12 – 15 giờ**. Mỗi lần thắp bạn nên để sáp tan chảy đều đến mép hũ (1–2 giờ) để nến tỏa hương tốt nhất và không bị lõm mặt nến nhé!`;
+      } else if (/có ngọt không|mùi gì|tầng hương|thành phần|nốt hương/.test(text)) {
+        followUpReply = `Hũ **${lastProduct.displayName || lastProduct.name}** thuộc nhóm hương **${lastProduct.scentGroupLabel || lastProduct.category}** với độ đậm mùi **${lastProduct.intensityLabel}**. Nốt hương: Top: ${lastProduct.topNotes}; Heart: ${lastProduct.heartNotes}; Base: ${lastProduct.baseNotes}. ${lastProduct.vibe || ''}`;
+      } else if (/bao nhiêu|giá|tiền/.test(text)) {
+        followUpReply = `Hũ **${lastProduct.displayName || lastProduct.name}** đang có giá ưu đãi HSSV **${lastProduct.price.toLocaleString('vi-VN')}đ/hũ** (giá gốc 95.000đ). Mỗi hũ đều được tặng kèm que diêm dài chuyên dụng và thiệp hướng dẫn. Khi mua từ 2 hũ nến, bạn được áp dụng **Ship 15.000đ toàn quốc**!`;
+      } else {
+        followUpReply = `Về hũ **${lastProduct.displayName || lastProduct.name}** (${lastProduct.labelNotes}): ${lastProduct.shortDesc} Nến được đúc từ sáp đậu nành thiên nhiên, an toàn và sạch khói. Bạn có thể bấm **Xem chi tiết** hoặc nhắn tin để mình hỗ trợ thêm nhé!`;
+      }
+
+      return {
+        sessionId,
+        reply: followUpReply,
+        suggestedProducts: validateAndEnforceProducts([lastProduct])
+      };
+    }
+  }
+
+  // C. TÌM KIẾM THEO INTENT & DANH MỤC
   const intent = parseUserIntent(message);
   const searchResult = searchCatalog(intent);
 
@@ -299,6 +406,11 @@ async function generateAdvisorResponse({ message, sessionId, history }) {
   // 3. Kiểm tra sản phẩm hết hàng
   const candidateMatches = searchResult.matches || [];
   const verifiedProducts = validateAndEnforceProducts(candidateMatches);
+
+  // Lưu sản phẩm tư vấn đầu tiên vào session memory
+  if (verifiedProducts.length > 0) {
+    session.lastRecommendedProductId = verifiedProducts[0].id;
+  }
 
   // Tạo lời thoại tư vấn chuyên nghiệp tiếng Việt
   let advisorSpeech = '';

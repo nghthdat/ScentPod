@@ -22,7 +22,8 @@ const {
   addToCart,
   updateCart,
   clearCart,
-  checkout
+  checkout,
+  submitPurchaseRequest
 } = require('./ai_shopping_assistant');
 
 let passedTests = 0;
@@ -60,12 +61,42 @@ async function main() {
   // ----------------------------------------------------------------------------
   // TEST 1: GỢI Ý ĐÚNG NGÂN SÁCH
   // ----------------------------------------------------------------------------
-  console.log('▶ NHÓM 1: KIỂM THỬ GỢI Ý ĐÚNG NGÂN SÁCH');
+  console.log('▶ NHÓM 1: KIỂM THỬ GỢI Ý ĐÚNG NGÂN SÁCH & PARSING 90.000đ VS 90k');
 
   runTest('Phân tích đúng ngân sách dưới 100k và không gian bàn học', () => {
     const intent = parseUserIntent('Mình muốn tìm nến thơm để bàn học tập trung, ngân sách tầm dưới 100k');
     assert.strictEqual(intent.maxBudget, 100000);
     assert.strictEqual(intent.spaceKeywords.includes('bàn học'), true);
+  });
+
+  runTest('Đồng nhất giá trị ngân sách giữa 90.000đ và 90k (đều là 90.000 VND)', () => {
+    const intentA = parseUserIntent('Tư vấn cho mình hũ nến tầm 90.000đ');
+    const intentB = parseUserIntent('Tư vấn cho mình hũ nến tầm 90k');
+    const intentC = parseUserIntent('Ngân sách 90 nghìn');
+    const intentD = parseUserIntent('90.000đ');
+
+    assert.strictEqual(intentA.maxBudget, 90000);
+    assert.strictEqual(intentB.maxBudget, 90000);
+    assert.strictEqual(intentC.maxBudget, 90000);
+    assert.strictEqual(intentD.maxBudget, 90000);
+  });
+
+  await runAsyncTest('Ngân sách 90.000đ và 90k đều gợi ý được nến 85.000đ (không bị báo budget quá thấp)', async () => {
+    const resA = await generateAdvisorResponse({
+      message: 'Ngân sách của mình là 90.000đ',
+      sessionId: 'test_budget_90k_dot'
+    });
+    const resB = await generateAdvisorResponse({
+      message: 'Ngân sách của mình là 90k',
+      sessionId: 'test_budget_90k_word'
+    });
+
+    assert.strictEqual(resA.suggestedProducts.length > 0, true);
+    assert.strictEqual(resB.suggestedProducts.length > 0, true);
+    assert.strictEqual(resA.suggestedProducts[0].price, 85000);
+    assert.strictEqual(resB.suggestedProducts[0].price, 85000);
+    assert.strictEqual(resA.reply.includes('budget_too_low'), false);
+    assert.strictEqual(resB.reply.includes('budget_too_low'), false);
   });
 
   await runAsyncTest('Gợi ý sản phẩm Another Sunday vừa vặn ngân sách 100k (giá 85.000đ)', async () => {
@@ -168,6 +199,117 @@ async function main() {
     assert.strictEqual(cart.subtotal, 170000); // 85.000 x 2
     assert.strictEqual(cart.shippingFee, 15000); // Đạt mốc ship 15k!
     assert.strictEqual(cart.grandTotal, 185000);
+  });
+
+  runTest('Tăng số lượng từ 1 lên 2 hũ: Tiền nến 170.000đ, phí ship 15.000đ, tổng 185.000đ', () => {
+    const sessionChain = 'session_chain_' + Date.now();
+    clearCart(sessionChain);
+
+    // Bước 1: Thêm 1 hũ ban đầu
+    addToCart(sessionChain, 'first-class', 1);
+    let cart = getCart(sessionChain);
+    assert.strictEqual(cart.totalQuantity, 1);
+    assert.strictEqual(cart.subtotal, 85000);
+    assert.strictEqual(cart.shippingFee, 25000);
+    assert.strictEqual(cart.grandTotal, 110000);
+
+    // Bước 2: Tăng số lượng lên 2 hũ bằng updateCart
+    updateCart(sessionChain, 'first-class', 2);
+    cart = getCart(sessionChain);
+    assert.strictEqual(cart.totalQuantity, 2);
+    assert.strictEqual(cart.subtotal, 170000);
+    assert.strictEqual(cart.shippingFee, 15000);
+    assert.strictEqual(cart.grandTotal, 185000);
+  });
+
+  await runAsyncTest('Chatbot nhận lệnh thêm hàng bằng văn bản (Text-based Add to Cart) và cập nhật giỏ hàng', async () => {
+    const sessionTextCart = 'session_text_cart_' + Date.now();
+    clearCart(sessionTextCart);
+
+    // Chatbot tư vấn trước một mùi để ghi nhớ ngữ cảnh
+    await generateAdvisorResponse({
+      message: 'Tư vấn cho mình nến để bàn học',
+      sessionId: sessionTextCart
+    });
+
+    // Khách nhắn lệnh thêm hàng bằng văn bản
+    const resAdd = await generateAdvisorResponse({
+      message: 'Thêm vào giỏ 1 hũ',
+      sessionId: sessionTextCart
+    });
+
+    assert.strictEqual(resAdd.cartUpdated, true);
+    assert.strictEqual(resAdd.cart.totalQuantity, 1);
+    assert.strictEqual(resAdd.cart.subtotal, 85000);
+    assert.strictEqual(resAdd.cart.grandTotal, 110000);
+    assert.strictEqual(resAdd.reply.includes('Đã thêm') || resAdd.reply.includes('đã thêm'), true);
+
+    // Thêm tiếp 1 hũ nữa bằng lệnh văn bản chỉ định tên
+    const resAdd2 = await generateAdvisorResponse({
+      message: 'Cho vào giỏ 1 hũ cà phê gỗ',
+      sessionId: sessionTextCart
+    });
+
+    assert.strictEqual(resAdd2.cartUpdated, true);
+    assert.strictEqual(resAdd2.cart.totalQuantity, 2);
+    assert.strictEqual(resAdd2.cart.subtotal, 170000);
+    assert.strictEqual(resAdd2.cart.shippingFee, 15000);
+    assert.strictEqual(resAdd2.cart.grandTotal, 185000);
+  });
+
+  await runAsyncTest('Câu hỏi nối tiếp bám sát đúng mùi vừa được tư vấn (Contextual Memory)', async () => {
+    const sessionMemory = 'session_memory_' + Date.now();
+
+    // Lần 1: Tư vấn mùi hoa hồng (Beloved Summer)
+    const turn1 = await generateAdvisorResponse({
+      message: 'Mình thích mùi hoa hồng ngọt ngào cho phòng ngủ',
+      sessionId: sessionMemory
+    });
+    assert.strictEqual(turn1.suggestedProducts[0].id, 'blind-date');
+
+    // Lần 2: Khách hỏi câu nối tiếp: "mùi này dùng khi nào?"
+    const turn2 = await generateAdvisorResponse({
+      message: 'Mùi này dùng khi nào vậy shop?',
+      sessionId: sessionMemory
+    });
+    assert.strictEqual(turn2.suggestedProducts[0].id, 'blind-date');
+    assert.strictEqual(turn2.reply.includes('Beloved Summer'), true);
+    assert.strictEqual(turn2.reply.includes('Buổi tối') || turn2.reply.includes('nghỉ ngơi') || turn2.reply.includes('Phòng ngủ'), true);
+
+    // Lần 3: Khách hỏi câu nối tiếp về thời gian đốt: "đốt được bao lâu?"
+    const turn3 = await generateAdvisorResponse({
+      message: 'Hũ này đốt được bao lâu?',
+      sessionId: sessionMemory
+    });
+    assert.strictEqual(turn3.suggestedProducts[0].id, 'blind-date');
+    assert.strictEqual(turn3.reply.includes('12 – 15 giờ') || turn3.reply.includes('12 - 15 giờ'), true);
+  });
+
+  await runAsyncTest('Gửi yêu cầu mua hàng (submitPurchaseRequest) với 2 hũ nến: tổng 185.000đ & gửi email thành công', async () => {
+    const sessionReq = 'session_submit_req_' + Date.now();
+    clearCart(sessionReq);
+
+    addToCart(sessionReq, 'first-class', 1);
+    addToCart(sessionReq, 'campus-breeze', 1);
+
+    const submitRes = await submitPurchaseRequest(sessionReq, {
+      name: 'Nguyễn Văn Minh',
+      phone: '0912345678',
+      address: 'Phòng 402 KTX ĐHQG, Dĩ An, Bình Dương',
+      paymentMethod: 'COD',
+      note: 'Giao giờ hành chính'
+    });
+
+    assert.strictEqual(submitRes.success, true);
+    assert.strictEqual(submitRes.subtotal, 170000);
+    assert.strictEqual(submitRes.shippingFee, 15000);
+    assert.strictEqual(submitRes.grandTotal, 185000);
+    assert.strictEqual(submitRes.itemCount, 2);
+    assert.strictEqual(submitRes.requestId.startsWith('REQ-'), true);
+
+    // Giỏ hàng sau khi gửi thành công phải được xóa
+    const cartAfter = getCart(sessionReq);
+    assert.strictEqual(cartAfter.items.length, 0);
   });
 
   runTest('Cách ly giỏ hàng hoàn toàn giữa 2 người dùng khác Session ID', () => {

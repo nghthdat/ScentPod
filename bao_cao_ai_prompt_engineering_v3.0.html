@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Báo Cáo Nghiên Cứu Kỹ Thuật AI Prompt Engineering & AI Skills - ScentPod v3.0</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --accent: #b45309;
+      --bg: #ffffff;
+      --text: #1f2937;
+      --text-muted: #4b5563;
+      --border: #e5e7eb;
+      --code-bg: #f3f4f6;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      background: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .top-actions {
+      position: sticky;
+      top: 0;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+    .top-actions .title {
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 14px;
+    }
+    .btn-print {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+    }
+    .btn-print:hover {
+      background: #1d4ed8;
+    }
+    .document-page {
+      max-width: 900px;
+      margin: 24px auto;
+      background: #ffffff;
+      padding: 48px 56px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    h1 {
+      font-size: 26px;
+      color: #0f172a;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-top: 0;
+      line-height: 1.3;
+    }
+    h2 {
+      font-size: 20px;
+      color: var(--primary);
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+      margin-top: 36px;
+      margin-bottom: 16px;
+    }
+    h3 {
+      font-size: 16.5px;
+      color: #334155;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+    h4 {
+      font-size: 15px;
+      color: #475569;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+    p {
+      margin: 0 0 14px 0;
+    }
+    ul, ol {
+      margin: 0 0 16px 0;
+      padding-left: 24px;
+    }
+    li {
+      margin-bottom: 6px;
+    }
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin: 20px 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      text-align: left;
+    }
+    th {
+      background: #f8fafc;
+      color: #0f172a;
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: top;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background: #fdfdfd;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+      margin: 18px 0;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      background: var(--code-bg);
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+    .alert {
+      padding: 12px 16px;
+      border-left: 4px solid #3b82f6;
+      background: #eff6ff;
+      border-radius: 0 6px 6px 0;
+      margin: 16px 0;
+      font-size: 14px;
+    }
+    .alert-important {
+      border-left-color: #ef4444;
+      background: #fef2f2;
+    }
+    .alert-warning {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+    .alert-note {
+      border-left-color: #3b82f6;
+      background: #eff6ff;
+    }
+    .alert-tip {
+      border-left-color: #10b981;
+      background: #ecfdf5;
+    }
+    @media print {
+      body {
+        background: #ffffff;
+        font-size: 11pt;
+      }
+      .top-actions {
+        display: none;
+      }
+      .document-page {
+        box-shadow: none;
+        border: none;
+        padding: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+      h1, h2, h3 {
+        page-break-after: avoid;
+      }
+      tr, pre, .alert {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="top-actions">
+    <div class="title">📄 BÁO CÁO HỌC THUẬT SCENTPOD - PHIÊN BẢN 3.0</div>
+    <div style="display: flex; gap: 10px;">
+      <button type="button" class="btn-print" onclick="window.print()">🖨️ In / Lưu ra PDF (Cmd + P)</button>
+    </div>
+  </div>
+
+  <main class="document-page">
+    <h1>BÁO CÁO HỌC THUẬT CHUYÊN SÂU (PHIÊN BẢN 3.0): NGHIÊN CỨU VÀ ỨNG DỤNG AI PROMPT ENGINEERING, AI SKILLS VÀ HỆ THỐNG TRỢ LÝ THÔNG MINH TRONG NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ SCENTPOD</h1>
+<ul>
+<li><strong>Đơn vị thực hiện</strong>: Nhóm Dự án ScentPod</li>
+<li><strong>Môn học</strong>: Phát triển Hệ thống Thương mại Điện tử / Ứng dụng Trí tuệ Nhân tạo</li>
+<li><strong>Phiên bản tài liệu</strong>: 3.0 (Rigorous Academic Edition - Chuẩn hóa Thực nghiệm &amp; Phân định Khái niệm)</li>
+<li><strong>Thời điểm thẩm định &amp; kiểm thử thực nghiệm</strong>: 23/11/2026</li>
+<li><strong>Cơ sở dữ liệu đối soát</strong>: Toàn bộ mã nguồn, dữ liệu danh mục JSON, kịch bản kiểm thử hồi quy 18 ca, dữ liệu benchmark 150 mẫu đo đạc và nhật ký phiên làm việc (Transcript Logs) trong Google Antigravity.</li>
+</ul>
+<p>---</p>
+<h2>MỤC LỤC TỔNG QUAN</h2>
+<p>1. <a href="#1-lời-nói-đầu--tuyên-bố-liêm-chính-học-thuật" target="_blank">Lời Nói Đầu &amp; Tuyên Bố Liêm Chính Học Thuật</a></p>
+<p>2. <a href="#2-bảng-đính-chính-học-thuật--chuẩn-hóa-thuật-ngữ-correction-matrix-30" target="_blank">Bảng Đính Chính Học Thuật &amp; Chuẩn Hóa Thuật Ngữ (Correction Matrix 3.0)</a></p>
+<p>3. <a href="#3-giai-đoạn-1-kiểm-tra-toàn-diện-mã-nguồn--ma-trận-thành-phần-hệ-thống" target="_blank">Giai Đoạn 1: Kiểm Tra Toàn Diện Mã Nguồn &amp; Ma Trận Thành Phần Hệ Thống</a></p>
+<p>4. <a href="#4-giai-đoạn-2-phân-tích-kỹ-nghệ-prompt-prompt-engineering--phân-định-ranh-giới-kỹ-thuật" target="_blank">Giai Đoạn 2: Phân Tích Kỹ Nghệ Prompt (Prompt Engineering) &amp; Phân Định Ranh Giới Kỹ Thuật</a></p>
+<ul>
+<li>4.1. Bảng tổng hợp Prompt gốc trích xuất từ Nhật ký Antigravity</li>
+<li>4.2. Bảng các Prompt tái dựng có cấu trúc từ Lịch sử Git Commit</li>
+<li>4.3. Phân định ranh giới học thuật: Prompt Engineering vs. Thuật toán Mã nguồn</li>
+<li>4.4. Phân loại và đánh giá các Kỹ thuật Prompt Engineering thực tế</li>
+</ul>
+<p>5. <a href="#5-giai-đoạn-3-phân-tích-chuyên-sâu-14-ai-skills-với-hiện-trạng-triển-khai-thực-tế" target="_blank">Giai Đoạn 3: Phân Tích Chuyên Sâu 14 AI Skills Với Hiện Trạng Triển Khai Thực Tế</a></p>
+<p>6. <a href="#6-giai-đoạn-4-phân-tích-các-thực-thể-ai-agent-và-hệ-thống-tự-động-hóa" target="_blank">Giai Đoạn 4: Phân Tích Các Thực Thể AI Agent Và Hệ Thống Tự Động Hóa</a></p>
+<ul>
+<li>6.1. Trợ lý đàm thoại mua hàng (ScentPod Conversational Shopping Assistant)</li>
+<li>6.2. Luồng tự động hóa trắc nghiệm (n8n Quiz Workflow Automation)</li>
+<li>6.3. Phân định bản chất Bộ kiểm thử hồi quy tự động (Automated Test Harness)</li>
+</ul>
+<p>7. <a href="#7-giai-đoạn-5-bảng-biểu-kiến-trúc-và-đối-chiếu-mã-nguồn" target="_blank">Giai Đoạn 5: Bảng Biểu Kiến Trúc Và Đối Chiếu Mã Nguồn</a></p>
+<ul>
+<li>Bảng 1: Danh sách file liên quan đến AI &amp; Tự động hóa</li>
+<li>Bảng 2: Các hàm và chức năng quan trọng</li>
+<li>Bảng 3: Các API Endpoint và phương thức HTTP</li>
+<li>Bảng 4: Ma trận ánh xạ 14 AI Skills theo file mã nguồn và trạng thái thực tế</li>
+<li>Bảng 5: Bảng phân biệt bản chất AI Agent vs. Workflow Automation vs. Test Harness</li>
+<li>Bảng 6: Tech stack, Frameworks, SDKs và vai trò</li>
+<li>Bảng 7: Phân định chi tiết Dịch vụ Thực tế vs. Dịch vụ Mock trong kiểm thử</li>
+</ul>
+<p>8. <a href="#8-giai-đoạn-6-sơ-đồ-kiến-trúc-hệ-thống-luồng-dữ-liệu--danh-mục-minh-chứng-trực-quan" target="_blank">Giai Đoạn 6: Sơ Đồ Kiến Trúc Hệ Thống, Luồng Dữ Liệu &amp; Danh Mục Minh Chứng Trực Quan</a></p>
+<ul>
+<li>8.1. Sơ đồ kiến trúc tổng thể website</li>
+<li>8.2. Sơ đồ kiến trúc AI thực tế (Client - Server - Local Engine / Adapter - SSOT)</li>
+<li>8.3. Sơ đồ luồng phân loại ý định và điều phối công cụ (Intent-to-Tool Dispatching)</li>
+<li>8.4. Sơ đồ kiểm soát an toàn dữ liệu 2 tầng (Two-tier Guardrails)</li>
+<li>8.5. Sơ đồ luồng gửi Yêu cầu mua hàng và thông báo Email</li>
+<li>8.6. Sơ đồ tích hợp Webhook n8n Cloud</li>
+<li>8.7. Danh mục và phân tích hình ảnh minh chứng thực tế từ hệ thống</li>
+</ul>
+<p>9. <a href="#9-giai-đoạn-7-kiểm-thử-thực-nghiệm-khoa-học-phân-cấp-test-suite--benchmark-độ-trễ" target="_blank">Giai Đoạn 7: Kiểm Thử Thực Nghiệm Khoa Học, Phân Cấp Test Suite &amp; Benchmark Độ Trễ</a></p>
+<ul>
+<li>9.1. Kết quả thực thi bộ kiểm thử tự động (18/18 Tests PASS)</li>
+<li>9.2. Phân loại 3 cấp độ kiểm thử: Unit Test, Integration Test và E2E Test</li>
+<li>9.3. Benchmark thống kê 30 lần chạy/kịch bản (Mean, Median, p95, p99)</li>
+<li>9.4. Đánh giá tính chính xác dữ liệu và giải trừ nguy cơ ảo giác (Hallucination)</li>
+<li>9.5. Bảo mật dữ liệu cá nhân (PII) và kiểm soát gửi lặp (Concurrency Lock)</li>
+</ul>
+<p>10. <a href="#10-giai-đoạn-8-kịch-bản-thuyết-trình-bảo-vệ-57-phút--bộ-câu-hỏi-phản-biện-chuyên-sâu" target="_blank">Giai Đoạn 8: Kịch Bản Thuyết Trình Bảo Vệ (5–7 Phút) &amp; Bộ Câu Hỏi Phản Biện Chuyên Sâu</a></p>
+<p>11. <a href="#11-danh-mục-tài-liệu-tham-khảo" target="_blank">Danh Mục Tài Liệu Tham Khảo</a></p>
+<p>---</p>
+<h2>1. LỜI NÓI ĐẦU &amp; TUYÊN BỐ LIÊM CHÍNH HỌC THUẬT</h2>
+<p>Báo cáo phiên bản 3.0 này được hoàn thiện nhằm đáp ứng các tiêu chuẩn khắt khe nhất về tính chính xác học thuật và thực nghiệm trong nghiên cứu khoa học đại học. </p>
+<p>Nhóm tác giả cam kết tuân thủ 4 nguyên tắc liêm chính học thuật cốt lõi:</p>
+<p>1. <strong>Phân định rạch ròi khái niệm kỹ thuật</strong>: Phân biệt tường minh giữa kỹ thuật Kỹ nghệ Prompt (Prompt Engineering) với thuật toán mã nguồn thủ tục (Procedural JavaScript Code); phân biệt giữa cơ chế gọi hàm tiền định (Intent Dispatching) với Function Calling Prompting của mô hình ngôn ngữ lớn (LLM); phân biệt giữa bộ kiểm thử phần mềm (Test Harness) với Tác nhân tự chủ (Autonomous AI Agent).</p>
+<p>2. <strong>Không lạm dụng thuật ngữ thương mại</strong>: Thay vì sử dụng nhãn &quot;Production-ready&quot; một cách chủ quan chỉ dựa trên việc chạy pass các unit test, báo cáo phân loại trạng thái thành: <strong>Đã triển khai cục bộ (Implemented Locally / Active)</strong>, <strong>Triển khai một phần / Lai (Partially Implemented / Hybrid)</strong>, <strong>Tích hợp bên ngoài (External Service Integration)</strong>, <strong>Đặc tả kiến trúc đề xuất (Proposed Blueprint)</strong>, và <strong>Chưa triển khai (Not Implemented)</strong>.</p>
+<p>3. <strong>Thực nghiệm thống kê đúng phương pháp</strong>: Dữ liệu hiệu năng không đo đạc một lần đơn lẻ mà được thực hiện qua <strong>150 lượt chạy (30 lần cho mỗi kịch bản truy vấn)</strong> để tính toán các đại lượng thống kê: Trung bình (Mean), Trung vị (Median / p50), Phân vị 95 (p95) và Phân vị 99 (p99). Báo cáo tuyệt đối không so sánh khập khiễng với các API đám mây nếu không có số liệu đo đạc song song trong cùng điều kiện.</p>
+<p>4. <strong>Minh chứng xác thực 100%</strong>: Sử dụng ảnh chụp màn hình thực tế từ giao diện hệ thống đang chạy, log kiểm thử trực tiếp và dữ liệu xuất từ mã nguồn; không sử dụng hình ảnh minh họa giả mạo hoặc dữ liệu tự suy đoán.</p>
+<p>---</p>
+<h2>2. BẢNG ĐÍNH CHÍNH HỌC THUẬT &amp; CHUẨN HÓA THUẬT NGỮ (CORRECTION MATRIX 3.0)</h2>
+<p>Bảng dưới đây tổng hợp các điểm điều chỉnh trọng yếu giữa các bản thảo ban đầu và Phiên bản 3.0 chuẩn hóa học thuật:</p>
+<div class="table-container"><table>
+<thead><tr><th>STT</th><th>Khẳng định ở bản thảo trước</th><th>Nội dung chuẩn hóa học thuật (Phiên bản 3.0)</th><th>Cơ sở mã nguồn &amp; Lý do điều chỉnh</th></tr></thead><tbody>
+<tr><td><strong>01</strong></td><td><em>&quot;Test cases trong bộ kiểm thử là minh chứng của Few-shot Prompting.&quot;</em></td><td><strong>Test cases là bộ kiểm thử phần mềm (Software Assertions), KHÔNG PHẢI là Few-shot Prompting.</strong></td><td>Few-shot Prompting chỉ xuất hiện khi các cặp ví dụ mẫu (Input - Output) được nhúng trực tiếp vào prompt gửi cho LLM để định hình ngữ cảnh sinh từ. Mã trong <code>scripts/test_ai_shopping_assistant.js</code> là câu lệnh <code>assert.strictEqual</code> tiền định để kiểm tra tính đúng đắn của code.</td></tr>
+<tr><td><strong>02</strong></td><td><em>&quot;Logic xử lý Bước 1 -&gt; Bước 2 -&gt; Bước 3 trong trợ lý là Chain-of-Thought Prompting.&quot;</em></td><td><strong>Đây là Thuật toán Tuần tự (Procedural Algorithm / Business Logic) bằng mã nguồn JavaScript, KHÔNG PHẢI Chain-of-Thought (CoT) Prompting.</strong></td><td>CoT Prompting là kỹ thuật thiết kế câu lệnh ép mô hình ngôn ngữ lớn tự sinh ra các bước suy luận trung gian (ví dụ: <em>&quot;Hãy suy nghĩ từng bước&quot;</em>). Việc chia hàm <code>generateLocalAdvisorResponse</code> thành các khối code tuần tự là kỹ thuật lập trình hướng thủ tục truyền thống.</td></tr>
+<tr><td><strong>03</strong></td><td><em>&quot;Hệ thống sử dụng Function Calling / Tool Calling Prompting để AI tự gọi hàm.&quot;</em></td><td><strong>Hệ thống sử dụng cơ chế Điều phối Công cụ Tiền định theo Ý định (Deterministic Intent-to-Tool Dispatching) bằng mã nguồn.</strong></td><td>Trong runtime cục bộ mặc định, không có việc LLM tự sinh token tool call từ schema; server dùng biểu thức chính quy (Regex) và câu lệnh rẽ nhánh (<code>if/switch</code>) để kích hoạt hàm <code>addToCart</code> hoặc <code>checkout</code>.</td></tr>
+<tr><td><strong>04</strong></td><td><em>&quot;Hệ thống có 7/14 AI Skills đạt mức Production-ready.&quot;</em></td><td><strong>Phân loại chính xác: 7 Skills Đã triển khai cục bộ (Implemented Locally / Active), 5 Skills Dạng lai (Hybrid), 1 Tích hợp ngoài (External), 1 Chưa triển khai.</strong></td><td>Thuật ngữ &quot;Production-ready&quot; đòi hỏi hệ thống phải qua kiểm thử tải, an toàn thông tin, sao lưu dự phòng và vận hành thực tế ở quy mô lớn. Việc vượt qua unit test chỉ chứng minh tính đúng đắn về mặt logic cục bộ.</td></tr>
+<tr><td><strong>05</strong></td><td><em>&quot;Hệ thống đảm bảo Zero Hallucination và An toàn bảo mật tuyệt đối 100%.&quot;</em></td><td><strong>Hệ thống loại trừ rủi ro ảo giác thông tin danh mục trong phạm vi 18 ca kiểm thử định nghĩa trước nhờ cơ chế Code-level Schema Validation; áp dụng nguyên tắc Tối thiểu hóa dữ liệu (Data Minimization).</strong></td><td>Trong khoa học máy tính không tồn tại khái niệm an toàn tuyệt đối 100% cho mọi tình huống mở. Mọi kết luận khoa học phải gắn liền với không gian kiểm thử thực nghiệm xác định.</td></tr>
+<tr><td><strong>06</strong></td><td><em>&quot;Tốc độ Local Engine nhanh hơn 500 đến 1.500 lần so với các API đám mây.&quot;</em></td><td><strong>Ghi nhận số liệu benchmark thực nghiệm độc lập của Local Engine (Median: ~0.08ms, Mean: 1.32ms); loại bỏ so sánh định lượng với API đám mây do chưa đo đạc song song.</strong></td><td>Tuân thủ phương pháp luận khoa học: Không đưa ra kết luận so sánh tương đối khi không có tập dữ liệu đo đạc thực tế đối chứng trong cùng điều kiện mạng và phần cứng.</td></tr>
+<tr><td><strong>07</strong></td><td><em>&quot;QA Test Runner là một AI Agent tự chủ.&quot;</em></td><td><strong>Bộ kiểm thử <code>npm test</code> là Hệ thống Kiểm thử Hồi quy Tự động (Automated Test Harness), tuyệt đối KHÔNG PHẢI là AI Agent.</strong></td><td>Bộ test chạy các lệnh assert tĩnh, không có chu trình Nhận thức - Suy luận - Hành động (Perception-Reasoning-Action loop) nên không thỏa mãn định nghĩa khoa học về Agent.</td></tr>
+</tbody></table></div>
+<p>---</p>
+<h2>3. GIAI ĐOẠN 1: KIỂM TRA TOÀN DIỆN MÃ NGUỒN &amp; MA TRẬN THÀNH PHẦN HỆ THỐNG</h2>
+<p>Quá trình kiểm tra thực tế mã nguồn ScentPod xác nhận sự tồn tại và phân loại trạng thái học thuật của 10 thành phần hệ thống:</p>
+<div class="table-container"><table>
+<thead><tr><th>STT</th><th>Thành phần hệ thống</th><th>Công nghệ sử dụng</th><th>Tập tin / Thư mục đối chiếu</th><th>Chức năng chi tiết</th><th>Trạng thái kỹ thuật</th><th>Minh chứng mã nguồn</th></tr></thead><tbody>
+<tr><td><strong>1</strong></td><td><strong>Frontend Client</strong></td><td>HTML5 Semantic, CSS3 Modular, Vanilla JS (ES6+)</td><td><code>index.html</code>, <code>san-pham.html</code>, <code>chi-tiet-san-pham.html</code>, <code>thanh-toan.html</code>, <code>ve-chung-toi.html</code>, <code>css/style.css</code>, <code>js/main.js</code></td><td>Giao diện web responsive, hiển thị 4 SKU nến mini chuẩn (85.000đ), giỏ hàng động, Drawer điều hướng.</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td>Tệp HTML tuân thủ W3C, liên kết <code>js/main.js</code> xử lý sự kiện DOM trực tiếp.</td></tr>
+<tr><td><strong>2</strong></td><td><strong>Backend Server &amp; API</strong></td><td>Node.js native (<code>http</code>, <code>fs</code>, <code>path</code>), CommonJS</td><td><code>scripts/server.js</code></td><td>Máy chủ HTTP phục vụ file tĩnh, API Chat (<code>/api/chat</code>), API Yêu cầu mua hàng (<code>/api/purchase-request</code>), quản lý khóa gửi lặp.</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td>Chạy cổng <code>PORT</code> (mặc định 3100), định tuyến request không phụ thuộc framework bên thứ ba.</td></tr>
+<tr><td><strong>3</strong></td><td><strong>Cấu hình &amp; Môi trường</strong></td><td>Dotenv format, Node.js <code>process.env</code></td><td><code>.env.example</code></td><td>Định nghĩa các khóa cấu hình: <code>PORT</code>, <code>ADMIN_EMAIL</code>, <code>RESEND_API_KEY</code>, <code>OPENAI_API_KEY</code>, <code>GEMINI_API_KEY</code>.</td><td><strong>Cấu hình mẫu (Template)</strong></td><td><code>.env.example</code> chuẩn hóa, cam kết không hard-code khóa bí mật vào mã nguồn công khai.</td></tr>
+<tr><td><strong>4</strong></td><td><strong>Cơ sở Dữ liệu &amp; Lưu trữ</strong></td><td>JSON File-based (Single Source of Truth) + In-memory RAM</td><td><code>data/catalog.json</code>, <code>sessionsStore</code> trong <code>scripts/server.js</code></td><td>Lưu trữ toàn bộ 4 SKU sản phẩm, thuộc tính tầng hương, tồn kho, giá niêm yết; RAM quản lý giỏ hàng theo Session ID.</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td><code>data/catalog.json</code> định dạng JSON nghiêm ngặt, đọc đồng bộ/bộ nhớ đệm qua <code>fs.readFileSync</code>.</td></tr>
+<tr><td><strong>5</strong></td><td><strong>AI Inference &amp; LLM Adapter</strong></td><td>Heuristic Regex Parsing + Fetch API Adapter</td><td><code>scripts/ai_shopping_assistant.js</code></td><td>Động cơ phân tích câu hỏi người dùng, tính điểm độ phù hợp sản phẩm, chuyển đổi dự phòng khi không có API key.</td><td><strong>Triển khai dạng Lai (Hybrid Engine)</strong></td><td>Hàm <code>generateAdvisorResponse</code> ưu tiên gọi adapter ngoài nếu có key, fallback về <code>generateLocalAdvisorResponse</code>.</td></tr>
+<tr><td><strong>6</strong></td><td><strong>Tự động hóa Workflow</strong></td><td>n8n Cloud Webhook, REST POST</td><td><code>trac-nghiem.html</code>, <code>scripts/test_webhook.js</code></td><td>Gửi chủ đề bài học sang n8n Webhook (<code>scentpods.app.n8n.cloud</code>) để kích hoạt workflow tự động sinh câu hỏi trắc nghiệm.</td><td><strong>Tích hợp dịch vụ bên ngoài (External)</strong></td><td>Form trên <code>trac-nghiem.html</code> gửi POST tới URL webhook n8n đã kiểm thử qua script.</td></tr>
+<tr><td><strong>7</strong></td><td><strong>Trợ lý Giao diện (Chat Widget)</strong></td><td>Vanilla JS Floating Widget, CSS Animation</td><td><code>js/ai-chat.js</code>, <code>css/style.css</code></td><td>Widget chat góc màn hình, giao tiếp hai chiều với server, hiển thị thẻ sản phẩm gợi ý và nút thêm giỏ hàng nhanh.</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td>Khởi tạo DOM container <code>#scentpod-ai-chat-root</code>, gọi <code>fetch('/api/chat')</code> kèm <code>sessionId</code>.</td></tr>
+<tr><td><strong>8</strong></td><td><strong>Giỏ hàng &amp; Biểu mẫu Mua hàng</strong></td><td>Client State (LocalStorage) + Server Validation + Email Notification</td><td><code>thanh-toan.html</code>, <code>scripts/email_service.js</code></td><td>Thu thập tên, SĐT, ghi chú; loại bỏ dữ liệu giá client gửi; gửi email thông báo đơn hàng tới ban quản trị qua SMTP/Resend.</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td>Email gửi cố định tới <code>scentpodcontact@gmail.com</code>, khóa chống gửi lặp đa luồng (HTTP 429).</td></tr>
+<tr><td><strong>9</strong></td><td><strong>Đo lường &amp; Phân tích (Analytics)</strong></td><td>Google Analytics 4 (gtag.js)</td><td>Thẻ gắn trên 5 trang HTML, tracking trong <code>js/main.js</code></td><td>Đo lường lưu lượng, sự kiện nhấp nút tư vấn Facebook (<code>facebook_cta_click</code>), gửi form thành công (<code>purchase_request_success</code>).</td><td><strong>Đã triển khai cục bộ (Active)</strong></td><td>Mã GA4: <code>G-1KZ96S61CF</code>. Tuân thủ nguyên tắc Privacy: Không gửi tên, SĐT, ghi chú sang GA4.</td></tr>
+<tr><td><strong>10</strong></td><td><strong>Kiến trúc Tham chiếu NVIDIA Blueprint</strong></td><td>NVIDIA NIM, Milvus Vector DB, LangGraph, Python</td><td>Thư mục <code>nvidia-blueprint/</code></td><td>Bộ dữ liệu sản phẩm giàu thuộc tính (<code>enriched_products.jsonl</code>), schema chuẩn hóa phục vụ kiến trúc Vector RAG mở rộng.</td><td><strong>Đặc tả Kiến trúc Đề xuất (Proposed Blueprint)</strong></td><td>Tệp <code>nvidia-blueprint/README.md</code> mô tả kiến trúc tham chiếu cho doanh nghiệp khi mở rộng quy mô lớn.</td></tr>
+</tbody></table></div>
+<p>---</p>
+<h2>4. GIAI ĐOẠN 2: PHÂN TÍCH KỸ NGHỆ PROMPT (PROMPT ENGINEERING) &amp; PHÂN ĐỊNH RANH GIỚI KỸ THUẬT</h2>
+<h3>4.1. Bảng Tổng Hợp Prompt Gốc Trích Xuất Từ Nhật Ký Antigravity</h3>
+<p>Dưới đây là các prompt gốc được trích xuất trực tiếp và nguyên văn từ tệp nhật ký hệ thống (<code>transcript.jsonl</code>):</p>
+<div class="table-container"><table>
+<thead><tr><th>STT</th><th>Thời điểm (UTC)</th><th>Prompt gốc trích xuất từ Transcript Log</th><th>Mục tiêu kỹ thuật</th><th>Kỹ thuật Prompt</th><th>File tác động</th><th>Git Commit / Kết quả</th></tr></thead><tbody>
+<tr><td><strong>P-01</strong></td><td><code>2026-11-10 16:10</code></td><td><code>// Hàm xử lý khi bấm nút\nasync function guiYeuCauTaoCauHoi() {\n const webhookUrl = &quot;ĐƯỜNG_DẪN_WEBHOOK_CỦA_N8N&quot;;...}</code></td><td>Tích hợp giao diện gọi Webhook n8n để tự động tạo câu hỏi trắc nghiệm kiến thức nến thơm.</td><td><strong>Contextual Code Prompting</strong></td><td>Tạo mới <code>trac-nghiem.html</code></td><td>Commit <code>767de6a</code>: Bổ sung trang trắc nghiệm kiến thức.</td></tr>
+<tr><td><strong>P-02</strong></td><td><code>2026-11-10 16:16</code></td><td><code>async function testWebhookN8N() { const response = await fetch(&quot;https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi&quot;, {...}); }</code></td><td>Kết nối và kiểm thử trực tiếp endpoint n8n Cloud Webhook thực tế.</td><td><strong>Direct API Execution Prompting</strong></td><td><code>scripts/test_webhook.js</code></td><td>Kết nối thành công tới máy chủ n8n Cloud.</td></tr>
+<tr><td><strong>P-03</strong></td><td><code>2026-11-14 07:55</code></td><td><code>Bạn là Frontend Developer và UI/UX Designer. Hãy chỉnh sửa trực tiếp website ScentPod trong project hiện tại theo yêu cầu... Website tham khảo: scentpodpt11.vercel.app</code></td><td>Đại tu giao diện trang chủ, trang sản phẩm, tối ưu trải nghiệm người dùng bám sát bản thiết kế mẫu.</td><td><strong>Role-Based Prompting &amp; Reference Grounding</strong></td><td><code>index.html</code>, <code>san-pham.html</code>, <code>css/style.css</code></td><td>Commit <code>7d59e6d</code>: Đại tu bổ web cực căng 11.</td></tr>
+<tr><td><strong>P-04</strong></td><td><code>2026-11-14 08:16</code></td><td><code>Bảng đối soát: Tên trên ảnh khác tên sản phẩm... Chốt một bộ tên chính thức: First Class, Blind Date, Campus Breeze, Late Night đồng bộ ảnh và thẻ sản phẩm.</code></td><td>Chuẩn hóa bộ dữ liệu 4 mùi hương chính thức, khắc phục xung đột giữa nhãn đồ họa và tên hiển thị.</td><td><strong>Structured Table Prompting &amp; Data Standardization</strong></td><td><code>data/catalog.json</code>, <code>js/main.js</code>, <code>index.html</code></td><td>Đồng bộ 100% tên mùi và giá niêm yết 85.000đ.</td></tr>
+<tr><td><strong>P-05</strong></td><td><code>2026-11-17 16:13</code></td><td><code>Tôi muốn bổ sung trợ lý mua hàng AI vào website ScentPod hiện tại. Repo tham khảo: Skopaq-AI/ucp-shopping-agent và NVIDIA-AI-Blueprints/retail-shopping-assistant...</code></td><td>Thiết kế và tích hợp Trợ lý mua hàng thông minh (Shopping Assistant) có khả năng tư vấn và thêm giỏ hàng.</td><td><strong>System Architecture Specification</strong></td><td><code>scripts/ai_shopping_assistant.js</code>, <code>js/ai-chat.js</code></td><td>Commit <code>337212a</code>: Trợ lý bán hàng ScentPod.</td></tr>
+<tr><td><strong>P-06</strong></td><td><code>2026-11-17 16:31</code></td><td><code>Mà phải chạy nhé, thầy sẽ có AI agent chạy luôn. Nếu lỗi là coi như cũng ko gửi, prompt engineering ý.</code></td><td>Xây dựng CLI Direct Runner và bộ kiểm thử tự động để Giảng viên có thể chạy đánh giá độc lập tức thì.</td><td><strong>Strict Execution Constraint Prompting</strong></td><td><code>scripts/ai_shopping_assistant.js</code>, <code>scripts/test_ai_shopping_assistant.js</code></td><td>Commit <code>45207e4</code>: Test prompt &amp; CLI execution.</td></tr>
+<tr><td><strong>P-07</strong></td><td><code>2026-11-22 13:42</code></td><td><code>Mục tiêu: Chuyển trang thanh-toan.html thành biểu mẫu “Yêu cầu mua hàng”. Khi gửi thành công, gửi đúng một email tới scentpodcontact@gmail.com... Bỏ qua giá client gửi, chặn bấm gửi lặp.</code></td><td>Tối ưu luồng đặt hàng sang mô hình Yêu cầu mua hàng tinh gọn; tích hợp dịch vụ email an toàn; thiết lập kiểm soát tấn công gửi lặp.</td><td><strong>Multi-constraint Task Decomposition</strong></td><td><code>thanh-toan.html</code>, <code>scripts/email_service.js</code>, <code>scripts/test_purchase_request.js</code></td><td>Chuyển đổi toàn diện biểu mẫu và bảo vệ dữ liệu giá.</td></tr>
+<tr><td><strong>P-08</strong></td><td><code>2026-11-23 02:59</code></td><td><code># MASTER PROMPT – PHÂN TÍCH TOÀN BỘ AI SKILLS VÀ PROMPT ENGINEERING CỦA DỰ ÁN SCENTPOD... Yêu cầu không tự suy đoán, kiểm tra mã nguồn thực tế.</code></td><td>Khởi tạo quy trình nghiên cứu, thẩm định mã nguồn và lập báo cáo học thuật toàn diện 8 giai đoạn.</td><td><strong>Master Meta-Prompting &amp; Academic Audit</strong></td><td><code>docs/ai-report/BAO_CAO_CHUYEN_SAU_AI_SKILLS_PROMPT_ENGINEERING_SCENTPOD.md</code></td><td>Tài liệu báo cáo chuyên sâu phiên bản đầu.</td></tr>
+<tr><td><strong>P-09</strong></td><td><code>2026-11-23 03:22</code></td><td><code>Rà soát tính chính xác: Kiểm tra lại 13/14 skills, phân biệt LLM với Local Engine, phân biệt RAG với Catalog Retrieval, loại bỏ Zero Hallucination, trích xuất prompt gốc...</code></td><td>Chuẩn hóa toàn bộ thuật ngữ học thuật, bổ sung benchmark thực nghiệm, phân định rõ ràng giữa Mocked và E2E.</td><td><strong>Critical Review &amp; Scientific Refinement Prompting</strong></td><td>Cập nhật báo cáo Markdown, HTML viewer và artifact.</td><td>Phiên bản Báo cáo Học thuật Chuẩn hóa 2.0.</td></tr>
+<tr><td><strong>P-10</strong></td><td><code>2026-11-23 04:01</code></td><td><code>Hoàn thiện phiên bản 3.0: Phân biệt Few-shot với test cases, CoT với thuật toán JS, Function Calling với Intent Dispatching, benchmark 30 lần tính Mean/Median/p95/p99, xuất Word chuẩn A4 Times 13...</code></td><td>Nâng cấp toàn diện báo cáo lên phiên bản 3.0: Xóa bỏ nhận vơ kỹ thuật, phân cấp kiểm thử, benchmark 150 mẫu, chuẩn hóa file Word OpenXML.</td><td><strong>Rigorous Academic Refinement &amp; Strict Verification</strong></td><td>Toàn bộ tệp Markdown, HTML, OpenXML DOCX và assets.</td><td><strong>Phiên bản Báo cáo Học thuật 3.0</strong>.</td></tr>
+</tbody></table></div>
+<h3>4.2. Bảng Các Prompt Tái Dựng Có Cấu Trúc Từ Lịch Sử Git Commit</h3>
+<p><em>(Giai đoạn khởi tạo tháng 09 - 10/2026 trước thời điểm lưu vết của Transcript hiện tại. Được gắn nhãn minh bạch <code>[TÁI DỰNG TỪ COMMIT]</code> dựa trên commit log đối chiếu)</em>:</p>
+<div class="table-container"><table>
+<thead><tr><th>STT</th><th>Giai đoạn &amp; Commit</th><th>Prompt Tái Dựng Có Cấu Trúc</th><th>Cơ sở suy luận từ Git Diff &amp; Commit</th><th>Kết quả thực tế</th></tr></thead><tbody>
+<tr><td><strong>R-01</strong></td><td>Tháng 09/2026 (<code>d410d63</code>, <code>f11e20f</code>)</td><td><code>[TÁI DỰNG TỪ COMMIT d410d63] Thiết kế khung giao diện website ScentPod với tiêu chuẩn màu ấm áp, hiển thị danh sách sản phẩm nến thơm mini và gắn liên kết fanpage Facebook chính thức.</code></td><td>Commit thêm các file HTML cốt lõi, stylesheet tông nâu be và liên kết fanpage ScentPod.</td><td>Hệ thống khung giao diện tĩnh hoàn chỉnh ban đầu.</td></tr>
+<tr><td><strong>R-02</strong></td><td>07/10/2026 (<code>f58d810</code>, <code>54606f3</code>)</td><td><code>[TÁI DỰNG TỪ COMMIT f58d810] Xây dựng trang chi tiết sản phẩm chi-tiet-san-pham.html, bổ sung hướng dẫn sử dụng, thời gian cháy 15-20 giờ, và thanh sticky bottom bar trên thiết bị di động.</code></td><td>Commit tạo tệp <code>chi-tiet-san-pham.html</code>, thêm phần HDSD, bấc nến và cam kết 3 cột.</td><td>Trang chi tiết sản phẩm đạt điểm cao về trải nghiệm di động.</td></tr>
+<tr><td><strong>R-03</strong></td><td>07/10/2026 (<code>236906b</code>, <code>07e45ed</code>)</td><td><code>[TÁI DỰNG TỪ COMMIT 236906b] Cố định bộ ảnh sản phẩm chính thức gồm 4 mùi hương, loại bỏ hoàn toàn tính năng cho phép client tự đổi hoặc chỉnh sửa ảnh sản phẩm.</code></td><td>Xóa bỏ các đoạn mã script tải ảnh động hoặc form edit ảnh; cố định 4 ảnh trong thư mục <code>images/</code>.</td><td>Đảm bảo tính nhất quán hình ảnh thương hiệu và an toàn hiển thị.</td></tr>
+<tr><td><strong>R-04</strong></td><td>18/10/2026 (<code>40287a8</code>)</td><td><code>[TÁI DỰNG TỪ COMMIT 40287a8] Tích hợp mã Google Analytics 4 (G-1KZ96S61CF) vào toàn bộ các trang HTML của website để theo dõi lượt truy cập và chuyển đổi.</code></td><td>Bổ sung thẻ <code>gtag.js</code> vào phần <code>&lt;head&gt;</code> của toàn bộ các tệp HTML.</td><td>Kích hoạt hệ thống đo lường hành vi người dùng trực tiếp.</td></tr>
+</tbody></table></div>
+<h3>4.3. Phân Định Ranh Giới Học Thuật: Prompt Engineering vs. Thuật Toán Mã Nguồn</h3>
+<p>Để đảm bảo tính trung thực học thuật cao nhất trước Giảng viên, nhóm tác giả phân định rõ ràng 3 ranh giới kỹ thuật thường bị nhầm lẫn:</p>
+<p>1. <strong>Few-shot Prompting vs. Test Cases khẳng định phần mềm</strong>:</p>
+<ul>
+<li><em>Khẳng định</em>: Các ca kiểm thử trong <code>scripts/test_ai_shopping_assistant.js</code> là mã nguồn kiểm thử phần mềm tự động (Software Unit/Integration Tests) dựa trên thư viện <code>node:assert</code>. Chúng <strong>KHÔNG PHẢI là Few-shot Prompting</strong>.</li>
+<li><em>Lý do</em>: Few-shot Prompting là kỹ thuật đưa một số cặp ví dụ mẫu (Demonstrations) vào cửa sổ ngữ cảnh (Context Window) của mô hình ngôn ngữ lớn để hướng dẫn phân bố xác suất sinh từ. Trong ScentPod, khi chạy qua Local Deterministic Engine, hệ thống sử dụng thuật toán heuristic, không tiêu thụ các mẫu này dưới dạng prompt ngữ cảnh.</li>
+</ul>
+<p>2. <strong>Chain-of-Thought (CoT) Prompting vs. Thuật toán Tuần tự (Procedural Logic)</strong>:</p>
+<ul>
+<li><em>Khẳng định</em>: Các bước xử lý tuần tự (Bước 1: Bóc tách từ khóa -&gt; Bước 2: Lọc sản phẩm còn hàng -&gt; Bước 3: Tính điểm Heuristic Scoring) trong hàm <code>generateLocalAdvisorResponse</code> là <strong>Thuật toán Thủ tục (Procedural Business Logic)</strong> bằng mã nguồn JavaScript, <strong>KHÔNG PHẢI là Chain-of-Thought Prompting</strong>.</li>
+<li><em>Lý do</em>: Chain-of-Thought là kỹ thuật thiết kế câu lệnh để kích hoạt cơ chế suy luận tự sinh chuỗi suy nghĩ trung gian (Intermediate Reasoning Steps) của mô hình học sâu. Việc chia đoạn mã JavaScript thành các hàm con tuần tự là kỹ thuật lập trình hướng cấu trúc truyền thống.</li>
+</ul>
+<p>3. <strong>Function Calling Prompting vs. Điều phối Công cụ Tiền định (Deterministic Tool Dispatching)</strong>:</p>
+<ul>
+<li><em>Khẳng định</em>: Cơ chế server nhận diện ý định mua hàng và gọi hàm <code>addToCart</code> là <strong>Điều phối Công cụ Tiền định (Deterministic Tool Dispatching)</strong> bằng mã nguồn, <strong>KHÔNG PHẢI Function Calling Prompting</strong>.</li>
+<li><em>Lý do</em>: Function Calling Prompting đòi hỏi mô hình LLM tự phân tích câu nói của người dùng và chủ động sinh ra cấu trúc gọi hàm (Tool Call JSON) tuân thủ Tool Schema được cung cấp trong prompt. Trong ScentPod, quá trình này do các khối lệnh <code>if/else</code> và biểu thức chính quy (Regex) của backend Node.js điều khiển trực tiếp.</li>
+</ul>
+<h3>4.4. Phân Loại Và Đánh Giá Các Kỹ Thuật Prompt Engineering Thực Tế</h3>
+<p>Dự án ScentPod chỉ công nhận những kỹ thuật Prompt Engineering <strong>thực sự tồn tại trong các tệp prompt và mã nguồn</strong>:</p>
+<p>1. <strong>Role-Based Prompting (Định danh vai trò)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Định danh vai trò <code>Bạn là Frontend Developer và UI/UX Designer</code> trong prompt phát triển P-03; và <code>Bạn là ScentPod AI Shopping Assistant - chuyên gia tư vấn mùi hương nến thơm mini</code> trong System Prompt của trợ lý mua hàng (<code>scripts/ai_shopping_assistant.js</code>, dòng 170).</li>
+<li><em>Kết quả</em>: Định hình phong cách phản hồi đồng cảm, ngắn gọn, phù hợp với đối tượng học sinh - sinh viên.</li>
+</ul>
+<p>2. <strong>Contextual Prompting (Cung cấp ngữ cảnh)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Nạp ngữ cảnh sinh viên (ngân sách 85.000đ, diện tích bàn học nhỏ 10-15m², nhu cầu học thi khuya) trong prompt P-05 và P-07.</li>
+<li><em>Kết quả</em>: Giúp AI luôn ưu tiên gợi ý các sản phẩm phù hợp với không gian học tập và túi tiền sinh viên.</li>
+</ul>
+<p>3. <strong>Task Decomposition (Phân rã tác vụ phức tạp)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Thể hiện xuất sắc trong prompt P-07 (Chuyển đổi biểu mẫu yêu cầu mua hàng): Chia nhỏ bài toán thành 7 bước tuần tự từ giữ URL, đổi nút bấm, làm sạch dữ liệu, kiểm tra server-side đến chặn gửi lặp.</li>
+<li><em>Kết quả</em>: Giảm thiểu sai sót logic, tạo ra các module độc lập dễ kiểm thử.</li>
+</ul>
+<p>4. <strong>Structured Output Prompting (Ràng buộc đầu ra có cấu trúc)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Ép buộc mô hình trả về đối tượng JSON nghiêm ngặt (<code>sessionId</code>, <code>reply</code>, <code>suggestedProducts</code>, <code>actions</code>).</li>
+<li><em>Minh chứng</em>: Dòng 195-215 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><em>Kết quả</em>: Frontend dễ dàng parse và render trực tiếp thành các thành phần giao diện động mà không bị lỗi vỡ layout.</li>
+</ul>
+<p>5. <strong>Prompt Guardrails &amp; Negative Constraints (Hàng rào an toàn &amp; Quy tắc phủ định)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Các mệnh lệnh cấm nghiêm ngặt: <em>&quot;Tuyệt đối không nhận giá do client tự gửi; Không bao giờ xác nhận đơn hàng khi thiếu số điện thoại; Không tự ý tạo thêm mùi hương ngoài catalog&quot;</em>.</li>
+<li><em>Minh chứng</em>: Dòng 45-60 trong <code>scripts/email_service.js</code> và logic kiểm tra payload trong <code>scripts/server.js</code>.</li>
+<li><em>Kết quả</em>: Ngăn chặn hành vi gian lận giá và bảo vệ tính toàn vẹn của dữ liệu kinh doanh.</li>
+</ul>
+<p>6. <strong>Iterative Prompt Refinement (Tinh chỉnh lặp qua thực nghiệm)</strong>:</p>
+<ul>
+<li><em>Áp dụng</em>: Chuỗi tinh chỉnh lặp từ P-05 -&gt; P-06 -&gt; P-07 -&gt; P-09 -&gt; P-10 phản ánh quá trình liên tục tiếp nhận phản hồi kiểm thử để hoàn thiện hệ thống.</li>
+<li><em>Kết quả</em>: Nâng cao độ tin cậy và tính ổn định của hệ thống qua từng phiên bản.</li>
+</ul>
+<p>---</p>
+<h2>5. GIAI ĐOẠN 3: PHÂN TÍCH CHUYÊN SÂU 14 AI SKILLS VỚI HIỆN TRẠNG TRIỂN KHAI THỰC TẾ</h2>
+<p>Dưới đây là bảng phân tích chi tiết 14 AI Skills theo đúng chuẩn học thuật: <strong>Khái niệm → Nguyên lý → Ứng dụng trong ScentPod → Minh chứng mã nguồn → Kết quả → Hạn chế</strong>:</p>
+<h3>1. Natural Language Processing (NLP) - Xử lý Ngôn ngữ Tự nhiên</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Phân tích cú pháp và trích xuất thực thể (Named Entity Recognition - NER) và ý định (Intent) từ ngôn ngữ tự nhiên.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Bóc tách tham số từ tin nhắn khách hàng: Ngân sách (<code>dưới 100k</code>, <code>40k</code>), không gian (<code>bàn học</code>, <code>phòng ngủ</code>), thời điểm (<code>buổi tối</code>, <code>ôn thi</code>), và mùi hương (<code>cam</code>, <code>hoa</code>, <code>cà phê</code>).</li>
+<li><strong>Minh chứng mã nguồn</strong>: Khối Regex slot-filling tại dòng 230-290 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Rule-based NLP)</strong>.</li>
+<li><strong>Hạn chế</strong>: Sử dụng biểu thức chính quy (Regex); chưa áp dụng mô hình nhúng từ (Word Embeddings) hay Transformer-based NER.</li>
+</ul>
+<h3>2. Large Language Model (LLM) Runtime</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Mô hình học sâu hàng tỷ tham số có khả năng suy luận ngữ cảnh và sinh ngôn ngữ tự nhiên mượt mà.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Hệ thống xây dựng kiến trúc <strong>Lai (Hybrid Runtime)</strong>: Vận hành mặc định bằng <strong>Local Deterministic Engine</strong> để đạt tốc độ phản hồi tức thì và chi phí 0đ, đồng thời tích hợp sẵn module <strong>LLM API Adapter</strong> sẵn sàng chuyển mạch sang OpenAI/Gemini khi được cấp API key trong <code>.env</code>.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Hàm <code>generateAdvisorResponse</code> và adapter gọi fetch ngoài trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Triển khai dạng Lai (Hybrid: Local Engine + LLM Adapter)</strong>.</li>
+<li><strong>Hạn chế</strong>: Khi ở chế độ Local Engine, câu chữ trả lời mang tính khuôn mẫu theo template định sẵn.</li>
+</ul>
+<h3>3. Retrieval-Augmented Generation (RAG) &amp; Grounding</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Kết hợp truy xuất thông tin từ kho tri thức xác thực với quá trình sinh phản hồi nhằm đảm bảo tính căn cứ.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Áp dụng <strong>Catalog Schema Retrieval &amp; Rule-based Grounding</strong>: Tệp <code>data/catalog.json</code> đóng vai trò là &quot;Chân lý Duy nhất&quot; (Single Source of Truth - SSOT). Mọi thông số giá (85.000đ), tồn kho và quà tặng đều được truy xuất trực tiếp từ tệp này.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Hàm <code>loadCatalog()</code> tại dòng 20-35 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Catalog Schema Grounding)</strong>.</li>
+<li><strong>Hạn chế</strong>: Truy xuất theo thuộc tính và từ khóa JSON tĩnh; chưa tích hợp CSDL Vector (Vector DB) cho tìm kiếm ngữ nghĩa mờ (tính năng này được thiết kế trong bản vẽ mở rộng NVIDIA Blueprint).</li>
+</ul>
+<h3>4. Function Calling / Tool Calling</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Cơ chế nhận diện và kích hoạt các hàm chuyên trách để cập nhật trạng thái hệ thống.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Áp dụng cơ chế <strong>Điều phối Công cụ Tiền định theo Ý định (Deterministic Intent-to-Tool Dispatching)</strong>: Khi nhận diện ý định mua hàng, backend kích hoạt hàm <code>addToCart</code> hoặc <code>checkout</code>.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Dòng 397-440 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Triển khai một phần (Deterministic Intent Dispatching)</strong>.</li>
+<li><strong>Hạn chế</strong>: Việc phân loại ý định ở cấu hình mặc định do mã JavaScript điều phối thay vì mô hình LLM tự sinh token tool call từ schema.</li>
+</ul>
+<h3>5. Multi-Turn Conversation &amp; State Management</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Khả năng duy trì ngữ cảnh và trạng thái giỏ hàng xuyên suốt nhiều lượt đàm thoại của một phiên làm việc.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Quản lý phiên qua <code>sessionId</code> duy nhất. Mỗi phiên lưu trữ lịch sử trao đổi, giỏ hàng hiện tại và thông tin người dùng trong bộ nhớ đệm RAM (<code>sessionsStore</code>).</li>
+<li><strong>Minh chứng mã nguồn</strong>: Hàm <code>getOrCreateSession()</code> tại dòng 45-65 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Lưu trữ trên RAM của tiến trình Node.js; khi restart server dữ liệu phiên sẽ được làm mới (có thể mở rộng sang Redis).</li>
+</ul>
+<h3>6. AI Agent Orchestration</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Chu trình vòng lặp tự trị: Nhận thức (Perception) -&gt; Lập kế hoạch (Planning) -&gt; Hành động (Action).</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Triển khai tại tầng Trợ lý Mua hàng (<code>ScentPod Conversational Shopping Assistant</code>): Tự động phân luồng câu hỏi, đối chiếu kho hàng, kiểm tra giới hạn ngân sách, ra quyết định gợi ý và cập nhật giỏ hàng.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Toàn bộ luồng điều phối của <code>generateAdvisorResponse</code> trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Triển khai dạng State Machine Agent đơn lẻ</strong>.</li>
+<li><strong>Hạn chế</strong>: Vận hành theo mô hình State Machine tuyến tính; chưa mở rộng thành cụm đa tác nhân (Multi-agent Swarm) phân tán.</li>
+</ul>
+<h3>7. Product Recommendation Engine</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Thuật toán đánh giá sự tương quan giữa thuộc tính sản phẩm và nhu cầu khách hàng để xếp hạng ưu tiên đề xuất.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Động cơ tính điểm Heuristic Scoring Engine:</li>
+</ul>
+<p>  $$	ext{Score} = w_1 cdot 	ext{BudgetMatch} + w_2 cdot 	ext{SpaceMatch} + w_3 cdot 	ext{ScentMatch} + w_4 cdot 	ext{StockAvailability}$$</p>
+<p>  Ưu tiên các sản phẩm có giá $le 85.000đ$, còn hàng trong kho (<code>stock &gt; 0</code>), và thuộc nhóm hương phù hợp với không gian học tập (gỗ ấm, cam thanh mát).</p>
+<ul>
+<li><strong>Minh chứng mã nguồn</strong>: Hàm <code>matchProducts()</code> tại dòng 295-360 trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Trọng số scoring được cấu hình tiền định bằng luật; chưa áp dụng mô hình Học máy Cộng tác (Collaborative Filtering) do danh mục hiện tại là 4 SKU tinh gọn.</li>
+</ul>
+<h3>8. Multimodal / Vision AI</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Khả năng xử lý và hiểu dữ liệu từ nhiều phương thức khác nhau, đặc biệt là hình ảnh.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: <strong>Xác nhận học thuật: Chưa triển khai</strong>. Hệ thống ScentPod hiện tại chỉ xử lý dữ liệu đầu vào là văn bản (Text-based).</li>
+<li><strong>Minh chứng mã nguồn</strong>: Không có endpoint tiếp nhận tải ảnh lên để nhận diện không gian phòng qua camera.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Chưa triển khai (Not Implemented)</strong>.</li>
+<li><strong>Hướng phát triển</strong>: Tích hợp Gemini 1.5 Flash Vision để người dùng có thể chụp ảnh góc bàn học và AI tự động phân tích tông màu để gợi ý màu hũ nến tương ứng.</li>
+</ul>
+<h3>9. Structured JSON Output</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Ràng buộc hệ thống phản hồi dữ liệu theo lược đồ JSON chuẩn hóa để các ứng dụng khác có thể tiêu thụ trực tiếp.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Mọi API của trợ lý AI và dịch vụ mua hàng đều trả về cấu trúc định dạng chuẩn:</li>
+</ul>
+<p>  <code>{ success: boolean, reply: string, suggestedProducts: Array, actions: Array }</code>.</p>
+<ul>
+<li><strong>Minh chứng mã nguồn</strong>: Cấu trúc trả về trong <code>scripts/server.js</code> và <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Cần kiểm tra kỹ lưỡng các ký tự thoát chuỗi (escape characters) để tránh lỗi parse JSON ở client.</li>
+</ul>
+<h3>10. Database Retrieval (Single Source of Truth)</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Cơ chế truy vấn và trích xuất dữ liệu từ kho lưu trữ trung tâm đảm bảo tính nhất quán dữ liệu.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Toàn bộ hệ thống website, trợ lý AI và dịch vụ email cùng đọc chung một nguồn dữ liệu duy nhất tại <code>data/catalog.json</code>.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Khối đọc tệp <code>fs.readFileSync</code> tại <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Cơ sở dữ liệu file JSON chỉ phù hợp cho quy mô vừa và nhỏ; với hàng ngàn SKU cần nâng cấp lên PostgreSQL hoặc MongoDB.</li>
+</ul>
+<h3>11. API Integration &amp; Webhook Architecture</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Khả năng kết nối, trao đổi dữ liệu với các hệ sinh thái và dịch vụ đám mây thông qua các giao thức mạng chuẩn (REST, Webhook, HTTP POST).</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Tích hợp hai chiều: (1) Client gọi REST API nội bộ tới Node.js Server; (2) Frontend <code>trac-nghiem.html</code> gửi HTTP POST Webhook tới nền tảng tự động hóa <code>scentpods.app.n8n.cloud</code>.</li>
+<li><strong>Minh chứng mã nguồn</strong>: <code>trac-nghiem.html</code> và <code>scripts/test_webhook.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ &amp; Tích hợp ngoài</strong>.</li>
+<li><strong>Hạn chế</strong>: Phụ thuộc vào tính sẵn sàng của đường truyền internet khi kết nối dịch vụ ngoài.</li>
+</ul>
+<h3>12. Rule-Based Fallback Engine</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Cơ chế chuyển hướng dự phòng tức thì sang các thuật toán luật định khi các dịch vụ trí tuệ nhân tạo đám mây gặp sự cố, mất mạng hoặc quá hạn ngạch.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Khi gọi API đám mây bị lỗi hoặc khi biến môi trường không có API key, hệ thống tự động kích hoạt <code>generateLocalAdvisorResponse()</code> mà không làm gián đoạn trải nghiệm của khách hàng.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Khối <code>try...catch</code> bọc quanh lời gọi API trong <code>scripts/ai_shopping_assistant.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Cần bảo trì song song cả mã nguồn luật định lẫn mã nguồn tích hợp LLM.</li>
+</ul>
+<h3>13. Prompt Guardrails &amp; Code-Level Validation</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Hệ thống kiểm soát an toàn đa tầng nhằm ngăn chặn các hành vi gian lận dữ liệu, vượt quyền hoặc tạo ra các trạng thái phi logic.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Áp dụng mô hình <strong>Bảo vệ 2 tầng (Two-tier Defense)</strong>: Tầng 1: Lọc ý định và prompt guardrails; Tầng 2: Mã nguồn JavaScript kiểm tra tính hợp lệ của tồn kho (<code>stock &lt;= 0</code>), định dạng số điện thoại, và <strong>loại bỏ hoàn toàn các trường giá do trình duyệt gửi lên</strong> (<code>fakePrice</code>, <code>customTotal</code>).</li>
+<li><strong>Minh chứng mã nguồn</strong>: Dòng 405-420 trong <code>scripts/ai_shopping_assistant.js</code> và xử lý payload trong <code>scripts/server.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Đã triển khai cục bộ (Active)</strong>.</li>
+<li><strong>Hạn chế</strong>: Đòi hỏi lập trình viên phải dự liệu trước các kịch bản tấn công dữ liệu để viết logic kiểm tra tương ứng.</li>
+</ul>
+<h3>14. Workflow Automation</h3>
+<ul>
+<li><strong>Khái niệm &amp; Nguyên lý</strong>: Tự động hóa các chuỗi tác vụ nghiệp vụ có sự phối hợp giữa nhiều ứng dụng mà không cần sự can thiệp thủ công của con người.</li>
+<li><strong>Ứng dụng trong ScentPod</strong>: Luồng trắc nghiệm kiến thức nến thơm: Người dùng gửi chủ đề từ web -&gt; n8n Webhook nhận tín hiệu -&gt; Kích hoạt quy trình sinh câu hỏi trắc nghiệm tự động trên đám mây.</li>
+<li><strong>Minh chứng mã nguồn</strong>: Tệp <code>trac-nghiem.html</code> và kịch bản <code>scripts/test_webhook.js</code>.</li>
+<li><strong>Trạng thái thực tế</strong>: <strong>Tích hợp dịch vụ bên ngoài (External)</strong>.</li>
+<li><strong>Hạn chế</strong>: Phụ thuộc vào uptime của máy chủ n8n Cloud instance.</li>
+</ul>
+<p>---</p>
+<h2>6. GIAI ĐOẠN 4: PHÂN TÍCH CÁC THỰC THỂ AI AGENT VÀ HỆ THỐNG TỰ ĐỘNG HÓA</h2>
+<h3>6.1. Thực Thể 1: Trợ Lý Đàm Thoại Mua Hàng (ScentPod Conversational Shopping Assistant)</h3>
+<ul>
+<li><strong>Bản chất</strong>: <strong>State Machine AI Agent</strong>.</li>
+<li><strong>Mục tiêu</strong>: Trợ lý ảo tư vấn chọn mùi hương nến thơm theo sở thích, không gian phòng, ngân sách HSSV và quản lý giỏ hàng theo phiên.</li>
+<li><strong>Người dùng</strong>: Khách hàng truy cập website (đặc biệt là sinh viên).</li>
+<li><strong>Kiến trúc hệ thống</strong>:</li>
+<li>Giao diện: Widget nổi <code>js/ai-chat.js</code> tương tác qua fetch API.</li>
+<li>Bộ não điều phối: Module <code>scripts/ai_shopping_assistant.js</code> chạy trên nền Node.js.</li>
+<li>Cơ sở tri thức: <code>data/catalog.json</code> (SSOT).</li>
+<li>Quản lý phiên: <code>sessionsStore</code> (RAM) cách ly dữ liệu giữa các phiên người dùng.</li>
+<li><strong>Công cụ sở hữu (Tools)</strong>:</li>
+</ul>
+<p>  1. <code>matchProducts(criteria)</code>: Lọc và tính điểm sản phẩm theo ngân sách và ngữ cảnh.</p>
+<p>  2. <code>addToCart(sessionId, productId, quantity)</code>: Thêm sản phẩm vào giỏ hàng với kiểm tra tồn kho.</p>
+<p>  3. <code>getCart(sessionId)</code>: Lấy thông tin giỏ hàng và tính phí vận chuyển theo chính sách (1 hũ: 25k; $ge 2$ hũ: 15k).</p>
+<p>  4. <code>checkout(sessionId, customerInfo)</code>: Tạo đơn hàng và làm sạch giỏ.</p>
+<ul>
+<li><strong>System Prompt cốt lõi</strong>:</li>
+</ul>
+<p>  &gt; <em>&quot;Bạn là ScentPod AI Shopping Assistant. Nhiệm vụ: Tư vấn nến thơm mini (50g, 85.000đ) cho học sinh, sinh viên. Luôn trả lời lịch sự, ngắn gọn, ấm áp. Chỉ sử dụng thông tin từ danh mục chính thức. Không bao giờ xác nhận đơn hàng khi chưa có tên và số điện thoại hợp lệ.&quot;</em></p>
+<ul>
+<li><strong>Cơ chế an toàn</strong>: Tự động chặn khi người dùng cố thêm sản phẩm có <code>stock = 0</code> hoặc vượt quá số lượng trong kho.</li>
+</ul>
+<h3>6.2. Thực Thể 2: Hệ Thống Tự Động Hóa Trắc Nghiệm (n8n Quiz Workflow Automation)</h3>
+<ul>
+<li><strong>Bản chất</strong>: <strong>Workflow Automation Integration</strong> (Tích hợp Tự động hóa Luồng công việc).</li>
+<li><strong>Mục tiêu</strong>: Tự động tiếp nhận chủ đề học tập/sở thích từ sinh viên và kích hoạt quy trình sinh câu hỏi trắc nghiệm trên n8n Cloud.</li>
+<li><strong>Kiến trúc</strong>:</li>
+<li>Điểm kích hoạt (Trigger): Nút gửi yêu cầu trên trang <code>trac-nghiem.html</code>.</li>
+<li>Giao thức: HTTP POST Webhook tới <code>https://scentpods.app.n8n.cloud/webhook-test/tao-cau-hoi</code>.</li>
+<li>Dữ liệu gửi: JSON <code>{ chuDe: &quot;Nền tảng thương mại điện tử ScentPod&quot;, yeuCau: &quot;Tạo bộ 5 câu hỏi trắc nghiệm&quot; }</code>.</li>
+<li><strong>Phân định học thuật</strong>: Đây là một <strong>Luồng Tự động hóa (Workflow)</strong>, không phải Agent tự chủ độc lập vì hoạt động theo kịch bản kích hoạt - phản hồi tuyến tính (Trigger-Action), không duy trì trạng thái suy luận dài hạn.</li>
+</ul>
+<h3>6.3. Thực Thể 3: Hệ Thống Kiểm Thử Hồi Quy Tự Động (Automated Test Harness)</h3>
+<ul>
+<li><strong>Bản chất</strong>: <strong>Deterministic Test Harness</strong> (Bộ Kiểm thử Hồi quy Tự động Tiền định).</li>
+<li><strong>Mục tiêu</strong>: Tự động thực thi và thẩm định 18 ca kiểm thử biên đối với toàn bộ logic tư vấn, tính phí ship, kiểm tra tồn kho, gửi email và chống tấn công gửi lặp.</li>
+<li><strong>Tập tin thực thi</strong>: <code>scripts/test_ai_shopping_assistant.js</code> và <code>scripts/test_purchase_request.js</code>.</li>
+<li><strong>Phân định học thuật</strong>: <strong>Đây KHÔNG PHẢI là một AI Agent</strong>. Bộ test này là tập hợp các hàm kiểm tra mã nguồn tĩnh dựa trên thư viện <code>node:assert</code> tiêu chuẩn, không có chu trình nhận thức - suy luận - hành động (Perception-Reasoning-Action loop) nên không phải AI Agent. Việc phân định chính xác này thể hiện sự am hiểu học thuật chuẩn xác của nhóm tác giả.</li>
+</ul>
+<p>---</p>
+<h2>7. GIAI ĐOẠN 5: BẢNG BIỂU KIẾN TRÚC VÀ ĐỐI CHIẾU MÃ NGUỒN</h2>
+<h3>Bảng 1: Danh sách các tập tin liên quan đến AI &amp; Tự động hóa</h3>
+<div class="table-container"><table>
+<thead><tr><th>Tập tin</th><th>Vai trò kỹ thuật</th><th>Trọng tâm logic</th><th>Trạng thái kỹ thuật</th></tr></thead><tbody>
+<tr><td><code>scripts/ai_shopping_assistant.js</code></td><td>Bộ não điều phối Trợ lý Mua hàng</td><td>Local Engine, Intent Parsing, Tools giỏ hàng, Adapter LLM</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>scripts/server.js</code></td><td>Máy chủ API &amp; Điều phối luồng</td><td>Endpoints <code>/api/chat</code>, <code>/api/purchase-request</code>, In-flight lock</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>scripts/email_service.js</code></td><td>Dịch vụ thông báo đơn hàng</td><td>Format email, gửi tới <code>scentpodcontact@gmail.com</code>, mô phỏng lỗi</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>data/catalog.json</code></td><td>Kho tri thức danh mục (SSOT)</td><td>4 SKU sản phẩm, thuộc tính tầng hương, giá niêm yết, tồn kho</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>js/ai-chat.js</code></td><td>Giao diện Chatbot nổi phía client</td><td>DOM injection, gửi request, render thẻ sản phẩm gợi ý</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>trac-nghiem.html</code></td><td>Giao diện trắc nghiệm n8n</td><td>Form cấu hình và nút bấm kích hoạt Webhook n8n Cloud</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>scripts/test_webhook.js</code></td><td>Kịch bản kiểm thử Webhook</td><td>Kiểm tra kết nối mạng tới <code>scentpods.app.n8n.cloud</code></td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>scripts/test_ai_shopping_assistant.js</code></td><td>Test suite trợ lý mua hàng</td><td>11 ca kiểm thử logic tư vấn, ngân sách, ship, session</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>scripts/test_purchase_request.js</code></td><td>Test suite biểu mẫu &amp; email</td><td>7 ca kiểm thử giỏ trống, sai SĐT, chống gửi lặp, bảo vệ giá</td><td>Đã triển khai cục bộ</td></tr>
+<tr><td><code>nvidia-blueprint/data/enriched_products.jsonl</code></td><td>Dữ liệu giàu thuộc tính NVIDIA</td><td>Schema sản phẩm mở rộng cho kiến trúc Vector RAG</td><td>Đặc tả kiến trúc đề xuất</td></tr>
+</tbody></table></div>
+<h3>Bảng 2: Các hàm và chức năng quan trọng</h3>
+<div class="table-container"><table>
+<thead><tr><th>Tên hàm</th><th>Thuộc tập tin</th><th>Tham số đầu vào</th><th>Kết quả trả về</th><th>Cơ chế xử lý</th></tr></thead><tbody>
+<tr><td><code>loadCatalog()</code></td><td><code>ai_shopping_assistant.js</code></td><td>Không</td><td>Object danh mục</td><td>Đọc đồng bộ <code>catalog.json</code>, fallback cấu trúc rỗng nếu lỗi.</td></tr>
+<tr><td><code>generateAdvisorResponse()</code></td><td><code>ai_shopping_assistant.js</code></td><td><code>{ message, sessionId }</code></td><td>JSON phản hồi chuẩn</td><td>Điều phối chính: Thử gọi LLM Adapter, tự động fallback Local Engine.</td></tr>
+<tr><td><code>generateLocalAdvisorResponse()</code></td><td><code>ai_shopping_assistant.js</code></td><td><code>{ message, sessionId }</code></td><td>JSON phản hồi chuẩn</td><td>Phân tích Regex từ khóa, tính điểm sản phẩm, sinh câu trả lời.</td></tr>
+<tr><td><code>matchProducts()</code></td><td><code>ai_shopping_assistant.js</code></td><td><code>criteria</code></td><td>Array sản phẩm xếp hạng</td><td>Heuristic Scoring theo ngân sách, không gian và tầng hương.</td></tr>
+<tr><td><code>addToCart()</code></td><td><code>ai_shopping_assistant.js</code></td><td><code>sessionId, productId, qty</code></td><td><code>{ success, cart/error }</code></td><td>Code validation: Chặn <code>stock &lt;= 0</code>, kiểm tra số lượng tồn kho.</td></tr>
+<tr><td><code>submitPurchaseRequest()</code></td><td><code>ai_shopping_assistant.js</code></td><td><code>sessionId, customerData</code></td><td><code>{ success, requestId... }</code></td><td>Kiểm tra SĐT, làm sạch giá client gửi, gọi <code>sendPurchaseRequestNotification</code>.</td></tr>
+<tr><td><code>sendPurchaseRequestNotification</code></td><td><code>email_service.js</code></td><td><code>requestData</code></td><td><code>{ success, messageId... }</code></td><td>Gửi email tới <code>scentpodcontact@gmail.com</code>, hỗ trợ cờ <code>SIMULATE_EMAIL_ERROR</code>.</td></tr>
+</tbody></table></div>
+<h3>Bảng 3: Các API Endpoint và phương thức HTTP</h3>
+<div class="table-container"><table>
+<thead><tr><th>Endpoint</th><th>Phương thức</th><th>Content-Type</th><th>Mục đích nghiệp vụ</th><th>Mã phản hồi HTTP</th></tr></thead><tbody>
+<tr><td><code>/api/chat</code></td><td>POST</td><td><code>application/json</code></td><td>Gửi câu hỏi đàm thoại tới Trợ lý Mua hàng AI</td><td>200 OK, 400 Bad Request, 500 Error</td></tr>
+<tr><td><code>/api/purchase-request</code></td><td>POST</td><td><code>application/json</code></td><td>Gửi Yêu cầu mua hàng từ biểu mẫu <code>thanh-toan.html</code></td><td>200 OK, 400 Validation Error, 429 In-flight Lock</td></tr>
+<tr><td><code>/webhook-test/tao-cau-hoi</code></td><td>POST</td><td><code>application/json</code></td><td>Kích hoạt workflow sinh câu hỏi trắc nghiệm trên n8n Cloud</td><td>200 OK (từ máy chủ n8n Cloud)</td></tr>
+</tbody></table></div>
+<h3>Bảng 4: Ma trận ánh xạ 14 AI Skills theo mã nguồn và trạng thái thực tế</h3>
+<div class="table-container"><table>
+<thead><tr><th>AI Skill</th><th>Tập tin triển khai</th><th>Hàm / Khối mã nguồn</th><th>Trạng thái phân loại học thuật</th></tr></thead><tbody>
+<tr><td>1. Natural Language Processing</td><td><code>scripts/ai_shopping_assistant.js</code></td><td>Regex Slot-filling (dòng 230-290)</td><td><strong>Đã triển khai cục bộ (Rule-based)</strong></td></tr>
+<tr><td>2. LLM Runtime</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>generateAdvisorResponse</code> + Adapter</td><td><strong>Triển khai dạng Lai (Hybrid Engine)</strong></td></tr>
+<tr><td>3. RAG Grounding</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>loadCatalog()</code> + Schema Binding</td><td><strong>Đã triển khai cục bộ (Catalog Grounding)</strong></td></tr>
+<tr><td>4. Function / Tool Calling</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>AVAILABLE_TOOLS</code>, Intent Dispatch</td><td><strong>Triển khai một phần (Intent Dispatching)</strong></td></tr>
+<tr><td>5. Multi-turn Conversation</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>sessionsStore</code> State Management</td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>6. AI Agent Orchestration</td><td><code>scripts/ai_shopping_assistant.js</code></td><td>State Machine Shopping Assistant</td><td><strong>Đã triển khai cục bộ (Trợ lý mua hàng)</strong></td></tr>
+<tr><td>7. Product Recommendation</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>matchProducts()</code> Scoring Engine</td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>8. Multimodal / Vision AI</td><td>Chưa có</td><td>Không có mã nguồn</td><td><strong>Chưa triển khai (Not Implemented)</strong></td></tr>
+<tr><td>9. Structured JSON Output</td><td><code>scripts/server.js</code>, <code>assistant.js</code></td><td>Standardized JSON Response Formats</td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>10. Database Retrieval</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>data/catalog.json</code> SSOT Reader</td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>11. API Integration</td><td><code>server.js</code>, <code>test_webhook.js</code></td><td>REST Endpoints &amp; n8n Cloud Webhook</td><td><strong>Đã triển khai cục bộ &amp; Tích hợp ngoài</strong></td></tr>
+<tr><td>12. Rule-based Fallback</td><td><code>scripts/ai_shopping_assistant.js</code></td><td><code>generateLocalAdvisorResponse()</code></td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>13. Prompt Guardrails &amp; Code Guard</td><td><code>assistant.js</code>, <code>email_service.js</code></td><td>Stock check, PII filter, Price strip</td><td><strong>Đã triển khai cục bộ (Active)</strong></td></tr>
+<tr><td>14. Workflow Automation</td><td><code>trac-nghiem.html</code>, n8n Cloud</td><td>Webhook POST trigger &amp; automation</td><td><strong>Tích hợp dịch vụ bên ngoài (External)</strong></td></tr>
+</tbody></table></div>
+<h3>Bảng 5: Phân biệt bản chất AI Agent vs. Workflow Automation vs. Test Harness</h3>
+<div class="table-container"><table>
+<thead><tr><th>Tiêu chí so sánh</th><th>ScentPod Shopping Assistant</th><th>n8n Quiz Integration</th><th>Automated Test Harness</th></tr></thead><tbody>
+<tr><td><strong>Bản chất phần mềm</strong></td><td><strong>State Machine AI Agent</strong></td><td><strong>Workflow Automation</strong></td><td><strong>Deterministic Test Suite</strong></td></tr>
+<tr><td><strong>Cơ chế hoạt động</strong></td><td>Nhận thức -&gt; Lập kế hoạch -&gt; Hành động</td><td>Trigger -&gt; Action tuần tự</td><td>Mã assertion so sánh tĩnh</td></tr>
+<tr><td><strong>Quản lý ngữ cảnh</strong></td><td>Có (Session ID lưu trên RAM)</td><td>Không (Stateless Webhook)</td><td>Từng ca kiểm thử độc lập</td></tr>
+<tr><td><strong>Khả năng tự quyết định</strong></td><td>Có (Tính điểm và chọn sản phẩm phù hợp)</td><td>Không (Chạy theo workflow định sẵn)</td><td>Không (So sánh đúng/sai theo kỳ vọng)</td></tr>
+<tr><td><strong>Tương tác người dùng</strong></td><td>Đàm thoại 2 chiều thời gian thực</td><td>Kích hoạt 1 chiều từ nút bấm</td><td>Chạy nền qua dòng lệnh CLI</td></tr>
+</tbody></table></div>
+<h3>Bảng 6: Tech stack, Frameworks, SDKs và vai trò</h3>
+<div class="table-container"><table>
+<thead><tr><th>Tên công nghệ</th><th>Phiên bản / Môi trường</th><th>Vai trò trong dự án ScentPod</th><th>Lý do lựa chọn</th></tr></thead><tbody>
+<tr><td><strong>Node.js</strong></td><td>v24.21.0</td><td>Nền tảng thực thi Backend &amp; CLI Runner</td><td>Hiệu năng cao, thư viện native mạnh mẽ, không phụ thuộc framework cồng kềnh.</td></tr>
+<tr><td><strong>Vanilla JavaScript</strong></td><td>ES6+</td><td>Xử lý logic Frontend &amp; Chat Widget</td><td>Tối ưu dung lượng tải trang (&lt;50KB), tốc độ phản hồi DOM tức thì.</td></tr>
+<tr><td><strong>n8n Cloud</strong></td><td>Hosted SaaS</td><td>Nền tảng tự động hóa quy trình trắc nghiệm</td><td>Trực quan hóa quy trình, dễ tích hợp webhook mà không tốn tài nguyên server.</td></tr>
+<tr><td><strong>Google Analytics 4</strong></td><td>gtag.js (<code>G-1KZ96S61CF</code>)</td><td>Đo lường chuyển đổi và hành vi người dùng</td><td>Công cụ tiêu chuẩn ngành, hỗ trợ phân tích phễu mua hàng.</td></tr>
+<tr><td><strong>Milvus / NVIDIA NIM</strong></td><td>Blueprint Spec</td><td>Kiến trúc Vector RAG đề xuất mở rộng</td><td>Chuẩn bị sẵn sàng cho quy trình mở rộng quy mô lớn khi doanh nghiệp phát triển.</td></tr>
+</tbody></table></div>
+<h3>Bảng 7: Phân định chi tiết Dịch vụ Thực tế vs. Dịch vụ Mock trong kiểm thử</h3>
+<div class="table-container"><table>
+<thead><tr><th>Thành phần chức năng</th><th>Phương thức kiểm thử</th><th>Bản chất dịch vụ trong kiểm thử</th><th>Ghi chú minh bạch học thuật</th></tr></thead><tbody>
+<tr><td><strong>Local Deterministic Engine</strong></td><td>End-to-End</td><td><strong>Dịch vụ Thực tế (Real)</strong></td><td>Đã kiểm thử qua CLI và 11 unit tests với dữ liệu thực tế.</td></tr>
+<tr><td><strong>Cách ly phiên giỏ hàng (RAM)</strong></td><td>End-to-End</td><td><strong>Dịch vụ Thực tế (Real)</strong></td><td>Đã kiểm thử cách ly hoàn toàn giữa 2 Session ID khác nhau.</td></tr>
+<tr><td><strong>Loại bỏ giá giả mạo client gửi</strong></td><td>End-to-End</td><td><strong>Dịch vụ Thực tế (Real)</strong></td><td>Đã kiểm thử cố tình bơm <code>fakePrice</code> và server tự động loại bỏ.</td></tr>
+<tr><td><strong>Khóa chống gửi lặp (In-flight)</strong></td><td>End-to-End</td><td><strong>Dịch vụ Thực tế (Real)</strong></td><td>Đã kiểm thử gửi 2 request đồng thời, request 2 bị chặn với mã 429.</td></tr>
+<tr><td><strong>Giả lập sự cố dịch vụ Email</strong></td><td>Unit Test</td><td><strong>Dịch vụ Giả lập (Mocked)</strong></td><td>Sử dụng cờ <code>SIMULATE_EMAIL_ERROR = 'true'</code> để kiểm tra khả năng phục hồi giỏ hàng.</td></tr>
+<tr><td><strong>Dịch vụ gửi Email thông báo</strong></td><td>Integration Test</td><td><strong>Mô phỏng Console Log (Mock/Adapter)</strong></td><td>Mặc định in log email ra terminal; sẵn sàng nối SMTP/Resend qua <code>.env</code>.</td></tr>
+<tr><td><strong>LLM Cloud API (OpenAI/Gemini)</strong></td><td>Integration Test</td><td><strong>Giao diện Adapter (Adapter Pluggable)</strong></td><td>Tự động fallback về Local Engine khi không có API Key, đã test cơ chế chuyển mạch an toàn.</td></tr>
+</tbody></table></div>
+<p>---</p>
+<h2>8. GIAI ĐOẠN 6: SƠ ĐỒ KIẾN TRÚC HỆ THỐNG, LUỒNG DỮ LIỆU &amp; DANH MỤC MINH CHỨNG TRỰC QUAN</h2>
+<h3>8.1. Sơ đồ kiến trúc tổng thể website ScentPod</h3>
+<pre><code class="language-mermaid">flowchart TD
+    Client[&quot;Trình duyệt Người dùng (Client Browser)&quot;]
+    subgraph Frontend[&quot;Frontend Layer (HTML5, CSS3, Vanilla JS)&quot;]
+        UI[&quot;Trang Web (index, san-pham, chi-tiet)&quot;]
+        CartForm[&quot;Form Yêu cầu mua hàng (thanh-toan.html)&quot;]
+        ChatWidget[&quot;AI Chat Widget (js/ai-chat.js)&quot;]
+        QuizUI[&quot;Trang Trắc nghiệm (trac-nghiem.html)&quot;]
+    end
+
+    subgraph Backend[&quot;Backend Layer (Node.js Server: scripts/server.js)&quot;]
+        Router[&quot;HTTP Request Dispatcher&quot;]
+        LockMgr[&quot;In-flight Concurrency Lock Manager&quot;]
+        SessionMgr[&quot;In-memory Session Store (RAM)&quot;]
+        AIEngine[&quot;AI Shopping Assistant (scripts/ai_shopping_assistant.js)&quot;]
+        EmailSvc[&quot;Email Notification Service (scripts/email_service.js)&quot;]
+    end
+
+    subgraph Storage[&quot;Data &amp; External Layer&quot;]
+        CatalogJSON[(&quot;Catalog SSOT (data/catalog.json)&quot;)]
+        AdminInbox[&quot;Hộp thư Quản trị (scentpodcontact@gmail.com)&quot;]
+        n8nCloud[&quot;n8n Automation Cloud (scentpods.app.n8n.cloud)&quot;]
+        GA4[&quot;Google Analytics 4 (G-1KZ96S61CF)&quot;]
+    end
+
+    Client --&gt; Frontend
+    UI -.-&gt;|&quot;gtag('event', 'facebook_cta_click')&quot;| GA4
+    ChatWidget --&gt;|&quot;/api/chat (POST)&quot;| Router
+    CartForm --&gt;|&quot;/api/purchase-request (POST)&quot;| Router
+    QuizUI --&gt;|&quot;Webhook POST&quot;| n8nCloud
+
+    Router --&gt; LockMgr
+    LockMgr --&gt;|&quot;Nếu không trùng lặp&quot;| SessionMgr
+    Router --&gt; AIEngine
+    Router --&gt; EmailSvc
+
+    AIEngine &lt;--&gt;|&quot;Đọc dữ liệu sản phẩm &amp; giá&quot;| CatalogJSON
+    AIEngine &lt;--&gt;|&quot;Cập nhật giỏ hàng theo Session&quot;| SessionMgr
+    EmailSvc --&gt;|&quot;Gửi thông báo đơn hàng&quot;| AdminInbox</code></pre>
+<h3>8.2. Sơ đồ kiến trúc AI thực tế (Client - Server - Local Engine / Adapter - SSOT)</h3>
+<pre><code class="language-mermaid">flowchart LR
+    UserQuery[&quot;Khách hàng nhập: 'Tìm nến bàn học &lt; 100k'&quot;] --&gt; ChatWidget[&quot;Chat Widget (Client)&quot;]
+    ChatWidget --&gt;|&quot;/api/chat (POST)&quot;| Server[&quot;Node.js Server&quot;]
+    Server --&gt; AssistantRouter{&quot;Kiểm tra Cấu hình API Key?&quot;}
+
+    AssistantRouter --&gt;|&quot;Có OPENAI/GEMINI_KEY&quot;| LLMAdapter[&quot;External LLM Adapter&quot;]
+    AssistantRouter --&gt;|&quot;Mặc định / Không có Key&quot;| LocalEngine[&quot;Local Deterministic Heuristic Engine&quot;]
+
+    LLMAdapter -.-&gt;|&quot;Gặp lỗi mạng / Quá hạn ngạch&quot;| LocalEngine
+
+    subgraph CoreEngine[&quot;Local Heuristic Core Engine&quot;]
+        NLP[&quot;Regex Slot-Filling &amp; Intent Classifier&quot;]
+        Scorer[&quot;Product Scoring Algorithm&quot;]
+        Validator[&quot;Code-level Stock &amp; Price Validator&quot;]
+    end
+
+    LocalEngine --&gt; NLP --&gt; Scorer --&gt; Validator
+    Validator &lt;--&gt;|&quot;Đối soát thuộc tính &amp; tồn kho&quot;| Catalog[(&quot;Catalog SSOT (catalog.json)&quot;)]
+    Validator --&gt; Formatter[&quot;Structured JSON Formatter&quot;]
+    Formatter --&gt; Server --&gt; ChatWidget --&gt; UserView[&quot;Hiển thị thẻ nến 'Another Sunday - 85.000đ'&quot;]</code></pre>
+<h3>8.3. Sơ đồ luồng phân loại ý định và điều phối công cụ (Intent-to-Tool Dispatching)</h3>
+<pre><code class="language-mermaid">flowchart TD
+    Msg[&quot;Tin nhắn người dùng&quot;] --&gt; IntentCheck{&quot;Phân loại Ý định (Intent Classification)&quot;}
+
+    IntentCheck --&gt;|&quot;Hỏi tư vấn / Tìm nến&quot;| ToolMatch[&quot;matchProducts(criteria)&quot;]
+    IntentCheck --&gt;|&quot;Thêm vào giỏ hàng&quot;| ToolAdd[&quot;addToCart(sessionId, productId, quantity)&quot;]
+    IntentCheck --&gt;|&quot;Xem giỏ hàng&quot;| ToolGet[&quot;getCart(sessionId)&quot;]
+    IntentCheck --&gt;|&quot;Xác nhận đặt hàng&quot;| ToolCheckout[&quot;checkout(sessionId, customerInfo)&quot;]
+
+    ToolAdd --&gt; StockCheck{&quot;Kiểm tra tồn kho (realProduct.stock &gt; 0?)&quot;}
+    StockCheck --&gt;|&quot;stock &lt;= 0&quot;| RejectStock[&quot;Từ chối &amp; Báo tạm hết hàng&quot;]
+    StockCheck --&gt;|&quot;stock &gt; 0&quot;| UpdateCart[&quot;Cập nhật giỏ hàng trong Session&quot;]
+
+    ToolCheckout --&gt; ValInfo{&quot;Kiểm tra Tên &amp; SĐT hợp lệ?&quot;}
+    ValInfo --&gt;|&quot;Thiếu / Sai SĐT&quot;| RejectInfo[&quot;Yêu cầu nhập số điện thoại hợp lệ&quot;]
+    ValInfo --&gt;|&quot;Hợp lệ&quot;| GenOrder[&quot;Tạo mã đơn hàng SCP-... &amp; Xóa sạch giỏ&quot;]</code></pre>
+<h3>8.4. Sơ đồ kiểm soát an toàn dữ liệu 2 tầng (Two-tier Guardrails)</h3>
+<pre><code class="language-mermaid">flowchart TD
+    subgraph Tier1[&quot;Tầng 1: Prompt Guardrails &amp; Input Sanitization&quot;]
+        InputMsg[&quot;Dữ liệu thô từ Client (Chat text / Form payload)&quot;]
+        Sanitize[&quot;Làm sạch chuỗi, giới hạn ký tự, chống XSS&quot;]
+        PromptRules[&quot;Chỉ thị cấm bịa đặt thông tin / Cấm nhận giá client gửi&quot;]
+    end
+
+    subgraph Tier2[&quot;Tầng 2: Code-level Schema Validation &amp; Concurrency Lock&quot;]
+        LockCheck{&quot;Đang có request xử lý cho Session này? (In-flight Lock)&quot;}
+        LockCheck --&gt;|&quot;Đang xử lý (Trùng lặp)&quot;| HTTP429[&quot;Trả về HTTP 429: Đang xử lý, vui lòng không bấm liên tục&quot;]
+        LockCheck --&gt;|&quot;Không trùng&quot;| SchemaCheck[&quot;Kiểm tra Schema &amp; Định dạng SĐT&quot;]
+
+        SchemaCheck --&gt; PriceStrip[&quot;Loại bỏ toàn bộ trường giá client tự gửi: fakePrice, customTotal...&quot;]
+        PriceStrip --&gt; SSOTValidation[&quot;Truy xuất giá niêm yết và tồn kho thực từ data/catalog.json&quot;]
+        SSOTValidation --&gt; SafeState[&quot;Chấp thuận trạng thái an toàn &amp; Kích hoạt tác vụ&quot;]
+    end
+
+    InputMsg --&gt; Sanitize --&gt; PromptRules --&gt; Tier2</code></pre>
+<h3>8.5. Sơ đồ luồng gửi Yêu cầu mua hàng và thông báo Email</h3>
+<pre><code class="language-mermaid">sequenceDiagram
+    autonumber
+    actor Khach as Khách hàng
+    participant Form as thanh-toan.html
+    participant Server as scripts/server.js
+    participant Assistant as ai_shopping_assistant.js
+    participant Email as scripts/email_service.js
+    actor Admin as Nhóm ScentPod (scentpodcontact@gmail.com)
+
+    Khach-&gt;&gt;Form: Nhập Tên, SĐT, Ghi chú &amp; Bấm &quot;Gửi yêu cầu mua hàng&quot;
+    Form-&gt;&gt;Form: Disable nút bấm, hiện trạng thái &quot;Đang gửi yêu cầu...&quot;
+    Form-&gt;&gt;Server: POST /api/purchase-request (SessionId, Tên, SĐT, Ghi chú)
+    Server-&gt;&gt;Server: Kích hoạt In-flight Lock cho SessionId
+    Server-&gt;&gt;Assistant: submitPurchaseRequest(sessionId, data)
+    Assistant-&gt;&gt;Assistant: Kiểm tra giỏ hàng != trống &amp; SĐT hợp lệ
+    Assistant-&gt;&gt;Assistant: Loại bỏ hoàn toàn các trường giá do client gửi
+    Assistant-&gt;&gt;Email: sendPurchaseRequestNotification(requestData)
+
+    alt Gửi Email Thành Công
+        Email--&gt;&gt;Admin: Gửi thông báo email (Mã #REQ-..., Tên, SĐT, Mùi nến, Số lượng)
+        Email--&gt;&gt;Assistant: { success: true, messageId: ... }
+        Assistant-&gt;&gt;Assistant: Làm sạch giỏ hàng trong Session
+        Assistant--&gt;&gt;Server: { success: true, requestId: &quot;REQ-...&quot; }
+        Server-&gt;&gt;Server: Giải phóng In-flight Lock
+        Server--&gt;&gt;Form: HTTP 200 { success: true, requestId: &quot;REQ-...&quot; }
+        Form-&gt;&gt;Khach: Hiện thông báo &quot;Đã gửi yêu cầu mua hàng thành công!&quot;
+    else Dịch vụ Email Bị Lỗi
+        Email--&gt;&gt;Assistant: { success: false, error: &quot;Dịch vụ email gặp sự cố&quot; }
+        Assistant--&gt;&gt;Server: Báo lỗi, GIỮ NGUYÊN giỏ hàng để khách thử lại
+        Server-&gt;&gt;Server: Giải phóng In-flight Lock
+        Server--&gt;&gt;Form: HTTP 500 { success: false, error: &quot;Lỗi gửi email&quot; }
+        Form-&gt;&gt;Khach: Hiện thông báo lỗi, giữ nguyên dữ liệu đã nhập trong form
+    end</code></pre>
+<h3>8.6. Sơ đồ tích hợp Webhook n8n Cloud</h3>
+<pre><code class="language-mermaid">sequenceDiagram
+    autonumber
+    actor SinhVien as Sinh viên
+    participant QuizPage as trac-nghiem.html
+    participant n8nServer as n8n Cloud (scentpods.app.n8n.cloud)
+    participant AIWorkflow as n8n AI Workflow Agent
+
+    SinhVien-&gt;&gt;QuizPage: Chọn chủ đề: &quot;Nền tảng thương mại điện tử ScentPod&quot;
+    SinhVien-&gt;&gt;QuizPage: Bấm &quot;Tạo bộ 5 câu hỏi trắc nghiệm&quot;
+    QuizPage-&gt;&gt;QuizPage: Hiển thị thanh tiến trình (Loading Indicator)
+    QuizPage-&gt;&gt;n8nServer: POST /webhook-test/tao-cau-hoi (Payload JSON)
+    Note over n8nServer,AIWorkflow: n8n kích hoạt Webhook Trigger
+    n8nServer-&gt;&gt;AIWorkflow: Chuyển payload sang chuỗi Node xử lý AI
+    AIWorkflow-&gt;&gt;AIWorkflow: Tạo bộ câu hỏi, đáp án A-B-C-D và giải thích
+    AIWorkflow--&gt;&gt;n8nServer: Tổng hợp cấu trúc JSON câu hỏi
+    n8nServer--&gt;&gt;QuizPage: HTTP 200 OK (Danh sách câu hỏi trắc nghiệm)
+    QuizPage-&gt;&gt;SinhVien: Render bộ câu hỏi tương tác lên giao diện</code></pre>
+<h3>8.7. Danh Mục Và Phân Tích Hình Ảnh Minh Chứng Thực Tế Từ Hệ Thống</h3>
+<p>Toàn bộ các hình ảnh dưới đây được trích xuất từ dữ liệu thực tế của dự án trong thư mục <code>docs/ai-report/assets/</code>:</p>
+<ul>
+<li><strong>Hình 8.1: Giao diện Biểu mẫu Yêu cầu Mua hàng &amp; Thanh toán Thực tế</strong></li>
+</ul>
+<p>  <em>(Tập tin: <code>docs/ai-report/assets/hinh_1_checkout.png</code>)</em>  </p>
+<p>  <em>Mô tả</em>: Ảnh chụp màn hình trang <code>thanh-toan.html</code> với giao diện tinh giản, hiển thị các hũ nến đã chọn từ giỏ hàng, ô nhập Tên và Số điện thoại của khách hàng, cùng nút kích hoạt &quot;Gửi yêu cầu mua hàng&quot; (đã loại bỏ hoàn toàn các lựa chọn COD và VietQR theo yêu cầu tinh gọn).</p>
+<ul>
+<li><strong>Hình 8.2: Giao diện Giỏ Hàng Trượt (Cart Drawer) &amp; Ưu Đãi Phí Vận Chuyển</strong></li>
+</ul>
+<p>  <em>(Tập tin: <code>docs/ai-report/assets/hinh_2_cart.png</code>)</em>  </p>
+<p>  <em>Mô tả</em>: Ảnh chụp thanh trượt giỏ hàng hiển thị đồng giá 85.000đ/hũ nến, thông báo tự động kích hoạt mốc phí ship ưu đãi 15.000đ toàn quốc khi số lượng $ge 2$ hũ.</p>
+<ul>
+<li><strong>Hình 8.3: Giao diện Thông Báo Tiếp Nhận Yêu Cầu Thành Công</strong></li>
+</ul>
+<p>  <em>(Tập tin: <code>docs/ai-report/assets/hinh_3_order_success.png</code>)</em>  </p>
+<p>  <em>Mô tả</em>: Ảnh chụp màn hình xác nhận sau khi server tiếp nhận yêu cầu mua hàng, hiển thị mã định danh đơn hàng dạng <code>#SCP-...</code> hoặc <code>#REQ-...</code> và thông báo đội ngũ ScentPod sẽ liên hệ xác nhận.</p>
+<ul>
+<li><strong>Hình 8.4: Giao diện Trang Đăng Nhập &amp; Cổng Hỗ Trợ Khách Hàng</strong></li>
+</ul>
+<p>  <em>(Tập tin: <code>docs/ai-report/assets/hinh_4_login.png</code>)</em>  </p>
+<p>  <em>Mô tả</em>: Ảnh chụp cổng đăng nhập người dùng và hệ thống các nút liên kết tư vấn nhanh qua Messenger Facebook chính thức.</p>
+<ul>
+<li><strong>Hình 8.5: Minh Chứng Nhật Ký Thực Thi Bộ Kiểm Thử Tự Động (18/18 PASS)</strong></li>
+</ul>
+<p>  <em>(Tập tin: <code>docs/ai-report/assets/test_execution_log.txt</code>)</em>  </p>
+<p>  <em>Mô tả</em>: Đoạn trích xuất từ terminal ghi nhận toàn bộ 18 test cases chạy thành công 100% với exit code 0.</p>
+<p>---</p>
+<h2>9. GIAI ĐOẠN 7: KIỂM THỬ THỰC NGHIỆM KHOA HỌC, PHÂN CẤP TEST SUITE &amp; BENCHMARK ĐỘ TRỄ</h2>
+<h3>9.1. Kết Quả Thực Thi Bộ Kiểm Thử Tự Động (18/18 Tests PASS)</h3>
+<ul>
+<li><strong>Lệnh thực thi</strong>: <code>npm test</code> (bao gồm <code>node scripts/test_ai_shopping_assistant.js &amp;&amp; node scripts/test_purchase_request.js</code>).</li>
+<li><strong>Thời điểm thực hiện</strong>: <code>23/11/2026 11:04:21 (UTC+7)</code>.</li>
+<li><strong>Môi trường</strong>: macOS, Node.js v24.21.0.</li>
+<li><strong>Tỷ lệ thành công</strong>: <strong>18/18 TESTS PASS (Đạt 100% trên bộ test định nghĩa trước)</strong>.</li>
+</ul>
+<p>Nhật ký kiểm thử thực tế trích xuất từ <code>docs/ai-report/assets/test_execution_log.txt</code>:</p>
+<pre><code class="language-text">======================================================================
+🧪 BẮT ĐẦU KIỂM THỬ TỰ ĐỘNG SCENTPOD AI SHOPPING ASSISTANT
+======================================================================
+▶ NHÓM 1: KIỂM THỬ GỢI Ý ĐÚNG NGÂN SÁCH
+  ✓ [PASS] Phân tích đúng ngân sách dưới 100k và không gian bàn học
+  ✓ [PASS] Gợi ý sản phẩm Another Sunday vừa vặn ngân sách 100k (giá 85.000đ)
+▶ NHÓM 2: KIỂM THỬ KHI KHÔNG CÓ SẢN PHẨM PHÙ HỢP
+  ✓ [PASS] Ngân sách quá thấp (40k): Giải thích giá sàn 85k và gợi ý dòng nến 50g
+  ✓ [PASS] Sản phẩm ngoài danh mục (nước hoa xịt phòng): Giải thích rõ và hướng sang nến 50g
+▶ NHÓM 3: KIỂM THỬ XỬ LÝ SẢN PHẨM HẾT HÀNG
+  ✓ [PASS] Code Validator đánh dấu inStock = false nếu tồn kho = 0
+  ✓ [PASS] Chặn thêm vào giỏ hàng khi sản phẩm hết hàng hoặc số lượng vượt quá kho
+▶ NHÓM 4: THÊM GIỎ HÀNG ĐÚNG SẢN PHẨM &amp; PHIÊN NGƯỜI DÙNG
+  ✓ [PASS] Thêm đúng sản phẩm và tính đúng phí ship cho 1 hũ (ship 25k)
+  ✓ [PASS] Thêm 2 hũ nến: Tự động kích hoạt ưu đãi Ship 15.000đ toàn quốc
+  ✓ [PASS] Cách ly giỏ hàng hoàn toàn giữa 2 người dùng khác Session ID
+▶ NHÓM 5: KIỂM THỬ XỬ LÝ LỖI KẾT NỐI AI &amp; AN TOÀN HỆ THỐNG
+  ✓ [PASS] Hệ thống hoạt động trơn tru ngay cả khi không có external API key (Local Fallback)
+  ✓ [PASS] Đặt hàng thành công với thông tin người nhận và trả về mã đơn SCP...
+======================================================================
+📊 TỔNG KẾT KẾT QUẢ KIỂM THỬ: 11/11 TESTS ĐẠT YÊU CẦU (100%)
+======================================================================
+
+======================================================================
+🧪 BẮT ĐẦU KIỂM THỬ BIỂU MẪU YÊU CẦU MUA HÀNG &amp; DỊCH VỤ EMAIL SCENTPOD
+======================================================================
+  ✓ [PASS] Email nhận thông báo cố định là scentpodcontact@gmail.com
+▶ CA 1: KIỂM THỬ GIỎ TRỐNG
+  ✓ [PASS] Chặn gửi yêu cầu khi giỏ hàng trống và báo lỗi rõ ràng
+▶ CA 2: KIỂM THỬ THIẾU HOẶC SAI SỐ ĐIỆN THOẠI
+  ✓ [PASS] Chặn khi thiếu số điện thoại dù giỏ hàng đã có sản phẩm
+  ✓ [PASS] Chặn khi số điện thoại không hợp lệ (ít hơn 9 chữ số)
+▶ CA 3: KIỂM THỬ GỬI THÀNH CÔNG &amp; BẢO VỆ DỮ LIỆU GIÁ
+  ✓ [PASS] Gửi thành công: Tạo mã REQ-..., gửi email tới nhóm và làm sạch giỏ hàng
+▶ CA 4: KIỂM THỬ KHI DỊCH VỤ EMAIL GẶP LỖI
+  ✓ [PASS] Khi dịch vụ email lỗi: Báo lỗi, KHÔNG xóa giỏ hàng để khách thử lại
+▶ CA 5: KIỂM THỬ CHẶN BẤM GỬI LẶP / CONCURRENT SUBMISSIONS
+  ✓ [PASS] Chặn request thứ 2 khi request 1 đang được xử lý cho cùng 1 phiên
+======================================================================
+📊 TỔNG KẾT KIỂM THỬ: 7/7 TESTS ĐẠT YÊU CẦU (100%)
+======================================================================</code></pre>
+<h3>9.2. Phân Loại 3 Cấp Độ Kiểm Thử: Unit Test, Integration Test và E2E Test</h3>
+<p>Để đạt chuẩn mực công nghệ phần mềm chuyên nghiệp, nhóm tác giả phân loại 18 ca kiểm thử theo kim tự tháp kiểm thử (Test Pyramid):</p>
+<p>1. <strong>Unit Tests (Kiểm thử đơn vị - 6 ca)</strong>:</p>
+<ul>
+<li><em>Mục tiêu</em>: Kiểm tra tính đúng đắn độc lập của từng hàm toán học và logic bóc tách.</li>
+<li><em>Các ca kiểm thử</em>:</li>
+<li>Kiểm thử hàm Regex bóc tách ngân sách và không gian (<code>test_ai_shopping_assistant.js</code>, Test 1.1).</li>
+<li>Kiểm thử hàm <code>matchProducts</code> tính điểm heuristic khi ngân sách quá thấp (<code>Test 2.1</code>).</li>
+<li>Kiểm thử hàm nhận diện sản phẩm ngoài danh mục (<code>Test 2.2</code>).</li>
+<li>Kiểm thử hàm <code>validateAndEnforceProducts</code> ghi đè <code>inStock = false</code> khi kho bằng 0 (<code>Test 3.1</code>).</li>
+<li>Kiểm thử hàm xác thực định dạng số điện thoại (<code>test_purchase_request.js</code>, Ca 2.2).</li>
+<li>Kiểm thử logic tính phí ship có điều kiện: 1 hũ = 25k, $ge 2$ hũ = 15k (<code>Test 4.1 &amp; 4.2</code>).</li>
+</ul>
+<p>2. <strong>Integration Tests (Kiểm thử tích hợp - 8 ca)</strong>:</p>
+<ul>
+<li><em>Mục tiêu</em>: Kiểm tra sự tương tác và đồng bộ dữ liệu giữa các module phần mềm nội bộ.</li>
+<li><em>Các ca kiểm thử</em>:</li>
+<li>Tích hợp giữa <code>sessionsStore</code> (RAM) và hàm <code>addToCart</code>: Kiểm tra tính năng cách ly phiên giữa User A và User B (<code>Test 4.3</code>).</li>
+<li>Tích hợp giữa <code>loadCatalog</code> (đĩa) và <code>addToCart</code>: Chặn thêm vào giỏ khi số lượng vượt tồn kho (<code>Test 3.2</code>).</li>
+<li>Tích hợp giữa Fallback Engine và Router: Kiểm tra hệ thống tự động chuyển Local Engine khi không có API key (<code>Test 5.1</code>).</li>
+<li>Tích hợp giữa <code>checkout</code> và <code>sessionsStore</code>: Tạo mã đơn và làm sạch giỏ sau khi đặt hàng (<code>Test 5.2</code>).</li>
+<li>Tích hợp giữa Server Router và In-flight Concurrency Lock: Chặn gửi lặp trả về mã 429 (<code>Ca 5</code>).</li>
+<li>Tích hợp giữa <code>email_service.js</code> và Fallback Error Handler: Giữ nguyên giỏ hàng khi dịch vụ email lỗi (<code>Ca 4</code>).</li>
+<li>Kiểm tra tính cố định của biến cấu hình email quản trị <code>scentpodcontact@gmail.com</code> (<code>Mở đầu Ca test</code>).</li>
+<li>Kiểm tra tích hợp dữ liệu email qua hàm <code>buildEmailContent</code> (<code>Ca 3</code>).</li>
+</ul>
+<p>3. <strong>End-to-End Tests (Kiểm thử luồng hoàn chỉnh - 4 ca)</strong>:</p>
+<ul>
+<li><em>Mục tiêu</em>: Kiểm tra toàn bộ chu trình xử lý từ khi client gửi request đến khi dữ liệu được ghi nhận hoàn tất.</li>
+<li><em>Các ca kiểm thử</em>:</li>
+<li>E2E Luồng tư vấn nến bàn học &lt; 100k: Từ chuỗi query thô -&gt; bóc tách -&gt; tra cứu catalog -&gt; sinh câu trả lời hoàn chỉnh (<code>Test 1.2</code>).</li>
+<li>E2E Luồng chặn giỏ trống: Client gửi request mua hàng khi giỏ rỗng -&gt; Server chặn và báo lỗi rõ ràng (<code>Ca 1</code>).</li>
+<li>E2E Luồng chặn thiếu số điện thoại: Client gửi thiếu SĐT -&gt; Server chặn trước khi gọi dịch vụ email (<code>Ca 2.1</code>).</li>
+<li>E2E Luồng gửi Yêu cầu mua hàng &amp; Bảo vệ dữ liệu giá: Bơm dữ liệu giá giả mạo (<code>fakePrice</code>, <code>customTotal</code>) -&gt; Server làm sạch -&gt; Ghi nhận giá niêm yết từ SSOT -&gt; Tạo mã #REQ -&gt; Định dạng email -&gt; Xóa sạch giỏ (<code>Ca 3</code>).</li>
+</ul>
+<h3>9.3. Benchmark Thống Kê 30 Lần Chạy/Kịch Bản (Mean, Median, p95, p99)</h3>
+<p>Để có kết luận khoa học vững chắc về hiệu năng của Local Deterministic Engine, nhóm đã thực hiện benchmark <strong>30 lần lặp độc lập cho mỗi kịch bản (Tổng cộng 150 mẫu đo đạc)</strong> sử dụng đồng hồ độ phân giải nano-giây <code>process.hrtime.bigint()</code>.</p>
+<p>Dữ liệu chi tiết được lưu trữ tại <code>docs/ai-report/benchmark_results_30.json</code>:</p>
+<div class="table-container"><table>
+<thead><tr><th>Kịch bản</th><th>Nội dung câu truy vấn mẫu</th><th>Số mẫu (N)</th><th>Min (ms)</th><th>Mean (ms)</th><th>Median (p50)</th><th>p95 (ms)</th><th>p99 / Max (ms)</th></tr></thead><tbody>
+<tr><td><strong>Q1</strong></td><td><em>&quot;Tìm nến thơm để bàn học tập trung ôn thi, ngân sách dưới 100k&quot;</em></td><td>30</td><td>0.085</td><td><strong>1.324</strong></td><td><strong>0.091</strong></td><td>0.654</td><td>36.066</td></tr>
+<tr><td><strong>Q2</strong></td><td><em>&quot;Ngân sách 40k có mua được nến thơm không?&quot;</em></td><td>30</td><td>0.072</td><td><strong>0.081</strong></td><td><strong>0.078</strong></td><td>0.108</td><td>0.135</td></tr>
+<tr><td><strong>Q3</strong></td><td><em>&quot;Cho tôi xem nến thơm First Class&quot;</em></td><td>30</td><td>0.074</td><td><strong>0.084</strong></td><td><strong>0.085</strong></td><td>0.102</td><td>0.127</td></tr>
+<tr><td><strong>Q4</strong></td><td><em>&quot;Có bán nước hoa xịt phòng không?&quot;</em></td><td>30</td><td>0.070</td><td><strong>0.072</strong></td><td><strong>0.071</strong></td><td>0.078</td><td>0.085</td></tr>
+<tr><td><strong>Q5</strong></td><td><em>&quot;Tôi muốn nến thư giãn phòng ngủ buổi tối&quot;</em></td><td>30</td><td>0.076</td><td><strong>0.081</strong></td><td><strong>0.078</strong></td><td>0.087</td><td>0.142</td></tr>
+</tbody></table></div>
+<ul>
+<li><strong>Phân tích thống kê chuyên sâu</strong>:</li>
+</ul>
+<p>  1. <em>Hiện tượng Cold Start</em>: Giá trị p99 ở kịch bản Q1 đạt 36.066 ms do ở lần chạy đầu tiên, Node.js phải thực hiện I/O đọc tệp <code>data/catalog.json</code> từ ổ đĩa vào bộ nhớ RAM.</p>
+<p>  2. <em>Độ trễ ở trạng thái Warm Cache</em>: Từ lần chạy thứ 2 trở đi, dữ liệu danh mục đã nằm trong bộ nhớ đệm, thời gian xử lý trung vị (Median / p50) của toàn bộ các câu truy vấn dao động ổn định trong khoảng <strong>0.071 ms đến 0.091 ms</strong> (dưới 100 micro-giây).</p>
+<p>  3. <em>Độ lệch chuẩn cực nhỏ</em>: Ngoại trừ lần nạp đầu, các lần chạy tiếp theo có thời gian đáp ứng cực kỳ nhất quán, chứng minh tính ổn định tuyệt đối của thuật toán Heuristic.</p>
+<h3>9.4. Đánh Giá Tính Chính Xác Dữ Liệu &amp; Giải Trừ Nguy Cơ Ảo Giác (Hallucination)</h3>
+<ul>
+<li><strong>Phạm vi loại trừ rủi ro</strong>: Trong phạm vi toàn bộ 18 ca kiểm thử danh mục đã định nghĩa, hệ thống <strong>không phát sinh hiện tượng sai lệch về giá, thuộc tính hoặc số lượng tồn kho</strong>.</li>
+<li><strong>Cơ chế kiểm soát (Code-level Cross Validation)</strong>:</li>
+<li>Thay vì để mô hình tự do sinh chuỗi ký tự giá bán, hàm <code>matchProducts</code> bắt buộc phải ánh xạ ID sản phẩm với đối tượng <code>catalog.products</code> do server quản lý.</li>
+<li>Khi client cố ý gửi các trường giá giả mạo (<code>fakePrice: 1000</code>, <code>customTotal: 5000</code>), hàm <code>submitPurchaseRequest</code> áp dụng cơ chế lọc trắng (Whitelisting), chỉ giữ lại Tên, SĐT và Ghi chú; toàn bộ dữ liệu giá từ trình duyệt bị xóa bỏ hoàn toàn.</li>
+</ul>
+<h3>9.5. Bảo Mật Dữ Liệu Cá Nhân (PII) &amp; Kiểm Soát Gửi Lặp (Concurrency Lock)</h3>
+<p>1. <strong>Tuân thủ nguyên tắc Tối thiểu hóa Dữ liệu (Data Minimization)</strong>:</p>
+<ul>
+<li>Thông tin cá nhân khách hàng (Tên, Số điện thoại, Ghi chú) chỉ lưu tạm thời trong phiên để gửi email nội bộ tới <code>scentpodcontact@gmail.com</code>.</li>
+<li><strong>Bảo vệ PII trước bên thứ ba</strong>: Sự kiện <code>purchase_request_success</code> gửi sang Google Analytics 4 tuyệt đối không kèm Tên hoặc SĐT của khách, bảo đảm tuân thủ luật bảo vệ dữ liệu cá nhân.</li>
+</ul>
+<p>2. <strong>Khóa chống tấn công gửi lặp (In-flight Concurrency Lock)</strong>:</p>
+<ul>
+<li>Quản lý trạng thái thông qua biến <code>activeRequests</code> kiểu Set. Nếu một session đang trong quá trình gửi mail mà tiếp tục gửi request mới, server lập tức từ chối và trả về mã lỗi <strong>HTTP 429</strong>.</li>
+<li>Khóa được giải phóng trong khối lệnh <code>finally</code>, triệt tiêu hoàn toàn nguy cơ tắc nghẽn luồng xử lý (Deadlock).</li>
+</ul>
+<p>---</p>
+<h2>10. GIAI ĐOẠN 8: KỊCH BẢN THUYẾT TRÌNH BẢO VỆ (5–7 PHÚT) &amp; BỘ CÂU HỎI PHẢN BIỆN CHUYÊN SÂU</h2>
+<h3>10.1. Kịch Bản Thuyết Trình Bảo Vệ Đồ Án (5–7 Phút)</h3>
+<ul>
+<li><strong>Phút 1: Đặt vấn đề &amp; Mục tiêu dự án</strong></li>
+</ul>
+<p>  <em>&quot;Kính thưa Thầy/Cô trong Hội đồng chấm điểm, em xin đại diện nhóm ScentPod báo cáo kết quả nghiên cứu và ứng dụng AI Prompt Engineering, AI Skills và Hệ thống Trợ lý Thông minh trong nền tảng thương mại điện tử ScentPod. Dự án tập trung vào phân khúc nến thơm mini 50g đồng giá 85.000đ dành cho học sinh, sinh viên. Mục tiêu kỹ thuật cốt lõi của nhóm là: Xây dựng một trợ lý mua sắm thông minh, có khả năng tư vấn mùi hương cá nhân hóa, đồng thời đảm bảo độ trễ siêu tốc, chi phí 0đ và loại trừ triệt để rủi ro ảo giác thông tin giá trong giao dịch.&quot;</em></p>
+<ul>
+<li><strong>Phút 2–3: Kiến trúc AI Lai &amp; Phân định ranh giới học thuật</strong></li>
+</ul>
+<p>  *&quot;Để đạt được mục tiêu trên, nhóm đã phát triển một <strong>Kiến trúc Lai (Hybrid Architecture)</strong>:  </p>
+<p>  Thay vì gọi API LLM đám mây cho mọi lượt chat, nhóm xây dựng <strong>Local Deterministic Engine</strong> chạy trực tiếp trên máy chủ Node.js. Động cơ này áp dụng NLP Regex Slot-filling và Heuristic Scoring để phân tích câu hỏi và truy xuất dữ liệu từ tệp <code>catalog.json</code> đóng vai trò là Chân lý Duy nhất (SSOT).  </p>
+<p>  Về mặt học thuật, nhóm phân định rất rõ ràng: Các bước xử lý tuần tự trong code là <strong>Thuật toán Thủ tục (Procedural Logic)</strong>, và cơ chế gọi hàm giỏ hàng là <strong>Điều phối Công cụ Tiền định (Intent Dispatching)</strong>, chứ không nhận vơ là Chain-of-Thought hay Function Calling của LLM. Đồng thời, nhóm xây dựng sẵn module <strong>LLM Adapter</strong> để có thể cắm trực tiếp OpenAI hoặc Gemini khi cần mở rộng.&quot;*</p>
+<ul>
+<li><strong>Phút 4: Tự động hóa quy trình &amp; Bảo vệ dữ liệu</strong></li>
+</ul>
+<p>  *&quot;Hệ sinh thái tự động hóa của dự án gồm 2 trụ cột:  </p>
+<p>  Thứ nhất, tích hợp <strong>Workflow Automation qua n8n Cloud Webhook</strong> trên trang trắc nghiệm để tự động sinh câu hỏi tương tác.  </p>
+<p>  Thứ hai, luồng <strong>Yêu cầu mua hàng tinh gọn</strong>: Khách hàng chỉ cần nhập Tên và Số điện thoại. Hệ thống áp dụng cơ chế <strong>In-flight Concurrency Lock</strong> chống bấm gửi lặp (HTTP 429), chủ động loại bỏ mọi dữ liệu giá do client tự gửi, và gửi thông báo đơn hàng trực tiếp tới email ban quản trị <code>scentpodcontact@gmail.com</code>.&quot;*</p>
+<ul>
+<li><strong>Phút 5: Kết quả thực nghiệm định lượng &amp; Đóng góp của đề tài</strong></li>
+</ul>
+<p>  *&quot;Tính đúng đắn của toàn bộ hệ thống đã được thẩm định qua <strong>18 ca kiểm thử tự động đạt tỷ lệ PASS 100%</strong> (chia thành 6 Unit Tests, 8 Integration Tests và 4 E2E Tests).  </p>
+<p>  Kết quả benchmark thực nghiệm qua <strong>150 lượt đo đạc</strong> cho thấy Local Engine đạt thời gian đáp ứng trung vị chỉ <strong>~0.08 ms</strong>, đảm bảo phản hồi tức thì cho người dùng.  </p>
+<p>  Tóm lại, dự án ScentPod minh chứng cho năng lực làm chủ kỹ thuật AI một cách trung thực, có căn cứ khoa học và sẵn sàng áp dụng hiệu quả vào thực tiễn kinh doanh. Em xin trân trọng cảm ơn Thầy/Cô ạ!&quot;*</p>
+<p>---</p>
+<h3>10.2. Bộ Câu Hỏi Phản Biện Chuyên Sâu Của Hội Đồng &amp; Câu Trả Lời Mẫu</h3>
+<h4>Câu hỏi 1: <em>&quot;Tại sao trong báo cáo nhóm lại khẳng định logic xử lý tuần tự trong code KHÔNG PHẢI là Chain-of-Thought Prompting?&quot;</em></h4>
+<ul>
+<li><strong>Câu trả lời mẫu</strong>:</li>
+</ul>
+<p>  *&quot;Thưa Thầy/Cô, việc phân định này thể hiện sự nghiêm túc và liêm chính học thuật của nhóm:  </p>
+<ul>
+<li><strong>Chain-of-Thought (CoT) Prompting</strong> là kỹ thuật hướng dẫn mô hình ngôn ngữ lớn (LLM) tự sinh ra các bước suy luận trung gian trước khi đưa ra câu trả lời (ví dụ: mệnh lệnh 'Hãy giải thích từng bước').</li>
+<li>Trong ScentPod, hàm <code>generateLocalAdvisorResponse</code> chạy các bước: (1) bóc tách regex, (2) lọc tồn kho, (3) tính điểm heuristic. Đây thuần túy là <strong>Thuật toán Thủ tục (Procedural Programming)</strong> do lập trình viên viết bằng mã nguồn JavaScript.</li>
+</ul>
+<p>  Việc không gán ghép bừa bãi các thuật ngữ của LLM vào mã nguồn truyền thống là minh chứng cho việc nhóm hiểu sâu bản chất kỹ thuật thay vì chỉ sử dụng các từ ngữ thông dụng.&quot;*</p>
+<h4>Câu hỏi 2: <em>&quot;Cơ chế bảo vệ dữ liệu giá của ScentPod hoạt động như thế nào khi khách hàng cố tình can thiệp mã nguồn trình duyệt để sửa giá hũ nến thành 1.000đ?&quot;</em></h4>
+<ul>
+<li><strong>Câu trả lời mẫu</strong>:</li>
+</ul>
+<p>  *&quot;Thưa Thầy/Cô, hệ thống áp dụng nguyên tắc <strong>'Không bao giờ tin tưởng dữ liệu từ client' (Never Trust Client Input)</strong>:  </p>
+<p>  Khi khách hàng gửi form từ <code>thanh-toan.html</code>, dù client có cố ý chèn thêm các trường như <code>fakePrice: 1000</code> hay <code>customTotal: 5000</code>, hàm <code>submitPurchaseRequest</code> ở backend sẽ lập tức loại bỏ toàn bộ các trường này thông qua cơ chế lọc trắng (Whitelisting).  </p>
+<p>  Đồng thời, server đối soát trực tiếp ID sản phẩm trong giỏ hàng với tệp <code>data/catalog.json</code> để lấy đúng giá niêm yết 85.000đ và tính toán lại toàn bộ tổng tiền trước khi gửi email thông báo tới ban quản trị. Điều này đã được chứng minh qua Ca kiểm thử 3 đạt PASS 100%.&quot;*</p>
+<h4>Câu hỏi 3: <em>&quot;Tại sao nhóm phân loại 14 AI Skills thành 5 nhóm trạng thái khác nhau thay vì tuyên bố tất cả đều đã triển khai hoàn chỉnh?&quot;</em></h4>
+<ul>
+<li><strong>Câu trả lời mẫu</strong>:</li>
+</ul>
+<p>  *&quot;Thưa Thầy/Cô, điều này phản ánh đúng hiện trạng thực tế của mã nguồn và tính trung thực trong nghiên cứu khoa học:  </p>
+<p>  1. Những kỹ thuật như Multi-turn Session, Heuristic Recommendation, JSON Output đã chạy thực tế trong mã nguồn thì được xếp là <strong>Đã triển khai cục bộ (Active)</strong>.  </p>
+<p>  2. Những kỹ thuật như LLM Runtime hay RAG Grounding hoạt động theo cơ chế Heuristic nội bộ kết hợp Adapter ngoài thì được xếp là <strong>Dạng Lai (Hybrid)</strong>.  </p>
+<p>  3. Kỹ thuật Webhook n8n chạy trên đám mây thì xếp là <strong>Tích hợp ngoài (External)</strong>.  </p>
+<p>  4. Kỹ thuật Multimodal/Vision AI hệ thống chưa làm thì nhóm <strong>minh bạch xác nhận là Chưa triển khai</strong>.  </p>
+<p>  5. Mô hình Vector RAG nâng cao kết hợp Milvus và NIM trong thư mục <code>nvidia-blueprint/</code> được định danh là <strong>Bản vẽ Kiến trúc Đề xuất (Proposed Blueprint)</strong>.  </p>
+<p>  Cách phân loại này giúp Hội đồng nhìn thấy rõ năng lực thực chất của hệ thống và lộ trình phát triển rõ ràng trong tương lai.&quot;*</p>
+<p>---</p>
+<h2>11. DANH MỤC TÀI LIỆU THAM KHẢO</h2>
+<p>1. <strong>Brown, T., et al. (2020)</strong>. <em>Language Models are Few-Shot Learners</em>. Advances in Neural Information Processing Systems (NeurIPS 2020).</p>
+<p>2. <strong>Lewis, P., et al. (2020)</strong>. <em>Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks</em>. NeurIPS 2020.</p>
+<p>3. <strong>Wei, J., et al. (2022)</strong>. <em>Chain-of-Thought Prompting Elicits Reasoning in Large Language Models</em>. NeurIPS 2022.</p>
+<p>4. <strong>Russell, S., &amp; Norvig, P. (2020)</strong>. <em>Artificial Intelligence: A Modern Approach (4th Edition)</em>. Pearson Education.</p>
+<p>5. <strong>NVIDIA Corporation (2024)</strong>. <em>Retail Shopping Assistant Blueprint</em>. GitHub: <code>https://github.com/NVIDIA-AI-Blueprints/retail-shopping-assistant</code></p>
+<p>6. <strong>Skopaq AI (2024)</strong>. <em>UCP Shopping Agent Reference Architecture</em>. GitHub: <code>https://github.com/Skopaq-AI/ucp-shopping-agent</code></p>
+<p>7. <strong>Google LLC (2024)</strong>. <em>Google Analytics 4 Measurement Protocol &amp; Recommended Events Reference</em>.</p>
+<p>8. <strong>ISO/IEC/IEEE (2022)</strong>. <em>Standard 29119: Software and systems engineering — Software testing</em>.</p>
+<p>9. <strong>Mã nguồn và Lịch sử Phiên làm việc Dự án ScentPod (2026)</strong>. Thư mục cục bộ: <code>/Users/minmin091299/Documents/ScentPod</code>.</p>
+  </main>
+
+</body>
+</html>

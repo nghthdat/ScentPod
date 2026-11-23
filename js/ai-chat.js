@@ -20,6 +20,7 @@
   const sessionId = getSessionId();
   let chatHistory = [];
   let isSending = false;
+  let clientLastRecommendedId = null;
 
   // 2. Khởi tạo giao diện DOM cho Khung chat
   function initChatWidget() {
@@ -195,6 +196,19 @@
         appendMessage('bot', data.reply, data.suggestedProducts);
         chatHistory.push({ role: 'user', content: text });
         chatHistory.push({ role: 'assistant', content: data.reply });
+
+        // Lưu sản phẩm tư vấn gần nhất ở client để dự phòng
+        if (data.suggestedProducts && data.suggestedProducts.length > 0) {
+          clientLastRecommendedId = data.suggestedProducts[0].id;
+        }
+
+        // Tự động làm mới & mở giỏ hàng nếu câu lệnh văn bản đã cập nhật giỏ
+        if (data.cartUpdated) {
+          if (window.ScentPodCart && typeof window.ScentPodCart.refresh === 'function') {
+            window.ScentPodCart.refresh();
+            window.ScentPodCart.openDrawer();
+          }
+        }
       } else {
         appendMessage('bot', 'Dạ tụi mình đã ghi nhận thông tin. Bạn có thể tham khảo 4 mùi nến 50g thủ công của ScentPod nhé!', getClientFallbackProducts(text));
       }
@@ -439,7 +453,91 @@
     let reply = '';
     let products = [];
 
-    if (/bàn học|học bài|tập trung|ôn thi|tỉnh táo|chanh|bạc hà/.test(q)) {
+    // 1. Phân tích ngân sách (Budget Parsing)
+    let parsedBudget = null;
+    const dotMatch = q.match(/(\d+)[.,](\d{3})\s*(?:k|nghìn|ngàn|vnd|vnđ|đ|đồng)?/);
+    const suffixMatch = q.match(/(\d+)\s*(?:k|nghìn|ngàn)\b/);
+    const prefixMatch = q.match(/(?:ngân sách|tầm|dưới|khoảng|giá|tối đa|tầm giá)\s*[:=]?\s*(\d+)(?:\s*(k|nghìn|ngàn|000|\.000|đ|vnd|vnđ|đồng))?/);
+
+    if (dotMatch) {
+      parsedBudget = parseInt(dotMatch[1] + dotMatch[2], 10);
+    } else if (suffixMatch) {
+      parsedBudget = parseInt(suffixMatch[1], 10) * 1000;
+    } else if (prefixMatch) {
+      let num = parseInt(prefixMatch[1], 10);
+      const unit = prefixMatch[2];
+      if (unit === 'k' || unit === 'nghìn' || unit === 'ngàn' || (!unit && num < 1000)) num *= 1000;
+      parsedBudget = num;
+    }
+
+    // 2. Lệnh thêm giỏ bằng văn bản (Text-based Add to Cart)
+    const isQuestion = /(?:có\s+.*(?:không|\?)|như thế nào|bao nhiêu|sao|chăng)/i.test(q);
+    const isAdvice = /(?:tư vấn|gợi ý|hỏi|tìm|chọn)\b/i.test(q) && !/vào giỏ|vô giỏ|giỏ hàng/i.test(q);
+    const isAddCmd = !isQuestion && !isAdvice && (
+      /(?:thêm|cho|bỏ)\s+(?:vào\s+|vô\s+)?giỏ/i.test(q) ||
+      /(?:thêm|cho|bỏ)\s+.*(?:vào\s+giỏ|vô\s+giỏ|giỏ\s+hàng)/i.test(q) ||
+      /(?:đặt|mua|lấy|chốt)\s+(\d+)\s*(?:hũ|cái|cốc)/i.test(q) ||
+      /(?:mua|lấy|chốt|đặt)\s+(?:hũ|mùi|em)\s+này/i.test(q) ||
+      /(?:thêm|cho)\s+(\d+)\s*(?:hũ|cái|cốc)\b/i.test(q)
+    );
+    if (isAddCmd) {
+      let target = null;
+      if (/first|sunday|chanh|bạc hà|mùi 0?1\b/.test(q)) target = CLIENT_CATALOG[0];
+      else if (/blind|date|hồng|xạ hương|mùi 0?2\b/.test(q)) target = CLIENT_CATALOG[1];
+      else if (/campus|breeze|muối biển|xô thơm|lily|mùi 0?3\b/.test(q)) target = CLIENT_CATALOG[2];
+      else if (/late|night|cà phê|cafe|gỗ|mùi 0?4\b/.test(q)) target = CLIENT_CATALOG[3];
+      else if (clientLastRecommendedId) target = CLIENT_CATALOG.find(p => p.id === clientLastRecommendedId);
+
+      if (target) {
+        clientLastRecommendedId = target.id;
+        // Gửi request API add to cart ngầm
+        fetch('/api/cart/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Session-Id': sessionId },
+          body: JSON.stringify({ sessionId, productId: target.id, quantity: 1 })
+        }).then(() => {
+          if (window.ScentPodCart && typeof window.ScentPodCart.refresh === 'function') {
+            window.ScentPodCart.refresh();
+            window.ScentPodCart.openDrawer();
+          }
+        }).catch(e => console.warn('Local cart sync error:', e));
+
+        return {
+          reply: `Dạ mình đã thêm 1 hũ **${target.name}** vào giỏ hàng của bạn rồi nhé! Giỏ hàng sẽ được mở ra ngay bây giờ để bạn dễ dàng kiểm tra. Bạn mua từ 2 hũ nến sẽ nhận được ưu đãi **Ship 15.000đ toàn quốc** nha!`,
+          products: [target]
+        };
+      }
+    }
+
+    // 3. Câu hỏi nối tiếp bám sát sản phẩm vừa tư vấn (Contextual Memory)
+    const isFollowUp = /(?:mùi này|hũ này|mùi đó|hũ đó|nến này|nến đó|dòng này|sản phẩm này|em này|hũ vừa rồi|mùi vừa tư vấn|dùng khi nào|thời điểm|đốt được bao lâu|cháy được bao lâu|thành phần|tầng hương|có ngọt không|độ tỏa|không gian nào|hợp phòng nào|bao nhiêu tiền|giá bao nhiêu)/i.test(q);
+    if (isFollowUp && clientLastRecommendedId) {
+      const p = CLIENT_CATALOG.find(item => item.id === clientLastRecommendedId);
+      if (p) {
+        let fReply = '';
+        if (/dùng khi nào|thời điểm|lúc nào|khi học|phòng nào|không gian/.test(q)) {
+          fReply = `Hũ **${p.name}** (${p.labelNotes}) ${p.suggestReason} Rất thích hợp thắp vào buổi sáng hoặc khi cần tập trung học bài và thư giãn buổi tối.`;
+        } else if (/đốt được bao lâu|cháy được bao lâu|bao lâu|khối lượng|size|nặng/.test(q)) {
+          fReply = `Hũ nến 50g của dòng **${p.name}** đúc từ 100% sáp đậu nành thiên nhiên, thời gian đốt liên tục khoảng **12 – 15 giờ**. Mỗi lần thắp bạn nên để sáp tan đều từ 1–2 giờ nhé!`;
+        } else if (/có ngọt không|mùi gì|tầng hương|thành phần|nốt hương/.test(q)) {
+          fReply = `Hũ **${p.name}** mang nốt hương **${p.labelNotes}** với độ đậm mùi **${p.intensity}**. ${p.shortDesc}`;
+        } else {
+          fReply = `Về hũ **${p.name}**: ${p.shortDesc} Đang có giá ưu đãi HSSV **${p.priceFormatted}** (tặng kèm que diêm dài & thiệp HDSD). Mua từ 2 hũ nến được áp dụng **Ship 15.000đ toàn quốc**!`;
+        }
+        return { reply: fReply, products: [p] };
+      }
+    }
+
+    // 4. Tư vấn theo ngân sách (nếu có)
+    if (parsedBudget !== null) {
+      if (parsedBudget < 85000) {
+        reply = `Dạ với mức ngân sách ${parsedBudget.toLocaleString('vi-VN')}đ, hiện ScentPod chưa có sản phẩm dưới mức này ạ. Dòng nến thơm thủ công 50g của tụi mình đang có **Giá ưu đãi HSSV chỉ 85.000đ/hũ** (kèm diêm dài chuyên dụng & thiệp HDSD). Khi mua từ 2 hũ nến, bạn được áp dụng **Ship 15.000đ toàn quốc**!`;
+        products = CLIENT_CATALOG;
+      } else {
+        reply = `Với ngân sách ${parsedBudget.toLocaleString('vi-VN')}đ, bạn hoàn toàn thoải mái chọn nến thơm ScentPod (đồng giá ưu đãi HSSV **85.000đ/hũ**). Đặc biệt mua từ 2 hũ được áp dụng **Ship chỉ 15.000đ toàn quốc**! Dưới đây là các mùi nến tinh tuyển bạn tham khảo nhé:`;
+        products = CLIENT_CATALOG;
+      }
+    } else if (/bàn học|học bài|tập trung|ôn thi|tỉnh táo|chanh|bạc hà/.test(q)) {
       products = [CLIENT_CATALOG[0], CLIENT_CATALOG[2]];
       reply = 'Góc bàn học ôn thi cần sự tỉnh táo và thông thoáng, mình gợi ý bạn hũ **Another Sunday (First Class)** và **Tidal Bloom (Campus Breeze)**. Hương chanh bạc hà và khoáng biển giúp bạn duy trì năng lượng suốt buổi học!';
     } else if (/phòng ngủ|ngủ|thư giãn|hoa hồng|ngọt|lãng mạn/.test(q)) {
@@ -454,6 +552,10 @@
     } else {
       products = CLIENT_CATALOG;
       reply = 'Chào bạn! Mình gợi ý bạn 4 mùi nến thơm mini 50g sáp đậu nành thủ công của ScentPod (đồng giá **85.000đ/hũ**). Mua từ 2 hũ được áp dụng **Ship 15.000đ toàn quốc** nhé!';
+    }
+
+    if (products.length > 0) {
+      clientLastRecommendedId = products[0].id;
     }
 
     return { reply, products };
