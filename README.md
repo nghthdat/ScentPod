@@ -238,3 +238,4 @@ ScentPod/
 ---
 
 *© 2026 Nhóm Dự án ScentPod. Dự án phục vụ mục đích nghiên cứu học thuật và báo cáo môn học đại học.*
+
